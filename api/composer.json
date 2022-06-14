@@ -1,0 +1,19 @@
+{
+  "autoload": {
+    "psr-4": {
+      "RegionalPolls\\": "polls/"
+    },
+    "files": [
+      "./polls/bootstrap.php"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/amberdance/citsk-restapi"
+    }
+  ],
+  "require": {
+    "citsk/restapi": "*"
+  }
+}
