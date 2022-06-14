@@ -1,0 +1,130 @@
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2-Medium.woff") format("woff");
+  src: url("../fonts/GOSTUI2-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2-Bold.woff") format("woff");
+  src: url("../fonts/GOSTUI2-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RobotoRegular";
+  src: url("../fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RobotoBold";
+  src: url("../fonts/RobotoCondensed-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #182140;
+  --color-secondary: #122050;
+  --color-info: #606984;
+  --color-danger: #d51a1a;
+  --color-success: #25b38b;
+  --color-divider: #e5e5eb;
+  --color-bg_primary: #ffffff;
+  --color-overlay: #fffffffa;
+  --color-link: #175cc3;
+  --color-bg_secondary: #fbfbfbe0;
+  --color-font_primary: #333333;
+  --color-font_secondary: #3b4256;
+  --color-font_info: #76767a;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+.a-center {
+  text-align: center !important;
+}
+
+.a-left {
+  text-align: left !important;
+}
+
+.a-right {
+  text-align: right !important;
+}
+
+.align-center {
+  align-items: center !important;
+}
+
+.align-baseline {
+  align-items: baseline !important;
+}
+
+
+body {
+  font-family: "GOST UI 2";
+  overflow: hidden;
+}
+
+body,
+.el-main,
+.el-header {
+  margin: 0;
+  padding: 0 !important;
+}
