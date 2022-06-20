@@ -1,26 +1,14 @@
-import Vue from "vue";
-import App from "@/App";
-import router from "@/router";
-import Inputmask from "inputmask";
-import VueCookies from "vue-cookies";
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
+import ElementPlus from "element-plus";
+import "element-plus/dist/index.css";
+import "./styles/style.css";
 
-import "@/utils/axios";
-import "@/plugins/element";
-import "@/plugins/alerts";
-import "@/plugins/globals";
-import "@/styles/style.css";
+const app = createApp(App);
 
-Vue.config.productionTip = false;
-
-Vue.directive("mask", {
-  bind(el, binding) {
-    Inputmask(binding.value).mask(el.getElementsByTagName("INPUT")[0]);
-  }
-});
-
-Vue.use(VueCookies);
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount("#app");
+app.use(store);
+app.use(router);
+app.use(ElementPlus, { size: "medium" });
+app.mount("#app");

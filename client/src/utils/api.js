@@ -1,7 +1,7 @@
 import axios from "axios";
 import { camelize } from "./common";
 
-const handleData = data => {
+const handleData = (data) => {
   if (!data) return Promise.reject("Empty data");
 
   if (data instanceof Object && "data" in data)
@@ -43,5 +43,5 @@ export const dispatch = {
     const { data } = await axios.patch(route, params);
 
     return handleData(data);
-  }
+  },
 };

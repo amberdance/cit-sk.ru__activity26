@@ -6,7 +6,7 @@ import {
   has,
   isEqual,
   camelCase,
-  forOwn
+  forOwn,
 } from "lodash";
 
 export const dateHelper = {
@@ -44,10 +44,10 @@ export const dateHelper = {
     }${delimiter}${this.day < 10 ? `0${this.day}` : this.day} ${this.hour}:${
       this.minutes < 10 ? `0${this.minutes}` : this.minutes
     }:${this.seconds < 10 ? `0${this.seconds}` : this.seconds}`;
-  }
+  },
 };
 
-export const emailValidate = email =>
+export const emailValidate = (email) =>
   String(email)
     .toLowerCase()
     .match(
@@ -112,7 +112,7 @@ export const getRandomInt = (min, max) => {
 export const trimText = (text, length = 255, separator = " ...") =>
   String(text).length > length ? text.substr(0, length) + separator : text;
 
-export const purgeLocalStorage = key => {
+export const purgeLocalStorage = (key) => {
   if (key) localStorage.removeItem(key);
   else {
     for (const key in localStorage) {
@@ -145,7 +145,7 @@ export const deepDiffObj = (base, object) => {
   return result;
 };
 
-export const camelize = obj =>
+export const camelize = (obj) =>
   transform(obj, (acc, value, key, target) => {
     const camelKey = isArray(target) ? key : camelCase(key);
 

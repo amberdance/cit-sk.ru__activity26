@@ -4,7 +4,7 @@ import { responseManage, errorManage } from "@/utils/responseManage";
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
 axios.interceptors.request.use(
-  request => {
+  (request) => {
     // eslint-disable-next-line no-undef
     const accessToken = $cookies.get("access_token");
 
@@ -13,13 +13,13 @@ axios.interceptors.request.use(
     return request;
   },
 
-  error => Promise.reject(error)
+  (error) => Promise.reject(error)
 );
 
 axios.interceptors.response.use(
-  response => responseManage(response),
+  (response) => responseManage(response),
 
-  error => {
+  (error) => {
     return errorManage(error);
   }
 );

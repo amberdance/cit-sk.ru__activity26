@@ -3,21 +3,21 @@ import { has } from "lodash";
 
 const errorCollection = {
   HTTP: {
-    500: error => {
+    500: (error) => {
       onError("Внутренняя ошибка сервера");
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
     },
 
-    413: error => {
+    413: (error) => {
       onError("Превышен объем загружаемых данных");
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
     },
 
-    405: error => {
+    405: (error) => {
       onError(
         `Метод ${error.config.method.toUpperCase()} запрещен для данного маршрута`
       );
@@ -27,47 +27,47 @@ const errorCollection = {
       );
     },
 
-    404: error => {
+    404: (error) => {
       onError(`Маршрут ${error.response.config.url} не найден`);
       return Promise.reject({
         error: `${error.response.status} ${error.response.statusText}`,
-        code: 404
+        code: 404,
       });
     },
 
-    403: error => {
+    403: (error) => {
       onError("Доступ запрещен");
       return Promise.reject(error);
     },
 
-    400: error => {
+    400: (error) => {
       onError("Параметры Http запроса указаны некорректно");
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
     },
 
-    401: error => {
+    401: (error) => {
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
-    }
+    },
   },
 
   custom: {
-    0: e => {
+    0: (e) => {
       onError(process.env.NODE_ENV == "development" ? e.error : "");
       if (process.env.NODE_ENV == "development") console.error(e.error);
 
       return Promise.reject("Bad response from server");
     },
 
-    404: e => onError(e.error),
+    404: (e) => onError(e.error),
 
     102: () =>
       Promise.reject({
         error: "Duplicate entry",
-        code: 102
+        code: 102,
       }),
 
     103: () => {
@@ -95,12 +95,12 @@ const errorCollection = {
       return Promise.reject("Application is empty");
     },
 
-    108: error => {
+    108: (error) => {
       onWarning("В хранилище отсутствуют позиции");
       Promise.reject(error);
     },
 
-    109: error => Promise.reject(error),
+    109: (error) => Promise.reject(error),
 
     110: () => {
       onWarning("Присутствует незакрытая заявка", 3500);
@@ -120,11 +120,11 @@ const errorCollection = {
     113: () => {
       onWarning("Указан некорректный id позиции");
       return Promise.reject("Id is undefined");
-    }
-  }
+    },
+  },
 };
 
-export const responseManage = response => {
+export const responseManage = (response) => {
   if ("error" in response.data) return errorManage(response.data);
 
   if (typeof response.data === "string") return Promise.resolve(response);
@@ -135,7 +135,7 @@ export const responseManage = response => {
   if ("code" in response.data) {
     if (response.data.code in errorCollection.custom) {
       return errorCollection.custom[Number(response.data.code)]({
-        error: response.data.error || "Server error"
+        error: response.data.error || "Server error",
       });
     }
 
@@ -145,7 +145,7 @@ export const responseManage = response => {
   return Promise.resolve(response);
 };
 
-export const errorManage = error => {
+export const errorManage = (error) => {
   if ("response" in error) {
     if (error.response.status in errorCollection.HTTP) {
       return errorCollection.HTTP[error.response.status](error);
