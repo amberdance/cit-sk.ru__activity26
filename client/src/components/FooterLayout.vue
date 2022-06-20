@@ -3,16 +3,17 @@
     <div :class="$style.coockieText">
       Мы используем файлы cookie для улучшения работы сайта. Продолжая
       просматривать этот сайт, вы соглашаетесь с условиями использования
-      cookie–файлов. Также сайт использует средство аналитики посещаемости
+      cookie–файлов.Вы можете запретить сохранение cookie в настройках своего
+      браузера. Дополнительно, сайт использует средство аналитики посещаемости
       пользователей "Яндекс.Метрика". С условиями использования сервиса
-      Яндекс.Метрика и AppMetrica можно ознакомиться
+      Яндекс.Метрика и AppMetrica можно ознакомиться по ссылке
       <el-link
         type="primary"
         href="https://yandex.ru/legal/metrica_termsofuse/"
         style="font-size: 16px"
         target="_blank"
         :underline="false"
-        >здесь</el-link
+        >https://yandex.ru/legal/metrica_termsofuse/</el-link
       >
     </div>
     <el-button

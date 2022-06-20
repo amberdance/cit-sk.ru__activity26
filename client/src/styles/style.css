@@ -77,7 +77,7 @@
 :root {
   --color-primary: #182140;
   --color-secondary: #122050;
-  --el-color-primary: #f9a100;
+  /* --el-color-primary: #f9a100; */
   --color-info: #606984;
   --color-danger: #d51a1a;
   --color-success: #25b38b;

@@ -6,6 +6,16 @@ const routes = [
     name: "Home",
     component: () => import("@/views/Home.vue"),
   },
+
+  {
+    path: "/validation",
+    component: () => import("@/components/ValidationForm.vue"),
+  },
+
+  {
+    path: "/vote",
+    component: () => import("@/components/VoteForm.vue"),
+  },
 ];
 
 const router = createRouter({
