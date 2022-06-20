@@ -8,10 +8,11 @@
       <el-main :class="$style.contentWrapper">
         <MainLayout />
       </el-main>
-
-      <el-footer :class="$style.footerWrapper" v-if="!isSidebarHidden">
-        <FooterLayout @onCookieAccept="cookieAccept" />
-      </el-footer>
+      <transition name="el-fade-in">
+        <el-footer :class="$style.footerWrapper" v-if="!isSidebarHidden">
+          <FooterLayout @onCookieAccept="cookieAccept" />
+        </el-footer>
+      </transition>
     </el-container>
   </div>
 </template>
