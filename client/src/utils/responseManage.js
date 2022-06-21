@@ -59,68 +59,27 @@ const errorCollection = {
       onError(process.env.NODE_ENV == "development" ? e.error : "");
       if (process.env.NODE_ENV == "development") console.error(e.error);
 
-      return Promise.reject("Bad response from server");
+      return Promise.reject("Some error was occurred");
     },
 
-    404: (e) => onError(e.error),
-
-    102: () =>
+    10: () =>
       Promise.reject({
         error: "Duplicate entry",
-        code: 102,
+        code: 10,
       }),
 
-    103: () => {
-      onWarning("Тип файла не поддерживается");
-      return Promise.reject("Wrong file format");
-    },
-
-    104: () => {
-      onWarning("Превышен лимит загружаемых файлов");
-      return Promise.reject("Limit exceeded");
-    },
-
-    105: () => {
-      onWarning("Не удалось загрузить файл");
-      return Promise.reject("Did not upload");
-    },
-
-    106: () => {
-      onWarning("Не прикреплен файл");
-      return Promise.reject("File is required");
-    },
-
-    107: () => {
-      onWarning("Пустая заявка");
-      return Promise.reject("Application is empty");
-    },
-
-    108: (error) => {
-      onWarning("В хранилище отсутствуют позиции");
-      Promise.reject(error);
-    },
-
-    109: (error) => Promise.reject(error),
-
-    110: () => {
-      onWarning("Присутствует незакрытая заявка", 3500);
-      return Promise.reject("Uncompleted application");
-    },
-
-    111: () => {
+    20: () => {
       onWarning("Превышен лимит вводимых символов");
       return Promise.reject("Data too long");
     },
 
-    112: () => {
-      onWarning("Сертификат не прошел валидацию");
-      return Promise.reject("Certificate validation failed");
-    },
+    30: (e) =>
+      Promise.reject({
+        error: e.error,
+        code: e.code,
+      }),
 
-    113: () => {
-      onWarning("Указан некорректный id позиции");
-      return Promise.reject("Id is undefined");
-    },
+    404: (e) => onError(e.error),
   },
 };
 
@@ -158,5 +117,5 @@ export const errorManage = (error) => {
       : errorCollection.custom[0](error);
   }
 
-  Promise.reject(error);
+  return Promise.reject(error);
 };

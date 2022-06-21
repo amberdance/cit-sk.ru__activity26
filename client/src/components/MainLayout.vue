@@ -1,9 +1,5 @@
 <template>
   <el-container>
-    <!-- <el-header :class="$style.headerWrapper">
-      <HeaderLayout />
-    </el-header> -->
-
     <el-main :class="$style.contentWrapper">
       <div :class="$style.background">
         <div :class="$style.overlay"></div>
@@ -11,8 +7,7 @@
           <el-row>
             <el-col :xs="10" :md="12" :sm="10" :lg="5">
               <div :class="$style.heading">
-                <div :class="$style.headingContent">
-                  <h1>Уважаемые жители Ставропольского края!</h1>
+                <div :class="[$style.headingContent, 'heading']">
                   <slot name="leftColumn"></slot>
                 </div>
               </div>
@@ -34,26 +29,23 @@
 
     <transition name="el-fade-in">
       <el-footer :class="$style.footerWrapper" v-if="!isSlidebarHidden">
-        <FooterLayout @onCookieAccept="cookieAccept" />
+        <FooterLayout @onCookieAccept="acceptCookie" />
       </el-footer>
     </transition>
   </el-container>
 </template>
 
 <script>
-// import HeaderLayout from "@/components/HeaderLayout.vue";
 import FooterLayout from "@/components/FooterLayout.vue";
 
 export default {
   components: {
-    // HeaderLayout,
     FooterLayout,
   },
 
   data() {
     return {
       isSlidebarHidden: false,
-      isValidationFormInitialized: false,
     };
   },
 
@@ -63,7 +55,7 @@ export default {
   },
 
   methods: {
-    cookieAccept() {
+    acceptCookie() {
       localStorage.setItem("cookie_policy_slidebar", +new Date() + ":Y");
       this.isSlidebarHidden = true;
     },
@@ -126,7 +118,6 @@ export default {
 
 .headingContent {
   font-size: 18px;
-  padding: 1rem;
   margin-top: 20vh;
 }
 

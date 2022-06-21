@@ -1,3 +1,3 @@
 <template>
-    <div>vote</div>
+  <div>vote</div>
 </template>

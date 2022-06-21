@@ -1,11 +1,18 @@
 <template>
   <MainLayout>
     <template #leftColumn>
-      Для участия в опросе сперва необходимо пройти процедуру смс-валидации
+      <div class="d-flex align-center description">
+        <span class="step">1</span>
+        <span
+          >Для участия в опросе сперва необходимо пройти процедуру подтверждения
+          номера телефона.</span
+        >
+      </div>
     </template>
 
     <template #rightColumn>
       <el-form
+        v-loading="isLoading"
         :class="$style.formWrapper"
         :rules="rules"
         :model="formData"
@@ -19,7 +26,11 @@
             обрабатывается с соблюдением требований российского законодательства
             о персональных данных.
           </p>
-          <p>Поля, отмеченные *, обязательны для заполнения.</p>
+          <p>
+            Поля, отмеченные
+            <span style="color: var(--el-color-danger)">*</span>, обязательны
+            для заполнения.
+          </p>
         </div>
 
         <div class="d-flex">
@@ -61,7 +72,7 @@
 
         <div class="a-right">
           <el-button type="primary" size="default" @click="formInitialize"
-            >Получить смс</el-button
+            >Получить код-подтверждения</el-button
           >
         </div>
       </el-form>
@@ -79,6 +90,9 @@ export default {
 
   data() {
     return {
+      validationCode: null,
+      isLoading: false,
+
       formData: {
         fullName: null,
         phone: null,
@@ -120,21 +134,28 @@ export default {
   methods: {
     async formInitialize() {
       await this.$refs.form.validate();
-      await this.getSmsCode();
+      await this.sendIncomeCall();
     },
 
-    async getSmsCode() {
+    async sendIncomeCall() {
       try {
-        const data = await this.$axios.get("/validate", {
-          params: {
-            fullName: this.formData.fullName,
-            phone: this.formData.phone,
-          },
+        this.isLoading = true;
+
+        const { data } = await this.$axios.post("/send-call", {
+          fullName: this.formData.fullName,
+          phone: this.formData.phone,
         });
 
-        console.log(data);
+        localStorage.setItem("uid", data.data.user_id);
+        localStorage.setItem("phone", this.formData.phone);
       } catch (e) {
-        console.error(e);
+        if (e.code == 30)
+          return this.$onWarning(
+            `Номер телефона ${this.formData.phone} был ранее зарегистрирован`,
+            5500
+          );
+      } finally {
+        this.isLoading = false;
       }
     },
   },
