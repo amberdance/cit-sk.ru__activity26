@@ -2,10 +2,7 @@
   "autoload": {
     "psr-4": {
       "RegionalPolls\\": "polls/"
-    },
-    "files": [
-      "./polls/bootstrap.php"
-    ]
+    }
   },
   "repositories": [
     {
@@ -14,6 +11,6 @@
     }
   ],
   "require": {
-    "citsk/restapi": "*"
+    "vlucas/phpdotenv": "^5.4"
   }
 }
