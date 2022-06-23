@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import ElementPlus from "element-plus";
 import Maska from "maska";
+import VueCountdown from "@chenfengyuan/vue-countdown";
 import axios from "./plugins/axios";
 import { onSuccess, onWarning, onError } from "./plugins/alerts";
 import "element-plus/dist/index.css";
@@ -24,5 +25,7 @@ app.config.globalProperties.$onWarning = (message, duration) =>
 app.use(router);
 app.use(ElementPlus, { size: "medium" });
 app.use(Maska);
+
+app.component(VueCountdown.name, VueCountdown);
 
 app.mount("#app");

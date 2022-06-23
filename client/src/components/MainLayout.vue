@@ -5,7 +5,7 @@
         <div :class="$style.overlay"></div>
         <div :class="$style.content">
           <el-row>
-            <el-col :xs="10" :md="12" :sm="10" :lg="5">
+            <el-col :xs="10" :md="12" :sm="10" :lg="4">
               <div :class="$style.heading">
                 <div :class="[$style.headingContent, 'heading']">
                   <slot name="leftColumn"></slot>
@@ -14,13 +14,13 @@
             </el-col>
 
             <el-col
-              :span="19"
+              :span="20"
               :class="$style.formWrapper"
               :style="{
-                backgroundColor: $slots.rightColumn ? '#ffffffcc' : 'none',
+                backgroundColor: $slots.body ? '#ffffffcc' : 'none',
               }"
             >
-              <slot name="rightColumn"></slot>
+              <slot name="body"></slot>
             </el-col>
           </el-row>
         </div>
@@ -74,7 +74,7 @@ export default {
 }
 
 .footerWrapper {
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   min-height: 100px;
@@ -110,15 +110,15 @@ export default {
   padding: 1rem;
   border-right: 4px #ffffff solid;
   color: #ffffff;
+  box-shadow: 4px -1px 13px #2e2e2e47;
 }
 
 .heading h1 {
-  font-size: 30px;
+  text-align: center;
 }
 
 .headingContent {
   font-size: 18px;
-  margin-top: 20vh;
 }
 
 .headingContent button {

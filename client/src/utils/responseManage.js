@@ -56,10 +56,9 @@ const errorCollection = {
 
   custom: {
     0: (e) => {
-      onError(process.env.NODE_ENV == "development" ? e.error : "");
       if (process.env.NODE_ENV == "development") console.error(e.error);
 
-      return Promise.reject("Some error was occurred");
+      return Promise.reject(e);
     },
 
     10: () =>

@@ -1,16 +1,15 @@
 <template>
   <MainLayout>
     <template #leftColumn>
-      <div class="d-flex align-center description">
-        <span class="step">1</span>
-        <span
-          >Для участия в опросе сперва необходимо пройти процедуру подтверждения
-          номера телефона.</span
+      <div class="description active">
+        <span class="text"
+          >Внимание! Для участия в голосовании необходимо
+          зарегистрироваться.</span
         >
       </div>
     </template>
 
-    <template #rightColumn>
+    <template #body>
       <el-form
         v-loading="isLoading"
         :class="$style.formWrapper"
@@ -33,30 +32,53 @@
           </p>
         </div>
 
-        <div class="d-flex">
-          <el-form-item
-            :class="$style.formItem"
-            required
-            label="ФИО"
-            prop="fullName"
-          >
-            <el-input v-model="formData.fullName" clearable />
-          </el-form-item>
+        <el-form-item
+          :class="$style.formItem"
+          required
+          label="Фамилия"
+          prop="surname"
+        >
+          <el-input
+            v-model="formData.surname"
+            clearable
+            :disabled="isFormSubmit"
+          />
+        </el-form-item>
 
-          <el-form-item
-            :class="$style.formItem"
-            required
-            label="Телефон"
-            prop="phone"
-          >
-            <el-input
-              placeholder="+7 (999) 999-99-99"
-              v-maska="'+7 (###) ###-##-##'"
-              v-model="formData.phone"
-              clearable
-            />
-          </el-form-item>
-        </div>
+        <el-form-item :class="$style.formItem" required label="Имя" prop="name">
+          <el-input
+            v-model="formData.name"
+            clearable
+            :disabled="isFormSubmit"
+          />
+        </el-form-item>
+
+        <el-form-item
+          :class="$style.formItem"
+          label="Отчество"
+          prop="patronymic"
+        >
+          <el-input
+            v-model="formData.patronymic"
+            clearable
+            :disabled="isFormSubmit"
+          />
+        </el-form-item>
+
+        <el-form-item
+          :class="$style.formItem"
+          required
+          label="Телефон"
+          prop="phone"
+        >
+          <el-input
+            placeholder="+7(999)9999999"
+            v-maska="'+7(###)#######'"
+            v-model="formData.phone"
+            clearable
+            :disabled="isFormSubmit"
+          />
+        </el-form-item>
 
         <el-form-item size="large" prop="policyAgree" required>
           <p>
@@ -71,39 +93,51 @@
         </el-form-item>
 
         <div class="a-right">
-          <el-button type="primary" size="default" @click="formInitialize"
-            >Получить код-подтверждения</el-button
+          <el-button type="primary" size="default" @click="submit"
+            >Подтвердить</el-button
           >
         </div>
       </el-form>
+      <PhoneValidateDialog ref="dialog" />
     </template>
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/MainLayout";
+import PhoneValidateDialog from "./dialogs/PhoneValidateDialog";
 
 export default {
   components: {
     MainLayout,
+    PhoneValidateDialog,
   },
 
   data() {
     return {
-      validationCode: null,
       isLoading: false,
+      isFormSubmit: false,
 
       formData: {
-        fullName: null,
+        surname: null,
+        name: null,
+        patronymic: null,
         phone: null,
-        policyAgree: [],
+        policyAgree: [], // с boolean работает неккоректно
       },
 
       rules: {
-        fullName: [
+        surname: [
           {
             required: true,
-            message: "Укажите ФИО",
+            message: "Обязательное поле",
+          },
+        ],
+
+        name: [
+          {
+            required: true,
+            message: "Обязательное поле",
           },
         ],
 
@@ -132,28 +166,35 @@ export default {
   },
 
   methods: {
-    async formInitialize() {
+    async submit() {
       await this.$refs.form.validate();
-      await this.sendIncomeCall();
+      await this.registration();
     },
 
-    async sendIncomeCall() {
+    async registration() {
       try {
         this.isLoading = true;
 
-        const { data } = await this.$axios.post("/send-call", {
+        const { data } = await this.$axios.post("/registration", {
           fullName: this.formData.fullName,
+          name: this.formData.name,
+          surname: this.formData.surname,
+          patronymic: this.formData.patronymic,
           phone: this.formData.phone,
         });
 
-        localStorage.setItem("uid", data.data.user_id);
-        localStorage.setItem("phone", this.formData.phone);
+        localStorage.setItem("token", data.token);
+
+        this.isFormSubmit = true;
+        this.$refs.dialog.show();
       } catch (e) {
         if (e.code == 30)
           return this.$onWarning(
             `Номер телефона ${this.formData.phone} был ранее зарегистрирован`,
             5500
           );
+
+        console.error(e);
       } finally {
         this.isLoading = false;
       }
@@ -165,7 +206,7 @@ export default {
 <style module>
 .formWrapper {
   width: 1250px;
-  margin: 15% auto;
+  margin: 20px auto;
   border: 1px solid #cfcfcf73;
   padding: 2rem;
   border-radius: 3px;
