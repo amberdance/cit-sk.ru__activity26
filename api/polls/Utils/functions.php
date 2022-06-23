@@ -131,3 +131,23 @@ function passwordHash(string $password): string
     return password_hash(htmlspecialchars($password), PASSWORD_DEFAULT);
 
 }
+
+/**
+ * @param string $phoneNumber
+ *
+ * @return string
+ */
+function formatPhoneNumber(string $phoneNumber): string
+{
+    return preg_replace("/[\s()-]/", "", $phoneNumber);
+}
+
+/**
+ * @param int $bytes
+ *
+ * @return string
+ */
+function createToken(int $bytes = 16): string
+{
+    return bin2hex(random_bytes($bytes));
+}

@@ -68,11 +68,11 @@ final class DbContext
             }
 
             if (strripos($e->getMessage(), 'Duplicate entry')) {
-                throw new DatabaseException('Duplicate entry', 102);
+                throw new DatabaseException('Duplicate entry', 10);
             }
 
             if (strripos($e->getMessage(), 'Data too long')) {
-                throw new DatabaseException('Data too long', 111);
+                throw new DatabaseException('Data too long', 20);
             }
 
             throw new DatabaseException($e->getMessage());

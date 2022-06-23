@@ -280,7 +280,7 @@ class Database
         $comparsion = null;
 
         foreach ($params as $key => $field) {
-            if (preg_match("/^[^\w\s:']+/", $field, $match)) {
+            if (preg_match("/^[^\w\s:'+]+/", $field, $match)) {
                 $comparsion = $this->getFilterComparsion($match[0]);
 
                 $field = ($match[0] == "()")

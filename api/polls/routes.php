@@ -1,13 +1,19 @@
 <?php
 
 return [
-    '/validate' => [
-        'GET',
-        \RegionalPolls\Http\Controllers\ValidateController::class,
+    '/registration' => [
+        \RegionalPolls\Http\Controllers\RegistrationController::class,
     ],
 
-    '/vote'     => [
-        'POST',
-        \RegionalPolls\Http\Controllers\ValidateController::class,
+    '/verify-code'  => [
+        \RegionalPolls\Http\Controllers\RegistrationController::class,
+    ],
+
+    '/reset-code'   => [
+        \RegionalPolls\Http\Controllers\RegistrationController::class,
+    ],
+
+    '/vote'         => [
+        \RegionalPolls\Http\Controllers\RegistrationController::class,
     ],
 ];

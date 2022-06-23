@@ -4,12 +4,6 @@
       "RegionalPolls\\": "polls/"
     }
   },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/amberdance/citsk-restapi"
-    }
-  ],
   "require": {
     "vlucas/phpdotenv": "^5.4"
   }

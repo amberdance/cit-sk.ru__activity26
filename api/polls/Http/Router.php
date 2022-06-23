@@ -7,6 +7,7 @@ use Exception;
 use RegionalPolls\Exceptions\RouterException;
 use RegionalPolls\Http\Request;
 use RegionalPolls\Http\Response;
+use RegionalPolls\Utils\CaseHelper;
 
 class Router extends Request
 {
@@ -81,7 +82,7 @@ class Router extends Request
 
             self::$request->parseParams();
 
-            $method = self::$request->action;
+            $method = CaseHelper::snakeToCamelCase(self::$request->action, '-');
 
             (new $controller(self::$request, self::matchModel($controller)))->$method();
         } catch (Error | Exception $e) {
@@ -113,7 +114,7 @@ class Router extends Request
 
         $match = $routes[self::$request->route];
 
-        self::initializeController($match[1]);
+        self::initializeController($match[0]);
 
     }
 
