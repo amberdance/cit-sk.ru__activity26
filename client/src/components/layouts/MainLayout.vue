@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import FooterLayout from "@/components/FooterLayout.vue";
+import FooterLayout from "./FooterLayout.vue";
 
 export default {
   components: {
@@ -50,13 +50,12 @@ export default {
   },
 
   created() {
-    if (localStorage.getItem("cookie_policy_slidebar"))
-      this.isSlidebarHidden = true;
+    if ($cookies.get("cookie_policy_slidebar")) this.isSlidebarHidden = true;
   },
 
   methods: {
     acceptCookie() {
-      localStorage.setItem("cookie_policy_slidebar", +new Date() + ":Y");
+      $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "1d");
       this.isSlidebarHidden = true;
     },
   },
@@ -85,7 +84,7 @@ export default {
 }
 
 .background {
-  background-image: url("../assets/bg_animated.gif");
+  background-image: url("../../assets/bg_animated.gif");
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import MainLayout from "@/components/MainLayout.vue";
+import MainLayout from "@/components/layouts/MainLayout.vue";
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
   width: 100%;
 }
 
-.menuWrapper button{
+.menuWrapper button {
   margin: 0.2rem 0;
   margin-left: 0 !important;
 }

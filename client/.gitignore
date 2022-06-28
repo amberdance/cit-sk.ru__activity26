@@ -7,6 +7,7 @@
 /node_modules
 vendor/
 /api/v1/vendor
+/vue3
 .editorconfig
 jsconfig.json
 package-lock.json

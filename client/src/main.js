@@ -1,31 +1,26 @@
-import { createApp } from "vue";
+import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import ElementPlus from "element-plus";
-import Maska from "maska";
-import VueCountdown from "@chenfengyuan/vue-countdown";
-import axios from "./plugins/axios";
-import { onSuccess, onWarning, onError } from "./plugins/alerts";
-import "element-plus/dist/index.css";
-import "./styles/style.css";
+import Inputmask from "inputmask";
+import VueCookies from "vue-cookies";
 
-const app = createApp(App);
+import "@/plugins/axios";
+import "@/plugins/element";
+import "@/plugins/alerts";
+import "@/plugins/globals";
+import "@/styles/style.css";
 
-app.config.globalProperties.$axios = axios;
+Vue.config.productionTip = false;
 
-app.config.globalProperties.$onSuccess = (message, duration) =>
-  onSuccess(message, duration);
+Vue.directive("mask", {
+  bind(el, binding) {
+    Inputmask(binding.value).mask(el.getElementsByTagName("INPUT")[0]);
+  },
+});
 
-app.config.globalProperties.$onError = (message, duration) =>
-  onError(message, duration);
+Vue.use(VueCookies);
 
-app.config.globalProperties.$onWarning = (message, duration) =>
-  onWarning(message, duration);
-
-app.use(router);
-app.use(ElementPlus, { size: "medium" });
-app.use(Maska);
-
-app.component(VueCountdown.name, VueCountdown);
-
-app.mount("#app");
+new Vue({
+  router,
+  render: (h) => h(App),
+}).$mount("#app");

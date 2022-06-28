@@ -1,4 +1,5 @@
-import { ElNotification } from "element-plus";
+import Vue from "vue";
+import { Notification } from "element-ui";
 import { random } from "lodash";
 
 const messages = {
@@ -36,7 +37,7 @@ const notificationBase = (type, message = null, duration) => {
     message = randomAlertPhrase(message, type);
   }
 
-  ElNotification({
+  Notification({
     type,
     message,
     position: "bottom-right",
@@ -52,3 +53,16 @@ export const onError = (text = null, duration) =>
 
 export const onWarning = (text = null, duration) =>
   notificationBase("warning", text, duration);
+
+const alerts = () => {
+  Vue.prototype.$onSuccess = (message, duration) =>
+    notificationBase("success", message, duration);
+
+  Vue.prototype.$onError = (message, duration) =>
+    notificationBase("error", message, duration);
+
+  Vue.prototype.$onWarning = (message, duration) =>
+    notificationBase("warning", message, duration);
+};
+
+Vue.use(alerts);

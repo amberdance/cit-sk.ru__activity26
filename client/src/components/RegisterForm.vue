@@ -73,7 +73,7 @@
         >
           <el-input
             placeholder="+7(999)9999999"
-            v-maska="'+7(###)#######'"
+            v-mask="'+7(###)#######'"
             v-model="formData.phone"
             clearable
             :disabled="isFormSubmit"
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import MainLayout from "@/components/MainLayout";
+import MainLayout from "@/components/layouts/MainLayout";
 import PhoneValidateDialog from "./dialogs/PhoneValidateDialog";
 
 export default {
@@ -175,7 +175,7 @@ export default {
       try {
         this.isLoading = true;
 
-        const { data } = await this.$axios.post("/registration", {
+        const { data } = await this.$post("/registration", {
           fullName: this.formData.fullName,
           name: this.formData.name,
           surname: this.formData.surname,
@@ -183,7 +183,7 @@ export default {
           phone: this.formData.phone,
         });
 
-        localStorage.setItem("token", data.token);
+        $cookies.set("access_token", data.token);
 
         this.isFormSubmit = true;
         this.$refs.dialog.show();
