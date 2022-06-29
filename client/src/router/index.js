@@ -23,7 +23,7 @@ const routes = [
 
   {
     path: "/vote",
-    component: () => import("@/components/VoteForm.vue"),
+    component: () => import("@/components/polls/PollSingle.vue"),
   },
 ];
 

@@ -77,7 +77,6 @@
 :root {
   --color-primary: #182140;
   --color-secondary: #122050;
-  /* --el-color-primary: #f9a100; */
   --color-info: #606984;
   --color-danger: #d51a1a;
   --color-success: #25b38b;
@@ -90,6 +89,8 @@
   --color-font_secondary: #3b4256;
   --color-font_info: #76767a;
 }
+
+/************************** NORMALIZED ***************************/
 
 body {
   font-family: "GOST UI 2";
@@ -106,6 +107,24 @@ a {
   outline: none;
   text-decoration: none;
   color: var(--color-link);
+}
+
+/************************** COMMON ***************************/
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
 }
 
 .a-center {
@@ -128,17 +147,11 @@ a {
   align-items: baseline !important;
 }
 
-.d-flex {
-  display: flex;
+.line-through {
+  text-decoration: line-through;
 }
 
-.flex-column {
-  flex-direction: column;
-}
-
-.flex-row {
-  flex-direction: row;
-}
+/************************** APP ***************************/
 
 .el-dialog__body {
   word-break: normal !important;
@@ -185,10 +198,6 @@ a {
 
 .heading .inactive .step {
   border-color: #f9a100;
-}
-
-.line-through {
-  text-decoration: line-through;
 }
 
 .verify_popover {

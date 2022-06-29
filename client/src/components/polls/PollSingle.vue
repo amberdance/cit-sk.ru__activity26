@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <template #body>
-      <div>VOTE WILL BE HERE</div>
+      <div>PollSingle</div>
     </template>
   </MainLayout>
 </template>

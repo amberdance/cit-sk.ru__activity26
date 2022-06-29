@@ -1,29 +1,18 @@
 <template>
   <el-container>
-    <el-main :class="$style.contentWrapper">
-      <div :class="$style.background">
-        <div :class="$style.overlay"></div>
-        <div :class="$style.content">
-          <el-row>
-            <el-col :xs="10" :md="12" :sm="10" :lg="4">
-              <div :class="$style.heading">
-                <div :class="[$style.headingContent, 'heading']">
-                  <slot name="leftColumn"></slot>
-                </div>
-              </div>
-            </el-col>
+    <el-header :class="$style.headerWrapper">
+      <HeaderLayout />
+    </el-header>
 
-            <el-col
-              :span="20"
-              :class="$style.formWrapper"
-              :style="{
-                backgroundColor: $slots.body ? '#ffffffcc' : 'none',
-              }"
-            >
-              <slot name="body"></slot>
-            </el-col>
-          </el-row>
+    <el-main :class="$style.contentWrapper">
+      <div class="container">
+        <div :class="$style.heading">
+          <div :class="[$style.headingContent]">
+            <slot name="leftColumn"></slot>
+          </div>
         </div>
+
+        <slot name="body"></slot>
       </div>
     </el-main>
 
@@ -36,10 +25,12 @@
 </template>
 
 <script>
+import HeaderLayout from "./HeaderLayout.vue";
 import FooterLayout from "./FooterLayout.vue";
 
 export default {
   components: {
+    HeaderLayout,
     FooterLayout,
   },
 
@@ -65,11 +56,15 @@ export default {
 <style module>
 .headerWrapper {
   background-color: var(--color-secondary);
-  padding: 1rem;
+  height: inherit !important;
 }
 
 .contentWrapper {
-  overflow: hidden;
+  min-height: 900px;
+  background: url(/img/bg_primary.1123a978.webp);
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .footerWrapper {
@@ -83,48 +78,7 @@ export default {
   box-shadow: -1px -6px 10px #89898985;
 }
 
-.background {
-  background-image: url("../../assets/bg_animated.gif");
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-}
-.overlay {
-  background-color: #ffffff;
-  height: 100%;
-  opacity: 0.5;
-  position: fixed;
-  width: 100%;
-}
-.content {
-  position: relative;
-}
-
-.heading {
-  background-color: #259942cc;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 1rem;
-  border-right: 4px #ffffff solid;
-  color: #ffffff;
-  box-shadow: 4px -1px 13px #2e2e2e47;
-}
-
 .heading h1 {
   text-align: center;
-}
-
-.headingContent {
-  font-size: 18px;
-}
-
-.headingContent button {
-  border: none;
-  color: #ffffff;
-  padding: 1.5rem;
-  width: 100%;
-  font-weight: bold;
 }
 </style>
