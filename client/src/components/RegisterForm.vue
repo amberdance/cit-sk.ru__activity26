@@ -41,7 +41,7 @@
           <el-input
             v-model="formData.surname"
             clearable
-            :disabled="isFormSubmit"
+            :disabled="isFormSubmitted"
           />
         </el-form-item>
 
@@ -49,7 +49,7 @@
           <el-input
             v-model="formData.name"
             clearable
-            :disabled="isFormSubmit"
+            :disabled="isFormSubmitted"
           />
         </el-form-item>
 
@@ -61,22 +61,18 @@
           <el-input
             v-model="formData.patronymic"
             clearable
-            :disabled="isFormSubmit"
+            :disabled="isFormSubmitted"
           />
         </el-form-item>
 
-        <el-form-item
-          :class="$style.formItem"
-          required
-          label="Телефон"
-          prop="phone"
-        >
+        <el-form-item :class="$style.formItem" label="Телефон" prop="phone">
           <el-input
-            placeholder="+7(999)9999999"
-            v-mask="'+7(###)#######'"
             v-model="formData.phone"
+            v-mask="'+7(###)#######'"
+            placeholder="+7(999)9999999"
+            type="tel"
             clearable
-            :disabled="isFormSubmit"
+            :disabled="isFormSubmitted"
           />
         </el-form-item>
 
@@ -106,6 +102,7 @@
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
 import PhoneValidateDialog from "./dialogs/PhoneValidateDialog";
+import { mask } from "vue-the-mask";
 
 export default {
   components: {
@@ -113,10 +110,12 @@ export default {
     PhoneValidateDialog,
   },
 
+  directives: { mask },
+
   data() {
     return {
       isLoading: false,
-      isFormSubmit: false,
+      isFormSubmitted: false,
 
       formData: {
         surname: null,
@@ -175,17 +174,16 @@ export default {
       try {
         this.isLoading = true;
 
-        const { data } = await this.$post("/registration", {
-          fullName: this.formData.fullName,
+        const { token } = await this.$post("/users", {
           name: this.formData.name,
           surname: this.formData.surname,
           patronymic: this.formData.patronymic,
           phone: this.formData.phone,
         });
 
-        $cookies.set("access_token", data.token);
+        $cookies.set("access_token", token);
 
-        this.isFormSubmit = true;
+        this.isFormSubmitted = true;
         this.$refs.dialog.show();
       } catch (e) {
         if (e.code == 30)

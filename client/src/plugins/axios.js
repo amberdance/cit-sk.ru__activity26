@@ -1,6 +1,6 @@
 import axios from "axios";
 import { auth } from "@/utils/auth";
-import { responseManage, errorManage } from "@/utils/responseManage";
+import { responseManage, errorManage } from "@/utils/http";
 import router from "../router";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;

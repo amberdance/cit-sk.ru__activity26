@@ -10,6 +10,13 @@ const errorCollection = {
       );
     },
 
+    422: (error) => {
+      onError("Указанные данные заполнены некорректно");
+      return Promise.reject(
+        `${error.response.status} ${error.response.message}`
+      );
+    },
+
     413: (error) => {
       onError("Превышен объем загружаемых данных");
       return Promise.reject(
@@ -40,14 +47,14 @@ const errorCollection = {
       return Promise.reject(error);
     },
 
-    400: (error) => {
-      onError("Параметры Http запроса указаны некорректно");
+    401: (error) => {
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
     },
 
-    401: (error) => {
+    400: (error) => {
+      onError("Параметры Http запроса указаны некорректно");
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );

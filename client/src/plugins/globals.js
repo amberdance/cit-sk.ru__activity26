@@ -57,10 +57,6 @@ Plugin.install = (Vue) => {
   Vue.prototype.$logout = () => auth.logout();
   Vue.prototype.$isAuthorized = () => auth.isAuthorized();
 
-  Vue.prototype.$userRole = function () {
-    return this.$store.getters["user/info"].role;
-  };
-
   Vue.prototype.$isAdmin = function () {
     return this.$store.getters["user/info"].role == "admin";
   };
