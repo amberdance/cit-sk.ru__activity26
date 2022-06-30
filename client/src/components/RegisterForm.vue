@@ -76,6 +76,23 @@
           />
         </el-form-item>
 
+        <el-form-item :class="$style.formItem" label="Логин" prop="login">
+          <el-input
+            v-model="formData.login"
+            clearable
+            :disabled="isFormSubmitted"
+          />
+        </el-form-item>
+
+        <el-form-item :class="$style.formItem" label="Пароль" prop="password">
+          <el-input
+            v-model="formData.password"
+            clearable
+            :disabled="isFormSubmitted"
+            type="password"
+          />
+        </el-form-item>
+
         <el-form-item size="large" prop="policyAgree" required>
           <p>
             <el-checkbox
@@ -140,6 +157,20 @@ export default {
           },
         ],
 
+        login: [
+          {
+            required: true,
+            message: "Обязательное поле",
+          },
+        ],
+
+        password: [
+          {
+            required: true,
+            message: "Обязательное поле",
+          },
+        ],
+
         phone: [
           {
             required: true,
@@ -179,6 +210,8 @@ export default {
           surname: this.formData.surname,
           patronymic: this.formData.patronymic,
           phone: this.formData.phone,
+          login: this.formData.login,
+          password: this.formData.password,
         });
 
         $cookies.set("access_token", token);
