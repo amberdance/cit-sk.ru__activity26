@@ -1,0 +1,208 @@
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2.woff") format("woff");
+  src: url("../fonts/GOSTUI2.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2-Medium.woff") format("woff");
+  src: url("../fonts/GOSTUI2-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GOST UI 2";
+  font-display: swap;
+  src: url("../fonts/GOSTUI2-Bold.woff") format("woff");
+  src: url("../fonts/GOSTUI2-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RobotoRegular";
+  src: url("../fonts/RobotoCondensed-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RobotoBold";
+  src: url("../fonts/RobotoCondensed-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #182140;
+  --color-secondary: #122050;
+  --color-info: #606984;
+  --color-danger: #d51a1a;
+  --color-success: #25b38b;
+  --color-divider: #e5e5eb;
+  --color-bg_primary: #ffffff;
+  --color-overlay: #fffffffa;
+  --color-link: #175cc3;
+  --color-bg_secondary: #fbfbfbe0;
+  --color-font_primary: #333333;
+  --color-font_secondary: #3b4256;
+  --color-font_info: #76767a;
+}
+
+/************************** NORMALIZED ***************************/
+
+body {
+  font-family: "GOST UI 2";
+}
+
+body,
+.el-main,
+.el-header {
+  margin: 0;
+  padding: 0 !important;
+}
+
+a {
+  outline: none;
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+/************************** COMMON ***************************/
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.a-center {
+  text-align: center !important;
+}
+
+.a-left {
+  text-align: left !important;
+}
+
+.a-right {
+  text-align: right !important;
+}
+
+.align-center {
+  align-items: center !important;
+}
+
+.align-baseline {
+  align-items: baseline !important;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+/************************** APP ***************************/
+
+.el-dialog__body {
+  word-break: normal !important;
+}
+
+.heading .description {
+  padding: 1.5rem 1rem;
+  border-radius: 5px;
+  box-shadow: 3px 7px 13px #2e2e2e2e;
+  position: relative;
+  border: 4px solid #ffffff;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.heading .step {
+  border: 5px solid;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+  width: 50px;
+  height: 50px;
+  justify-content: center;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.heading .description.active {
+  background-color: #f9a100;
+}
+
+.heading .description.inactive {
+  background-color: #53a75e;
+}
+
+.heading .description.inactive .text {
+  text-decoration: line-through;
+}
+
+.heading .active .step {
+  border-color: #53a75e;
+}
+
+.heading .inactive .step {
+  border-color: #f9a100;
+}
+
+.verify_popover {
+  font-size: 15px !important;
+  max-width: 450px !important;
+  min-width: 360px !important;
+  word-break: normal !important;
+}

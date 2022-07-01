@@ -1,2 +1,1 @@
-# citsk-polls
-Polls app
+# [CIT-SK] Regional polls
