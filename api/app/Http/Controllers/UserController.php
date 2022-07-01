@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -26,13 +26,11 @@ class UserController extends Controller
 
         $user = $this->userRepository->createUser($request->all());
 
-        return response()->json(
+        return Response::jsonSuccess(
             [
-                'data' => [
-                    'token' => $user->token,
-                ],
+                'token' => $user->token,
             ],
-
-            Response::HTTP_CREATED);
+            Response::HTTP_CREATED
+        );
     }
 }
