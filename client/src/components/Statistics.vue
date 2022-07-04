@@ -53,6 +53,7 @@ export default {
 }
 .stats__item {
 }
+
 .value {
   font-size: 44px;
 }

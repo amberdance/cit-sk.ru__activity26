@@ -1,10 +1,21 @@
 <template>
-  <div>
-    <MainLayout>
-      <div class="main">
-        <div class="main__title">
-          <h1>Уважаемые жители Ставропольского края!</h1>
-        </div>
+
+<div>
+  <MainLayout>
+    <div class="main">
+      <div class="main__title">
+        <h1>Уважаемые жители Ставропольского края!</h1>
+      </div>
+
+      <div class="main__subtitle">
+        <h2>
+          Предлагаем вам принять участие в беспрецендентном опросе. Опрос прошел
+          - душевное счастье нашел!
+        </h2>
+      </div>
+      <button type="primary" @click="$router.push('/register')"
+        >Пройти опрос</button>
+
 
         <div class="main__subtitle">
           <h2>
@@ -27,9 +38,12 @@
           </div>
         </div>
       </div>
-    </MainLayout>
-    <Statistics />
-    <PollsList />
+    </div>
+
+   
+  </MainLayout>
+  <Statistics />
+  <PollsList />
   </div>
 </template>
 
