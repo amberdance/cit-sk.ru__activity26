@@ -62,9 +62,9 @@
         />
       </el-form-item>
 
-      <el-form-item :class="$style.formItem" label="Логин" prop="login">
+      <el-form-item :class="$style.formItem" label="Логин" prop="email">
         <el-input
-          v-model="formData.login"
+          v-model="formData.email"
           clearable
           :disabled="isFormSubmitted"
         />
@@ -142,7 +142,7 @@ export default {
           },
         ],
 
-        login: [
+        email: [
           {
             required: true,
             message: "Обязательное поле",
@@ -195,7 +195,7 @@ export default {
           surname: this.formData.surname,
           patronymic: this.formData.patronymic,
           phone: this.formData.phone,
-          login: this.formData.login,
+          email: this.formData.email,
           password: this.formData.password,
         });
 
@@ -204,7 +204,7 @@ export default {
         this.isFormSubmitted = true;
         this.$refs.dialog.show();
       } catch (e) {
-        if (e.code == 30)
+        if ("code" in e && e.code == 30)
           return this.$onWarning(
             `Номер телефона ${this.formData.phone} был ранее зарегистрирован`,
             5500

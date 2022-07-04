@@ -1,7 +1,6 @@
-/* eslint-disable no-undef */
 export const auth = {
-  loginUrl: `${process.env.VUE_APP_API_URL}/login`,
-  logoutUrl: `${process.env.VUE_APP_API_URL}/logout`,
+  loginUrl: `${process.env.VUE_APP_API_URL}/auth/login`,
+  logoutUrl: `${process.env.VUE_APP_API_URL}/auth/logout`,
 
   async login(params) {
     try {
@@ -9,10 +8,9 @@ export const auth = {
 
       if ("error" in response) return Promise.reject(response);
 
-      $cookies.set("access_token", response.access_token, "1d");
-      $cookies.set("user", response.user, "1d");
+      $cookies.set("access_token", response.data.token);
 
-      return Promise.resolve(response.user);
+      return Promise.resolve(response);
     } catch (e) {
       return Promise.reject(e);
     }
@@ -61,8 +59,6 @@ export const auth = {
   },
 
   purge() {
-    $cookies.remove("user");
     $cookies.remove("access_token");
-    localStorage.removeItem("app_cache");
   },
 };

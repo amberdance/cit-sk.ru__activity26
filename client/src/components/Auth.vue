@@ -71,7 +71,7 @@ export default {
   },
 
   created() {
-    if (this.$isAuthorized()) this.$router.push("/home");
+    // if (this.$isAuthorized()) this.$router.push("/home");
   },
 
   methods: {
@@ -81,19 +81,18 @@ export default {
       this.isLoading = true;
 
       try {
+            await this.$get('/sanctum/csrf-cookie');
         await this.$login(this.formData);
 
         this.$router.push("/home");
       } catch (e) {
-        this.$cookies.remove("access_token");
-        this.$cookies.remove("user");
-
         if ("config" in e && e.config.response.status == 401) {
           return this.$onError(
             "Не удалось войти с предоставленными учетными данными"
           );
         }
 
+        console.error(e);
         this.$onError();
       } finally {
         this.isLoading = false;

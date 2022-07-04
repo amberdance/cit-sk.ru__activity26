@@ -10,43 +10,6 @@ Plugin.install = (Vue) => {
    *--------------------------------------------------------------
    */
 
-  Vue.prototype.$openNewWindow = (link) => {
-    window.open(link, "_blank");
-  };
-
-  Vue.prototype.$setAppCache = function (key, value) {
-    try {
-      const id = this.$store.getters["user/info"].id;
-
-      if (!localStorage.getItem("app_cache")) {
-        localStorage.setItem(
-          "app_cache",
-          JSON.stringify({
-            [id]: {},
-          })
-        );
-      }
-
-      let cache = JSON.parse(localStorage.getItem("app_cache"));
-
-      cache[id][this.$route.path] = { [key]: value };
-
-      localStorage.setItem("app_cache", JSON.stringify(cache));
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  Vue.prototype.$getAppCache = function (key) {
-    try {
-      return JSON.parse(localStorage.getItem("app_cache"))[
-        this.$store.getters["user/info"].id
-      ][this.$route.path][key];
-    } catch (e) {
-      return {};
-    }
-  };
-
   /*
    *--------------------------------------------------------------
    *            AUTH
@@ -56,14 +19,6 @@ Plugin.install = (Vue) => {
   Vue.prototype.$login = (payload) => auth.login(payload);
   Vue.prototype.$logout = () => auth.logout();
   Vue.prototype.$isAuthorized = () => auth.isAuthorized();
-
-  Vue.prototype.$isAdmin = function () {
-    return this.$store.getters["user/info"].role == "admin";
-  };
-
-  Vue.prototype.$isUser = function () {
-    return this.$store.getters["user/info"].role == "manager";
-  };
 
   /*
    *--------------------------------------------------------------

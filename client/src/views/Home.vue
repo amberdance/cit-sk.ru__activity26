@@ -44,6 +44,13 @@ export default {
     Statistics,
     PollsList,
   },
+
+  async created() {
+    // await this.$get('/sanctum/csrf-cookie');
+    const { data } = await this.$get("/users/me");
+
+    console.log(data);
+  },
 };
 </script>
 
