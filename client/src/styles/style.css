@@ -83,7 +83,7 @@
   --color-divider: #e5e5eb;
   --color-bg_primary: #ffffff;
   --color-overlay: #fffffffa;
-  --color-link: #000000;
+  --color-link: #0469ff;
   --color-bg_secondary: #fbfbfbe0;
   --color-font_primary: #333333;
   --color-font_secondary: #3b4256;
@@ -181,6 +181,14 @@ button:active {
 
 .align-baseline {
   align-items: baseline !important;
+}
+
+.m-1 {
+  margin: 1rem 0;
+}
+
+.p-1 {
+  padding: 0 1rem;
 }
 
 /************************** APP ***************************/

@@ -25,6 +25,11 @@ const routes = [
     path: "/vote",
     component: () => import("@/components/polls/PollSingle.vue"),
   },
+
+  {
+    path: "/auth",
+    component: () => import("@/components/Auth.vue"),
+  },
 ];
 
 const router = new VueRouter({

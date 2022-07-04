@@ -1,4 +1,5 @@
 <template>
+
 <div>
   <MainLayout>
     <div class="main">
@@ -15,17 +16,31 @@
       <button type="primary" @click="$router.push('/register')"
         >Пройти опрос</button>
 
-      <div class="quotation">
-        <div class="quotation__title">
-          <p>“Владеть инициативой — значит иметь определённое преимущество”</p>
+
+        <div class="main__subtitle">
+          <h2>
+            Предлагаем вам принять участие в беспрецендентном опросе. Опрос
+            прошел - душевное счастье нашел!
+          </h2>
         </div>
-        <div class="quotation__subtitle">
-          <p>© Хосе Рауль Капабланка</p>
+        <el-button type="primary" @click="$router.push('/register')"
+          >Пройти опрос</el-button
+        >
+
+        <div class="quotation">
+          <div class="quotation__title">
+            <p>
+              “Владеть инициативой — значит иметь определённое преимущество”
+            </p>
+          </div>
+          <div class="quotation__subtitle">
+            <p>© Хосе Рауль Капабланка</p>
+          </div>
         </div>
       </div>
     </div>
 
-    
+   
   </MainLayout>
   <Statistics />
   <PollsList />
@@ -42,6 +57,13 @@ export default {
     MainLayout,
     Statistics,
     PollsList,
+  },
+
+  async created() {
+    // await this.$get('/sanctum/csrf-cookie');
+    const { data } = await this.$get("/users/me");
+
+    console.log(data);
   },
 };
 </script>

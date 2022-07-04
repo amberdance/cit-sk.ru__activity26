@@ -51,7 +51,6 @@ export default {
   text-transform: lowercase;
   padding-top: 14px;
 }
-
 .stats__item {
 }
 
