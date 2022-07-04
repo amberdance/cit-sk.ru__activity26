@@ -1,19 +1,11 @@
 <template>
   <el-container>
-    <el-header :class="$style.headerWrapper">
-      <HeaderLayout />
-    </el-header>
-
     <el-main :class="$style.contentWrapper">
-      <div class="container">
-        <div :class="$style.heading">
-          <div :class="[$style.headingContent]">
-            <slot name="leftColumn"></slot>
-          </div>
-        </div>
+      <el-header :class="[$style.headerWrapper, 'container']">
+        <HeaderLayout />
+      </el-header>
 
-        <slot name="body"></slot>
-      </div>
+      <slot></slot>
     </el-main>
 
     <transition name="el-fade-in">
@@ -55,16 +47,18 @@ export default {
 
 <style module>
 .headerWrapper {
-  background-color: var(--color-secondary);
   height: inherit !important;
 }
 
 .contentWrapper {
   min-height: 900px;
-  background: url(/img/bg_primary.1123a978.webp);
-  background-position: 50% 50%;
+  height: 100%;
+  background: url(../../assets/bg_primary.webp);
+  background-position: 50% 80%;
   background-repeat: no-repeat;
   background-size: cover;
+  justify-content: center;
+  align-items: center;
 }
 
 .footerWrapper {
@@ -76,9 +70,5 @@ export default {
   bottom: 0;
   background-color: #ffffff;
   box-shadow: -1px -6px 10px #89898985;
-}
-
-.heading h1 {
-  text-align: center;
 }
 </style>
