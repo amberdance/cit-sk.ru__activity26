@@ -1,4 +1,5 @@
 <template>
+<div>
   <MainLayout>
     <div class="main">
       <div class="main__title">
@@ -11,9 +12,8 @@
           - душевное счастье нашел!
         </h2>
       </div>
-      <el-button type="primary" @click="$router.push('/register')"
-        >Пройти опрос</el-button
-      >
+      <button type="primary" @click="$router.push('/register')"
+        >Пройти опрос</button>
 
       <div class="quotation">
         <div class="quotation__title">
@@ -25,9 +25,11 @@
       </div>
     </div>
 
-    <Statistics />
-    <PollsList />
+    
   </MainLayout>
+  <Statistics />
+  <PollsList />
+  </div>
 </template>
 
 <script>
