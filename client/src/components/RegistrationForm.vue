@@ -1,109 +1,103 @@
 <template>
   <MainLayout>
-    <template>
-      <el-form
-        v-loading="isLoading"
-        :class="$style.formWrapper"
-        :rules="rules"
-        :model="formData"
-        ref="form"
-        label-position="top"
-        size="large"
+    <el-form
+      v-loading="isLoading"
+      :class="$style.formWrapper"
+      :rules="rules"
+      :model="formData"
+      ref="form"
+      label-position="top"
+      size="large"
+    >
+      <div :class="$style.policyText">
+        <p>
+          Информация, направленная в электронном виде, хранится и обрабатывается
+          с соблюдением требований российского законодательства о персональных
+          данных.
+        </p>
+        <p>
+          Поля, отмеченные
+          <span style="color: var(--el-color-danger)">*</span>, обязательны для
+          заполнения.
+        </p>
+      </div>
+
+      <el-form-item
+        :class="$style.formItem"
+        required
+        label="Фамилия"
+        prop="surname"
       >
-        <div :class="$style.policyText">
-          <p>
-            Информация, направленная в электронном виде, хранится и
-            обрабатывается с соблюдением требований российского законодательства
-            о персональных данных.
-          </p>
-          <p>
-            Поля, отмеченные
-            <span style="color: var(--el-color-danger)">*</span>, обязательны
-            для заполнения.
-          </p>
-        </div>
+        <el-input
+          v-model="formData.surname"
+          clearable
+          :disabled="isFormSubmitted"
+        />
+      </el-form-item>
 
-        <el-form-item
-          :class="$style.formItem"
-          required
-          label="Фамилия"
-          prop="surname"
-        >
-          <el-input
-            v-model="formData.surname"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+      <el-form-item :class="$style.formItem" required label="Имя" prop="name">
+        <el-input
+          v-model="formData.name"
+          clearable
+          :disabled="isFormSubmitted"
+        />
+      </el-form-item>
 
-        <el-form-item :class="$style.formItem" required label="Имя" prop="name">
-          <el-input
-            v-model="formData.name"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+      <el-form-item :class="$style.formItem" label="Отчество" prop="patronymic">
+        <el-input
+          v-model="formData.patronymic"
+          clearable
+          :disabled="isFormSubmitted"
+        />
+      </el-form-item>
 
-        <el-form-item
-          :class="$style.formItem"
-          label="Отчество"
-          prop="patronymic"
-        >
-          <el-input
-            v-model="formData.patronymic"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+      <el-form-item :class="$style.formItem" label="Телефон" prop="phone">
+        <el-input
+          v-model="formData.phone"
+          v-mask="'+7(###)#######'"
+          placeholder="+7(999)9999999"
+          type="tel"
+          clearable
+          :disabled="isFormSubmitted"
+        />
+      </el-form-item>
 
-        <el-form-item :class="$style.formItem" label="Телефон" prop="phone">
-          <el-input
-            v-model="formData.phone"
-            v-mask="'+7(###)#######'"
-            placeholder="+7(999)9999999"
-            type="tel"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+      <el-form-item :class="$style.formItem" label="Логин" prop="login">
+        <el-input
+          v-model="formData.login"
+          clearable
+          :disabled="isFormSubmitted"
+        />
+      </el-form-item>
 
-        <el-form-item :class="$style.formItem" label="Логин" prop="login">
-          <el-input
-            v-model="formData.login"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+      <el-form-item :class="$style.formItem" label="Пароль" prop="password">
+        <el-input
+          v-model="formData.password"
+          clearable
+          :disabled="isFormSubmitted"
+          type="password"
+        />
+      </el-form-item>
 
-        <el-form-item :class="$style.formItem" label="Пароль" prop="password">
-          <el-input
-            v-model="formData.password"
-            clearable
-            :disabled="isFormSubmitted"
-            type="password"
-          />
-        </el-form-item>
-
-        <el-form-item size="large" prop="policyAgree" required>
-          <p>
-            <el-checkbox
-              v-model="formData.policyAgree"
-              label="Я соглашаюсь на обработку моих персональных
+      <el-form-item size="large" prop="policyAgree" required>
+        <p>
+          <el-checkbox
+            v-model="formData.policyAgree"
+            label="Я соглашаюсь на обработку моих персональных
                 данных, в соответствии с требованиями федерального закона от
                 27.07.2006 № 152-ФЗ 'О персональных данных'"
-            >
-            </el-checkbox>
-          </p>
-        </el-form-item>
-
-        <div class="a-right">
-          <el-button type="primary" size="default" @click="submit"
-            >Подтвердить</el-button
           >
-        </div>
-      </el-form>
-      <PhoneValidateDialog ref="dialog" />
-    </template>
+          </el-checkbox>
+        </p>
+      </el-form-item>
+
+      <div class="a-right">
+        <el-button type="primary" size="default" @click="submit"
+          >Подтвердить</el-button
+        >
+      </div>
+    </el-form>
+    <PhoneValidateDialog ref="dialog" />
   </MainLayout>
 </template>
 
