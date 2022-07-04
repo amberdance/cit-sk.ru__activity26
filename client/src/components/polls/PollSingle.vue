@@ -1,8 +1,6 @@
 <template>
   <MainLayout>
-    <template #body>
       <div>PollSingle</div>
-    </template>
   </MainLayout>
 </template>
 

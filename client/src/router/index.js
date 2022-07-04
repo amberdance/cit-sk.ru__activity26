@@ -17,8 +17,8 @@ const routes = [
   },
 
   {
-    path: "/register",
-    component: () => import("@/components/RegisterForm.vue"),
+    path: "/registration",
+    component: () => import("@/components/RegistrationForm.vue"),
   },
 
   {

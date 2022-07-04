@@ -3,48 +3,60 @@ import { has } from "lodash";
 
 const errorCollection = {
   HTTP: {
-    500: (error) => {
+    500: (e) => {
       onError("Внутренняя ошибка сервера");
-      return Promise.reject(
-        `${error.response.status} ${error.response.statusText}`
-      );
-    },
 
-    422: (error) => {
-      onError("Указанные данные заполнены некорректно");
-      return Promise.reject(
-        `${error.response.status} ${error.response.message}`
-      );
-    },
-
-    413: (error) => {
-      onError("Превышен объем загружаемых данных");
-      return Promise.reject(
-        `${error.response.status} ${error.response.statusText}`
-      );
-    },
-
-    405: (error) => {
-      onError(
-        `Метод ${error.config.method.toUpperCase()} запрещен для данного маршрута`
-      );
-
-      return Promise.reject(
-        `${error.response.status} ${error.response.statusText}`
-      );
-    },
-
-    404: (error) => {
-      onError(`Маршрут ${error.response.config.url} не найден`);
       return Promise.reject({
-        error: `${error.response.status} ${error.response.statusText}`,
-        code: 404,
+        code: e.response.data.error.code,
+        error: e.response.data.error.message,
       });
     },
 
-    403: (error) => {
+    422: (e) => {
+      onError("Указанные данные заполнены некорректно");
+
+      return Promise.reject({
+        code: e.response.data.error.code,
+        error: e.response.data.error.message,
+      });
+    },
+
+    413: (e) => {
+      onError("Превышен объем загружаемых данных");
+
+      return Promise.reject({
+        code: e.response.data.error.code,
+        error: e.response.data.error.message,
+      });
+    },
+
+    405: (e) => {
+      onError(
+        `Метод ${e.config.method.toUpperCase()} запрещен для данного маршрута`
+      );
+
+      return Promise.reject({
+        code: 405,
+        error: e.message,
+      });
+    },
+
+    404: (e) => {
+      onError(`Маршрут ${error.response.config.url} не найден`);
+
+      return Promise.reject({
+        code: 404,
+        error: e.message,
+      });
+    },
+
+    403: (e) => {
       onError("Доступ запрещен");
-      return Promise.reject(error);
+
+      return Promise.reject({
+        code: 401,
+        error: e.message,
+      });
     },
 
     401: (error) => {
@@ -55,6 +67,7 @@ const errorCollection = {
 
     400: (error) => {
       onError("Параметры Http запроса указаны некорректно");
+
       return Promise.reject(
         `${error.response.status} ${error.response.statusText}`
       );
@@ -68,7 +81,7 @@ const errorCollection = {
       return Promise.reject(e);
     },
 
-    10: () =>
+    100: () =>
       Promise.reject({
         error: "Duplicate entry",
         code: 10,
@@ -91,37 +104,15 @@ const errorCollection = {
 
 export const responseManage = (response) => {
   if ("error" in response.data) return errorManage(response.data);
-
-  if (typeof response.data === "string") return Promise.resolve(response);
-
-  if (Array.isArray(response.data) && !response.data.length)
-    Promise.resolve(response.data);
-
-  if ("code" in response.data) {
-    if (response.data.code in errorCollection.custom) {
-      return errorCollection.custom[Number(response.data.code)]({
-        error: response.data.error || "Server error",
-      });
-    }
-
-    if (response.data.code === 1) return Promise.resolve(response);
-  }
-
-  return Promise.resolve(response);
+  if ("data" in response.data) return Promise.resolve(response);
 };
 
 export const errorManage = (error) => {
-  if ("response" in error) {
-    if (error.response.status in errorCollection.HTTP) {
-      return errorCollection.HTTP[error.response.status](error);
-    }
+  if (error.response.status in errorCollection.HTTP) {
+    return errorCollection.HTTP[error.response.status](error);
   }
 
-  if (error.error || error.code) {
-    return has(errorCollection.custom, error.code)
-      ? errorCollection.custom[error.code](error)
-      : errorCollection.custom[0](error);
-  }
-
-  return Promise.reject(error);
+  return has(errorCollection.custom, error.response.data.code)
+    ? errorCollection.custom[error.code](error)
+    : errorCollection.custom[0](error);
 };
