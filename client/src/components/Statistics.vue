@@ -1,8 +1,10 @@
 <template>
-  <div :class="$style.stats">
-    <div v-for="(item, i) in stats" :key="i" :class="$style.stats__item">
-      <div class="value">{{ item.count }}</div>
-      <div class="title">{{ item.label }}</div>
+  <div :class="$style.stats__wrapper">
+    <div :class="$style.stats">
+      <div v-for="(item, i) in stats" :key="i" :class="$style.stats__item">
+        <div :class="$style.value">{{ item.count }}</div>
+        <div :class="$style.title">{{ item.label }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -31,16 +33,29 @@ export default {
 </script>
 
 <style module>
-.stats {
-  background-color: rgb(82, 82, 82);
+.stats__wrapper {
+  min-height: 100px;
+  background-color: #2c2c2c;
   display: flex;
+  align-items: center;
   justify-content: center;
+}
+.stats {
+  min-width: 700px;
+  display: flex;
+  justify-content: space-between;
+  line-height: 30px;
   align-items: center;
   color: #ffffff;
   text-align: center;
-  min-height: 100px;
+  text-transform: lowercase;
+  padding-top: 14px;
 }
 
 .stats__item {
+}
+
+.value {
+  font-size: 44px;
 }
 </style>
