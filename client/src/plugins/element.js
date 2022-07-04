@@ -4,6 +4,7 @@ import locale from "element-ui/lib/locale";
 import "@/styles/element-variables.scss";
 
 import {
+  Link,
   Dialog,
   Input,
   InputNumber,
@@ -34,6 +35,7 @@ import {
 
 locale.use(lang);
 
+Vue.use(Link);
 Vue.use(Dialog);
 Vue.use(Input);
 Vue.use(InputNumber);

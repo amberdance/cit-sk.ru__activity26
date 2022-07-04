@@ -1,28 +1,28 @@
 <template>
   <div>
     <MainLayout>
-      <div class="main">
-        <div class="main__title">
+      <div :class="$style.main">
+        <div :class="$style.main__title">
           <h1>Уважаемые жители Ставропольского края!</h1>
         </div>
 
-        <div class="main__subtitle">
+        <div :class="$style.main__subtitle">
           <h2>
             Предлагаем вам принять участие в беспрецендентном опросе. Опрос
-            прошел - душевное счастье нашел!
+            прошел - душевное счастье обрел!
           </h2>
         </div>
-        <el-button type="primary" @click="$router.push('/register')"
-          >Пройти опрос</el-button
-        >
+        <div class="btn_primary" @click="$router.push('/vote')">
+          Пройти опрос
+        </div>
 
-        <div class="quotation">
-          <div class="quotation__title">
+        <div :class="$style.quotation">
+          <div :class="$style.quotation__title">
             <p>
               “Владеть инициативой — значит иметь определённое преимущество”
             </p>
           </div>
-          <div class="quotation__subtitle">
+          <div :class="$style.quotation__subtitle">
             <p>© Хосе Рауль Капабланка</p>
           </div>
         </div>
@@ -44,21 +44,10 @@ export default {
     Statistics,
     PollsList,
   },
-
-  async created() {
-    // await this.$get('/sanctum/csrf-cookie');
-    const { data } = await this.$get("/users/me");
-
-    console.log(data);
-  },
 };
 </script>
 
-<style>
-.el-container {
-  flex-direction: column !important;
-}
-
+<style module>
 .main {
   margin-top: 130px;
   display: flex;
@@ -86,14 +75,15 @@ export default {
 .quotation {
   font-weight: 500;
   line-height: 1px;
-  margin-top: 200px;
+  margin-top: 18%;
 }
 
 .quotation__title {
   font-size: 24px;
   line-height: 30px;
+  font-style: italic;
 }
-.stats {
-  display: block;
+.quotation__subtitle {
+  text-align: end;
 }
 </style>
