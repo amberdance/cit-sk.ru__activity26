@@ -1,15 +1,6 @@
 <template>
   <MainLayout>
-    <template #leftColumn>
-      <div class="description active">
-        <span class="text"
-          >Внимание! Для участия в голосовании необходимо
-          зарегистрироваться.</span
-        >
-      </div>
-    </template>
-
-    <template #body>
+    <template>
       <el-form
         v-loading="isLoading"
         :class="$style.formWrapper"
