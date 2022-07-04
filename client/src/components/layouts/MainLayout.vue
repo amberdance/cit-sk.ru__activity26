@@ -51,14 +51,11 @@ export default {
 }
 
 .contentWrapper {
-  min-height: 900px;
-  height: 100%;
+  min-height: 1024px;
   background: url(../../assets/bg_primary.webp);
   background-position: 50% 80%;
   background-repeat: no-repeat;
   background-size: cover;
-  justify-content: center;
-  align-items: center;
 }
 
 .footerWrapper {

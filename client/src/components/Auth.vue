@@ -81,7 +81,7 @@ export default {
       this.isLoading = true;
 
       try {
-            await this.$get('/sanctum/csrf-cookie');
+        await this.$get("/sanctum/csrf-cookie");
         await this.$login(this.formData);
 
         this.$router.push("/home");
@@ -104,14 +104,13 @@ export default {
 
 <style module>
 .root {
-  height: 100vh;
   display: flex;
   align-items: center;
 }
 .auth_wrapper {
-  max-width: 450px;
+  max-width: 350px;
+  min-height: 550px;
   background-color: #ffffff;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -122,7 +121,7 @@ export default {
 .title {
   font-size: 25px;
   font-weight: bold;
-  text-align: center;
+  text-align: start;
   margin: 1rem 0;
 }
 </style>

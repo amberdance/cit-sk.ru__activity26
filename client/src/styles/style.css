@@ -58,7 +58,7 @@
   font-display: swap;
 }
 
-@font-face {
+/* @font-face {
   font-family: "RobotoRegular";
   src: url("../fonts/Roboto-Regular.ttf") format("truetype");
   font-weight: normal;
@@ -72,22 +72,18 @@
   font-weight: normal;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 :root {
-  --color-primary: #182140;
+  --color-primary: #0469ff;
   --color-secondary: #122050;
   --color-info: #606984;
   --color-danger: #d51a1a;
   --color-success: #25b38b;
-  --color-divider: #e5e5eb;
-  --color-bg_primary: #ffffff;
-  --color-overlay: #fffffffa;
+  --color-warning: #f6cd03;
   --color-link: #0469ff;
-  --color-bg_secondary: #fbfbfbe0;
-  --color-font_primary: #333333;
-  --color-font_secondary: #3b4256;
-  --color-font_info: #76767a;
+  --color-font--primary: #000000;
+  --color-font--secondary: #FFFFFF;
 }
 
 /************************** NORMALIZED ***************************/
@@ -117,6 +113,27 @@ h1 {
 h2 {
   font-size: 26px;
   line-height: 30px;
+}
+
+.btn_primary {
+  font-size: 20px;
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  border: none;
+  padding: 10px 30px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
+}
+
+.btn_primary:hover {
+  background-color: #f6cd03;
+  color: #000;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.btn_primary:active {
+  background-color: #fbdd47;
 }
 
 /************************** COMMON ***************************/
@@ -157,6 +174,10 @@ h2 {
   align-items: baseline !important;
 }
 
+.section {
+  margin: 2rem 0;
+}
+
 .m-1 {
   margin: 1rem 0;
 }
@@ -169,20 +190,4 @@ h2 {
 
 .el-dialog__body {
   word-break: normal !important;
-}
-
-.el-button {
-  font-size: 22px;
-  background-color: #0469ff;
-  border-radius: 10px;
-  border: none;
-  padding: 10px 30px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
-  margin-top: 30px;
-}
-
-.el-button:hover {
-  background-color: #f6cd03;
-  color: #000;
-  transition: 0.2s;
 }

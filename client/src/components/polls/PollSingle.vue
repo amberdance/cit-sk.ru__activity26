@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-      <div>PollSingle</div>
+    <div class="container">PollSingle</div>
   </MainLayout>
 </template>
 

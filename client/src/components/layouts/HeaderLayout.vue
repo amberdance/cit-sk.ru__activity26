@@ -1,22 +1,17 @@
 <template>
   <div :class="$style.headerContent">
     <div :class="[$style.iconWrapper, 'd-flex align-center']">
-      <div :class="$style.item">
-        <router-link to="/">
-          <img src="../../assets/logo_primary.webp" alt="logo_primary" />
-        </router-link>
-      </div>
+      <router-link to="/">
+        <img src="../../assets/logo_primary.webp" alt="logo_primary" />
+      </router-link>
     </div>
 
     <div :class="[$style.authWrapper, 'd-flex align-center']">
-      <div :class="$style.item">
-        <router-link to="/auth">Вход</router-link>
-      </div>
+      <router-link to="/auth">Вход</router-link>
+
       <el-divider direction="vertical" />
 
-      <div :class="$style.item">
-        <router-link to="/registration">Регистрация</router-link>
-      </div>
+      <router-link to="/registration">Регистрация</router-link>
     </div>
   </div>
 </template>
@@ -27,7 +22,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  color: #ffffff;
+  color: var(--color-font--secondary);
   padding: 1rem;
 }
 
@@ -39,8 +34,11 @@
   width: 180px;
 }
 
+.authWrapper a {
+  color: var(--color-font--primary);
+}
 .authWrapper a:hover {
-  color: #0469ff;
+  color: var(--color-primary);
   transition: 0.2s;
 }
 
