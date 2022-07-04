@@ -1,59 +1,68 @@
 <template>
-  <div :class="$style.root">
-    <div :class="[$style.auth_wrapper, 'container']">
-      <div :class="$style.title">
-        Вход в информационную систему "{{ title }}"
-      </div>
+  <MainLayout>
+    <div :class="$style.root">
+      <div :class="[$style.auth_wrapper, 'container']">
+        <div :class="$style.title">
+          Вход в информационную систему "{{ title }}"
+        </div>
 
-      <el-form ref="form" :model="formData" :show-message="false">
-        <el-form-item prop="login" :rules="{ required: true, trigger: 'blur' }">
-          <el-input
-            v-model="formData.login"
-            placeholder="логин"
-            autofocus
-            prefix-icon="el-icon-user"
-          />
-        </el-form-item>
+        <el-form ref="form" :model="formData" :show-message="false">
+          <el-form-item
+            prop="login"
+            :rules="{ required: true, trigger: 'blur' }"
+          >
+            <el-input
+              v-model="formData.login"
+              placeholder="логин"
+              autofocus
+              prefix-icon="el-icon-user"
+            />
+          </el-form-item>
 
-        <el-form-item
-          prop="password"
-          :rules="{ required: true, trigger: 'blur' }"
-        >
-          <el-input
-            type="password"
-            v-model="formData.password"
-            placeholder="пароль"
-            prefix-icon="el-icon-lock"
-            show-password
-          />
-        </el-form-item>
+          <el-form-item
+            prop="password"
+            :rules="{ required: true, trigger: 'blur' }"
+          >
+            <el-input
+              type="password"
+              v-model="formData.password"
+              placeholder="пароль"
+              prefix-icon="el-icon-lock"
+              show-password
+            />
+          </el-form-item>
 
-        <el-button
-          type="primary"
-          style="width: 100%"
-          :loading="isLoading"
-          @click="authorize"
-          >Войти</el-button
-        >
-      </el-form>
+          <el-button
+            type="primary"
+            style="width: 100%"
+            :loading="isLoading"
+            @click="authorize"
+            >Войти</el-button
+          >
+        </el-form>
 
-      <div class="a-center m-1">
-        Нет аккаунта?
-        <router-link to="registration">Зарегистрироваться</router-link>
+        <div class="a-center m-1">
+          Нет аккаунта?
+          <router-link to="registration">Зарегистрироваться</router-link>
+        </div>
       </div>
     </div>
-  </div>
+  </MainLayout>
 </template>
 
 <script>
 import { APP_TITLE } from "@/values.js";
+import MainLayout from "./layouts/MainLayout.vue";
 
 export default {
+  components: {
+    MainLayout,
+  },
+
   data() {
     return {
       title: APP_TITLE,
       isLoading: false,
-
       formData: {
         login: null,
         password: null,
@@ -96,19 +105,19 @@ export default {
 
 <style module>
 .root {
-  background-color: #dfe5e7;
   height: 100vh;
   display: flex;
   align-items: center;
 }
 .auth_wrapper {
   max-width: 450px;
-  background-color: #efefef;
+  background-color: #ffffff;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 3rem;
+  box-shadow: 4px 3px 7px 0px #80808045;
 }
 
 .title {
