@@ -14,3 +14,15 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
+Route::post('/auth/login', [\App\Http\Controllers\UserController::class, 'login']);
+// Route::get('/users/me', function () {
+//     return auth()->user();
+// });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/users/me', function () {
+        return auth()->user();
+    });
+
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+});

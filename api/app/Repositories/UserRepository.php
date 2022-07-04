@@ -20,14 +20,16 @@ class UserRepository implements UserRepositoryInterface
     public function createUser(array $params): User
     {
         return User::create([
-            'login'      => 'test',
-            'password'   => 'test',
+
+            'email'      => $params['email'],
+            'password'   => $params['password'],
+
+
             'name'       => $params['name'],
             'surname'    => $params['surname'],
             'patronymic' => $params['patronymic'],
             'phone'      => $params['phone'],
             'ip_address' => request()->ip(),
-            'token'      => \Illuminate\Support\Str::random(30),
         ]);
     }
 
