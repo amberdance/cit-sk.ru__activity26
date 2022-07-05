@@ -10,7 +10,10 @@
 
     <transition name="el-fade-in">
       <footer :class="$style.footerWrapper" v-if="!isSlidebarHidden">
-        <FooterLayout @onCookieAccept="acceptCookie" />
+        <FooterLayout
+          @onCookieAccept="acceptCookie"
+          @onCookieDecline="isSlidebarHidden = true"
+        />
       </footer>
     </transition>
   </el-container>
@@ -58,8 +61,6 @@ export default {
   background-size: cover;
 }
 
-
-
 .footerWrapper {
   z-index: 10;
   position: fixed;
@@ -67,6 +68,9 @@ export default {
   background-color: #ffffff;
   border-radius: 20px;
   max-width: 1200px;
-  margin-bottom: 20px;
+  margin: 5% auto 1rem auto;
+  left: 0;
+  right: 0;
+  box-shadow: 3px 3px 10px #89898985;
 }
 </style>

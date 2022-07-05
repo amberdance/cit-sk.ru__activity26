@@ -1,21 +1,29 @@
 <template>
   <div :class="$style.footerContent">
-    <div :class="$style.coockieText">
+    <div>
       Мы используем файлы cookie для улучшения работы сайта. Продолжая
       просматривать этот сайт, вы соглашаетесь с условиями использования
       cookie–файлов.Вы можете запретить сохранение cookie в настройках своего
       браузера. Дополнительно, сайт использует средство аналитики посещаемости
       пользователей "Яндекс.Метрика". С условиями использования сервиса
-      Яндекс.Метрика и AppMetrica можно ознакомиться по
-      <a href="https://yandex.ru/legal/metrica_termsofuse/">ссылке</a>
+      Яндекс.Метрика и AppMetrica можно ознакомиться
+      <a href="https://yandex.ru/legal/metrica_termsofuse/" target="_blank"
+        >здесь</a
+      >
     </div>
-    <button :class="[$style.btn, 'btn_primary']">Понятно</button>
+
+    <div
+      :class="[$style.btnAccept, 'btn_primary']"
+      @click="$emit('onCookieAccept')"
+    >
+      Понятно
+    </div>
     <svg
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
       data-v-78e17ca8=""
       :class="$style.btnClose"
-      @click="$emit('onCookieAccept')"
+      @click="$emit('onCookieDecline')"
     >
       <path
         fill="currentColor"
@@ -31,17 +39,17 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
-
 }
-
-.btn {
-  font-size: 14px;
+.btnAccept {
+  font-size: 15px;
+  margin: 0 0.5rem;
 }
-
 .btnClose {
   color: #000000;
   height: 50px;
   width: 50px;
   cursor: pointer;
+  position: relative;
+  bottom: 30px;
 }
 </style>
