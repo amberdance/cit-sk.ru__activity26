@@ -4,60 +4,44 @@ import locale from "element-ui/lib/locale";
 import "@/styles/element-variables.scss";
 
 import {
-  Link,
-  Dialog,
-  Input,
-  InputNumber,
-  Checkbox,
-  Switch,
-  Select,
-  Option,
+  Alert,
   Button,
-  ButtonGroup,
+  Container,
+  Checkbox,
+  Divider,
+  Dialog,
   Form,
   FormItem,
-  Alert,
-  Icon,
-  Row,
-  Col,
-  Card,
-  Container,
-  Tooltip,
-  Header,
-  Main,
   Footer,
-  Divider,
+  Header,
+  Input,
+  Link,
   Loading,
+  Main,
   MessageBox,
   Message,
   Notification,
 } from "element-ui";
 
+[
+  Alert,
+  Button,
+  Container,
+  Checkbox,
+  Divider,
+  Dialog,
+  Form,
+  FormItem,
+  Footer,
+  Header,
+  Input,
+  Link,
+  Loading,
+  Main,
+].forEach((component) => Vue.use(component));
+
 locale.use(lang);
 
-Vue.use(Link);
-Vue.use(Dialog);
-Vue.use(Input);
-Vue.use(InputNumber);
-Vue.use(Checkbox);
-Vue.use(Switch);
-Vue.use(Select);
-Vue.use(Option);
-Vue.use(Button);
-Vue.use(ButtonGroup);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Alert);
-Vue.use(Icon);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Card);
-Vue.use(Container);
-Vue.use(Header);
-Vue.use(Main);
-Vue.use(Footer);
-Vue.use(Divider);
-Vue.use(Tooltip);
 Vue.use(Loading.directive);
 
 Vue.prototype.$loading = Loading.service;
