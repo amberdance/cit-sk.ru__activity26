@@ -1,7 +1,7 @@
 import axios from "axios";
-// import { auth } from "@/utils/auth";
+import { auth } from "@/utils/auth";
 import { responseManage, errorManage } from "@/utils/http";
-// import router from "../router";
+import router from "../router";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 axios.defaults.withCredentials = true;
@@ -24,11 +24,11 @@ axios.interceptors.response.use(
   (response) => responseManage(response),
 
   (error) => {
-    // if (error.response && error.response.status == 401) {
-    //   auth.purge();
+    if (error.response && error.response.status == 401) {
+      auth.purge();
 
-    //   return router.push("/auth");
-    // }
+      return router.push("/auth");
+    }
 
     return errorManage(error);
   }
