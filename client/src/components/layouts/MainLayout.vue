@@ -9,9 +9,9 @@
     </el-main>
 
     <transition name="el-fade-in">
-      <el-footer :class="$style.footerWrapper" v-if="!isSlidebarHidden">
+      <footer :class="$style.footerWrapper" v-if="!isSlidebarHidden">
         <FooterLayout @onCookieAccept="acceptCookie" />
-      </el-footer>
+      </footer>
     </transition>
   </el-container>
 </template>
@@ -58,14 +58,15 @@ export default {
   background-size: cover;
 }
 
+
+
 .footerWrapper {
+  z-index: 10;
   position: fixed;
-  display: flex;
-  justify-content: center;
-  min-height: 100px;
-  width: 100%;
   bottom: 0;
   background-color: #ffffff;
-  box-shadow: -1px -6px 10px #89898985;
+  border-radius: 20px;
+  max-width: 1200px;
+  margin-bottom: 20px;
 }
 </style>
