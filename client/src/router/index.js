@@ -28,7 +28,7 @@ const routes = [
 
   {
     path: "/auth",
-    component: () => import("@/components/Auth.vue"),
+    component: () => import("@/components/AuthForm.vue"),
   },
 ];
 
