@@ -1,7 +1,7 @@
 <template>
   <div>
     <MainLayout>
-      <div :class="$style.main">
+      <div :class="[$style.main, 'container']">
         <div :class="$style.main__title">
           <h1>Уважаемые жители Ставропольского края!</h1>
         </div>
