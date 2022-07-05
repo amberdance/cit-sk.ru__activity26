@@ -22,7 +22,7 @@ Plugin.install = (Vue) => {
       $cookies.remove("access_token");
     } catch (e) {
       onError("Случилась неведомая ошибка, уверен ее скоро исправят");
-      console.error(e)
+      console.error(e);
     }
   };
 
@@ -34,44 +34,41 @@ Plugin.install = (Vue) => {
    *--------------------------------------------------------------
    */
 
-  const responseData = (data, responseType = null) => {
-    if (Array.isArray(data) && !data.length) return data;
-    if (responseType == "blob") return data;
-    if (!data) return [];
-    if ("data" in data) return camelize(data.data);
+  Vue.prototype.$http = {
+    post: async (route, params, responseType = "json") => {
+      const { data } = await axios.post(route, params, { responseType });
+      return responseData(data, responseType);
+    },
 
-    return camelize(data);
+    get: async (route, params, responseType = "json") => {
+      const { data } = await axios.get(route, { params, responseType });
+      return responseData(data, responseType);
+    },
+
+    put: async (route, params, responseType = "json") => {
+      const { data } = await axios.put(route, params, { responseType });
+      return responseData(data, responseType);
+    },
+
+    patch: async (route, params) => {
+      const { data } = await axios.patch(route, params);
+      return responseData(data);
+    },
+
+    delete: async (route) => {
+      const { data } = await axios.delete(route);
+      return responseData(data);
+    },
   };
+};
 
-  Vue.prototype.$post = async (route, params, responseType = "json") => {
-    const { data } = await axios.post(route, params, { responseType });
+const responseData = (data, responseType = null) => {
+  if (Array.isArray(data) && !data.length) return data;
+  if (responseType == "blob") return data;
+  if (!data) return [];
+  if ("data" in data) return camelize(data.data);
 
-    return responseData(data, responseType);
-  };
-
-  Vue.prototype.$get = async (route, params, responseType = "json") => {
-    const { data } = await axios.get(route, { params, responseType });
-
-    return responseData(data, responseType);
-  };
-
-  Vue.prototype.$put = async (route, params, responseType = "json") => {
-    const { data } = await axios.put(route, params, { responseType });
-
-    return responseData(data, responseType);
-  };
-
-  Vue.prototype.$patch = async (route, params) => {
-    const { data } = await axios.patch(route, params);
-
-    return responseData(data);
-  };
-
-  Vue.prototype.$delete = async (route) => {
-    const { data } = await axios.delete(route);
-
-    return responseData(data);
-  };
+  return camelize(data);
 };
 
 Vue.use(Plugin);

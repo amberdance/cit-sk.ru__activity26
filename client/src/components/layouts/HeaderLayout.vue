@@ -6,7 +6,10 @@
       </router-link>
     </div>
 
-    <div :class="[$style.auth_wrapper, 'd-flex align-center']">
+    <div
+      v-if="!$isAuthorized()"
+      :class="[$style.auth_wrapper, 'd-flex align-center']"
+    >
       <router-link to="/auth" :class="$style.item"
         ><img src="@/assets/icon_user.png" class="icon-mini" /><span
           >Вход</span

@@ -17,5 +17,11 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-undef": process.env.NODE_ENV === "production" ? "warn" : "off",
     "vue/no-multiple-template-root": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        endOfLine: "auto",
+      },
+    ],
   },
 };
