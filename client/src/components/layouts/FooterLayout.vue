@@ -6,22 +6,10 @@
       cookie–файлов.Вы можете запретить сохранение cookie в настройках своего
       браузера. Дополнительно, сайт использует средство аналитики посещаемости
       пользователей "Яндекс.Метрика". С условиями использования сервиса
-      Яндекс.Метрика и AppMetrica можно ознакомиться по ссылке
-      <el-link
-        type="primary"
-        href="https://yandex.ru/legal/metrica_termsofuse/"
-        style="font-size: 16px"
-        target="_blank"
-        :underline="false"
-        >https://yandex.ru/legal/metrica_termsofuse/</el-link
-      >
+      Яндекс.Метрика и AppMetrica можно ознакомиться по
+      <a href="https://yandex.ru/legal/metrica_termsofuse/">ссылке</a>
     </div>
-    <el-button
-      type="primary"
-      @click="$emit('onCookieAccept')"
-      style="margin: 0 0.5rem"
-      >Понятно</el-button
-    >
+    <button :class="[$style.btn, 'btn_primary']">Понятно</button>
     <svg
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
@@ -39,18 +27,21 @@
 
 <style module>
 .footerContent {
-  max-width: 1450px;
-  margin: auto;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 1rem;
+
+}
+
+.btn {
+  font-size: 14px;
 }
 
 .btnClose {
   color: #000000;
-  height: 35px;
-  width: 35px;
+  height: 50px;
+  width: 50px;
   cursor: pointer;
 }
 </style>
