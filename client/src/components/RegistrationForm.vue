@@ -1,16 +1,16 @@
 <template>
   <MainLayout>
-    <template>
+    <div class="container">
       <el-form
         v-loading="isLoading"
-        :class="$style.formWrapper"
+        :class="$style.registration_wrapper"
         :rules="rules"
         :model="formData"
         ref="form"
         label-position="top"
         size="large"
       >
-        <div :class="$style.policyText">
+        <div :class="$style.policy_text">
           <p>
             Информация, направленная в электронном виде, хранится и
             обрабатывается с соблюдением требований российского законодательства
@@ -23,20 +23,28 @@
           </p>
         </div>
 
-        <el-form-item
-          :class="$style.formItem"
-          required
-          label="Фамилия"
-          prop="surname"
-        >
-          <el-input
-            v-model="formData.surname"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+        <div :class="$style.heading">Личные данные</div>
 
-        <el-form-item :class="$style.formItem" required label="Имя" prop="name">
+        <div :class="$style.form_item">
+          <el-form-item required label="Фамилия" prop="surname">
+            <el-input
+              v-model="formData.surname"
+              clearable
+              :disabled="isFormSubmitted"
+            />
+          </el-form-item>
+          <div :class="$style.hint">
+            Поле обязательно для заполнения. Используйте буквы русского
+            алфавита.
+          </div>
+        </div>
+
+        <el-form-item
+          :class="$style.form_item"
+          required
+          label="Имя"
+          prop="name"
+        >
           <el-input
             v-model="formData.name"
             clearable
@@ -45,7 +53,7 @@
         </el-form-item>
 
         <el-form-item
-          :class="$style.formItem"
+          :class="$style.form_item"
           label="Отчество"
           prop="patronymic"
         >
@@ -56,18 +64,24 @@
           />
         </el-form-item>
 
-        <el-form-item :class="$style.formItem" label="Телефон" prop="phone">
-          <el-input
-            v-model="formData.phone"
-            v-mask="'+7(###)#######'"
-            placeholder="+7(999)9999999"
-            type="tel"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
+        <div :class="$style.form_item">
+          <el-form-item label="Телефон" prop="phone">
+            <el-input
+              v-model="formData.phone"
+              v-mask="'+7(###)#######'"
+              placeholder="+7(999)9999999"
+              type="tel"
+              clearable
+              :disabled="isFormSubmitted"
+            />
+          </el-form-item>
+          <div :class="$style.hint">
+            Поле обязательно для заполнения. Используйте буквы русского
+            алфавита.
+          </div>
+        </div>
 
-        <el-form-item :class="$style.formItem" label="Логин" prop="login">
+        <el-form-item :class="$style.form_item" label="Логин" prop="login">
           <el-input
             v-model="formData.login"
             clearable
@@ -75,7 +89,9 @@
           />
         </el-form-item>
 
-        <el-form-item :class="$style.formItem" label="Пароль" prop="password">
+        <div :class="$style.heading">Пароль</div>
+
+        <el-form-item :class="$style.form_item" label="Пароль" prop="password">
           <el-input
             v-model="formData.password"
             clearable
@@ -103,7 +119,7 @@
         </div>
       </el-form>
       <PhoneValidateDialog ref="dialog" />
-    </template>
+    </div>
   </MainLayout>
 </template>
 
@@ -226,24 +242,30 @@ export default {
 </script>
 
 <style module>
-.formWrapper {
-  width: 1250px;
-  margin: 20px auto;
-  border: 1px solid #cfcfcf73;
-  padding: 2rem;
-  border-radius: 3px;
+.registration_wrapper {
+  max-width: 750px;
+  margin: auto;
   background-color: #ffffff;
-  box-shadow: 4px 4px 14px 1px lightgrey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 3rem;
+  box-shadow: 4px 3px 7px 0px #80808045;
 }
 
-.formWrapper label,
-.policyText {
-  font-size: 22px;
-  color: #4c4c4c;
+.registration_wrapper label,
+.policy_text {
+  font-size: 20px;
+  color: var(--color-font--primary);
 }
 
-.formItem {
-  margin-top: 1rem;
-  min-width: 50%;
+.form_item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.form_item input {
+  width: 50%;
+  margin-bottom: 1rem;
 }
 </style>

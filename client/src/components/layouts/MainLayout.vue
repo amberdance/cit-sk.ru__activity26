@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-main :class="$style.contentWrapper">
-      <el-header :class="[$style.headerWrapper, 'container']">
+    <el-main :class="$style.content_wrapper">
+      <el-header :class="[$style.header_wrapper, 'container']">
         <HeaderLayout />
       </el-header>
 
@@ -9,7 +9,7 @@
     </el-main>
 
     <transition name="el-fade-in">
-      <footer :class="$style.footerWrapper" v-if="!isSlidebarHidden">
+      <footer :class="$style.footer_wrapper" v-if="!isSlidebarHidden">
         <FooterLayout
           @onCookieAccept="acceptCookie"
           @onCookieDecline="isSlidebarHidden = true"
@@ -49,19 +49,20 @@ export default {
 </script>
 
 <style module>
-.headerWrapper {
+.header_wrapper {
   height: inherit !important;
 }
 
-.contentWrapper {
+.content_wrapper {
   min-height: 1024px;
   background: url(../../assets/bg_primary.webp);
   background-position: 50% 80%;
   background-repeat: no-repeat;
   background-size: cover;
+  color: var(--color-font--primary);
 }
 
-.footerWrapper {
+.footer_wrapper {
   z-index: 10;
   position: fixed;
   bottom: 0;

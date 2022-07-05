@@ -58,21 +58,6 @@
   font-display: swap;
 }
 
-/* @font-face {
-  font-family: "RobotoRegular";
-  src: url("../fonts/Roboto-Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "RobotoBold";
-  src: url("../fonts/Roboto-Bold.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-} */
 
 :root {
   --color-primary: #0469ff;
@@ -82,7 +67,7 @@
   --color-success: #25b38b;
   --color-warning: #f6cd03;
   --color-link: #0469ff;
-  --color-font--primary: #000000;
+  --color-font--primary: #363636;
   --color-font--secondary: #FFFFFF;
 }
 
@@ -172,6 +157,10 @@ h2 {
 
 .align-baseline {
   align-items: baseline !important;
+}
+
+.justify-center {
+  justify-content: center !important;
 }
 
 .section {
