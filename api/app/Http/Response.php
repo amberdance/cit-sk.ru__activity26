@@ -11,20 +11,22 @@ class Response extends HttpResponse
     /**
      * @param array|null $payload
      * @param int $httpCode
-     * @param array $haders
+     * @param array $headers
      *
      * @return JsonResponse
      */
-    public static function jsonSuccess(?array $payload = null, int $httpCode = self::HTTP_OK, array $haders = []): JsonResponse
+    public static function jsonSuccess(?array $payload = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
     {
 
-        $params = [];
+        $params = [
+            'message' => 'success',
+        ];
 
         if ($payload) {
             $params['data'] = $payload;
         }
 
-        return response()->json($params, $httpCode, $haders);
+        return response()->json($params, $httpCode, $headers);
     }
 
     public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_INTERNAL_SERVER_ERROR, array $headers = []): JsonResponse

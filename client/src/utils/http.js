@@ -32,7 +32,9 @@ const errorCollection = {
 
     405: (e) => {
       onError(
-        `Метод ${e.config.method.toUpperCase()} запрещен для данного маршрута`
+        `Метод ${e.config.method.toUpperCase()} запрещен для  маршрута ${
+          e.response.config.url
+        }`
       );
 
       return Promise.reject({
@@ -59,11 +61,7 @@ const errorCollection = {
       });
     },
 
-    401: (error) => {
-      return Promise.reject(
-        `${error.response.status} ${error.response.statusText}`
-      );
-    },
+    401: (e) => Promise.reject(e),
 
     400: (error) => {
       onError("Параметры Http запроса указаны некорректно");
@@ -109,11 +107,11 @@ export const responseManage = (response) => {
 };
 
 export const errorManage = (error) => {
-  if (
-    error.code.toLowerCase().includes("err") ||
-    error.message.toLowerCase().includes("err")
-  )
-    return Promise.reject(error);
+  // if (
+  //   error.code.toLowerCase().includes("err") ||
+  //   error.message.toLowerCase().includes("err")
+  // )
+  //   return Promise.reject(error);
 
   if (error.response.status in errorCollection.HTTP) {
     return errorCollection.HTTP[error.response.status](error);
