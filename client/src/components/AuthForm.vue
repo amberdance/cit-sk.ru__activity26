@@ -93,7 +93,7 @@ export default {
       this.isLoading = true;
 
       try {
-        const data = await this.$post("/auth/login", this.formData);
+        const data = await this.$http.post("/auth/login", this.formData);
 
         $cookies.set("access_token", data.accessToken);
 

@@ -122,7 +122,7 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.get("/verify-code", {
+        await this.$http.get("/verify-code", {
           params: {
             token: localStorage.getItem("token"),
             code: this.formData.code,
@@ -154,7 +154,7 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.get("/reset-code", {
+        await this.$http.get("/reset-code", {
           params: { token: localStorage.getItem("token") },
         });
 
