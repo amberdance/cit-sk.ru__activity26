@@ -1,54 +1,56 @@
 <template>
-  <div :class="$style.headerContent">
-    <div :class="[$style.iconWrapper, 'd-flex align-center']">
+  <div :class="$style.header_content">
+    <div :class="[$style.logo_wrapper, 'd-flex align-center']">
       <router-link to="/">
-        <img src="../../assets/logo_primary.webp" alt="logo_primary" />
+        <img src="@/assets/logo_primary.webp" alt="logo_primary" />
       </router-link>
     </div>
 
-    <div :class="[$style.authWrapper, 'd-flex align-center']">
-      <router-link to="/auth">Вход</router-link>
+    <div :class="[$style.auth_wrapper, 'd-flex align-center']">
+      <router-link to="/auth" :class="$style.item"
+        ><img src="@/assets/icon_user.png" class="icon-mini" /><span
+          >Вход</span
+        ></router-link
+      >
 
-      <el-divider direction="vertical" />
-
-      <router-link to="/registration">Регистрация</router-link>
+      <router-link to="/registration" :class="$style.item">
+        <img src="@/assets/icon_key.png" class="icon-mini" />
+        <span>Регистрация</span></router-link
+      >
     </div>
   </div>
 </template>
 
 <style module>
-.headerContent {
+.header_content {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   color: var(--color-font--secondary);
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
-.authWrapper {
-  justify-content: center;
-  background-color: #ffffff;
-  border-radius: 50px;
-  height: 45px;
-  width: 180px;
+.auth_wrapper {
+  font-weight: bold;
 }
 
-.authWrapper a {
+.auth_wrapper a {
   color: var(--color-font--primary);
 }
-.authWrapper a:hover {
-  color: var(--color-primary);
-  transition: 0.2s;
+
+.auth_wrapper .item {
+  display: flex;
+  align-items: center;
+}
+.auth_wrapper .item img {
+  margin-right: 0.3rem;
 }
 
-.iconWrapper {
-  background-color: #ffffff;
-  border-radius: 50px;
-  padding: 0px 15px;
+.auth_wrapper .item:first-child {
+  padding-right: 1rem;
 }
-
-img {
-  max-width: 45px !important;
+.logo_wrapper img {
+  max-width: 55px;
 }
 </style>
