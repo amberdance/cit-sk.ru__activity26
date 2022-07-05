@@ -109,6 +109,12 @@ export const responseManage = (response) => {
 };
 
 export const errorManage = (error) => {
+  if (
+    error.code.toLowerCase().includes("err") ||
+    error.message.toLowerCase().includes("err")
+  )
+    return Promise.reject(error);
+
   if (error.response.status in errorCollection.HTTP) {
     return errorCollection.HTTP[error.response.status](error);
   }
