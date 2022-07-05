@@ -6,11 +6,13 @@
           Вход в информационную систему "{{ title }}"
         </div>
 
-        <el-form ref="form" :model="formData" :show-message="false">
-          <el-form-item
-            prop="login"
-            :rules="{ required: true, trigger: 'blur' }"
-          >
+        <el-form
+          ref="form"
+          :model="formData"
+          :rules="formRules"
+          :show-message="false"
+        >
+          <el-form-item prop="login">
             <el-input
               v-model="formData.login"
               placeholder="логин"
@@ -19,10 +21,7 @@
             />
           </el-form-item>
 
-          <el-form-item
-            prop="password"
-            :rules="{ required: true, trigger: 'blur' }"
-          >
+          <el-form-item prop="password">
             <el-input
               type="password"
               v-model="formData.password"
@@ -42,7 +41,7 @@
         </el-form>
 
         <div class="a-center m-1">
-          Нет аккаунта?
+          <span> Нет аккаунта? </span>
           <router-link to="registration">Зарегистрироваться</router-link>
         </div>
       </div>
@@ -53,6 +52,7 @@
 <script>
 import { APP_TITLE } from "@/values.js";
 import MainLayout from "./layouts/MainLayout.vue";
+import { emailValidate } from "@/utils/common";
 
 export default {
   components: {
@@ -63,15 +63,29 @@ export default {
     return {
       title: APP_TITLE,
       isLoading: false,
+
       formData: {
         login: null,
         password: null,
+      },
+
+      formRules: {
+        login: [
+          {
+            trigger: "blur",
+            validator: (rule, email, callback) =>
+              emailValidate(email)
+                ? callback()
+                : callback(new Error("Укажите адрес электронной почты")),
+          },
+        ],
+        password: [{ required: "true", trigger: "blur" }],
       },
     };
   },
 
   created() {
-    // if (this.$isAuthorized()) this.$router.push("/home");
+    if (this.$isAuthorized()) this.$router.push("/home");
   },
 
   methods: {
@@ -81,7 +95,6 @@ export default {
       this.isLoading = true;
 
       try {
-        await this.$get("/sanctum/csrf-cookie");
         await this.$login(this.formData);
 
         this.$router.push("/home");
