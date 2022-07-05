@@ -22,7 +22,7 @@ Plugin.install = (Vue) => {
       $cookies.remove("access_token");
     } catch (e) {
       onError("Случилась неведомая ошибка, уверен ее скоро исправят");
-      console.error(e)
+      console.error(e);
     }
   };
 
