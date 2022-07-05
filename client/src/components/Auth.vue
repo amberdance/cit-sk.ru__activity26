@@ -93,9 +93,15 @@ export default {
       this.isLoading = true;
 
       try {
-        await this.$login(this.formData);
+        const data = await this.$post("/auth/login", this.formData);
+
+        $cookies.set("access_token", data.accessToken);
 
         this.$router.push("/home");
+        this.$onSuccess(
+          "Теперь Вам доступна возможность прохождения опроса",
+          3000
+        );
       } catch (e) {
         if ("config" in e && e.config.response.status == 401) {
           return this.$onError(
