@@ -29,20 +29,17 @@
       </div>
     </MainLayout>
     <Statistics />
-    <PollsList />
   </div>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
-import PollsList from "@/components/polls/PollsList.vue";
 
 export default {
   components: {
     MainLayout,
     Statistics,
-    PollsList,
   },
 };
 </script>
