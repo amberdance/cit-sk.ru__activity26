@@ -82,10 +82,6 @@ export default {
     };
   },
 
-  created() {
-    if (this.$isAuthorized()) this.$router.push("/home");
-  },
-
   methods: {
     async authorize() {
       await this.$refs.form.validate();
@@ -97,10 +93,7 @@ export default {
 
         $cookies.set("access_token", data.accessToken);
 
-        this.$onSuccess(
-          "Теперь Вам доступна возможность прохождения опроса",
-          3000
-        );
+        this.$onSuccess("Спасибо, что Вы с нами", 3000);
         this.$store.commit("setUser", data.user);
         this.$router.push("/home");
       } catch (e) {
