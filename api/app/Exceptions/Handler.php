@@ -2,6 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Http\Response;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -43,8 +46,24 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
+        $this->reportable(function ($e) {
             //
         });
+    }
+
+    /**
+     * @param mixed $request
+     * @param Throwable $e
+     *
+     * @return mixed
+     */
+    public function render($request, Throwable $e): mixed
+    {
+
+        if ($e instanceof AuthenticationException) {
+            return Response::jsonError(401, "Unauthenticated", Response::HTTP_OK);
+        }
+
+        return parent::render($request, $e);
     }
 }

@@ -49,7 +49,6 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
 
-        //TO DO: Make exception handling
         return response()->json(auth()->user());
 
     }
