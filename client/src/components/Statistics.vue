@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.stats__wrapper">
-    <div :class="$style.stats">
-      <div v-for="(item, i) in stats" :key="i" :class="$style.stats__item">
+  <div :class="$style.statistic_wrapper">
+    <div :class="$style.statistic_content">
+      <div v-for="(item, i) in stats" :key="i">
         <div :class="$style.value">{{ getRandom() }}</div>
         <div :class="$style.title">{{ item.label }}</div>
       </div>
@@ -39,16 +39,15 @@ export default {
 </script>
 
 <style module>
-.stats__wrapper {
-  min-height: 100px;
+.statistic_wrapper {
+  padding: 1.5rem 0;
   background-color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   box-shadow: 0px 4px 7px 6px #6d8491;
 }
-.stats {
+.statistic_content {
   min-width: 700px;
   display: flex;
   justify-content: space-between;
@@ -60,7 +59,7 @@ export default {
   padding-top: 14px;
 }
 
-.value {
+.statistic_content .value {
   font-size: 44px;
 }
 </style>

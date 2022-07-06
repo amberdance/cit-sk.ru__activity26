@@ -51,6 +51,7 @@ export default {
 
 .auth_wrapper {
   font-weight: bold;
+  font-size: 18px;
 }
 
 .auth_wrapper a {
