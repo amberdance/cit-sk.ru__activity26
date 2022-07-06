@@ -1,35 +1,58 @@
 <?php
 
+/**
+ *  @property int $id
+ *  @property int $policy_agree
+ *  @property bool $is_active
+ *  @property bool $is_admin
+ *  @property string $uuid
+ *  @property string $name
+ *  @property string $surname
+ *  @property string $patronymic
+ *  @property string $email
+ *  @property string $password
+ *  @property string $ip_address
+ *  @property string $phone
+ */
+
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
 
-    use Notifiable;
+    protected $guarded = [];
 
-    protected $fillable = [
+    protected $hidden = [
         'name',
         'surname',
         'patronymic',
-        'phone',
         'ip_address',
         'email',
+        'policy_agree',
         'password',
-    ];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'is_admin'   => 'boolean',
+        'is_active'  => 'boolean',
+        'created_at' => 'datetime:d.m.Y H:i:s',
+        'updated_at' => 'datetime:d.m.Y H:i:s',
     ];
+
+    protected $appends = ['full_name'];
+
+    /**
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {   
+        return "{$this->surname} {$this->name}" . ($this->patronymic ? " {$this->patronymic}" : "");
+    }
 
     /**
      * @return mixed
