@@ -97,17 +97,15 @@ export default {
 
         $cookies.set("access_token", data.accessToken);
 
-        this.$router.push("/home");
         this.$onSuccess(
           "Теперь Вам доступна возможность прохождения опроса",
           3000
         );
+        this.$store.commit("setUser", data.user);
+        this.$router.push("/home");
       } catch (e) {
-        if ("config" in e && e.config.response.status == 401) {
-          return this.$onError(
-            "Не удалось войти с предоставленными учетными данными"
-          );
-        }
+        if (e.response.status == 401)
+          return this.$onError("Введен некорректный логин или пароль");
 
         console.error(e);
         this.$onError();

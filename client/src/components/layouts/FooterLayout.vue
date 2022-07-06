@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.footerContent">
+  <div :class="$style.footer_content">
     <div>
       Мы используем файлы cookie для улучшения работы сайта. Продолжая
       просматривать этот сайт, вы соглашаетесь с условиями использования
@@ -13,7 +13,7 @@
     </div>
 
     <div
-      :class="[$style.btnAccept, 'btn_primary']"
+      :class="[$style.btn_accept, 'btn_primary']"
       @click="$emit('onCookieAccept')"
     >
       Понятно
@@ -22,7 +22,7 @@
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
       data-v-78e17ca8=""
-      :class="$style.btnClose"
+      :class="$style.btn_close"
       @click="$emit('onCookieDecline')"
     >
       <path
@@ -34,17 +34,17 @@
 </template>
 
 <style module>
-.footerContent {
+.footer_content {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
-.btnAccept {
+.btn_accept {
   font-size: 15px;
   margin: 0 0.5rem;
 }
-.btnClose {
+.btn_close {
   color: #000000;
   height: 50px;
   width: 50px;

@@ -1,14 +1,24 @@
 import Vue from "vue";
-import { camelize } from "@/utils/common";
 import axios from "axios";
-import { onError } from "./alerts";
+import store from "@/store";
+import { camelize } from "@/utils/common";
+import { onError, onSuccess, notificationBase } from "../utils/alerts";
 
-Plugin.install = (Vue) => {
+const plugins = () => {
   /*
    *--------------------------------------------------------------
    *            SHARED
    *--------------------------------------------------------------
    */
+
+  Vue.prototype.$onSuccess = (message, duration) =>
+    notificationBase("success", message, duration);
+
+  Vue.prototype.$onError = (message, duration) =>
+    notificationBase("error", message, duration);
+
+  Vue.prototype.$onWarning = (message, duration) =>
+    notificationBase("warning", message, duration);
 
   /*
    *--------------------------------------------------------------
@@ -16,13 +26,18 @@ Plugin.install = (Vue) => {
    *--------------------------------------------------------------
    */
 
-  Vue.prototype.$logout = async () => {
+  Vue.prototype.$logout = async function () {
     try {
       await axios.post("/auth/logout");
-      $cookies.remove("access_token");
     } catch (e) {
       onError("Случилась неведомая ошибка, уверен ее скоро исправят");
+
       console.error(e);
+    } finally {
+      onSuccess("Возвращайтесь !");
+
+      $cookies.remove("access_token");
+      store.commit("setUser", {});
     }
   };
 
@@ -62,6 +77,8 @@ Plugin.install = (Vue) => {
   };
 };
 
+Vue.use(plugins);
+
 const responseData = (data, responseType = null) => {
   if (Array.isArray(data) && !data.length) return data;
   if (responseType == "blob") return data;
@@ -70,5 +87,3 @@ const responseData = (data, responseType = null) => {
 
   return camelize(data);
 };
-
-Vue.use(Plugin);

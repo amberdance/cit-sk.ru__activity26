@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { Notification } from "element-ui";
 import { random } from "lodash";
 
@@ -32,7 +31,7 @@ const randomAlertPhrase = (text, type) => {
   return type == "success" ? messages.success[index] : messages.error[index];
 };
 
-const notificationBase = (type, message = null, duration) => {
+export const notificationBase = (type, message = null, duration) => {
   if (type !== "warning") {
     message = randomAlertPhrase(message, type);
   }
@@ -53,16 +52,3 @@ export const onError = (text = null, duration) =>
 
 export const onWarning = (text = null, duration) =>
   notificationBase("warning", text, duration);
-
-const alerts = () => {
-  Vue.prototype.$onSuccess = (message, duration) =>
-    notificationBase("success", message, duration);
-
-  Vue.prototype.$onError = (message, duration) =>
-    notificationBase("error", message, duration);
-
-  Vue.prototype.$onWarning = (message, duration) =>
-    notificationBase("warning", message, duration);
-};
-
-Vue.use(alerts);

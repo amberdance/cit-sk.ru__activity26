@@ -17,5 +17,5 @@ export const camelize = (obj) =>
 export const getRandomQuote = async () => {
   const { quotes } = await import("../quotes.js");
 
-  return Promise.resolve(quotes[_.random(0, quotes.length)]);
+  return Promise.resolve(quotes[_.random(0, quotes.length - 1)]);
 };

@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 class AuthController extends Controller
 {
 
-
-
-
     /**
      * @param Request $request
      *
@@ -52,9 +49,8 @@ class AuthController extends Controller
     public function me(): JsonResponse
     {
 
-        return response()->json([
-            'data' => auth()->user(),
-        ]);
+        return response()->json(auth()->user());
+
     }
 
     /**
