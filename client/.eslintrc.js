@@ -18,7 +18,7 @@ module.exports = {
     "no-undef": process.env.NODE_ENV === "production" ? "warn" : "off",
     "vue/no-multiple-template-root": 0,
     "prettier/prettier": [
-      "error",
+      "warn",
       {
         endOfLine: "auto",
       },
