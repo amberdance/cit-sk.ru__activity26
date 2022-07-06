@@ -6,20 +6,26 @@
       </router-link>
     </div>
 
-    <div
-      v-if="!$isAuthorized()"
-      :class="[$style.auth_wrapper, 'd-flex align-center']"
-    >
-      <router-link to="/auth" :class="$style.item"
-        ><img src="@/assets/icon_user.png" class="icon-mini" /><span
-          >Вход</span
-        ></router-link
-      >
+    <div :class="[$style.auth_wrapper, 'd-flex align-center']">
+      <template v-if="$isAuthorized()">
+        <a href="#" @click="$logout()" :class="$style.item"
+          ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
+            >Выход</span
+          ></a
+        >
+      </template>
+      <template v-else>
+        <router-link to="/auth" :class="$style.item"
+          ><img src="@/assets/icon_user.png" class="icon-mini" /><span
+            >Вход</span
+          ></router-link
+        >
 
-      <router-link to="/registration" :class="$style.item">
-        <img src="@/assets/icon_key.png" class="icon-mini" />
-        <span>Регистрация</span></router-link
-      >
+        <router-link to="/registration" :class="$style.item">
+          <img src="@/assets/icon_key.png" class="icon-mini" />
+          <span>Регистрация</span></router-link
+        >
+      </template>
     </div>
   </div>
 </template>
