@@ -1,5 +1,6 @@
 import axios from "axios";
 import { responseManage, errorManage } from "@/utils/http";
+import store from "@/store";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
@@ -19,8 +20,10 @@ axios.interceptors.response.use(
   (response) => responseManage(response),
 
   (error) => {
-    if (error.response && error.response.status == 401)
+    if (error.response && error.response.status == 401) {
       $cookies.remove("access_token");
+      store.commit("logout");
+    }
 
     return errorManage(error);
   }

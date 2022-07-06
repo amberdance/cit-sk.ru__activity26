@@ -34,7 +34,7 @@
 export default {
   computed: {
     isAuthorized() {
-      return this.$store.getters.list("user").isAuthorized;
+      return Boolean(this.$store.getters.get("accessToken"));
     },
   },
 };

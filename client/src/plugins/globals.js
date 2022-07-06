@@ -1,7 +1,7 @@
 import Vue from "vue";
 import axios from "axios";
 import { camelize } from "@/utils/common";
-import { onError } from "./alerts";
+import { onError, onSuccess } from "./alerts";
 
 Plugin.install = (Vue) => {
   /*
@@ -16,14 +16,16 @@ Plugin.install = (Vue) => {
    *--------------------------------------------------------------
    */
 
-  Vue.prototype.$logout = async () => {
+  Vue.prototype.$logout = async function () {
     try {
       await axios.post("/auth/logout");
       $cookies.remove("access_token");
-      this.$store.commit("setUserdata", {});
+      onSuccess("Возвращайтесь !");
     } catch (e) {
       onError("Случилась неведомая ошибка, уверен ее скоро исправят");
       console.error(e);
+    } finally {
+      this.$store.commit("logout");
     }
   };
 

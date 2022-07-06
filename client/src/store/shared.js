@@ -6,15 +6,11 @@ export default {
   state: {
     common: {},
     isLoading: false,
-
-    user: {
-      isAuthorized: false,
-      accessToken: null,
-    },
+    accessToken: null,
   },
 
   getters: {
-    list: (state) => (key) => state[key],
+    get: (state) => (key) => state[key],
     isLoading: (state) => state.isLoading,
   },
 
@@ -27,8 +23,12 @@ export default {
       state.common[key] = value;
     },
 
-    setUserdata(state, user) {
-      state.user = user;
+    login(state, token) {
+      state.accessToken = token;
+    },
+
+    logout(state) {
+      state.accessToken = null;
     },
 
     ...mutations,

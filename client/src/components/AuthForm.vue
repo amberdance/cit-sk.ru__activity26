@@ -97,6 +97,7 @@ export default {
 
         $cookies.set("access_token", data.accessToken);
 
+        this.$store.commit("login", data.accessToken);
         this.$router.push("/home");
         this.$onSuccess(
           "Теперь Вам доступна возможность прохождения опроса",
