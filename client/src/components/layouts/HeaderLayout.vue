@@ -7,7 +7,7 @@
     </div>
 
     <div :class="[$style.auth_wrapper, 'd-flex align-center']">
-      <template v-if="$isAuthorized()">
+      <template v-if="isAuthorized">
         <a href="#" @click="$logout()" :class="$style.item"
           ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
             >Выход</span
@@ -30,6 +30,15 @@
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    isAuthorized() {
+      return this.$store.getters.list("user").isAuthorized;
+    },
+  },
+};
+</script>
 <style module>
 .header_content {
   display: flex;
