@@ -29,15 +29,17 @@ axios.interceptors.response.use(
 );
 
 router.beforeEach(async (to, from, next) => {
-  try {
-    const { data } = await axios.get("/auth/me");
-    store.commit("setUser", camelize(data));
-  } catch (e) {
-    if ("code" in e && e.code == 401) logout();
-    else console.error(e);
-  } finally {
-    next();
+  if (!$cookies.get("access_token") || _.isEmpty(store.getters.get("user"))) {
+    try {
+      const { data } = await axios.get("/auth/me");
+      store.commit("setUser", camelize(data));
+    } catch (e) {
+      if ("code" in e && e.code == 401) logout();
+      else console.error(e);
+    }
   }
+
+  next();
 });
 
 const logout = () => {
