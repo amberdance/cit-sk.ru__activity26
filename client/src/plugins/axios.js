@@ -1,6 +1,6 @@
 import axios from "axios";
-import { responseManage, errorManage } from "@/utils/http";
 import store from "@/store";
+import { responseManage, errorManage } from "@/utils/http";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 

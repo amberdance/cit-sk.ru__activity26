@@ -1,4 +1,4 @@
-import { onWarning, onError } from "@/plugins/alerts";
+import { onWarning, onError } from "@/utils/alerts";
 import { has } from "lodash";
 
 const errorCollection = {

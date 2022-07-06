@@ -3,11 +3,9 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueCookies from "vue-cookies";
-
 import "@/plugins/axios";
 import "@/plugins/element";
-import "@/plugins/alerts";
-import "@/plugins/globals";
+import "@/plugins/prototypes";
 import "@/styles/style.css";
 
 Vue.config.productionTip = false;

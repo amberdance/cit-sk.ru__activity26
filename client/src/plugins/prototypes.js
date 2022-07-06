@@ -1,14 +1,23 @@
 import Vue from "vue";
 import axios from "axios";
 import { camelize } from "@/utils/common";
-import { onError, onSuccess } from "./alerts";
+import { onError, onSuccess, notificationBase } from "../utils/alerts";
 
-Plugin.install = (Vue) => {
+const plugins = () => {
   /*
    *--------------------------------------------------------------
    *            SHARED
    *--------------------------------------------------------------
    */
+
+  Vue.prototype.$onSuccess = (message, duration) =>
+    notificationBase("success", message, duration);
+
+  Vue.prototype.$onError = (message, duration) =>
+    notificationBase("error", message, duration);
+
+  Vue.prototype.$onWarning = (message, duration) =>
+    notificationBase("warning", message, duration);
 
   /*
    *--------------------------------------------------------------
@@ -65,6 +74,8 @@ Plugin.install = (Vue) => {
   };
 };
 
+Vue.use(plugins);
+
 const responseData = (data, responseType = null) => {
   if (Array.isArray(data) && !data.length) return data;
   if (responseType == "blob") return data;
@@ -73,5 +84,3 @@ const responseData = (data, responseType = null) => {
 
   return camelize(data);
 };
-
-Vue.use(Plugin);
