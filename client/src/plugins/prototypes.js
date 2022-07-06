@@ -1,5 +1,6 @@
 import Vue from "vue";
 import axios from "axios";
+import store from "@/store";
 import { camelize } from "@/utils/common";
 import { onError, onSuccess, notificationBase } from "../utils/alerts";
 
@@ -28,13 +29,15 @@ const plugins = () => {
   Vue.prototype.$logout = async function () {
     try {
       await axios.post("/auth/logout");
-      $cookies.remove("access_token");
-      onSuccess("Возвращайтесь !");
     } catch (e) {
       onError("Случилась неведомая ошибка, уверен ее скоро исправят");
+
       console.error(e);
     } finally {
-      this.$store.commit("logout");
+      onSuccess("Возвращайтесь !");
+
+      $cookies.remove("access_token");
+      store.commit("setUser", {});
     }
   };
 

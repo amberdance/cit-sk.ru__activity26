@@ -102,11 +102,15 @@ const errorCollection = {
 
 export const responseManage = (response) => {
   if (response.data == "") return Promise.resolve(response);
-  if ("error" in response.data) return errorManage(response.data);
-  if ("data" in response.data) return Promise.resolve(response);
+  else if ("data" in response.data) return Promise.resolve(response);
+  else if ("error" in response.data) return errorManage(response.data);
+
+  //TO DO: Отработать возможные варианты респонсов
+  return Promise.resolve(response);
 };
 
 export const errorManage = (error) => {
+  //TO DO: Отработать возможные варианты респонсов
   // if (
   //   error.code.toLowerCase().includes("err") ||
   //   error.message.toLowerCase().includes("err")

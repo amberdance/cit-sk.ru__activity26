@@ -3,7 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueCookies from "vue-cookies";
-import "@/plugins/axios";
+import "@/utils/axios";
 import "@/plugins/element";
 import "@/plugins/prototypes";
 import "@/styles/style.css";

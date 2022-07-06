@@ -5,30 +5,21 @@ export default {
 
   state: {
     common: {},
-    isLoading: false,
-    accessToken: null,
+    user: {},
   },
 
   getters: {
     get: (state) => (key) => state[key],
-    isLoading: (state) => state.isLoading,
+    isUserAuthorized: (state) => !_.isEmpty(state.user),
   },
 
   mutations: {
-    isLoading(state, status = true) {
-      state.isLoading = status;
-    },
-
-    setProperty(state, { key, value }) {
+    set(state, { key, value }) {
       state.common[key] = value;
     },
 
-    login(state, token) {
-      state.accessToken = token;
-    },
-
-    logout(state) {
-      state.accessToken = null;
+    setUser(state, payload) {
+      state.user = payload;
     },
 
     ...mutations,
