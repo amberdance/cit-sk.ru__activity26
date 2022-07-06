@@ -42,7 +42,10 @@ export default {
 
   data() {
     return {
-      quote: {},
+      quote: {
+        title: "",
+        author: "",
+      },
     };
   },
 
