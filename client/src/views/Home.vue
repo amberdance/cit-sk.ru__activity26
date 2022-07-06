@@ -83,7 +83,7 @@ export default {
 .quotation {
   font-weight: 500;
   line-height: 1px;
-  margin-top: 18%;
+  margin-top: 300px;
 }
 
 .quotation__title {

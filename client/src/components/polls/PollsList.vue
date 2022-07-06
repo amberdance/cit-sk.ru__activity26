@@ -1,10 +1,10 @@
 <template>
-  <div :class="$style.pollsList">
+  <div :class="$style.polls_list">
     <h2 style="font-size: 40px">Опросы</h2>
 
-    <div :class="$style.pollsWrapper">
-      <div v-for="i in 3" :key="i" :class="$style.pollsWrapper">
-        <div :class="$style.pollsCard">
+    <div :class="$style.polls_wrapper">
+      <div v-for="i in 3" :key="i" :class="$style.polls_wrapper">
+        <div :class="$style.polls_card">
           <div :class="$style.image"></div>
 
           <div :class="$style.meta">
@@ -27,7 +27,7 @@
 </template>
 
 <style module>
-.pollsList {
+.polls_list {
   background-color: #9cacb5;
   color: var(--color-font--secondary);
   display: flex;
@@ -36,12 +36,12 @@
   align-items: center;
 }
 
-.pollsWrapper {
+.polls_wrapper {
   display: flex;
   justify-content: space-between;
 }
 
-.pollsCard {
+.polls_card {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -51,7 +51,7 @@
   margin-right: 20px;
 }
 
-.pollsCard,
+.polls_card,
 .image {
   border-radius: 15px;
 }
