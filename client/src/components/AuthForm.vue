@@ -134,7 +134,7 @@ export default {
 .title {
   font-size: 25px;
   font-weight: bold;
-  text-align: start;
+  text-align: center;
   margin: 1rem 0;
   color: var(--color-font--primary);
 }

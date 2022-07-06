@@ -18,12 +18,10 @@
 
         <div :class="$style.quotation">
           <div :class="$style.quotation__title">
-            <p>
-              “Владеть инициативой — значит иметь определённое преимущество”
-            </p>
+            <p>“{{ quote.title }}”</p>
           </div>
           <div :class="$style.quotation__subtitle">
-            <p>© Хосе Рауль Капабланка</p>
+            <p>© {{ quote.author }}</p>
           </div>
         </div>
       </div>
@@ -35,11 +33,21 @@
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
-
+import { getRandomQuote } from "@/utils/common.js";
 export default {
   components: {
     MainLayout,
     Statistics,
+  },
+
+  data() {
+    return {
+      quote: {},
+    };
+  },
+
+  async created() {
+    this.quote = await getRandomQuote();
   },
 };
 </script>
@@ -81,6 +89,6 @@ export default {
   font-style: italic;
 }
 .quotation__subtitle {
-  text-align: end;
+  font-size: 18px;
 }
 </style>
