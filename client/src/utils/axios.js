@@ -33,7 +33,7 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await axios.get("/auth/me");
     store.commit("setUser", camelize(data));
   } catch (e) {
-    if ("response" in e && e.response.status == 401) logout();
+    if ("code" in e && e.code == 401) logout();
     else console.error(e);
   } finally {
     next();
