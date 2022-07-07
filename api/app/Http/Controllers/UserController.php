@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class UserController extends Controller
 {
@@ -17,26 +19,40 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function registation(Request $request)
+    public function getUser(int $id)
+    {
+        return Response::jsonSuccess($this->userRepository->getUserById($id));
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function registration(Request $request): JsonResponse
     {
 
         $request->validate([
-            'phone' => ['required', 'regex:/(\+7)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/'],
-            'phone' => 'required',
-            'login' => 'required|email',
+            'name'     => 'required',
+            'surname'  => 'required',
+            'email'    => 'required|email',
+            'password' => 'required',
+            'phone'    => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
         ]);
 
-        $payload             = $request->all();
-        $payload["password"] = Hash::make($request->password);
+        try {
+            $user = $this->userRepository->createUser($request->all());
 
-        $user = $this->userRepository->createUser($payload);
+            return Response::jsonSuccess(['uuid' => $user->uuid], Response::HTTP_CREATED);
+        } catch (Throwable | ModelNotFoundException $e) {
+            $error = $e->errorInfo;
 
-        return Response::jsonSuccess(
-            [
-                'token' => $user->token,
-            ],
+            // Dublicate entry error
+            if ($error[1] == 1062) {
+                return Response::jsonError(1062, $error[2], Response::HTTP_OK);
+            }
 
-            Response::HTTP_CREATED
-        );
+            return Response::jsonError($e[1], $error[2], Response::HTTP_OK);
+        }
     }
 }

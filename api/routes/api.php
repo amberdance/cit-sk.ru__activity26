@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+ */
 
+Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::group([
     'middleware' => ['auth:api'],
     'prefix'     => 'auth',
@@ -24,3 +29,12 @@ Route::group([
         Route::post('/refresh', [\App\Http\Controllers\AuthController::class, 'refreshToken']);
         Route::get('/me', [\App\Http\Controllers\AuthController::class, 'me']);
     });
+
+/*
+|--------------------------------------------------------------------------
+| USERS
+|--------------------------------------------------------------------------
+ */
+
+Route::post('/users', [\App\Http\Controllers\UserController::class, 'registration']);
+Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser']);

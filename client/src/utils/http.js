@@ -1,4 +1,4 @@
-import { onWarning, onError } from "@/utils/alerts";
+import { onError } from "@/utils/alerts";
 import { has } from "lodash";
 
 const errorCollection = {
@@ -7,26 +7,15 @@ const errorCollection = {
       onError("Внутренняя ошибка сервера");
 
       return Promise.reject({
-        code: e.response.data.error.code,
-        error: e.response.data.error.message,
+        code: 500,
+        error: e.message,
       });
     },
 
     422: (e) => {
-      onError("Указанные данные заполнены некорректно");
-
       return Promise.reject({
-        code: e.response.data.error.code,
-        error: e.response.data.error.message,
-      });
-    },
-
-    413: (e) => {
-      onError("Превышен объем загружаемых данных");
-
-      return Promise.reject({
-        code: e.response.data.error.code,
-        error: e.response.data.error.message,
+        code: e.response.status,
+        error: e.response.data.message,
       });
     },
 
@@ -44,8 +33,6 @@ const errorCollection = {
     },
 
     404: (e) => {
-      onError(`Маршрут ${error.response.config.url} не найден`);
-
       return Promise.reject({
         code: 404,
         error: e.message,
@@ -79,24 +66,12 @@ const errorCollection = {
       return Promise.reject(e);
     },
 
-    100: () =>
+    //Duplicate entry
+    1062: (e) =>
       Promise.reject({
-        error: "Duplicate entry",
-        code: 10,
-      }),
-
-    20: () => {
-      onWarning("Превышен лимит вводимых символов");
-      return Promise.reject("Data too long");
-    },
-
-    30: (e) =>
-      Promise.reject({
-        error: e.error,
+        error: e.message,
         code: e.code,
       }),
-
-    404: (e) => onError(e.error),
   },
 };
 
@@ -105,21 +80,10 @@ export const responseManage = (response) => {
   else if ("data" in response.data) return Promise.resolve(response);
   else if ("error" in response.data) return errorManage(response.data);
 
-  //TO DO: Отработать возможные варианты
   return Promise.resolve(response);
 };
 
 export const errorManage = (error) => {
-  //TO DO: Отработать возможные варианты
-
-  if ("code" in error) {
-    if (
-      error.code.toLowerCase().includes("err") ||
-      error.message.toLowerCase().includes("err")
-    )
-      return Promise.reject(error);
-  }
-
   if ("response" in error) {
     if (error.response.status in errorCollection.HTTP)
       return errorCollection.HTTP[error.response.status](error);
@@ -127,6 +91,14 @@ export const errorManage = (error) => {
     return has(errorCollection.custom, error.response.data.code)
       ? errorCollection.custom[error.code](error)
       : errorCollection.custom[0](error);
+  }
+
+  if ("code" in error) {
+    if (
+      error.code.toLowerCase().includes("err") ||
+      error.message.toLowerCase().includes("err")
+    )
+      return Promise.reject(error);
   }
 
   return Promise.reject("error" in error ? error.error : error);

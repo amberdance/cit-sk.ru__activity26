@@ -72,6 +72,7 @@
 
 <script>
 import { random } from "lodash";
+import { incomeCallCodeValidator } from "@/utils/validator";
 
 export default {
   data() {
@@ -90,8 +91,8 @@ export default {
       rules: {
         code: [
           {
-            validator: (rule, val, callback) =>
-              /^\d{4}/g.test(val)
+            validator: (rule, code, callback) =>
+              incomeCallCodeValidator(code)
                 ? callback()
                 : callback(new Error("Поле обязательно для заполнения")),
           },
@@ -129,7 +130,7 @@ export default {
           },
         });
 
-        this.$router.push("/vote");
+        this.$router.push("/login");
       } catch (e) {
         if (e.code == 40) {
           this.isVerifyCodeExhausted = true;
