@@ -88,9 +88,8 @@ export default {
   border-bottom: 1px solid var(--color-divider);
 }
 .quotation_wrapper {
-  font-weight: 500;
   position: absolute;
-  top: calc(100vh - 230px);
+  top: calc(100vh - 250px);
   font-weight: bold;
 }
 

@@ -1,9 +1,11 @@
 <template>
   <div :class="$style.statistic_wrapper">
-    <div :class="$style.statistic_content">
-      <div v-for="(item, i) in stats" :key="i">
-        <div :class="$style.value">{{ getRandom() }}</div>
-        <div :class="$style.title">{{ item.label }}</div>
+    <div class="container" style="width: 100%">
+      <div :class="$style.statistic_content">
+        <div v-for="(item, i) in stats" :key="i">
+          <div :class="$style.count">{{ getRandom() }}</div>
+          <div :class="$style.title">{{ item.label }}</div>
+        </div>
       </div>
     </div>
   </div>
@@ -47,7 +49,8 @@ export default {
   justify-content: center;
 }
 .statistic_content {
-  min-width: 700px;
+  max-width: 700px;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   line-height: 30px;
@@ -58,7 +61,7 @@ export default {
   padding-top: 14px;
 }
 
-.statistic_content .value {
+.statistic_content .count {
   font-size: 44px;
 }
 </style>
