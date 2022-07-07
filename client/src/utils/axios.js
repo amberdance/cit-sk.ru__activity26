@@ -29,14 +29,21 @@ axios.interceptors.response.use(
 );
 
 router.beforeEach(async (to, from, next) => {
-  if (!$cookies.get("access_token") || _.isEmpty(store.getters.get("user"))) {
+  let isUserAuthorized = !_.isEmpty(store.getters.get("user"));
+
+  if (!isUserAuthorized || !$cookies.get("access_token")) {
     try {
       const { data } = await axios.get("/auth/me");
       store.commit("setUser", camelize(data));
+      isUserAuthorized = true;
     } catch (e) {
       if ("code" in e && e.code == 401) logout();
       else console.error(e);
     }
+  }
+
+  if ("onlyForUnauthorized" in to.meta && isUserAuthorized) {
+    next({ path: from.path });
   }
 
   next();

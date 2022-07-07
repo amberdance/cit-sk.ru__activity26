@@ -15,7 +15,7 @@
         >
       </template>
       <template v-else>
-        <router-link to="/auth" :class="$style.item"
+        <router-link to="/login" :class="$style.item"
           ><img src="@/assets/icon_user.png" class="icon-mini" /><span
             >Вход</span
           ></router-link
