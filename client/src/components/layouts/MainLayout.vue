@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="min-height: 100vh">
     <el-main :class="$style.content_wrapper">
       <el-header :class="[$style.header_wrapper, 'container']">
         <HeaderLayout />
@@ -54,7 +54,6 @@ export default {
 }
 
 .content_wrapper {
-  min-height: 1024px;
   background: url(../../assets/bg_primary.webp);
   background-position: 50% 80%;
   background-repeat: no-repeat;

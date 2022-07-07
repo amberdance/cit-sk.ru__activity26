@@ -1,32 +1,33 @@
 <template>
   <div>
     <MainLayout>
-      <div :class="[$style.main, 'container']">
-        <div :class="$style.main__title">
+      <div :class="[$style.main_wrapper, 'container']">
+        <div :class="$style.main_title">
           <h1>Уважаемые жители Ставропольского края!</h1>
         </div>
 
-        <div :class="$style.main__subtitle">
-          <h2>
-            Предлагаем вам принять участие в беспрецендентном опросе. Опрос
-            прошел - душевное счастье обрел!
+        <div :class="$style.divider"></div>
+        <div :class="$style.main_subtitle">
+          <h2 ref="mainSubtitle">
+            Aute pariatur eu laborum aliqua labore reprehenderit dolor et minim
+            qui ea. Nulla incididunt incididunt velit amet aliquip sunt ullamco
+            exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
           </h2>
         </div>
         <div class="btn_primary" @click="$router.push('/vote')">
           Пройти опрос
         </div>
 
-        <div :class="$style.quotation">
+        <div :class="[$style.quotation_wrapper, 'container']">
           <div :class="$style.quotation__title">
-            <p>“{{ quote.title }}”</p>
+            <q>{{ quote.title }}</q>
           </div>
-          <div :class="$style.quotation__subtitle">
-            <p>© {{ quote.author }}</p>
-          </div>
+
+          <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
         </div>
       </div>
+      <Statistics :class="$style.statistic" />
     </MainLayout>
-    <Statistics />
   </div>
 </template>
 
@@ -56,8 +57,7 @@ export default {
 </script>
 
 <style module>
-.main {
-  margin-top: 130px;
+.main_wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -65,33 +65,52 @@ export default {
   flex-direction: column;
 }
 
-.main h1 {
-  margin: 0px;
+.main_wrapper h1 {
+  margin: 0;
 }
 
-.main__title {
+.main_wrapper h2 {
+  margin: 0 0 2rem 0;
+}
+
+.main_title,
+.main_subtitle {
   max-width: 830px;
-  margin-bottom: 40px;
+  line-height: 30px;
 }
 
-.main__subtitle {
-  max-width: 700px;
-  line-height: 30px;
+.main_subtitle {
   margin: 0 auto;
 }
-
-.quotation {
+.divider {
+  width: 60%;
+  margin: 1.5rem 0;
+  border-bottom: 1px solid var(--color-divider);
+}
+.quotation_wrapper {
   font-weight: 500;
-  line-height: 1px;
-  margin-top: 300px;
+  position: absolute;
+  top: calc(100vh - 180px);
+  font-weight: bold;
 }
 
 .quotation__title {
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 20px;
   font-style: italic;
+  quotes: "«" "»";
 }
 .quotation__subtitle {
   font-size: 18px;
+  margin-top: 0.5rem;
+}
+.quotation__subtitle::before {
+  content: "\00a9";
+  margin-right: 5px;
+}
+
+.statistic {
+  position: absolute;
+  bottom: -30px;
+  width: 100%;
 }
 </style>
