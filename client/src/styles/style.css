@@ -58,7 +58,6 @@
   font-display: swap;
 }
 
-
 :root {
   --color-primary: #0469ff;
   --color-secondary: #122050;
@@ -69,7 +68,7 @@
   --color-link: #0469ff;
   --color-divider: #dddddd;
   --color-font--primary: #363636;
-  --color-font--secondary: #FFFFFF;
+  --color-font--secondary: #ffffff;
 }
 
 /************************** NORMALIZED ***************************/
@@ -179,6 +178,10 @@ h2 {
 .icon-mini {
   height: 24px;
   width: 24px;
+}
+
+.fill-height {
+  min-height: 100vh;
 }
 
 /************************** APP ***************************/

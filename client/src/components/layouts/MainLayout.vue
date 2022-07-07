@@ -1,5 +1,5 @@
 <template>
-  <el-container style="min-height: 100vh">
+  <el-container class="fill-height">
     <el-main :class="$style.content_wrapper">
       <el-header :class="[$style.header_wrapper, 'container']">
         <HeaderLayout />

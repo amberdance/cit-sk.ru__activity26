@@ -4,7 +4,7 @@
       <div :class="$style.statistic_content">
         <div v-for="(item, i) in stats" :key="i">
           <div :class="$style.count">{{ getRandom() }}</div>
-          <div :class="$style.title">{{ item.label }}</div>
+          <div :class="$style.label">{{ item.label }}</div>
         </div>
       </div>
     </div>
@@ -18,15 +18,15 @@ export default {
       stats: [
         {
           label: "Активных граждан",
-          count: 23000,
-        },
-        {
-          label: "Прошло голосований",
-          count: 1350,
+          count: 0,
         },
         {
           label: "Принято мнений",
-          count: 100000,
+          count: 0,
+        },
+        {
+          label: "Пройдено опросов",
+          count: 0,
         },
       ],
     };
@@ -42,26 +42,25 @@ export default {
 
 <style module>
 .statistic_wrapper {
-  padding: 1.5rem 0;
   background-color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .statistic_content {
+  height: 110px;
   max-width: 700px;
   margin: auto;
   display: flex;
   justify-content: space-between;
-  line-height: 30px;
   align-items: center;
-  color: var(--color-font--secondary);
   text-align: center;
   text-transform: lowercase;
-  padding-top: 14px;
+  color: var(--color-font--secondary);
 }
 
 .statistic_content .count {
   font-size: 44px;
+}
+
+.statistic_content .label {
+  font-size: 18px;
 }
 </style>

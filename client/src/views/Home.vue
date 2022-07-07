@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainLayout style="min-height: calc(100vh - 122px)">
+    <MainLayout style="min-height: calc(100vh - 110px)">
       <div :class="[$style.main_wrapper, 'container']">
         <div :class="$style.main_title">
           <h1>Уважаемые жители Ставропольского края!</h1>
@@ -8,7 +8,7 @@
 
         <div :class="$style.divider"></div>
         <div :class="$style.main_subtitle">
-          <h2 ref="mainSubtitle">
+          <h2>
             Aute pariatur eu laborum aliqua labore reprehenderit dolor et minim
             qui ea. Nulla incididunt incididunt velit amet aliquip sunt ullamco
             exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
@@ -50,7 +50,7 @@ export default {
     };
   },
 
-  async created() {
+  async mounted() {
     this.quote = await getRandomQuote();
   },
 };
@@ -89,7 +89,7 @@ export default {
 }
 .quotation_wrapper {
   position: absolute;
-  top: calc(100vh - 250px);
+  top: calc(100vh - 230px);
   font-weight: bold;
 }
 

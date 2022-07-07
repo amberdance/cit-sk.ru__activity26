@@ -7,7 +7,6 @@
         :rules="rules"
         :model="formData"
         ref="form"
-        label-position="top"
         size="large"
       >
         <div :class="$style.policy_text">
