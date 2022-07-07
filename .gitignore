@@ -1,3 +1,4 @@
 /uploads
-.env
 vetur.config.js
+jsconfig.json
+.htaccess
