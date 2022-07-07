@@ -90,7 +90,7 @@ export default {
 .quotation_wrapper {
   font-weight: 500;
   position: absolute;
-  top: calc(100vh - 110px);
+  top: calc(100vh - 210px);
   font-weight: bold;
 }
 
