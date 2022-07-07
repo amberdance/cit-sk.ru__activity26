@@ -21,11 +21,11 @@ class CreateUsersTable extends Migration
             $table->string('surname');
             $table->string('patronymic')->nullable();
             $table->string('email')->unique();
-            $table->string('phone', 14)->unique();
             $table->string('password');
+            $table->string('phone', 14)->unique();
             $table->string('ip_address');
             $table->boolean('policy_agree')->default(true);
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(false);
             $table->boolean('is_admin')->default(false);
         });
     }

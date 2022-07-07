@@ -48,9 +48,9 @@
 </template>
 
 <script>
-import { APP_TITLE } from "@/values.js";
 import MainLayout from "./layouts/MainLayout.vue";
-import { emailValidate } from "@/utils/common";
+import { APP_TITLE } from "@/values.js";
+import { emailValidator } from "@/utils/validator";
 
 export default {
   components: {
@@ -72,11 +72,12 @@ export default {
           {
             trigger: "blur",
             validator: (rule, email, callback) =>
-              emailValidate(email)
+              emailValidator(email)
                 ? callback()
                 : callback(new Error("Укажите адрес электронной почты")),
           },
         ],
+
         password: [{ required: "true", trigger: "blur" }],
       },
     };

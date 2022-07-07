@@ -9,20 +9,20 @@ class Response extends HttpResponse
 {
 
     /**
-     * @param array|null $payload
+     * @param mixed $payload
      * @param int $httpCode
      * @param array $headers
      *
      * @return JsonResponse
      */
-    public static function jsonSuccess(?array $payload = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
+    public static function jsonSuccess(mixed $payload = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
     {
 
         $params = [
             'message' => 'success',
         ];
 
-        if ($payload) {
+        if ((is_array($payload) && empty($payload)) || $payload) {
             $params['data'] = $payload;
         }
 

@@ -3,6 +3,8 @@ namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -12,22 +14,26 @@ class UserRepository implements UserRepositoryInterface
         return User::all();
     }
 
-    public function getUserById(int $id)
+    /**
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function getUserById(int $id): mixed
     {
-        return User::where('id', $id)->get();
+        return User::where(['is_active' => true, 'id' => $id])->findOrFail();
     }
 
     public function createUser(array $params): User
     {
+
         return User::create([
-
-            'email'      => $params['email'],
-            'password'   => $params['password'],
-
-
             'name'       => $params['name'],
             'surname'    => $params['surname'],
             'patronymic' => $params['patronymic'],
+            'email'      => $params['email'],
+            'password'   => Hash::make($params['password']),
+            'uuid'       => Str::uuid(),
             'phone'      => $params['phone'],
             'ip_address' => request()->ip(),
         ]);

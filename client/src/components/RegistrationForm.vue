@@ -80,9 +80,13 @@
           </div>
         </div>
 
-        <el-form-item :class="$style.form_item" label="Логин" prop="login">
+        <el-form-item
+          :class="$style.form_item"
+          label="Электронная почта"
+          prop="email"
+        >
           <el-input
-            v-model="formData.login"
+            v-model="formData.email"
             clearable
             :disabled="isFormSubmitted"
           />
@@ -95,7 +99,26 @@
             v-model="formData.password"
             clearable
             :disabled="isFormSubmitted"
+            show-password
+            prefix-icon="el-icon-lock"
             type="password"
+            autocomplete="off"
+          />
+        </el-form-item>
+
+        <el-form-item
+          :class="$style.form_item"
+          label="Повторите пароль"
+          prop="checkPassword"
+        >
+          <el-input
+            v-model="formData.checkPassword"
+            clearable
+            :disabled="isFormSubmitted"
+            show-password
+            prefix-icon="el-icon-lock"
+            type="password"
+            autocomplete="off"
           />
         </el-form-item>
 
@@ -103,6 +126,7 @@
           <p>
             <el-checkbox
               v-model="formData.policyAgree"
+              :disabled="isFormSubmitted"
               label="Я соглашаюсь на обработку моих персональных
                 данных, в соответствии с требованиями федерального закона от
                 27.07.2006 № 152-ФЗ 'О персональных данных'"
@@ -112,7 +136,11 @@
         </el-form-item>
 
         <div class="a-right">
-          <el-button type="primary" size="default" @click="submit"
+          <el-button
+            type="primary"
+            size="default"
+            :disabled="isFormSubmitted"
+            @click="submit"
             >Подтвердить</el-button
           >
         </div>
@@ -126,6 +154,12 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import PhoneValidateDialog from "./dialogs/PhoneValidateDialog";
 import { mask } from "vue-the-mask";
+import {
+  passwordStrengthValidator,
+  matchPasswordsValidator,
+  phoneNumberValidator,
+  emailValidator,
+} from "@/utils/validator";
 
 export default {
   components: {
@@ -141,21 +175,17 @@ export default {
       isFormSubmitted: false,
 
       formData: {
-        surname: null,
         name: null,
+        surname: null,
         patronymic: null,
         phone: null,
-        policyAgree: [], // с boolean работает неккоректно
+        email: null,
+        password: null,
+        checkPassword: null,
+        policyAgree: [],
       },
 
       rules: {
-        surname: [
-          {
-            required: true,
-            message: "Обязательное поле",
-          },
-        ],
-
         name: [
           {
             required: true,
@@ -163,27 +193,50 @@ export default {
           },
         ],
 
-        login: [
+        surname: [
           {
             required: true,
             message: "Обязательное поле",
+          },
+        ],
+
+        email: [
+          {
+            required: true,
+            validator: (rule, email, callback) =>
+              emailValidator(email)
+                ? callback()
+                : callback(new Error("Укажите адрес электронной почты")),
           },
         ],
 
         password: [
           {
             required: true,
-            message: "Обязательное поле",
+            validator: (rule, password, callback) =>
+              passwordStrengthValidator(password)
+                ? callback()
+                : callback(new Error("Слабый пароль")),
+          },
+        ],
+
+        checkPassword: [
+          {
+            required: true,
+            validator: (rule, password, callback) =>
+              matchPasswordsValidator(
+                password,
+                this.formData.password,
+                callback
+              ),
           },
         ],
 
         phone: [
           {
             required: true,
-            validator: (rule, val, callback) =>
-              /(\+7)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/g.test(
-                val
-              )
+            validator: (rule, phone, callback) =>
+              phoneNumberValidator(phone)
                 ? callback()
                 : callback(new Error("Укажите номер телефона")),
           },
@@ -211,21 +264,22 @@ export default {
       try {
         this.isLoading = true;
 
-        const { token } = await this.$post("/users", {
+        const { uuid } = await this.$http.post("/users", {
           name: this.formData.name,
           surname: this.formData.surname,
           patronymic: this.formData.patronymic,
           phone: this.formData.phone,
-          login: this.formData.login,
+          email: this.formData.email,
           password: this.formData.password,
         });
 
-        $cookies.set("access_token", token);
-
         this.isFormSubmitted = true;
-        this.$refs.dialog.show();
+        this.$refs.dialog.show({
+          uuid,
+          phone: this.formData.phone,
+        });
       } catch (e) {
-        if (e.code == 30)
+        if (e.code == 1062)
           return this.$onWarning(
             `Номер телефона ${this.formData.phone} был ранее зарегистрирован`,
             5500
