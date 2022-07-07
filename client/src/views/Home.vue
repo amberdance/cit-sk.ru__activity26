@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainLayout>
+    <MainLayout style="min-height: calc(100vh - 122px)">
       <div :class="[$style.main_wrapper, 'container']">
         <div :class="$style.main_title">
           <h1>Уважаемые жители Ставропольского края!</h1>
@@ -90,7 +90,7 @@ export default {
 .quotation_wrapper {
   font-weight: 500;
   position: absolute;
-  top: calc(100vh - 210px);
+  top: calc(100vh - 230px);
   font-weight: bold;
 }
 

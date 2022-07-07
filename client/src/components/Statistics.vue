@@ -45,7 +45,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 4px 7px 6px #6d8491;
 }
 .statistic_content {
   min-width: 700px;
