@@ -26,8 +26,8 @@
           <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
         </div>
       </div>
-      <Statistics :class="$style.statistic" />
     </MainLayout>
+    <Statistics />
   </div>
 </template>
 
@@ -90,7 +90,7 @@ export default {
 .quotation_wrapper {
   font-weight: 500;
   position: absolute;
-  top: calc(100vh - 180px);
+  top: calc(100vh - 210px);
   font-weight: bold;
 }
 
@@ -106,11 +106,5 @@ export default {
 .quotation__subtitle::before {
   content: "\00a9";
   margin-right: 5px;
-}
-
-.statistic {
-  position: absolute;
-  bottom: -30px;
-  width: 100%;
 }
 </style>
