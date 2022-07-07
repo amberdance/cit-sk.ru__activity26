@@ -19,6 +19,11 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
+    public function getUser(int $id)
+    {
+        return Response::jsonSuccess($this->userRepository->getUserById($id));
+    }
+
     /**
      * @param Request $request
      *
@@ -32,7 +37,7 @@ class UserController extends Controller
             'surname'  => 'required',
             'email'    => 'required|email',
             'password' => 'required',
-            'phone'    => ['required', 'regex:/(\+7)[- _]*\(?[- _]*(\d{3}[- _]*\)?([- _]*\d){7}|\d\d[- _]*\d\d[- _]*\)?([- _]*\d){6})/'],
+            'phone'    => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
         ]);
 
         try {

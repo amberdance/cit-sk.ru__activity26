@@ -21,7 +21,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserById(int $id): mixed
     {
-        return User::where(['is_active' => true, 'id' => $id])->findOrFail();
+        return User::where(['is_active' => true, 'id' => $id])->firstOrFail();
     }
 
     public function createUser(array $params): User
