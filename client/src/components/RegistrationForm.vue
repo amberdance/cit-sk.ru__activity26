@@ -279,10 +279,15 @@ export default {
           phone: this.formData.phone,
         });
       } catch (e) {
+        if (e.code == 422)
+          return this.$onWarning("Заполните все обязательные поля");
+
+        if (e.error == "The phone format is invalid.")
+          return this.$onWarning("Некорректый номер телефона");
+
         if (e.code == 1062)
           return this.$onWarning(
-            `Номер телефона ${this.formData.phone} был ранее зарегистрирован`,
-            5500
+            `Номер телефона ${this.formData.phone} был ранее зарегистрирован`
           );
 
         console.error(e);

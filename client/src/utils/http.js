@@ -7,26 +7,15 @@ const errorCollection = {
       onError("Внутренняя ошибка сервера");
 
       return Promise.reject({
-        code: 505,
+        code: 500,
         error: e.message,
       });
     },
 
     422: (e) => {
-      onError("Указанные данные заполнены некорректно");
-
       return Promise.reject({
-        code: e.response.data.error.code,
-        error: e.response.data.error.message,
-      });
-    },
-
-    413: (e) => {
-      onError("Превышен объем загружаемых данных");
-
-      return Promise.reject({
-        code: e.response.data.error.code,
-        error: e.response.data.error.message,
+        code: e.response.status,
+        error: e.response.data.message,
       });
     },
 
@@ -44,8 +33,6 @@ const errorCollection = {
     },
 
     404: (e) => {
-      onError(`Маршрут ${e.response.config.url} не найден`);
-
       return Promise.reject({
         code: 404,
         error: e.message,
