@@ -21,6 +21,8 @@ import {
   MessageBox,
   Message,
   Notification,
+  Row,
+  Col,
 } from "element-ui";
 
 [
@@ -38,6 +40,8 @@ import {
   Link,
   Loading,
   Main,
+  Row,
+  Col,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);
