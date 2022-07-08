@@ -42,6 +42,21 @@ class Response extends HttpResponse
         }
 
         return response()->json($params, $httpCode, $headers);
+    }
 
+    /**
+     * @return JsonResponse
+     */
+    public static function jsonUnathorized(): JsonResponse
+    {
+        return response()->json(['message' => Constants::USER_UNATHORIZED_MESSAGE], Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public static function jsonForbidden(): JsonResponse
+    {
+        return response()->json(['message' => Constants::USER_FORIDDEN_MESSAGE], Response::HTTP_FORBIDDEN);
     }
 }

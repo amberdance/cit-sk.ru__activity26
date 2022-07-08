@@ -21,7 +21,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUserById(int $id): User
     {
-        return User::where(['is_active' => true, 'id' => $id])->firstOrFail();
+        return User::findOrFail($id);
     }
 
     /**
@@ -32,6 +32,16 @@ class UserRepository implements UserRepositoryInterface
     public function getUserByUUID(string $uuid): User
     {
         return User::where('uuid', $uuid)->firstOrFail();
+    }
+
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function getUserByEmail(string $email): User
+    {
+        return User::where('email', $email)->firstOrFail();
     }
 
     public function store(array $params): User

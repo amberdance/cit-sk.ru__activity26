@@ -22,6 +22,13 @@ interface UserRepositoryInterface
     public function getUserByUUID(string $uuid): User;
 
     /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public function getUserByEmail(string $email): User;
+
+    /**
      * @param array $params
      *
      * @return User
