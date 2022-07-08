@@ -17,24 +17,33 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @param int $id
      *
-     * @return mixed
+     * @return User
      */
-    public function getUserById(int $id): mixed
+    public function getUserById(int $id): User
     {
         return User::where(['is_active' => true, 'id' => $id])->firstOrFail();
     }
 
-    public function createUser(array $params): User
+    /**
+     * @param string $uuid
+     *
+     * @return User
+     */
+    public function getUserByUUID(string $uuid): User
     {
+        return User::where('uuid', $uuid)->firstOrFail();
+    }
 
+    public function store(array $params): User
+    {
         return User::create([
             'name'       => $params['name'],
             'surname'    => $params['surname'],
             'patronymic' => $params['patronymic'],
             'email'      => $params['email'],
+            'phone'      => $params['phone'],
             'password'   => Hash::make($params['password']),
             'uuid'       => Str::uuid(),
-            'phone'      => $params['phone'],
             'ip_address' => request()->ip(),
         ]);
     }
@@ -49,8 +58,27 @@ class UserRepository implements UserRepositoryInterface
         //
     }
 
-    public function isRegistered(int $id)
+    /**
+     * @param int $id
+     * @param bool $state
+     * @param mixed
+     *
+     * @return void
+     */
+    public function setUserActiveById(int $id, $state = true): void
     {
-        return (bool) User::select('id')->where('id', $id)->count();
+        User::findOrFail($id)->update(['is_active' => $state]);
+    }
+
+    /**
+     * @param User $user
+     * @param bool $state
+     *
+     * @return void
+     */
+    public function setUserActiveByModel(User $user, $state = true): void
+    {
+        $user->is_active = $state;
+        $user->save();
     }
 }

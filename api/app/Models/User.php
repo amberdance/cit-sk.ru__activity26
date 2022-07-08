@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+
 /**
  *  @property int $id
  *  @property int $policy_agree
@@ -15,18 +20,12 @@
  *  @property string $phone
  */
 
-namespace App\Models;
-
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-
 class User extends Authenticatable implements JWTSubject
 {
 
     protected $guarded = [];
 
     protected $hidden = [
-        'id',
         'name',
         'surname',
         'patronymic',
@@ -53,7 +52,7 @@ class User extends Authenticatable implements JWTSubject
      * @return string
      */
     public function getFullNameAttribute(): string
-    {   
+    {
         return "{$this->surname} {$this->name}" . ($this->patronymic ? " {$this->patronymic}" : "");
     }
 

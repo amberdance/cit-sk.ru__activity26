@@ -2,7 +2,6 @@
   <MainLayout>
     <div class="container">
       <el-form
-        v-loading="isLoading"
         :class="$style.registration_wrapper"
         :rules="rules"
         :model="formData"
@@ -11,7 +10,7 @@
         hide-required-asterisk="true"
       >
         <h2>Регистрация пользователя</h2>
-        <div :class="$style.formWrapper">
+        <div :class="$style.formWrapper" v-loading="isLoading">
           <div :class="$style.heading">Личные данные</div>
 
           <div :class="$style.form_item">
@@ -67,7 +66,7 @@
           </div>
         </div>
 
-        <div :class="$style.formWrapper">
+        <div :class="$style.formWrapper" v-loading="isLoading">
           <div :class="$style.heading">Данные аккаунта</div>
 
           <div :class="$style.form_item">
