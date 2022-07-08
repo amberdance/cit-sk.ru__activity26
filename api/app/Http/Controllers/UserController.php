@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
@@ -12,16 +12,15 @@ use Throwable;
 class UserController extends Controller
 {
 
+    /**
+     * @var UserRepositoryInterface
+     */
     private $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
     {
         $this->userRepository = $userRepository;
-    }
 
-    public function getUser(int $id)
-    {
-        return Response::jsonSuccess($this->userRepository->getUserById($id));
     }
 
     /**
@@ -29,30 +28,58 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function registration(Request $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
 
         $request->validate([
-            'name'     => 'required',
-            'surname'  => 'required',
-            'email'    => 'required|email',
-            'password' => 'required',
-            'phone'    => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
+            'name'            => 'required',
+            'surname'         => 'required',
+            'confirmPassword' => 'required',
+            'email'           => 'required|email',
+            'password'        => ['required', 'regex:/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/'],
+            'phone'           => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
         ]);
 
-        try {
-            $user = $this->userRepository->createUser($request->all());
+        if ($request->password !== $request->confirmPassword) {
+            return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-            return Response::jsonSuccess(['uuid' => $user->uuid], Response::HTTP_CREATED);
-        } catch (Throwable | ModelNotFoundException $e) {
+        try {
+            $user       = $this->userRepository->store($request->all());
+            $verifyCode = rand(1000, 9999);
+
+            $params = [
+                'user_id'     => $user->id,
+                'verify_code' => $verifyCode,
+                'response'    => \App\Models\Registration::makeIncomeCall($user->phone, $verifyCode),
+            ];
+
+            (new \App\Repositories\RegistrationRepository)->store($params);
+
+            return Response::jsonSuccess([
+                'uuid'  => $user->uuid,
+                'phone' => $user->phone,
+            ],
+                Response::HTTP_CREATED
+            );
+        } catch (Throwable $e) {
             $error = $e->errorInfo;
 
             // Dublicate entry error
             if ($error[1] == 1062) {
-                return Response::jsonError(1062, $error[2], Response::HTTP_OK);
+                return Response::jsonError($error[1], $error[2]);
             }
-
-            return Response::jsonError($e[1], $error[2], Response::HTTP_OK);
         }
     }
+
+    /**
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function getUser(int $id): JsonResponse
+    {
+        return Response::jsonSuccess($this->userRepository->getUserById($id));
+    }
+
 }

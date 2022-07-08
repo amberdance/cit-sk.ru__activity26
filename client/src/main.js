@@ -3,6 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import VueCookies from "vue-cookies";
+import VueCountdown from "@chenfengyuan/vue-countdown";
+
 import "@/utils/axios";
 import "@/plugins/element";
 import "@/plugins/prototypes";
@@ -11,6 +13,7 @@ import "@/styles/style.css";
 Vue.config.productionTip = false;
 
 Vue.use(VueCookies);
+Vue.component(VueCountdown.name, VueCountdown);
 
 new Vue({
   router,

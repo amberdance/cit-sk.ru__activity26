@@ -29,7 +29,7 @@ class Response extends HttpResponse
         return response()->json($params, $httpCode, $headers);
     }
 
-    public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_INTERNAL_SERVER_ERROR, array $headers = []): JsonResponse
+    public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
     {
         $params = [
             'error' => [
@@ -42,6 +42,21 @@ class Response extends HttpResponse
         }
 
         return response()->json($params, $httpCode, $headers);
+    }
 
+    /**
+     * @return JsonResponse
+     */
+    public static function jsonUnathorized(): JsonResponse
+    {
+        return response()->json(['message' => Constants::USER_UNATHORIZED_MESSAGE], Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public static function jsonForbidden(): JsonResponse
+    {
+        return response()->json(['message' => Constants::USER_FORIDDEN_MESSAGE], Response::HTTP_FORBIDDEN);
     }
 }

@@ -1,10 +1,10 @@
 <template>
   <el-dialog
-    v-model="isVisible"
+    :visible="isVisible"
     :modal="false"
     :append-to-body="true"
     :close-on-click-modal="false"
-    :lock-scroll="false"
+    :lock-scroll="true"
     :show-close="false"
     width="30%"
     top="5%"
@@ -27,14 +27,14 @@
           >
             <el-input
               v-model="formData.code"
-              v-maska="'####'"
+              v-mask="'####'"
               clearable
-              :disabled="attempsCount >= 5 || isVerifyCodeExhausted"
+              :disabled="attempsCount >= 5 || isSmsExpired"
             />
           </el-form-item>
 
-          <vue-countdown
-            v-if="!isVerifyCodeExhausted"
+          <countdown
+            v-if="!isSmsExpired"
             v-slot="{ minutes, seconds }"
             ref="countdown"
             tag="div"
@@ -44,7 +44,7 @@
           >
             Через 0{{ minutes }}:{{ formatTime(seconds) }} код можно запросить
             повторно
-          </vue-countdown>
+          </countdown>
 
           <el-button
             type="primary"
@@ -62,7 +62,7 @@
 
           <p>
             <span style="font-weight: bold; margin-right: 0.3rem">Пример:</span
-            ><span>{{ getRandomInt() }}</span>
+            ><span>8951</span>
           </p></el-col
         >
       </el-row>
@@ -71,21 +71,24 @@
 </template>
 
 <script>
-import { random } from "lodash";
 import { incomeCallCodeValidator } from "@/utils/validator";
+import { mask } from "vue-the-mask";
+import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
 export default {
+  directives: { mask },
+
   data() {
     return {
       isVisible: false,
       isLoading: false,
-      isVerifyCodeExhausted: false,
+      isSmsExpired: false,
       attempsCount: 1,
       time: 299999,
-      errorMessage: "Неверный код",
 
       formData: {
         code: "",
+        uuid: null,
       },
 
       rules: {
@@ -94,7 +97,7 @@ export default {
             validator: (rule, code, callback) =>
               incomeCallCodeValidator(code)
                 ? callback()
-                : callback(new Error("Поле обязательно для заполнения")),
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
       },
@@ -103,16 +106,15 @@ export default {
 
   computed: {
     buttonLabel() {
-      return this.isVerifyCodeExhausted || this.attempsCount >= 5
-        ? "Запросить код заново"
+      return this.isSmsExpired || this.attempsCount >= 5
+        ? "Запросить код повторно"
         : "Продолжить";
     },
   },
 
   methods: {
     async submit() {
-      if (this.isVerifyCodeExhausted || this.attempsCount >= 5)
-        await this.resetCode();
+      if (this.isSmsExpired || this.attempsCount >= 5) await this.resetCode();
       else {
         await this.$refs.form.validate();
         await this.verifyCode();
@@ -123,25 +125,24 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$http.get("/verify-code", {
-          params: {
-            token: localStorage.getItem("token"),
-            code: this.formData.code,
-          },
+        await this.$http.get("/registration/verify-code", {
+          uuid: this.formData.uuid,
+          code: this.formData.code,
         });
 
         this.$router.push("/login");
+        this.$onSuccess(
+          "Ваш профиль подтвержден, теперь вы можете авторизоваться для прохождения опросов"
+        );
       } catch (e) {
-        if (e.code == 40) {
-          this.isVerifyCodeExhausted = true;
-
-          this.$onWarning("Код просрочен", 6000);
+        if (e.code == 10) {
+          this.isSmsExpired = true;
+          this.$onWarning("Код просрочен");
         }
 
-        if (e.code == 50) {
+        if (e.code == 11) {
           this.attempsCount = this.attempsCount + 1;
-
-          this.$onWarning("Неверный код");
+          this.$onWarning("Неверно указан код");
         }
 
         this.formData.code = "";
@@ -155,26 +156,27 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$http.get("/reset-code", {
-          params: { token: localStorage.getItem("token") },
+        await this.$http.get("/registration/reset-code", {
+          uuid: this.formData.uuid,
         });
 
         this.resetCountdown();
       } catch (e) {
-        if (e.code == 50) this.$onWarning("Неверный код", 6000);
-
+        this.$onError();
         console.error(e);
       } finally {
         this.isLoading = false;
       }
     },
 
-    show() {
+    show(uuid) {
+      this.formData.uuid = uuid;
       this.isVisible = true;
     },
 
     onCountdownEnd() {
-      this.isVerifyCodeExhausted = true;
+      this.formData.code = "";
+      this.isSmsExpired = true;
     },
 
     resetCountdown() {
@@ -183,7 +185,7 @@ export default {
 
       setTimeout(() => {
         this.time = 299999;
-        this.isVerifyCodeExhausted = false;
+        this.isSmsExpired = false;
 
         setTimeout(() => {
           this.$refs.countdown.start();
@@ -193,10 +195,6 @@ export default {
 
     formatTime(value) {
       return value < 10 ? "0" + value : value;
-    },
-
-    getRandomInt() {
-      return random(1000, 9999);
     },
   },
 };

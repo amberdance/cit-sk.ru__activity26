@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response;
+use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,11 +23,15 @@ class AuthController extends Controller
             "password" => "required",
         ]);
 
+        if (!(new UserRepository)->getUserByEmail($request->login)->is_active) {
+            return Response::jsonForbidden();
+        }
+
         if (!$token = auth()->attempt([
             'email'    => $request->login,
             'password' => $request->password,
         ])) {
-            return response()->json(['message' => 'Unauthorized'], Response::HTTP_UNAUTHORIZED);
+            return Response::jsonUnathorized();
         }
 
         return Response::jsonSuccess($this->getJsonJwtData($token));
