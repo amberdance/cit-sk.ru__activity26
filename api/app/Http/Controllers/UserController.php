@@ -33,12 +33,17 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'name'     => 'required',
-            'surname'  => 'required',
-            'email'    => 'required|email',
-            'password' => 'required',
-            'phone'    => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
+            'name'            => 'required',
+            'surname'         => 'required',
+            'email'           => 'required|email',
+            'confirmPassword' => 'required',
+            'password'        => ['required', 'regex:/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/'],
+            'phone'           => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
         ]);
+
+        if ($request->password !== $request->confirmPassword) {
+            return response()->json(['message' => 'Passwords not matched'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         try {
             $user = $this->userRepository->createUser($request->all());

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSmsValidationsTable extends Migration
+class CreateRegistrationVerifyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSmsValidationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sms_validations', function (Blueprint $table) {
+        Schema::create('registration_verify', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('verify_code', false, true);
             $table->integer('user_id');
+            $table->integer('verify_code', false, true);
             $table->integer('error_code');
             $table->integer('message_id');
             $table->string('type', 50)->default('call');
@@ -32,6 +32,6 @@ class CreateSmsValidationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sms_validations');
+        Schema::dropIfExists('registration_verify');
     }
 }

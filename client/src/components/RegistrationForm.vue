@@ -109,10 +109,10 @@
         <el-form-item
           :class="$style.form_item"
           label="Повторите пароль"
-          prop="checkPassword"
+          prop="confirmPassword"
         >
           <el-input
-            v-model="formData.checkPassword"
+            v-model="formData.confirmPassword"
             clearable
             :disabled="isFormSubmitted"
             show-password
@@ -181,7 +181,7 @@ export default {
         phone: null,
         email: null,
         password: null,
-        checkPassword: null,
+        confirmPassword: null,
         policyAgree: [],
       },
 
@@ -220,7 +220,7 @@ export default {
           },
         ],
 
-        checkPassword: [
+        confirmPassword: [
           {
             required: true,
             validator: (rule, password, callback) =>
@@ -271,6 +271,7 @@ export default {
           phone: this.formData.phone,
           email: this.formData.email,
           password: this.formData.password,
+          confirmPassword: this.formData.confirmPassword
         });
 
         this.isFormSubmitted = true;
