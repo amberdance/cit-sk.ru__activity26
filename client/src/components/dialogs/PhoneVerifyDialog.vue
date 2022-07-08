@@ -131,16 +131,18 @@ export default {
           code: this.formData.code,
         });
 
+
         this.$onSuccess(
           "Ваш профиль успешно подтвержден, теперь вы можете авторизоваться для прохождения опросов"
         );
         this.$router.push("/login");
       } catch (e) {
+
         if (e.code == 10) {
           this.isVerifyCodeExhausted = true;
           this.$onWarning("Код просрочен", 6000);
         }
-
+        
         if (e.code == 11) {
           this.attempsCount = this.attempsCount + 1;
           this.$onWarning("Неверно указан код", 6000);
@@ -164,7 +166,6 @@ export default {
         this.resetCountdown();
       } catch (e) {
         if (e.code == 11) this.$onWarning("Неверно указан код", 6000);
-
         console.error(e);
       } finally {
         this.isLoading = false;
