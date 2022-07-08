@@ -42,7 +42,7 @@ class UserController extends Controller
         ]);
 
         if ($request->password !== $request->confirmPassword) {
-            return response()->json(['message' => 'Passwords not matched'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            return response()->json(['message' => 'Passwords is not match'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         try {

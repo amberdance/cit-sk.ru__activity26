@@ -271,7 +271,7 @@ export default {
           phone: this.formData.phone,
           email: this.formData.email,
           password: this.formData.password,
-          confirmPassword: this.formData.confirmPassword
+          confirmPassword: this.formData.confirmPassword,
         });
 
         this.isFormSubmitted = true;
