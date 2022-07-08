@@ -10,7 +10,9 @@
         hide-required-asterisk="true"
       >
         <h2>Регистрация пользователя</h2>
+
         <div :class="$style.formWrapper" v-loading="isLoading">
+
           <div :class="$style.heading">Личные данные</div>
 
           <div :class="$style.form_item">
