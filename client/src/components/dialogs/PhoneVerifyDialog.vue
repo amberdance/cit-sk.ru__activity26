@@ -4,7 +4,7 @@
     :modal="false"
     :append-to-body="true"
     :close-on-click-modal="false"
-    :lock-scroll="false"
+    :lock-scroll="true"
     :show-close="false"
     width="30%"
     top="5%"
@@ -29,12 +29,12 @@
               v-model="formData.code"
               v-mask="'####'"
               clearable
-              :disabled="attempsCount >= 5 || isVerifyCodeExhausted"
+              :disabled="attempsCount >= 5 || isSmsExpired"
             />
           </el-form-item>
 
           <countdown
-            v-if="!isVerifyCodeExhausted"
+            v-if="!isSmsExpired"
             v-slot="{ minutes, seconds }"
             ref="countdown"
             tag="div"
@@ -62,7 +62,7 @@
 
           <p>
             <span style="font-weight: bold; margin-right: 0.3rem">Пример:</span
-            ><span>{{ getRandomInt() }}</span>
+            ><span>8951</span>
           </p></el-col
         >
       </el-row>
@@ -73,6 +73,7 @@
 <script>
 import { incomeCallCodeValidator } from "@/utils/validator";
 import { mask } from "vue-the-mask";
+import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
 export default {
   directives: { mask },
@@ -81,10 +82,9 @@ export default {
     return {
       isVisible: false,
       isLoading: false,
-      isVerifyCodeExhausted: false,
+      isSmsExpired: false,
       attempsCount: 1,
       time: 299999,
-      errorMessage: "Неверный код",
 
       formData: {
         code: "",
@@ -97,7 +97,7 @@ export default {
             validator: (rule, code, callback) =>
               incomeCallCodeValidator(code)
                 ? callback()
-                : callback(new Error("Поле обязательно для заполнения")),
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
       },
@@ -106,16 +106,15 @@ export default {
 
   computed: {
     buttonLabel() {
-      return this.isVerifyCodeExhausted || this.attempsCount >= 5
-        ? "Запросить код заново"
+      return this.isSmsExpired || this.attempsCount >= 5
+        ? "Запросить код повторно"
         : "Продолжить";
     },
   },
 
   methods: {
     async submit() {
-      if (this.isVerifyCodeExhausted || this.attempsCount >= 5)
-        await this.resetCode();
+      if (this.isSmsExpired || this.attempsCount >= 5) await this.resetCode();
       else {
         await this.$refs.form.validate();
         await this.verifyCode();
@@ -131,21 +130,19 @@ export default {
           code: this.formData.code,
         });
 
-
-        this.$onSuccess(
-          "Ваш профиль успешно подтвержден, теперь вы можете авторизоваться для прохождения опросов"
-        );
         this.$router.push("/login");
+        this.$onSuccess(
+          "Ваш профиль подтвержден, теперь вы можете авторизоваться для прохождения опросов"
+        );
       } catch (e) {
-
         if (e.code == 10) {
-          this.isVerifyCodeExhausted = true;
-          this.$onWarning("Код просрочен", 6000);
+          this.isSmsExpired = true;
+          this.$onWarning("Код просрочен");
         }
-        
+
         if (e.code == 11) {
           this.attempsCount = this.attempsCount + 1;
-          this.$onWarning("Неверно указан код", 6000);
+          this.$onWarning("Неверно указан код");
         }
 
         this.formData.code = "";
@@ -165,7 +162,7 @@ export default {
 
         this.resetCountdown();
       } catch (e) {
-        if (e.code == 11) this.$onWarning("Неверно указан код", 6000);
+        this.$onError();
         console.error(e);
       } finally {
         this.isLoading = false;
@@ -178,7 +175,8 @@ export default {
     },
 
     onCountdownEnd() {
-      this.isVerifyCodeExhausted = true;
+      this.formData.code = "";
+      this.isSmsExpired = true;
     },
 
     resetCountdown() {
@@ -187,7 +185,7 @@ export default {
 
       setTimeout(() => {
         this.time = 299999;
-        this.isVerifyCodeExhausted = false;
+        this.isSmsExpired = false;
 
         setTimeout(() => {
           this.$refs.countdown.start();
@@ -197,10 +195,6 @@ export default {
 
     formatTime(value) {
       return value < 10 ? "0" + value : value;
-    },
-
-    getRandomInt() {
-      return _.random(1000, 9999);
     },
   },
 };

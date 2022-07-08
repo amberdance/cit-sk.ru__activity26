@@ -12,7 +12,6 @@
         <h2>Регистрация пользователя</h2>
 
         <div :class="$style.formWrapper" v-loading="isLoading">
-
           <div :class="$style.heading">Личные данные</div>
 
           <div :class="$style.form_item">
@@ -170,6 +169,7 @@ import {
   phoneNumberValidator,
   emailValidator,
 } from "@/utils/validator";
+import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
 export default {
   components: {
@@ -199,14 +199,14 @@ export default {
         name: [
           {
             required: true,
-            message: "Обязательное поле",
+            message: VALIDATE_DEFAULT_ERROR,
           },
         ],
 
         surname: [
           {
             required: true,
-            message: "Обязательное поле",
+            message: VALIDATE_DEFAULT_ERROR,
           },
         ],
 
