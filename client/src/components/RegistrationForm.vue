@@ -8,7 +8,115 @@
         :model="formData"
         ref="form"
         size="large"
+        hide-required-asterisk="true"
       >
+        <h2>Регистрация пользователя</h2>
+        <div :class="$style.formWrapper">
+          <div :class="$style.heading">Личные данные</div>
+
+          <div :class="$style.form_item">
+            <el-form-item required label="Фамилия" prop="surname">
+              <el-input
+                v-model="formData.surname"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. Используйте буквы русского
+              алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item required label="Имя" prop="name">
+              <el-input
+                v-model="formData.name"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. Используйте буквы русского
+              алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Отчество" prop="patronymic">
+              <el-input
+                v-model="formData.patronymic"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Телефон" prop="phone">
+              <el-input
+                v-model="formData.phone"
+                v-mask="'+7(###)#######'"
+                placeholder="+7(999)9999999"
+                type="tel"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+        </div>
+
+        <div :class="$style.formWrapper">
+          <div :class="$style.heading">Данные аккаунта</div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Электронная почта" prop="email">
+              <el-input
+                v-model="formData.email"
+                clearable
+                :disabled="isFormSubmitted"
+                type="email"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. <br />
+              Буквы только латинского алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Пароль" prop="password">
+              <el-input
+                v-model="formData.password"
+                clearable
+                :disabled="isFormSubmitted"
+                show-password
+                prefix-icon="el-icon-lock"
+                type="password"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Повторите пароль" prop="confirmPassword">
+              <el-input
+                v-model="formData.confirmPassword"
+                clearable
+                :disabled="isFormSubmitted"
+                show-password
+                prefix-icon="el-icon-lock"
+                type="password"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+        </div>
+
         <div :class="$style.policy_text">
           <p>
             Информация, направленная в электронном виде, хранится и
@@ -21,106 +129,6 @@
             для заполнения.
           </p>
         </div>
-
-        <div :class="$style.heading">Личные данные</div>
-
-        <div :class="$style.form_item">
-          <el-form-item required label="Фамилия" prop="surname">
-            <el-input
-              v-model="formData.surname"
-              clearable
-              :disabled="isFormSubmitted"
-            />
-          </el-form-item>
-          <div :class="$style.hint">
-            Поле обязательно для заполнения. Используйте буквы русского
-            алфавита.
-          </div>
-        </div>
-
-        <el-form-item
-          :class="$style.form_item"
-          required
-          label="Имя"
-          prop="name"
-        >
-          <el-input
-            v-model="formData.name"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Отчество"
-          prop="patronymic"
-        >
-          <el-input
-            v-model="formData.patronymic"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <div :class="$style.form_item">
-          <el-form-item label="Телефон" prop="phone">
-            <el-input
-              v-model="formData.phone"
-              v-mask="'+7(###)#######'"
-              placeholder="+7(999)9999999"
-              type="tel"
-              clearable
-              :disabled="isFormSubmitted"
-            />
-          </el-form-item>
-          <div :class="$style.hint">
-            Поле обязательно для заполнения. Используйте буквы русского
-            алфавита.
-          </div>
-        </div>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Электронная почта"
-          prop="email"
-        >
-          <el-input
-            v-model="formData.email"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <div :class="$style.heading">Пароль</div>
-
-        <el-form-item :class="$style.form_item" label="Пароль" prop="password">
-          <el-input
-            v-model="formData.password"
-            clearable
-            :disabled="isFormSubmitted"
-            show-password
-            prefix-icon="el-icon-lock"
-            type="password"
-            autocomplete="off"
-          />
-        </el-form-item>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Повторите пароль"
-          prop="checkPassword"
-        >
-          <el-input
-            v-model="formData.checkPassword"
-            clearable
-            :disabled="isFormSubmitted"
-            show-password
-            prefix-icon="el-icon-lock"
-            type="password"
-            autocomplete="off"
-          />
-        </el-form-item>
 
         <el-form-item size="large" prop="policyAgree" required>
           <p>
@@ -145,14 +153,15 @@
           >
         </div>
       </el-form>
-      <PhoneValidateDialog ref="dialog" />
     </div>
+
+    <PhoneVerifyDialog ref="dialog" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PhoneValidateDialog from "./dialogs/PhoneValidateDialog";
+import PhoneVerifyDialog from "./dialogs/PhoneVerifyDialog";
 import { mask } from "vue-the-mask";
 import {
   passwordStrengthValidator,
@@ -164,7 +173,7 @@ import {
 export default {
   components: {
     MainLayout,
-    PhoneValidateDialog,
+    PhoneVerifyDialog,
   },
 
   directives: { mask },
@@ -181,7 +190,7 @@ export default {
         phone: null,
         email: null,
         password: null,
-        checkPassword: null,
+        confirmPassword: null,
         policyAgree: [],
       },
 
@@ -220,7 +229,7 @@ export default {
           },
         ],
 
-        checkPassword: [
+        confirmPassword: [
           {
             required: true,
             validator: (rule, password, callback) =>
@@ -271,13 +280,11 @@ export default {
           phone: this.formData.phone,
           email: this.formData.email,
           password: this.formData.password,
+          confirmPassword: this.formData.confirmPassword,
         });
 
         this.isFormSubmitted = true;
-        this.$refs.dialog.show({
-          uuid,
-          phone: this.formData.phone,
-        });
+        this.$refs.dialog.show(uuid);
       } catch (e) {
         if (e.code == 422)
           return this.$onWarning("Заполните все обязательные поля");
@@ -300,30 +307,49 @@ export default {
 </script>
 
 <style module>
+.el-form {
+  font-size: 10px;
+}
+.formWrapper {
+  background-color: #ffffff;
+  padding: 2rem 2rem;
+  box-shadow: 4px 3px 7px 0px #80808045;
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
+.heading {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
 .registration_wrapper {
   max-width: 750px;
   margin: auto;
-  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 3rem;
-  box-shadow: 4px 3px 7px 0px #80808045;
 }
-
-.registration_wrapper label,
+.registration_wrapper label {
+  font-size: 18px;
+  color: #333;
+}
 .policy_text {
   font-size: 20px;
   color: var(--color-font--primary);
 }
-
 .form_item {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  color: #9ea4ac;
+}
+.hint {
+  display: flex;
+  max-width: 300px;
+  margin-left: 20px;
+  font-size: 14px;
 }
 .form_item input {
-  width: 50%;
+  width: 100%;
   margin-bottom: 1rem;
 }
 </style>

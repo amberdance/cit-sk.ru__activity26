@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    v-model="isVisible"
+    :visible="isVisible"
     :modal="false"
     :append-to-body="true"
     :close-on-click-modal="false"
@@ -27,13 +27,13 @@
           >
             <el-input
               v-model="formData.code"
-              v-maska="'####'"
+              v-mask="'####'"
               clearable
               :disabled="attempsCount >= 5 || isVerifyCodeExhausted"
             />
           </el-form-item>
 
-          <vue-countdown
+          <countdown
             v-if="!isVerifyCodeExhausted"
             v-slot="{ minutes, seconds }"
             ref="countdown"
@@ -44,7 +44,7 @@
           >
             Через 0{{ minutes }}:{{ formatTime(seconds) }} код можно запросить
             повторно
-          </vue-countdown>
+          </countdown>
 
           <el-button
             type="primary"
@@ -71,10 +71,12 @@
 </template>
 
 <script>
-import { random } from "lodash";
 import { incomeCallCodeValidator } from "@/utils/validator";
+import { mask } from "vue-the-mask";
 
 export default {
+  directives: { mask },
+
   data() {
     return {
       isVisible: false,
@@ -86,6 +88,7 @@ export default {
 
       formData: {
         code: "",
+        uuid: null,
       },
 
       rules: {
@@ -123,24 +126,23 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$http.get("/verify-code", {
-          params: {
-            token: localStorage.getItem("token"),
-            code: this.formData.code,
-          },
+        await this.$http.get("/registration/verify-code", {
+          uuid: this.formData.uuid,
+          code: this.formData.code,
         });
 
+        this.$onSucces(
+          "Ваш профиль успешно подтвержден, теперь вы можете авторизоваться для прохождения опросов"
+        );
         this.$router.push("/login");
       } catch (e) {
         if (e.code == 40) {
           this.isVerifyCodeExhausted = true;
-
           this.$onWarning("Код просрочен", 6000);
         }
 
         if (e.code == 50) {
           this.attempsCount = this.attempsCount + 1;
-
           this.$onWarning("Неверный код");
         }
 
@@ -155,13 +157,13 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$http.get("/reset-code", {
+        await this.$http.get("/registration/reset-code", {
           params: { token: localStorage.getItem("token") },
         });
 
         this.resetCountdown();
       } catch (e) {
-        if (e.code == 50) this.$onWarning("Неверный код", 6000);
+        if (e.code == 50) this.$onWarning("Неверно указан код", 6000);
 
         console.error(e);
       } finally {
@@ -169,7 +171,8 @@ export default {
       }
     },
 
-    show() {
+    show(uuid) {
+      this.formData.uuid = uuid;
       this.isVisible = true;
     },
 
@@ -196,7 +199,7 @@ export default {
     },
 
     getRandomInt() {
-      return random(1000, 9999);
+      return _.random(1000, 9999);
     },
   },
 };
