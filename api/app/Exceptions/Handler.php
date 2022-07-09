@@ -2,9 +2,11 @@
 
 namespace App\Exceptions;
 
+use App\Http\Constants;
 use App\Http\Response;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -59,12 +61,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e): mixed
     {
 
-        if ($e instanceof AuthenticationException) {
-            return Response::jsonError(401, "Unauthenticated", Response::HTTP_OK);
+        if ($e instanceof NotFoundHttpException || $e instanceof ModelNotFoundException) {
+            return Response::jsonError(404, Constants::NOT_FOUND_MESSAGE, Response::HTTP_NOT_FOUND);
         }
 
-        if ($e instanceof NotFoundHttpException) {
-            return Response::jsonError(404, "Not found", Response::HTTP_NOT_FOUND);
+        if ($e instanceof AuthenticationException) {
+            return Response::jsonError(401, Constants::USER_UNAUTHENTICATED_MESSAGE, Response::HTTP_OK);
         }
 
         return parent::render($request, $e);

@@ -21,7 +21,7 @@ class PollController extends Controller
     }
 
     public function index()
-    {
+    {   
         return $this->pollRepository->getAllPolls();
     }
 

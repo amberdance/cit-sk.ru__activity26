@@ -1,9 +1,7 @@
 <template>
-  <MainLayout>
-    <div :class="[$style.auth_wrapper, 'container']">
-      <div :class="$style.title">
-        Вход в информационную систему "{{ title }}"
-      </div>
+  <div style="z-index: 100">
+    <div :class="[$style.auth_wrapper, isShadowed, 'container']">
+      <div :class="$style.title">{{ title }}</div>
 
       <el-form
         ref="form"
@@ -44,22 +42,22 @@
         <router-link to="registration">Зарегистрироваться</router-link>
       </div>
     </div>
-  </MainLayout>
+  </div>
 </template>
 
 <script>
-import MainLayout from "./layouts/MainLayout.vue";
-import { APP_TITLE } from "@/values.js";
 import { emailValidator } from "@/utils/validator";
 
 export default {
-  components: {
-    MainLayout,
+  props: {
+    title: {
+      type: String,
+      default: "Для участия в опросе вам необходимо авторизоваться",
+    },
   },
 
   data() {
     return {
-      title: APP_TITLE,
       isLoading: false,
 
       formData: {
@@ -83,6 +81,12 @@ export default {
     };
   },
 
+  computed: {
+    isShadowed() {
+      return _.isEmpty(this.$parent.$refs) ? "shadowed" : "";
+    },
+  },
+
   methods: {
     async authorize() {
       await this.$refs.form.validate();
@@ -97,6 +101,7 @@ export default {
         this.$onSuccess("Спасибо, что Вы с нами", 3000);
         this.$store.commit("setUser", data.user);
         this.$router.push("/home");
+        this.$emit("onSuccessfullAuth");
       } catch (e) {
         if (e.response.status == 401)
           return this.$onError("Введен некорректный логин или пароль");
@@ -114,13 +119,12 @@ export default {
 <style module>
 .auth_wrapper {
   max-width: 350px;
-  min-height: 550px;
+  min-height: 440px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 3rem;
-  box-shadow: 4px 3px 7px 0px #80808045;
 }
 
 .title {
