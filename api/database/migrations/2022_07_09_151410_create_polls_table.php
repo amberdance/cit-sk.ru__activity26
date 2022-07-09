@@ -17,8 +17,13 @@ return new class extends Migration
             $table->id();
             $table->integer('category_id');
             $table->string('label');
-            $table->string('description');
-            $table->boolean('is_active');
+            $table->longText('description');
+            $table->string('image')->default('images/polls/image_default.png');
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_ranged')->default(false);
+            $table->boolean('is_completed')->default(false);
+            $table->timestamp('active_from')->default(date('Y-m-d 00:00:00'));
+            $table->timestamp('active_to')->nullable();
             $table->timestamps();
         });
     }

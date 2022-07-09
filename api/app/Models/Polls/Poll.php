@@ -16,4 +16,14 @@ class Poll extends Model
         'created_at',
         'updated_at',
     ];
+
+    /**
+     * @param string $image
+     *
+     * @return string
+     */
+    public function getImageAttribute(string $image): string
+    {
+        return asset($image);
+    }
 }

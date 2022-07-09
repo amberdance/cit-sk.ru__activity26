@@ -1,21 +1,23 @@
 <?php
 
-namespace Database\Polls\Factories;
+namespace Database\Factories\Polls;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Polls\PollCategory>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
 class PollCategoryFactory extends Factory
 {
+    protected static function newFactory()
+    {
+        return PollCategoryFactory::new ();
+    }
 
     public function definition()
     {
         return [
-            'label' => $this->faker->randomLetter(),
+            'label' => $this->faker->sentence(),
         ];
     }
-
 }
