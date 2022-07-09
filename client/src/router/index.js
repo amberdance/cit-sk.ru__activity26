@@ -23,19 +23,19 @@ const routes = [
   },
 
   {
-    path: "/vote",
-    component: () => import("@/components/polls/PollSingle.vue"),
-  },
-
-  {
-    path: "/registration",
-    component: () => import("@/components/RegistrationForm.vue"),
+    path: "/login",
+    component: () => import("@/views/Auth"),
     meta: { onlyForUnauthorized: true },
   },
 
   {
-    path: "/login",
-    component: () => import("@/components/AuthForm.vue"),
+    path: "/vote",
+    component: () => import("@/components/polls/PollSingle"),
+  },
+
+  {
+    path: "/registration",
+    component: () => import("@/components/RegistrationForm"),
     meta: { onlyForUnauthorized: true },
   },
 ];

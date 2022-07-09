@@ -184,11 +184,16 @@ h2 {
   min-height: 100vh;
 }
 
+.shadowed {
+  box-shadow: 4px 3px 7px 0px #80808045;
+}
+
 /************************** APP ***************************/
 
 .el-dialog__body {
   word-break: normal !important;
 }
+
 
 /************************** MEDIA QUERIES ***************************/
 

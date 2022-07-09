@@ -23,6 +23,7 @@ import {
   Notification,
   Row,
   Col,
+  Drawer,
 } from "element-ui";
 
 [
@@ -42,6 +43,7 @@ import {
   Main,
   Row,
   Col,
+  Drawer,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

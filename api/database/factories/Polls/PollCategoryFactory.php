@@ -17,7 +17,7 @@ class PollCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'label' => $this->faker->sentence(),
+            'label' => $this->faker->sentence(1),
         ];
     }
 }

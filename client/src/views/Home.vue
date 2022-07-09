@@ -14,9 +14,7 @@
             exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
           </h2>
         </div>
-        <div class="btn_primary" @click="$router.push('/vote')">
-          Пройти опрос
-        </div>
+        <div class="btn_primary" @click="vote">Пройти опрос</div>
 
         <div :class="[$style.quotation_wrapper, 'container']">
           <div :class="$style.quotation__title">
@@ -27,6 +25,20 @@
         </div>
       </div>
     </MainLayout>
+
+    <el-dialog
+      width="25%"
+      :v-if="authDialogComponent"
+      :visible="isAuthDialogVisible"
+      :close-on-click-modal="false"
+      @close="closeAuthDialog"
+    >
+      <component
+        :is="authDialogComponent"
+        @onSuccessfullAuth="closeAuthDialog"
+      />
+    </el-dialog>
+
     <Statistics />
   </div>
 </template>
@@ -35,6 +47,7 @@
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
 import { getRandomQuote } from "@/utils/common.js";
+
 export default {
   components: {
     MainLayout,
@@ -43,6 +56,9 @@ export default {
 
   data() {
     return {
+      authDialogComponent: null,
+      isAuthDialogVisible: false,
+
       quote: {
         title: "",
         author: "",
@@ -52,6 +68,22 @@ export default {
 
   async mounted() {
     this.quote = await getRandomQuote();
+  },
+
+  methods: {
+    vote() {
+      if (this.$store.getters.isUserAuthorized)
+        return this.$router.push("/vote");
+
+      this.authDialogComponent = async () =>
+        await import("@/components/AuthForm");
+
+      this.isAuthDialogVisible = true;
+    },
+
+    closeAuthDialog() {
+      this.isAuthDialogVisible = false;
+    },
   },
 };
 </script>
