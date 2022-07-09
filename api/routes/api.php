@@ -4,17 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
- */
-
-/*
-|--------------------------------------------------------------------------
 | AUTH
 |--------------------------------------------------------------------------
  */
@@ -42,8 +31,17 @@ Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser
 | REGISTRATION
 |--------------------------------------------------------------------------
  */
-
 Route::prefix('registration')->group(function () {
     Route::get('/reset-code', [\App\Http\Controllers\RegistrationController::class, 'resetCode']);
     Route::get('/verify-code', [\App\Http\Controllers\RegistrationController::class, 'verifyCode']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| RESOURSE API-ROUTES
+|--------------------------------------------------------------------------
+ */
+Route::apiResources([
+    'polls' => \App\Http\Controllers\Polls\PollController::class,
+
+]);
