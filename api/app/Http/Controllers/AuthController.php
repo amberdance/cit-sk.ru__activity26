@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Response;
 use App\Repositories\UserRepository;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -23,8 +24,12 @@ class AuthController extends Controller
             "password" => "required",
         ]);
 
-        if (!(new UserRepository)->getUserByEmail($request->login)->is_active) {
-            return Response::jsonForbidden();
+        try {
+            if (!(new UserRepository)->getUserByEmail($request->login)->is_active) {
+                return Response::jsonForbidden();
+            }
+        } catch (ModelNotFoundException $e) {
+            return Response::jsonUnathorized();
         }
 
         if (!$token = auth()->attempt([
