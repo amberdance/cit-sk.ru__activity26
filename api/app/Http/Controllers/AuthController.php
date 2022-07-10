@@ -16,7 +16,7 @@ class AuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
 
         $request->validate([
