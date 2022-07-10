@@ -1,1 +1,1 @@
-# [CIT-SK] Regional polls
+# [CIT-SK] Региональный проект опросов
