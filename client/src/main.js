@@ -9,6 +9,8 @@ import "@/utils/axios";
 import "@/plugins/element";
 import "@/plugins/prototypes";
 import "@/styles/style.css";
+import "test" from test;
+
 
 Vue.config.productionTip = false;
 
