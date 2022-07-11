@@ -4,6 +4,8 @@ namespace App\Models\Polls;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  *  @property int $id
@@ -32,6 +34,13 @@ class Poll extends Model
         'updated_at',
     ];
 
+    protected $casts = [
+        'is_completed' => 'boolean',
+        'is_active'    => 'boolean',
+        'is_popular'   => 'boolean',
+        'is_ranged'    => 'boolean',
+    ];
+
     /**
      * @param string $image
      *
@@ -40,5 +49,21 @@ class Poll extends Model
     public function getImageAttribute(string $image): string
     {
         return asset($image);
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(PollCategory::class, 'category_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function questions(): HasMany
+    {
+        return $this->hasMany(PollQuestion::class, 'poll_id');
     }
 }

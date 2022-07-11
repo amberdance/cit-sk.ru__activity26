@@ -4,15 +4,14 @@ namespace App\Models\Polls;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  *  @property int $id
- *  @property int $poll_id
+ *  @property int $question_id
  *  @property string $label
  */
 
-class PollQuestion extends Model
+class PollVariant extends Model
 {
     use HasFactory;
 
@@ -20,15 +19,6 @@ class PollQuestion extends Model
 
     protected $guarded = [];
     protected $hidden  = [
-        'poll_id',
+        'question_id',
     ];
-
-    /**
-     * @return HasMany
-     */
-    public function variants(): HasMany
-    {
-        return $this->hasMany(PollVariant::class, 'question_id');
-    }
-
 }

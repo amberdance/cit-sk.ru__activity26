@@ -29,8 +29,8 @@ const routes = [
   },
 
   {
-    path: "/vote",
-    component: () => import("@/components/polls/PollSingle"),
+    path: "/poll/:id",
+    component: () => import("@/components/polls/Poll"),
   },
 
   {
