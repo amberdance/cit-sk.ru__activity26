@@ -194,6 +194,35 @@ h2 {
   word-break: normal !important;
 }
 
+.el-button {
+  color: #ffffff;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  border: none;
+  padding: 10px 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
+}
+
+.el-button:hover {
+  background-color: #f6cd03 !important;
+  color: #000;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.el-button:active {
+  background-color: #fbdd47 !important;
+}
+
+.el-button:focus {
+  background-color: var(--color-primary);
+}
+
+.el-form-item__error {
+  padding: 0px;
+  margin-top: -10px;
+}
+
 
 /************************** MEDIA QUERIES ***************************/
 
