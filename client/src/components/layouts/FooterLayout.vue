@@ -12,12 +12,13 @@
       >
     </div>
 
-    <div
-      :class="[$style.btn_accept, 'btn_primary']"
+    <el-button
+      type="primary"
+      size="default"
+      :disabled="isFormSubmitted"
       @click="$emit('onCookieAccept')"
-    >
-      Понятно
-    </div>
+      >Понятно
+    </el-button>
     <svg
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
