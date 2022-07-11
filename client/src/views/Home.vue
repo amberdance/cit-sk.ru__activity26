@@ -14,7 +14,9 @@
             exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
           </h2>
         </div>
-        <div class="btn_primary" @click="vote">Пройти опрос</div>
+        <el-button class="primary" type="primary" size="default" @click="vote"
+          >Пройти опрос
+        </el-button>
 
         <div :class="[$style.quotation_wrapper, 'container']">
           <div :class="$style.quotation__title">
@@ -114,6 +116,7 @@ export default {
 .main_subtitle {
   margin: 0 auto;
 }
+
 .divider {
   width: 60%;
   margin: 1.5rem 0;

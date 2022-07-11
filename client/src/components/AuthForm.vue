@@ -1,6 +1,6 @@
 <template>
   <div style="z-index: 100">
-    <div :class="[$style.auth_wrapper, isShadowed, 'container']">
+    <div :class="[$style.auth_wrapper, isShadowed, 'container', 'bordered']">
       <div :class="$style.title">{{ title }}</div>
 
       <el-form
@@ -29,6 +29,7 @@
         </el-form-item>
 
         <el-button
+          class="primary"
           type="primary"
           style="width: 100%"
           :loading="isLoading"
