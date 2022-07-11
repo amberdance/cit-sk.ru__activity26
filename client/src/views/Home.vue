@@ -14,9 +14,15 @@
             exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
           </h2>
         </div>
-        <div class="btn_primary" @click="$router.push('/vote')">
-          Пройти опрос
-        </div>
+
+        <el-button
+          :class="$style.button"
+          type="primary"
+          size="default"
+          :disabled="isFormSubmitted"
+          @click="$router.push('/vote')"
+          >Пройти опрос
+        </el-button>
 
         <div :class="[$style.quotation_wrapper, 'container']">
           <div :class="$style.quotation__title">
@@ -86,6 +92,10 @@ export default {
   width: 60%;
   margin: 1.5rem 0;
   border-bottom: 1px solid var(--color-divider);
+}
+
+.button {
+  font-size: 22px;
 }
 .quotation_wrapper {
   position: absolute;
