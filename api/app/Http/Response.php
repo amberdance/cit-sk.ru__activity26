@@ -29,7 +29,19 @@ class Response extends HttpResponse
         return response()->json($params, $httpCode, $headers);
     }
 
+<<<<<<< HEAD
     public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_INTERNAL_SERVER_ERROR, array $headers = []): JsonResponse
+=======
+    /**
+     * @param int $code
+     * @param string|null $message
+     * @param int $httpCode
+     * @param array $headers
+     * 
+     * @return JsonResponse
+     */
+    public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
+>>>>>>> 9693476d7ee1312f0b52c280bdef5030c39f370c
     {
         $params = [
             'error' => [

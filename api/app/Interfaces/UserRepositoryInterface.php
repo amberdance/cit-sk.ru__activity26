@@ -11,9 +11,20 @@ interface UserRepositoryInterface
 
     public function createUser(array $params): User;
 
-    public function deleteUser();
+    /**
+     * @param int $id
+     * @param bool $state
+     *
+     * @return void
+     */
+    public function setUserActiveById(int $id, bool $state = true): void;
 
-    public function updateUser();
+    /**
+     * @param User $user
+     * @param bool $state
+     *
+     * @return void
+     */
+    public function setUserActiveByModel(User $user, bool $state = true): void;
 
-    public function isRegistered(int $id);
 }
