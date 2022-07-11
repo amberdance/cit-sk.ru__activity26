@@ -7,11 +7,9 @@
         :model="formData"
         ref="form"
         size="large"
-        hide-required-asterisk="true"
+        :hide-required-asterisk="true"
       >
-        <h2>Регистрация пользователя</h2>
-
-        <div :class="$style.formWrapper" v-loading="isLoading">
+        <div :class="[$style.form_wrapper, 'shadowed', 'bordered']" v-loading="isLoading">
           <div :class="$style.heading">Личные данные</div>
 
           <div :class="$style.form_item">
@@ -67,7 +65,7 @@
           </div>
         </div>
 
-        <div :class="$style.formWrapper" v-loading="isLoading">
+        <div :class="[$style.form_wrapper, 'shadowed', 'bordered']" v-loading="isLoading">
           <div :class="$style.heading">Данные аккаунта</div>
 
           <div :class="$style.form_item">
@@ -115,42 +113,23 @@
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
-        </div>
+          <div :class="$style.policy_text">
+            <p>
+              Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
+              <a href="#">условиями использования</a>
+            </p>
+          </div>
 
-        <div :class="$style.policy_text">
-          <p>
-            Информация, направленная в электронном виде, хранится и
-            обрабатывается с соблюдением требований российского законодательства
-            о персональных данных.
-          </p>
-          <p>
-            Поля, отмеченные
-            <span style="color: var(--el-color-danger)">*</span>, обязательны
-            для заполнения.
-          </p>
-        </div>
-
-        <el-form-item size="large" prop="policyAgree" required>
-          <p>
-            <el-checkbox
-              v-model="formData.policyAgree"
+          <div class="a-right">
+            <el-button
+              class="primary"
+              type="primary"
+              size="default"
               :disabled="isFormSubmitted"
-              label="Я соглашаюсь на обработку моих персональных
-                данных, в соответствии с требованиями федерального закона от
-                27.07.2006 № 152-ФЗ 'О персональных данных'"
-            >
-            </el-checkbox>
-          </p>
-        </el-form-item>
-
-        <div class="a-right">
-          <el-button
-            type="primary"
-            size="default"
-            :disabled="isFormSubmitted"
-            @click="submit"
-            >Подтвердить</el-button
-          >
+              @click="submit"
+              >Зарегистрироваться
+            </el-button>
+          </div>
         </div>
       </el-form>
     </div>
@@ -308,20 +287,18 @@ export default {
 </script>
 
 <style module>
-.el-form {
-  font-size: 10px;
-}
-.formWrapper {
+
+.form_wrapper {
   background-color: #ffffff;
   padding: 2rem 2rem;
-  box-shadow: 4px 3px 7px 0px #80808045;
-  border-radius: 15px;
   margin-bottom: 25px;
 }
+
 .heading {
   font-size: 26px;
   margin-bottom: 10px;
 }
+
 .registration_wrapper {
   max-width: 750px;
   margin: auto;
@@ -329,26 +306,31 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+
 .registration_wrapper label {
   font-size: 18px;
   color: #333;
 }
+
 .policy_text {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-font--primary);
 }
+
 .form_item {
   display: flex;
   flex-direction: row;
   align-items: center;
   color: #9ea4ac;
 }
+
 .hint {
   display: flex;
   max-width: 300px;
   margin-left: 20px;
   font-size: 14px;
 }
+
 .form_item input {
   width: 100%;
   margin-bottom: 1rem;
