@@ -1,26 +1,14 @@
 <template>
   <MainLayout>
     <div class="container">
-      <el-form
-        :class="$style.registration_wrapper"
-        :rules="rules"
-        :model="formData"
-        ref="form"
-        size="large"
-        hide-required-asterisk="true"
-      >
-        <h2>Регистрация пользователя</h2>
-
+      <el-form :class="$style.registration_wrapper" :rules="rules" :model="formData" ref="form" size="large"
+        :hide-required-asterisk="true">
         <div :class="$style.formWrapper" v-loading="isLoading">
           <div :class="$style.heading">Личные данные</div>
 
           <div :class="$style.form_item">
             <el-form-item required label="Фамилия" prop="surname">
-              <el-input
-                v-model="formData.surname"
-                clearable
-                :disabled="isFormSubmitted"
-              />
+              <el-input v-model="formData.surname" clearable :disabled="isFormSubmitted" />
             </el-form-item>
             <div :class="$style.hint">
               Поле обязательно для заполнения. Используйте буквы русского
@@ -30,11 +18,7 @@
 
           <div :class="$style.form_item">
             <el-form-item required label="Имя" prop="name">
-              <el-input
-                v-model="formData.name"
-                clearable
-                :disabled="isFormSubmitted"
-              />
+              <el-input v-model="formData.name" clearable :disabled="isFormSubmitted" />
             </el-form-item>
             <div :class="$style.hint">
               Поле обязательно для заполнения. Используйте буквы русского
@@ -44,24 +28,14 @@
 
           <div :class="$style.form_item">
             <el-form-item label="Отчество" prop="patronymic">
-              <el-input
-                v-model="formData.patronymic"
-                clearable
-                :disabled="isFormSubmitted"
-              />
+              <el-input v-model="formData.patronymic" clearable :disabled="isFormSubmitted" />
             </el-form-item>
           </div>
 
           <div :class="$style.form_item">
             <el-form-item label="Телефон" prop="phone">
-              <el-input
-                v-model="formData.phone"
-                v-mask="'+7(###)#######'"
-                placeholder="+7(999)9999999"
-                type="tel"
-                clearable
-                :disabled="isFormSubmitted"
-              />
+              <el-input v-model="formData.phone" v-mask="'+7(###)#######'" placeholder="+7(999)9999999" type="tel"
+                clearable :disabled="isFormSubmitted" />
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
@@ -72,13 +46,8 @@
 
           <div :class="$style.form_item">
             <el-form-item label="Электронная почта" prop="email">
-              <el-input
-                v-model="formData.email"
-                clearable
-                :disabled="isFormSubmitted"
-                type="email"
-                autocomplete="off"
-              />
+              <el-input v-model="formData.email" clearable :disabled="isFormSubmitted" type="email"
+                autocomplete="off" />
             </el-form-item>
             <div :class="$style.hint">
               Поле обязательно для заполнения. <br />
@@ -88,70 +57,33 @@
 
           <div :class="$style.form_item">
             <el-form-item label="Пароль" prop="password">
-              <el-input
-                v-model="formData.password"
-                clearable
-                :disabled="isFormSubmitted"
-                show-password
-                prefix-icon="el-icon-lock"
-                type="password"
-                autocomplete="off"
-              />
+              <el-input v-model="formData.password" clearable :disabled="isFormSubmitted" show-password
+                prefix-icon="el-icon-lock" type="password" autocomplete="off" />
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
 
           <div :class="$style.form_item">
             <el-form-item label="Повторите пароль" prop="confirmPassword">
-              <el-input
-                v-model="formData.confirmPassword"
-                clearable
-                :disabled="isFormSubmitted"
-                show-password
-                prefix-icon="el-icon-lock"
-                type="password"
-                autocomplete="off"
-              />
+              <el-input v-model="formData.confirmPassword" clearable :disabled="isFormSubmitted" show-password
+                prefix-icon="el-icon-lock" type="password" autocomplete="off" />
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
+          <div :class="$style.policy_text">
+            <p>
+              Нажимая кнопку "Зарегистрироваться" вы соглашаетесь
+              с <a href="#">условиями использования</a>
+            </p>
+          </div>
+
+
+          <div class="a-right">
+            <el-button type="primary" size="default" :disabled="isFormSubmitted" @click="submit">Зарегистрироваться
+            </el-button>
+          </div>
         </div>
 
-        <div :class="$style.policy_text">
-          <p>
-            Информация, направленная в электронном виде, хранится и
-            обрабатывается с соблюдением требований российского законодательства
-            о персональных данных.
-          </p>
-          <p>
-            Поля, отмеченные
-            <span style="color: var(--el-color-danger)">*</span>, обязательны
-            для заполнения.
-          </p>
-        </div>
-
-        <el-form-item size="large" prop="policyAgree" required>
-          <p>
-            <el-checkbox
-              v-model="formData.policyAgree"
-              :disabled="isFormSubmitted"
-              label="Я соглашаюсь на обработку моих персональных
-                данных, в соответствии с требованиями федерального закона от
-                27.07.2006 № 152-ФЗ 'О персональных данных'"
-            >
-            </el-checkbox>
-          </p>
-        </el-form-item>
-
-        <div class="a-right">
-          <el-button
-            type="primary"
-            size="default"
-            :disabled="isFormSubmitted"
-            @click="submit"
-            >Подтвердить</el-button
-          >
-        </div>
       </el-form>
     </div>
 
@@ -311,6 +243,7 @@ export default {
 .el-form {
   font-size: 10px;
 }
+
 .formWrapper {
   background-color: #ffffff;
   padding: 2rem 2rem;
@@ -318,10 +251,12 @@ export default {
   border-radius: 15px;
   margin-bottom: 25px;
 }
+
 .heading {
   font-size: 26px;
   margin-bottom: 10px;
 }
+
 .registration_wrapper {
   max-width: 750px;
   margin: auto;
@@ -329,26 +264,31 @@ export default {
   flex-direction: column;
   justify-content: center;
 }
+
 .registration_wrapper label {
   font-size: 18px;
   color: #333;
 }
+
 .policy_text {
-  font-size: 20px;
+  font-size: 16px;
   color: var(--color-font--primary);
 }
+
 .form_item {
   display: flex;
   flex-direction: row;
   align-items: center;
   color: #9ea4ac;
 }
+
 .hint {
   display: flex;
   max-width: 300px;
   margin-left: 20px;
   font-size: 14px;
 }
+
 .form_item input {
   width: 100%;
   margin-bottom: 1rem;
