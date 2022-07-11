@@ -70,6 +70,6 @@ export default {
   padding-right: 1rem;
 }
 .logo_wrapper img {
-  max-width: 55px;
+  max-width: 70px;
 }
 </style>
