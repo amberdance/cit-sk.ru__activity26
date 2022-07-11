@@ -29,6 +29,14 @@ class Response extends HttpResponse
         return response()->json($params, $httpCode, $headers);
     }
 
+    /**
+     * @param int $code
+     * @param string|null $message
+     * @param int $httpCode
+     * @param array $headers
+     * 
+     * @return JsonResponse
+     */
     public static function jsonError(int $code = 0, ?string $message = null, int $httpCode = self::HTTP_OK, array $headers = []): JsonResponse
     {
         $params = [
