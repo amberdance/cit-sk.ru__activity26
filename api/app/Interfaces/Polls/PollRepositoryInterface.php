@@ -14,7 +14,7 @@ interface PollRepositoryInterface
     public function store(array $params): Poll;
 
     /**
-     * @return Poll
+     * @return Collection
      */
     public function getAllPolls(): Collection;
 

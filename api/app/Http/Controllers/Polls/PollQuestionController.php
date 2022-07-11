@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Polls;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PollCategoryController extends Controller
+class PollQuestionController extends Controller
 {
 
     public function index()
@@ -19,11 +19,6 @@ class PollCategoryController extends Controller
     }
 
     public function store(Request $request)
-    {
-        //
-    }
-
-    public function show()
     {
         //
     }

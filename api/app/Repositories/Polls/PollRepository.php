@@ -18,6 +18,9 @@ class PollRepository implements PollRepositoryInterface
         return Poll::create($params);
     }
 
+    /**
+     * @return Collection
+     */
     public function getAllPolls(): Collection
     {
         return Poll::select("polls.*", "poll_categories.label as category")

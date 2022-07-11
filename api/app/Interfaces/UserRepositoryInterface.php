@@ -35,10 +35,6 @@ interface UserRepositoryInterface
      */
     public function store(array $params): User;
 
-    public function deleteUser();
-
-    public function updateUser();
-
     /**
      * @param int $id
      * @param bool $state
@@ -54,4 +50,5 @@ interface UserRepositoryInterface
      * @return void
      */
     public function setUserActiveByModel(User $user, bool $state = true): void;
+
 }

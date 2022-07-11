@@ -3,13 +3,17 @@ namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserRepository implements UserRepositoryInterface
 {
 
-    public function getUsers()
+    /**
+     * @return Collection
+     */
+    public function getUsers(): Collection
     {
         return User::all();
     }
@@ -56,16 +60,6 @@ class UserRepository implements UserRepositoryInterface
             'uuid'       => Str::uuid(),
             'ip_address' => request()->ip(),
         ]);
-    }
-
-    public function deleteUser()
-    {
-        //
-    }
-
-    public function updateUser()
-    {
-        //
     }
 
     /**
