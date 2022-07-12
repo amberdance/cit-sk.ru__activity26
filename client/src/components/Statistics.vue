@@ -45,7 +45,7 @@ export default {
   background-color: var(--color-primary);
 }
 .statistic_content {
-  height: 110px;
+  min-height: 110px;
   max-width: 700px;
   margin: auto;
   display: flex;
@@ -53,6 +53,7 @@ export default {
   align-items: center;
   text-align: center;
   text-transform: lowercase;
+  flex-wrap: wrap;
   color: var(--color-font--secondary);
 }
 
@@ -62,5 +63,11 @@ export default {
 
 .statistic_content .label {
   font-size: 18px;
+}
+
+@media (max-width: 590px) {
+  .statistic_content {
+    display: none;
+  }
 }
 </style>

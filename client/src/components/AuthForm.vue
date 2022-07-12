@@ -9,7 +9,14 @@
         'bordered',
       ]"
     >
-      <div :class="$style.title">{{ title }}</div>
+      <div :class="$style.title">
+        <img
+          src="@/assets/logo_primary.webp"
+          alt="logo_primary"
+          :class="$style.logo"
+        />
+        <span>{{ title }}</span>
+      </div>
 
       <el-form
         ref="form"
@@ -46,7 +53,7 @@
       </el-form>
 
       <div class="a-center m-1">
-        <span> Нет аккаунта? </span>
+        <span style="font-weight: bold"> Нет аккаунта? </span>
         <router-link to="registration">Зарегистрироваться</router-link>
       </div>
     </div>
@@ -135,11 +142,19 @@ export default {
   padding: 0 3rem;
 }
 
-.title {
-  font-size: 25px;
-  font-weight: bold;
-  text-align: center;
+.auth_wrapper .title {
+  display: flex;
+  align-items: center;
   margin: 1rem 0;
+}
+.auth_wrapper .title span {
+  font-size: 18px;
+  margin-left: 0.5rem;
+  font-weight: bold;
   color: var(--color-font--primary);
+}
+.logo {
+  max-height: 70px;
+  width: auto;
 }
 </style>
