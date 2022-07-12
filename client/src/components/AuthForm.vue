@@ -11,7 +11,7 @@
     >
       <div :class="$style.title">
         <img
-          src="@/assets/logo_primary.webp"
+          src="@/assets/logo_secondary.png"
           alt="logo_primary"
           :class="$style.logo"
         />
@@ -132,6 +132,18 @@ export default {
 </script>
 
 <style module>
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.title img{
+  margin-top: -50px;
+}
+
 .auth_wrapper {
   max-width: 350px;
   min-height: 440px;
@@ -140,6 +152,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   padding: 0 3rem;
+  margin-top: 50px;
 }
 
 .auth_wrapper .title {
@@ -154,7 +167,8 @@ export default {
   color: var(--color-font--primary);
 }
 .logo {
-  max-height: 70px;
+  max-height: 110px;
   width: auto;
+  margin-bottom: 40px;
 }
 </style>
