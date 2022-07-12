@@ -42,6 +42,6 @@ Route::prefix('registration')->group(function () {
 |--------------------------------------------------------------------------
  */
 
-Route::middleware('auth:api')->apiResources([
+Route::apiResources([
     'polls' => \App\Http\Controllers\PollController::class,
 ]);

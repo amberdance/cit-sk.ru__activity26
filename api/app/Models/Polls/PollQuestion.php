@@ -28,7 +28,7 @@ class PollQuestion extends Model
      */
     public function variants(): HasMany
     {
-        return $this->hasMany(PollVariant::class, 'question_id');
+        return $this->hasMany(PollVariant::class, 'question_id')->orderBy('sort');
     }
 
 }
