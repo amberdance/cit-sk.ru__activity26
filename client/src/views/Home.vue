@@ -34,18 +34,22 @@
       </div>
     </MainLayout>
     <Statistics />
+    <PollsList />
   </div>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
+import PollsList from "@/components/polls/PollsList.vue";
 import { getRandomQuote } from "@/utils/common.js";
 export default {
   components: {
     MainLayout,
     Statistics,
+    PollsList,
   },
+
   data() {
     return {
       quote: {
