@@ -28,9 +28,8 @@ const routes = [
   },
 
   {
-    path: "/registration",
-    component: () => import("@/components/RegistrationForm.vue"),
-    meta: { onlyForUnauthorized: true },
+    path: "/poll/:id",
+    component: () => import("@/components/polls/Poll"),
   },
 
   {

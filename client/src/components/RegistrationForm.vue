@@ -2,138 +2,124 @@
   <MainLayout>
     <div class="container">
       <el-form
-        v-loading="isLoading"
         :class="$style.registration_wrapper"
         :rules="rules"
         :model="formData"
         ref="form"
         size="large"
+        :hide-required-asterisk="true"
       >
+        <div :class="$style.formWrapper" v-loading="isLoading">
+          <div :class="$style.heading">Личные данные</div>
+
+          <div :class="$style.form_item">
+            <el-form-item required label="Фамилия" prop="surname">
+              <el-input
+                v-model="formData.surname"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. Используйте буквы русского
+              алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item required label="Имя" prop="name">
+              <el-input
+                v-model="formData.name"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. Используйте буквы русского
+              алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Отчество" prop="patronymic">
+              <el-input
+                v-model="formData.patronymic"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Телефон" prop="phone">
+              <el-input
+                v-model="formData.phone"
+                v-mask="'+7(###)#######'"
+                placeholder="+7(999)9999999"
+                type="tel"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+        </div>
+
+        <div :class="$style.formWrapper" v-loading="isLoading">
+          <div :class="$style.heading">Данные аккаунта</div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Электронная почта" prop="email">
+              <el-input
+                v-model="formData.email"
+                clearable
+                :disabled="isFormSubmitted"
+                type="email"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <div :class="$style.hint">
+              Поле обязательно для заполнения. <br />
+              Буквы только латинского алфавита.
+            </div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Пароль" prop="password">
+              <el-input
+                v-model="formData.password"
+                clearable
+                :disabled="isFormSubmitted"
+                show-password
+                prefix-icon="el-icon-lock"
+                type="password"
+                autocomplete="off"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+        </div>
+
+        <div :class="$style.form_item">
+          <el-form-item label="Повторите пароль" prop="confirmPassword">
+            <el-input
+              v-model="formData.confirmPassword"
+              clearable
+              :disabled="isFormSubmitted"
+              show-password
+              prefix-icon="el-icon-lock"
+              type="password"
+              autocomplete="off"
+            />
+          </el-form-item>
+          <div :class="$style.hint">Поле обязательно для заполнения.</div>
+        </div>
         <div :class="$style.policy_text">
           <p>
-            Информация, направленная в электронном виде, хранится и
-            обрабатывается с соблюдением требований российского законодательства
-            о персональных данных.
-          </p>
-          <p>
-            Поля, отмеченные
-            <span style="color: var(--el-color-danger)">*</span>, обязательны
-            для заполнения.
+            Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
+            <a href="#">условиями использования</a>
           </p>
         </div>
-
-        <div :class="$style.heading">Личные данные</div>
-
-        <div :class="$style.form_item">
-          <el-form-item required label="Фамилия" prop="surname">
-            <el-input
-              v-model="formData.surname"
-              clearable
-              :disabled="isFormSubmitted"
-            />
-          </el-form-item>
-          <div :class="$style.hint">
-            Поле обязательно для заполнения. Используйте буквы русского
-            алфавита.
-          </div>
-        </div>
-
-        <el-form-item
-          :class="$style.form_item"
-          required
-          label="Имя"
-          prop="name"
-        >
-          <el-input
-            v-model="formData.name"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Отчество"
-          prop="patronymic"
-        >
-          <el-input
-            v-model="formData.patronymic"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <div :class="$style.form_item">
-          <el-form-item label="Телефон" prop="phone">
-            <el-input
-              v-model="formData.phone"
-              v-mask="'+7(###)#######'"
-              placeholder="+7(999)9999999"
-              type="tel"
-              clearable
-              :disabled="isFormSubmitted"
-            />
-          </el-form-item>
-          <div :class="$style.hint">
-            Поле обязательно для заполнения. Используйте буквы русского
-            алфавита.
-          </div>
-        </div>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Электронная почта"
-          prop="email"
-        >
-          <el-input
-            v-model="formData.email"
-            clearable
-            :disabled="isFormSubmitted"
-          />
-        </el-form-item>
-
-        <div :class="$style.heading">Пароль</div>
-
-        <el-form-item :class="$style.form_item" label="Пароль" prop="password">
-          <el-input
-            v-model="formData.password"
-            clearable
-            :disabled="isFormSubmitted"
-            show-password
-            prefix-icon="el-icon-lock"
-            type="password"
-            autocomplete="off"
-          />
-        </el-form-item>
-
-        <el-form-item
-          :class="$style.form_item"
-          label="Повторите пароль"
-          prop="checkPassword"
-        >
-          <el-input
-            v-model="formData.checkPassword"
-            clearable
-            :disabled="isFormSubmitted"
-            show-password
-            prefix-icon="el-icon-lock"
-            type="password"
-            autocomplete="off"
-          />
-        </el-form-item>
-
-        <el-form-item size="large" prop="policyAgree" required>
-          <p>
-            <el-checkbox
-              v-model="formData.policyAgree"
-              :disabled="isFormSubmitted"
-              label="Я соглашаюсь на обработку моих персональных
-                данных, в соответствии с требованиями федерального закона от
-                27.07.2006 № 152-ФЗ 'О персональных данных'"
-            >
-            </el-checkbox>
-          </p>
-        </el-form-item>
 
         <div class="a-right">
           <el-button
@@ -141,8 +127,8 @@
             size="default"
             :disabled="isFormSubmitted"
             @click="submit"
-            >Подтвердить</el-button
-          >
+            >Зарегистрироваться
+          </el-button>
         </div>
       </el-form>
       <PhoneValidateDialog ref="dialog" />

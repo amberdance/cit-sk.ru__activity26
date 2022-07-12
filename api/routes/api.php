@@ -36,5 +36,12 @@ Route::group([
 |--------------------------------------------------------------------------
  */
 
-Route::post('/users', [\App\Http\Controllers\UserController::class, 'registration']);
-Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser']);
+/*
+|--------------------------------------------------------------------------
+| RESOURCE API-ROUTES
+|--------------------------------------------------------------------------
+ */
+
+Route::apiResources([
+    'polls' => \App\Http\Controllers\PollController::class,
+]);

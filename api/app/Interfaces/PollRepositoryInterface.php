@@ -1,5 +1,5 @@
 <?php
-namespace App\Interfaces\Polls;
+namespace App\Interfaces;
 
 use App\Models\Polls\Poll;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,5 +17,19 @@ interface PollRepositoryInterface
      * @return Collection
      */
     public function getAllPolls(): Collection;
+
+    /**
+     * @param int $id
+     *
+     * @return Poll
+     */
+    public function getPollById(int $id): Poll;
+
+    /**
+     * @param int $id
+     *
+     * @return Collection
+     */
+    public function getPollQuestionsByPollId(int $id): Collection;
 
 }
