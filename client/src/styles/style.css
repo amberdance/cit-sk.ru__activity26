@@ -220,10 +220,16 @@ button {
 
 .el-form-item__error {
   padding: 0px;
-  margin-top: -10px;
 }
 
 /************************** MEDIA QUERIES ***************************/
+
+@media (max-width: 570px) {
+  .container {
+    max-width: 490px;
+  }
+}
+
 
 @media (min-width: 576px) {
   .container {

@@ -5,15 +5,17 @@
         :class="$style.registration_wrapper"
         :rules="rules"
         :model="formData"
+        :hide-required-asterisk="true"
         ref="form"
         size="large"
-        :hide-required-asterisk="true"
+        label-position="left"
       >
         <div
           :class="[$style.form_wrapper, 'bordered', 'shadowed']"
           v-loading="isLoading"
         >
           <div :class="$style.heading">Личные данные</div>
+          <el-divider></el-divider>
 
           <div :class="$style.form_item">
             <el-form-item required label="Фамилия" prop="surname">
@@ -73,6 +75,7 @@
           v-loading="isLoading"
         >
           <div :class="$style.heading">Данные аккаунта</div>
+          <el-divider></el-divider>
 
           <div :class="$style.form_item">
             <el-form-item label="Электронная почта" prop="email">
@@ -119,6 +122,8 @@
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
+
+          <el-divider></el-divider>
           <div :class="$style.policy_text">
             <p>
               Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
@@ -129,7 +134,6 @@
           <div class="a-right">
             <el-button
               type="primary"
-              size="default"
               :disabled="isFormSubmitted"
               @click="submit"
               >Зарегистрироваться
@@ -301,6 +305,7 @@ export default {
 .heading {
   font-size: 26px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .registration_wrapper {
@@ -330,6 +335,7 @@ export default {
 
 .hint {
   display: flex;
+  font-weight: bold;
   max-width: 300px;
   margin-left: 20px;
   font-size: 14px;
@@ -338,5 +344,22 @@ export default {
 .form_item input {
   width: 100%;
   margin-bottom: 1rem;
+}
+
+@media (max-width: 590px) {
+  .form_item {
+    display: block;
+  }
+
+  .form_item {
+    margin-bottom: 1rem;
+  }
+  .hint {
+    max-width: unset;
+  }
+  .hint,
+  .form_item input {
+    margin: 0;
+  }
 }
 </style>

@@ -6,20 +6,25 @@
     :close-on-click-modal="false"
     :lock-scroll="true"
     :show-close="false"
-    width="30%"
+    :width="dialogWidth"
     top="5%"
   >
     <el-form
       v-loading="isLoading"
-      :class="$style.formWrapper"
+      :class="$style.form_wrapper"
       :rules="rules"
       :model="formData"
       ref="form"
       label-position="top"
       size="large"
     >
-      <el-row type="flex" :gutter="20" class="align-center">
-        <el-col :span="12">
+      <el-row
+        type="flex"
+        :gutter="20"
+        class="align-center"
+        style="flex-wrap: wrap"
+      >
+        <el-col :lg="12" :sm="22" :xs="22">
           <el-form-item
             :class="$style.formItem"
             label="Последние 4 цифры номера телефона"
@@ -56,7 +61,7 @@
           ></el-col
         >
 
-        <el-col :span="12">
+        <el-col :lg="12" :sm="22" :xs="22" style="margin-top: 1rem">
           В течение нескольких секунд на Ваш телефон поступит звонок-сброс с
           уникального номера. Вам нужно ввести последние 4 цифры этого номера.
 
@@ -80,7 +85,7 @@ export default {
 
   data() {
     return {
-      isVisible: false,
+      isVisible: true,
       isLoading: false,
       isSmsExpired: false,
       attempsCount: 1,
@@ -109,6 +114,10 @@ export default {
       return this.isSmsExpired || this.attempsCount >= 5
         ? "Запросить код повторно"
         : "Продолжить";
+    },
+
+    dialogWidth() {
+      return document.body.offsetWidth <= 950 ? "80%" : "30%";
     },
   },
 
@@ -201,21 +210,17 @@ export default {
 </script>
 
 <style module>
-.formWrapper {
-  border: 1px solid #cfcfcf73;
+.form_wrapper {
   padding: 2rem;
-  border-radius: 3px;
-  background-color: #ffffff;
 }
-.formContent {
-  display: flex;
-}
-.formWrapper label {
+
+.form_wrapper label {
   font-size: 22px;
+  line-height: 30px;
   color: #4c4c4c;
 }
 
-.timer {
+.form_wrapper .timer {
   width: 100%;
   margin: 1rem 0;
 }
