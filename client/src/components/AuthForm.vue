@@ -1,6 +1,14 @@
 <template>
   <div style="z-index: 100">
-    <div :class="[$style.auth_wrapper, isShadowed, 'container']">
+    <div
+      :class="[
+        $style.auth_wrapper,
+        isShadowed,
+        'container',
+        'shadowed',
+        'bordered',
+      ]"
+    >
       <div :class="$style.title">{{ title }}</div>
 
       <el-form

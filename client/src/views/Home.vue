@@ -14,7 +14,13 @@
             exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
           </h2>
         </div>
-        <div class="btn_primary" @click="vote">Пройти опрос</div>
+
+        <el-button
+          style="font-size: 22px"
+          type="primary"
+          @click="$router.push('/vote')"
+          >Пройти опрос
+        </el-button>
 
         <div :class="[$style.quotation_wrapper, 'container']">
           <div :class="$style.quotation__title">
@@ -25,20 +31,6 @@
         </div>
       </div>
     </MainLayout>
-
-    <el-dialog
-      width="25%"
-      :v-if="authDialogComponent"
-      :visible="isAuthDialogVisible"
-      :close-on-click-modal="false"
-      @close="closeAuthDialog"
-    >
-      <component
-        :is="authDialogComponent"
-        @onSuccessfullAuth="closeAuthDialog"
-      />
-    </el-dialog>
-
     <Statistics />
   </div>
 </template>
@@ -47,43 +39,21 @@
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
 import { getRandomQuote } from "@/utils/common.js";
-
 export default {
   components: {
     MainLayout,
     Statistics,
   },
-
   data() {
     return {
-      authDialogComponent: null,
-      isAuthDialogVisible: false,
-
       quote: {
         title: "",
         author: "",
       },
     };
   },
-
   async mounted() {
     this.quote = await getRandomQuote();
-  },
-
-  methods: {
-    vote() {
-      if (this.$store.getters.isUserAuthorized)
-        return this.$router.push("/vote");
-
-      this.authDialogComponent = async () =>
-        await import("@/components/AuthForm");
-
-      this.isAuthDialogVisible = true;
-    },
-
-    closeAuthDialog() {
-      this.isAuthDialogVisible = false;
-    },
   },
 };
 </script>
@@ -96,21 +66,17 @@ export default {
   text-align: center;
   flex-direction: column;
 }
-
 .main_wrapper h1 {
   margin: 0;
 }
-
 .main_wrapper h2 {
   margin: 0 0 2rem 0;
 }
-
 .main_title,
 .main_subtitle {
   max-width: 830px;
   line-height: 30px;
 }
-
 .main_subtitle {
   margin: 0 auto;
 }
@@ -119,12 +85,12 @@ export default {
   margin: 1.5rem 0;
   border-bottom: 1px solid var(--color-divider);
 }
+
 .quotation_wrapper {
   position: absolute;
   top: calc(100vh - 230px);
   font-weight: bold;
 }
-
 .quotation__title {
   font-size: 20px;
   font-style: italic;

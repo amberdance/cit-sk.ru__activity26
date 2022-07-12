@@ -100,25 +100,8 @@ h2 {
   line-height: 30px;
 }
 
-.btn_primary {
-  font-size: 20px;
-  color: #ffffff;
-  background-color: var(--color-primary);
-  border-radius: 10px;
-  border: none;
-  padding: 10px 30px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
-}
-
-.btn_primary:hover {
-  background-color: #f6cd03;
-  color: #000;
-  transition: 0.2s;
-  cursor: pointer;
-}
-
-.btn_primary:active {
-  background-color: #fbdd47;
+button {
+  font-family: "GOST UI 2";
 }
 
 /************************** COMMON ***************************/
@@ -184,6 +167,10 @@ h2 {
   min-height: 100vh;
 }
 
+.bordered {
+  border-radius: 15px;
+}
+
 .shadowed {
   box-shadow: 4px 3px 7px 0px #80808045;
 }
@@ -196,33 +183,45 @@ h2 {
 
 .el-button {
   color: #ffffff;
-  background-color: var(--color-primary);
   border-radius: 10px;
   border: none;
   padding: 10px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
-}
-
-.el-button:hover {
-  background-color: #f6cd03 !important;
-  color: #000;
   transition: 0.2s;
   cursor: pointer;
 }
 
-.el-button:active {
-  background-color: #fbdd47 !important;
+.el-button--primary {
+  background-color: var(--color-primary);
 }
 
-.el-button:focus {
+.el-button--danger {
+  background-color: var(--color-danger);
+}
+
+.el-button--primary:hover,
+.el-button--primary:active {
+  color: #000;
+  background-color: #f6cd03 !important;
+}
+
+.el-button--danger:hover,
+.el-button--danger:active {
+  background-color: #fe2a2a !important;
+}
+
+.el-button--primary:focus {
   background-color: var(--color-primary);
+}
+
+.el-button--danger:focus {
+  background-color: var(--color-danger);
 }
 
 .el-form-item__error {
   padding: 0px;
   margin-top: -10px;
 }
-
 
 /************************** MEDIA QUERIES ***************************/
 
