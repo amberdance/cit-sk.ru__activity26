@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Polls\PollQuestion;
+use App\Models\Polls\PollVariant;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,10 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            // \App\Models\Polls\Poll::factory(2)->create(),
-            \App\Models\Polls\PollVariant::factory(6)->create(),
-        ]);
+        PollQuestion::factory()->count(4)->has(PollVariant::factory()->count(4), 'variants')->create();
     }
 
 }

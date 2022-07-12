@@ -3,6 +3,7 @@
 namespace Database\Factories\Polls;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -14,10 +15,18 @@ class PollCategoryFactory extends Factory
         return PollCategoryFactory::new ();
     }
 
+    protected $categories = [
+        'Солцеликий',
+        'Величайший',
+        'Политика',
+        'Атмосфера',
+        'Zдобрый вечер',
+    ];
+
     public function definition()
     {
         return [
-            'label' => $this->faker->sentence(1),
+            'label' => Arr::random($this->categories),
         ];
     }
 }
