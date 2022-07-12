@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            \App\Models\Polls\Poll::factory(10)->create(),
-            \App\Models\Polls\PollCategory::factory(10)->create(),
+            // \App\Models\Polls\Poll::factory(2)->create(),
+            \App\Models\Polls\PollVariant::factory(6)->create(),
         ]);
     }
 

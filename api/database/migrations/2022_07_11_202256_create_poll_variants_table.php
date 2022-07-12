@@ -13,9 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('poll_answers', function (Blueprint $table) {
+        Schema::create('poll_variants', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->integer('question_id');
+            $table->string('label');
+            $table->integer('sort')->default(500);
         });
     }
 
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('poll_answers');
+        Schema::dropIfExists('poll_variants');
     }
 };

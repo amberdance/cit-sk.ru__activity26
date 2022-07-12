@@ -38,10 +38,10 @@ Route::prefix('registration')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| RESOURSE API-ROUTES
+| RESOURCE API-ROUTES
 |--------------------------------------------------------------------------
  */
-Route::apiResources([
-    'polls' => \App\Http\Controllers\Polls\PollController::class,
 
+Route::middleware('auth:api')->apiResources([
+    'polls' => \App\Http\Controllers\PollController::class,
 ]);

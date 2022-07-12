@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Polls;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Response;
-use App\Interfaces\Polls\PollRepositoryInterface;
+use App\Interfaces\PollRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class PollController extends Controller
 {
@@ -30,23 +29,13 @@ class PollController extends Controller
         return Response::jsonSuccess($this->pollRepository->getAllPolls());
     }
 
-    public function store(Request $request)
+    public function show(int $id)
     {
-        //
+
+        return Response::jsonSuccess([
+            'poll'      => $this->pollRepository->getPollById($id),
+            'questions' => $this->pollRepository->getPollQuestionsByPollId($id),
+        ]);
     }
 
-    public function show()
-    {
-        //
-    }
-
-    public function update(Request $request)
-    {
-        //
-    }
-
-    public function destroy()
-    {
-        //
-    }
 }

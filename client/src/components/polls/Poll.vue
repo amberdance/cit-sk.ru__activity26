@@ -6,16 +6,19 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
+
 export default {
   components: {
     MainLayout,
   },
+
   data() {
     return {
       isLoading: false,
       poll: {},
     };
   },
+
   async created() {
     try {
       this.isLoading = true;
@@ -28,6 +31,7 @@ export default {
       this.isLoading = false;
     }
   },
+
   methods: {},
 };
 </script>
