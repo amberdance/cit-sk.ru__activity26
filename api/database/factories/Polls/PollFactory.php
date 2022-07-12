@@ -26,13 +26,19 @@ class PollFactory extends Factory
         'Когда доставят Xbox',
     ];
 
+    protected $images = [
+        "/images/polls/Putin.jpg",
+        "/images/polls/1575.jpg",
+        "/images/polls/1605255186225858212.jpg",
+    ];
+
     public function definition()
     {
         return [
             'label'       => Arr::random($this->labels),
             'description' => $this->faker->text(rand(10, 100)),
             'category_id' => PollCategory::factory(),
-            'image'       => __DIR__ . "/../../../public/assets/images/polls/Putin.jpg",
+            'image'       => Arr::random($this->images),
         ];
     }
 }
