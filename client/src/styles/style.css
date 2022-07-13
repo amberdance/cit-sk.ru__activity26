@@ -176,6 +176,9 @@ button {
 }
 
 /************************** APP ***************************/
+.el-dialog {
+   border-radius: 15px; /*не смог установить класс bordered*/
+}
 
 .el-dialog__body {
   word-break: normal !important;

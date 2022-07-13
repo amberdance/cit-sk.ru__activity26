@@ -8,7 +8,7 @@
     :show-close="false"
     :width="dialogWidth"
     top="5%"
-  >
+>
     <el-form
       v-loading="isLoading"
       :class="$style.form_wrapper"
@@ -85,7 +85,7 @@ export default {
 
   data() {
     return {
-      isVisible: true,
+      isVisible: false,
       isLoading: false,
       isSmsExpired: false,
       attempsCount: 1,
