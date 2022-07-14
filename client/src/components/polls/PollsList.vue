@@ -42,6 +42,7 @@ export default {
       isLoading: false,
     };
   },
+
   async created() {
     try {
       this.isLoading = true;
