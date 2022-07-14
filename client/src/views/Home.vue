@@ -18,7 +18,7 @@
         <el-button
           style="font-size: 22px"
           type="primary"
-          @click="$router.push(`/poll/${currentPollId}`)"
+          @click="$router.push(`/polls/${currentPollId}`)"
           >Пройти опрос
         </el-button>
 

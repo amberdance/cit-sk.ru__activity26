@@ -32,4 +32,19 @@ interface PollRepositoryInterface
      */
     public function getPollQuestionsByPollId(int $id): Collection;
 
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
+    public function vote(array $params): void;
+
+    /**
+     * @param string $uuid
+     * @param int $pollId
+     * 
+     * @return bool
+     */
+    public function isUserVoted(string $uuid, int $pollId): bool;
+
 }

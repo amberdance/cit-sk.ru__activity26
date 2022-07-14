@@ -19,7 +19,7 @@
             <div :class="$style">
               <el-button
                 type="primary"
-                @click="$router.push(`/poll/${poll.id}`)"
+                @click="$router.push(`/polls/${poll.id}`)"
                 >Перейти</el-button
               >
             </div>

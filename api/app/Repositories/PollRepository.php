@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\PollRepositoryInterface;
 use App\Models\Polls\Poll;
 use App\Models\Polls\PollQuestion;
+use App\Models\Polls\PollResult;
 use Illuminate\Database\Eloquent\Collection;
 
 class PollRepository implements PollRepositoryInterface
@@ -60,7 +61,6 @@ class PollRepository implements PollRepositoryInterface
     public function getPollQuestionsByPollId(int $id): Collection
     {
 
-        //TO DO: Сделать сортировку вариантов ответов
         $questions = PollQuestion::where('poll_id', $id)->get();
 
         //TO DO: Сделать проверку на пустую коллекцию
@@ -70,5 +70,39 @@ class PollRepository implements PollRepositoryInterface
         }
 
         return $questions;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
+    public function vote(array $params): void
+    {
+
+        foreach ($params['variants'] as $questionId => $variantId) {
+            PollResult::create([
+                'user_uuid'   => $params['user'],
+                'poll_id'     => $params['poll'],
+                'question_id' => $questionId,
+                'variant_id'  => $variantId,
+            ]);
+        }
+    }
+
+    /**
+     * @param string $uuid
+     * @param int $pollId
+     *
+     * @return bool
+     */
+    public function isUserVoted(string $uuid, int $pollId): bool
+    {
+        return boolval(PollResult::select("id")
+                ->where([
+                    'user_uuid' => $uuid,
+                    'poll_id'   => $pollId,
+                ])
+                ->first());
     }
 }
