@@ -8,7 +8,7 @@
     :show-close="false"
     :width="dialogWidth"
     top="5%"
->
+  >
     <el-form
       v-loading="isLoading"
       :class="$style.form_wrapper"
