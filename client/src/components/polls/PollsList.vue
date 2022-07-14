@@ -1,19 +1,27 @@
 <template>
-  <div :class="$style.polls_list">
+  <div :class="$style.polls_list" v-loading="isLoading">
     <h2 style="font-size: 40px">Опросы</h2>
 
     <div :class="$style.polls_wrapper">
-      <div v-for="i in 3" :key="i" :class="$style.polls_wrapper">
+      <div v-for="poll in polls" :key="poll.id" :class="$style.polls_wrapper">
         <div :class="$style.polls_card">
-          <div :class="$style.image"></div>
+          <div
+            :class="$style.image"
+            :style="`background-image:url(${poll.image})`"
+          ></div>
 
           <div :class="$style.meta">
-            <div :class="$style.subtitle">Благоустройство</div>
             <div :class="$style.title">
-              Бесплатные туалеты на каждом перекрестке
+              {{ poll.label }}
             </div>
-            <div :class="$style.btn">
-              <div class="btn_primary">Перейти</div>
+
+            <div :class="$style.subtitle">{{ poll.category }}</div>
+            <div :class="$style">
+              <el-button
+                type="primary"
+                @click="$router.push(`/polls/${poll.id}`)"
+                >Перейти</el-button
+              >
             </div>
           </div>
         </div>
@@ -26,6 +34,27 @@
   </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      polls: [],
+      isLoading: false,
+    };
+  },
+
+  async created() {
+    try {
+      this.isLoading = true;
+      this.polls = await this.$http.get("/polls");
+    } catch (e) {
+      console.error(E);
+    } finally {
+      this.isLoading = false;
+    }
+  },
+};
+</script>
 <style module>
 .polls_list {
   background-color: #9cacb5;
@@ -35,12 +64,10 @@
   justify-content: center;
   align-items: center;
 }
-
 .polls_wrapper {
   display: flex;
   justify-content: space-between;
 }
-
 .polls_card {
   background-color: #ffffff;
   display: flex;
@@ -50,7 +77,6 @@
   min-height: 430px;
   margin-right: 20px;
 }
-
 .polls_card,
 .image {
   border-radius: 15px;
@@ -60,7 +86,6 @@
 }
 .image {
   height: 220px;
-  background-image: url("https://всевдом24.рф/ssl/u/df/11f394ba4c11e7ab389fc6ad831b8f/-/ТУАЛЕТ.jpg");
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -68,22 +93,14 @@
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
-
 .subtitle {
   color: #444444;
   margin: 1rem 0;
   font-weight: bold;
   font-size: 17px;
 }
-
 .title {
   font-size: 20px;
   margin-top: 5px;
-}
-
-.btn {
-  display: block;
-  text-align: center;
-  margin-top: 25px;
 }
 </style>

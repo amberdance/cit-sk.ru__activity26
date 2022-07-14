@@ -24,6 +24,12 @@ import {
   Row,
   Col,
   Drawer,
+  Skeleton,
+  SkeletonItem,
+  Card,
+  Radio,
+  RadioButton,
+  RadioGroup,
 } from "element-ui";
 
 [
@@ -44,6 +50,12 @@ import {
   Row,
   Col,
   Drawer,
+  Skeleton,
+  SkeletonItem,
+  Card,
+  Radio,
+  RadioButton,
+  RadioGroup,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

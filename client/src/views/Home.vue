@@ -18,7 +18,7 @@
         <el-button
           style="font-size: 22px"
           type="primary"
-          @click="$router.push('/vote')"
+          @click="$router.push(`/polls/${currentPollId}`)"
           >Пройти опрос
         </el-button>
 
@@ -34,26 +34,33 @@
       </div>
     </MainLayout>
     <Statistics />
+    <PollsList />
   </div>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
+import PollsList from "../components/polls/PollsList";
 import { getRandomQuote } from "@/utils/common.js";
 export default {
   components: {
     MainLayout,
     Statistics,
+    PollsList,
   },
+
   data() {
     return {
+      currentPollId: 1,
+
       quote: {
         title: "",
         author: "",
       },
     };
   },
+
   async mounted() {
     this.quote = await getRandomQuote();
   },

@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Polls\PollResult;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -22,6 +25,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
 {
+
+    use HasFactory;
 
     protected $guarded = [];
 
@@ -72,4 +77,11 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
+    /**
+     * @return HasMany
+     */
+    public function votes(): HasMany
+    {
+        return $this->hasMany(PollResult::class, 'user_id');
+    }
 }
