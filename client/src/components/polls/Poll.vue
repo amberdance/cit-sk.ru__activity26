@@ -114,8 +114,8 @@ export default {
 
         this.isVoting = true;
         await this.$http.post("/polls/vote", {
-          poll: this.poll.id,
-          user: this.$store.getters.get("user")["uuid"],
+          pollId: this.poll.id,
+          userId: this.$store.getters.get("user")["id"],
           variants: this.variants,
         });
 

@@ -31,7 +31,12 @@ class PollController extends Controller
         return Response::jsonSuccess($this->pollRepository->getAllPolls());
     }
 
-    public function show(int $id)
+    /**
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
     {
         return Response::jsonSuccess([
             'poll'      => $this->pollRepository->getPollById($id),
@@ -39,15 +44,21 @@ class PollController extends Controller
         ]);
     }
 
-    public function vote(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function vote(Request $request): JsonResponse
     {
 
         $request->validate([
-            "user"     => "required",
+            "userId"   => "required",
+            "pollId"   => "required",
             "variants" => "required",
         ]);
 
-        if ($this->pollRepository->isUserVoted($request->user, $request->poll)) {
+        if ($this->pollRepository->isUserVoted($request->userId, $request->pollId)) {
             return Response::jsonError(Constants::VOTED_BEFORE_CODE, Constants::VOTED_BEFORE_MESSAGE);
         };
 

@@ -40,11 +40,11 @@ interface PollRepositoryInterface
     public function vote(array $params): void;
 
     /**
-     * @param string $uuid
+     * @param int $userId
      * @param int $pollId
-     * 
+     *
      * @return bool
      */
-    public function isUserVoted(string $uuid, int $pollId): bool;
+    public function isUserVoted(int $userId, int $pollId): bool;
 
 }

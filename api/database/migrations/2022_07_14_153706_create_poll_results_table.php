@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('poll_results', function (Blueprint $table) {
             $table->id();
-            $table->string('user_uuid');
+            $table->integer('user_id');
             $table->integer('poll_id');
             $table->integer('question_id');
             $table->integer('variant_id');

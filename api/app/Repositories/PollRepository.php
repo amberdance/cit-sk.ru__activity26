@@ -82,8 +82,8 @@ class PollRepository implements PollRepositoryInterface
 
         foreach ($params['variants'] as $questionId => $variantId) {
             PollResult::create([
-                'user_uuid'   => $params['user'],
-                'poll_id'     => $params['poll'],
+                'user_id'     => $params['userId'],
+                'poll_id'     => $params['pollId'],
                 'question_id' => $questionId,
                 'variant_id'  => $variantId,
             ]);
@@ -91,16 +91,16 @@ class PollRepository implements PollRepositoryInterface
     }
 
     /**
-     * @param string $uuid
+     * @param int $userId
      * @param int $pollId
      *
      * @return bool
      */
-    public function isUserVoted(string $uuid, int $pollId): bool
+    public function isUserVoted(int $userId, int $pollId): bool
     {
         return boolval(PollResult::select("id")
                 ->where([
-                    'user_uuid' => $uuid,
+                    'user_id' => $userId,
                     'poll_id'   => $pollId,
                 ])
                 ->first());
