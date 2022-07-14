@@ -1,14 +1,6 @@
 <template>
   <div style="z-index: 100">
-    <div
-      :class="[
-        $style.auth_wrapper,
-        isShadowed,
-        'container',
-        'shadowed',
-        'bordered',
-      ]"
-    >
+    <div :class="[$style.auth_wrapper, isShadowed, 'container', 'bordered']">
       <div :class="$style.title">
         <img
           src="@/assets/logo_secondary.png"
@@ -110,12 +102,8 @@ export default {
 
       try {
         const data = await this.$http.post("/auth/login", this.formData);
-
         $cookies.set("access_token", data.accessToken);
-
-        this.$onSuccess("Спасибо, что Вы с нами", 3000);
         this.$store.commit("setUser", data.user);
-        this.$router.push("/home");
         this.$emit("onSuccessfullAuth");
       } catch (e) {
         if (e.response.status == 401)
@@ -132,7 +120,6 @@ export default {
 </script>
 
 <style module>
-
 .title {
   display: flex;
   flex-direction: column;
@@ -140,7 +127,7 @@ export default {
   text-align: center;
 }
 
-.title img{
+.title img {
   margin-top: -50px;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-    <AuthForm :title="title" />
+    <AuthForm :title="title" @onSuccessfullAuth="$router.push('/home')" />
   </MainLayout>
 </template>
 
