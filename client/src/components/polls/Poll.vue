@@ -13,11 +13,12 @@
           </div>
 
           <div :class="$style.meta_wrapper">
-            <div :class="$style.description">
+            <div v-if="poll.description" :class="$style.description">
               <span>{{ poll.description }}</span>
             </div>
 
             <div
+              v-if="poll.image"
               :class="$style.image"
               :style="`background-image:url(${poll.image});`"
             ></div>
@@ -112,13 +113,21 @@ export default {
         await this.validate();
 
         this.isVoting = true;
-        await this.$http.post("/poll/vote", this.variants);
+        await this.$http.post("/polls/vote", {
+          pollId: this.poll.id,
+          userId: this.$store.getters.get("user")["id"],
+          variants: this.variants,
+        });
 
-        this.$onSuccess(
-          "[Заглушка] Ваш голос принят! Спасибо за участие вопросе"
-        );
+        this.variants = {};
+        this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
       } catch (e) {
-        console.error(e);
+        if (e.code == 401) {
+          this.$store.commit("setUser", {});
+          this.authComponent = () => import("@/components/AuthForm.vue");
+        } else if (e.code == 12)
+          return this.$onWarning("В данном опросе Вы уже принимали участие");
+        else console.error(e);
       } finally {
         this.isVoting = false;
       }
