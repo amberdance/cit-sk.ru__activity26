@@ -7,7 +7,7 @@
         <div :class="$style.polls_card">
           <div
             :class="$style.image"
-            :style="`background-image:url(${poll.image})`"
+            :style="`background-image:url(${poll.thumbnail})`"
           ></div>
 
           <div :class="$style.meta">

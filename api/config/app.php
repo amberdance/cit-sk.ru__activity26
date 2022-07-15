@@ -199,6 +199,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ],
 
     /*
@@ -213,6 +214,7 @@ return [
      */
 
     'aliases'         => Facade::defaultAliases()->merge([
+        'Image' => Intervention\Image\Facades\Image::class
     ])->toArray(),
 
 ];
