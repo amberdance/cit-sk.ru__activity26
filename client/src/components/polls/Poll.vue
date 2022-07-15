@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <div class="container" v-loading="isVoting">
-      <div :class="[$style.poll_wrapper, 'bordered', 'shadowed']">
+      <div :class="[$style.poll_wrapper, 'rounded', 'shadowed']">
         <PollSketelon v-if="isLoading" />
 
         <template v-else>
@@ -52,6 +52,7 @@
     <el-dialog
       v-if="!isAuthorized"
       :visible="Boolean(authComponent)"
+      custom-class="rounded"
       @close="authComponent = null"
       width="25%"
     >
@@ -62,7 +63,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PollSketelon from "./PollSketelon.vue";
+import PollSketelon from "../skeletons/PollSketelon.vue";
 
 export default {
   components: {

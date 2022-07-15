@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
+    "animated-number-vue": "^1.0.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "element-ui": "2.15.6",

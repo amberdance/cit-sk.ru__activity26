@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Polls;
 
+use App\Lib\Thumbnail;
 use App\Models\Polls\PollCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Arr;
@@ -29,16 +30,23 @@ class PollFactory extends Factory
     protected $images = [
         "/images/polls/Putin.jpg",
         "/images/polls/1575.jpg",
-        "/images/polls/1605255186225858212.jpg",
+        "/images/polls/5h4YhDFNw4E.jpg",
+        "/images/polls/7zRZR4Dna-k.jpg",
+        "/images/polls/8RXOuIsU5O0.jpg",
+        "/images/polls/1024px-Operation_Upshot-Knothole_-_Badger_001.jpg",
     ];
 
     public function definition()
     {
+
+        $image = Arr::random($this->images);
+
         return [
             'label'       => Arr::random($this->labels),
             'description' => $this->faker->text(rand(10, 100)),
             'category_id' => PollCategory::factory(),
-            'image'       => Arr::random($this->images),
+            'image'       => $image,
+            'thumbnail'   => Thumbnail::createSmall(public_path() . "/assets/" . $image, public_path() . "/assets/images/polls/thumbnails"),
         ];
     }
 }

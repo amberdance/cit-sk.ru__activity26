@@ -46,3 +46,13 @@ Route::post('/polls/vote', [\App\Http\Controllers\PollController::class, 'vote']
 Route::apiResources([
     'polls' => \App\Http\Controllers\PollController::class,
 ]);
+
+/*
+|--------------------------------------------------------------------------
+| PAGES
+|--------------------------------------------------------------------------
+ */
+Route::group(['prefix' => 'pages'], function () {
+    Route::get('/main/counters', [\App\Http\Controllers\MainPageController::class, 'getCounters']);
+    Route::get('/main/quote', [\App\Http\Controllers\MainPageController::class, 'getQuote']);
+});

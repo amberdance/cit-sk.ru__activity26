@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *  @property string $label
  *  @property string $description
  *  @property string $image
+ *  @property string $thumbnail
  *  @property string $active_from
  *  @property string $active_to
  *  @property string $created_at
@@ -48,6 +49,17 @@ class Poll extends Model
      */
     public function getImageAttribute(string $image): string
     {
+        return asset($image);
+    }
+
+    /**
+     * @param string $image
+     *
+     * @return string
+     */
+    public function getThumbnailAttribute(string $image): string
+    {
+
         return asset($image);
     }
 
