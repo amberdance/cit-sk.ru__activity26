@@ -101,8 +101,34 @@ class PollRepository implements PollRepositoryInterface
         return boolval(PollResult::select("id")
                 ->where([
                     'user_id' => $userId,
-                    'poll_id'   => $pollId,
+                    'poll_id' => $pollId,
                 ])
                 ->first());
+    }
+
+    /**
+     * @param bool $onlyActive
+     *
+     * @return int
+     */
+    public function getPollsCount(bool $onlyActive = false): int
+    {
+        $result = 0;
+
+        if ($onlyActive) {
+            $result = Poll::select('id')->where('is_active', true)->count();
+        } else {
+            $result = Poll::all('id')->count();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPassedPollsCount(): int
+    {
+        return PollResult::all('id')->count();
     }
 }
