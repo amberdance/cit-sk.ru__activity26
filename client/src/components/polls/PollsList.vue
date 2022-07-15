@@ -7,7 +7,7 @@
         <el-row type="flex" :gutter="20" style="width: 100%">
           <el-col v-for="poll in polls" :key="poll.id" :lg="24">
             <div
-              :class="[$style.polls_card, 'bordered']"
+              :class="[$style.polls_card, 'rounded']"
               @click="$router.push(`/polls/${poll.id}`)"
             >
               <div :class="$style.image_wrapper">

@@ -7,6 +7,7 @@
     :lock-scroll="true"
     :show-close="false"
     :width="dialogWidth"
+    custom-class="rounded"
     top="5%"
   >
     <el-form

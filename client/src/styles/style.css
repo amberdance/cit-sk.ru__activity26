@@ -167,7 +167,7 @@ button {
   min-height: 100vh;
 }
 
-.bordered {
+.rounded {
   border-radius: 10px;
 }
 
@@ -176,10 +176,6 @@ button {
 }
 
 /************************** APP ***************************/
-.el-dialog {
-  border-radius: 15px;
-  /*не смог установить класс bordered*/
-}
 
 .el-dialog__body {
   word-break: normal !important;
@@ -229,13 +225,13 @@ button {
 .el-radio__inner {
   height: 30px;
   width: 30px;
-  border: 2px solid #DCDFE6;
+  border: 2px solid #dcdfe6;
   margin-right: 0.5rem;
 }
 
 .el-radio__input.is-checked .el-radio__inner {
   border-color: var(--color-primary);
-  background: #FFFFFF;
+  background: #ffffff;
 }
 
 .el-radio__inner::after {
@@ -244,7 +240,7 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary);
 }
 
@@ -259,7 +255,6 @@ button {
     max-width: 490px;
   }
 }
-
 
 @media (min-width: 576px) {
   .container {

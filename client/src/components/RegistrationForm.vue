@@ -11,7 +11,7 @@
         label-position="left"
       >
         <div
-          :class="[$style.form_wrapper, 'bordered', 'shadowed']"
+          :class="[$style.form_wrapper, 'rounded', 'shadowed']"
           v-loading="isLoading"
         >
           <div :class="$style.heading">Личные данные</div>
@@ -71,7 +71,7 @@
         </div>
 
         <div
-          :class="[$style.form_wrapper, 'bordered', 'shadowed']"
+          :class="[$style.form_wrapper, 'rounded', 'shadowed']"
           v-loading="isLoading"
         >
           <div :class="$style.heading">Данные аккаунта</div>
