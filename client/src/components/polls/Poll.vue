@@ -63,7 +63,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PollSketelon from "./PollSketelon.vue";
+import PollSketelon from "../skeletons/PollSketelon.vue";
 
 export default {
   components: {
