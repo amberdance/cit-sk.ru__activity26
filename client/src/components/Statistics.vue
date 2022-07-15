@@ -6,8 +6,8 @@
           <AnimatedNumber
             :class="$style.count"
             :value="item.count"
-            :formatValue="(count) => count.toFixed()"
-            :duration="150"
+            :round="1"
+            :duration="200"
           ></AnimatedNumber>
           <div :class="$style.label">{{ item.label }}</div>
         </div>
