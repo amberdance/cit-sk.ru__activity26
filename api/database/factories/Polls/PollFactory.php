@@ -46,6 +46,7 @@ class PollFactory extends Factory
             'description' => $this->faker->text(rand(10, 100)),
             'category_id' => PollCategory::factory(),
             'image'       => $image,
+            'is_popular'  => rand(0, 1),
             'thumbnail'   => Thumbnail::createSmall(public_path() . "/assets/" . $image, public_path() . "/assets/images/polls/thumbnails"),
         ];
     }
