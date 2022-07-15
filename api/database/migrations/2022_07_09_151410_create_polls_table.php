@@ -19,11 +19,12 @@ return new class extends Migration
             $table->string('label');
             $table->longText('description');
             $table->string('image')->default('images/polls/image_default.png');
+            $table->string('thumbnail')->default('images/polls/image_default.png');
             $table->boolean('is_active')->default(true);
             $table->boolean('is_ranged')->default(false);
             $table->boolean('is_completed')->default(false);
             $table->boolean('is_popular')->default(false);
-            $table->timestamp('active_from')->default(date('Y-m-d 00:00:00'));
+            $table->timestamp('active_from')->nullable();
             $table->timestamp('active_to')->nullable();
             $table->timestamps();
         });

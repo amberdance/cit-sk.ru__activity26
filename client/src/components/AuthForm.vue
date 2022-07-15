@@ -1,6 +1,6 @@
 <template>
   <div style="z-index: 100">
-    <div :class="[$style.auth_wrapper, isShadowed, 'container', 'bordered']">
+    <div :class="[$style.auth_wrapper, isShadowed, 'container', 'rounded']">
       <div :class="$style.title">
         <img
           src="@/assets/logo_secondary.png"
