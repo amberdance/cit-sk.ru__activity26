@@ -85,4 +85,17 @@ class UserRepository implements UserRepositoryInterface
         $user->is_active = $state;
         $user->save();
     }
+
+    public function getUsersCount(bool $onlyVerified = false): int
+    {
+        $result = 0;
+
+        if ($onlyVerified) {
+            return $result = User::select('id')->where('is_active', true)->count();
+        } else {
+            $result = User::all("id")->count();
+        }
+
+        return $result;
+    }
 }
