@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.statistic_wrapper">
-    <div class="container" style="width: 100%">
+    <div class="container">
       <div :class="$style.statistic_content">
         <div v-for="(item, i) in stats" :key="i">
           <AnimatedNumber
