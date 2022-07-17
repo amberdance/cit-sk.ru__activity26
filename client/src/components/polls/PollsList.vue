@@ -1,46 +1,54 @@
 <template>
   <div style="background-color: #f5d299">
     <div class="container">
-      <div :class="$style.polls_list" v-loading="isLoading">
+      <div :class="$style.polls_list">
         <div :class="$style.heading">Опросы</div>
+        <PollListSkeleton v-if="isLoading" />
+        <template v-else>
+          <el-row type="flex" :gutter="20" style="width: 100%">
+            <el-col v-for="poll in polls" :key="poll.id" :lg="24">
+              <div
+                :class="[$style.polls_card, 'rounded']"
+                @click="$router.push(`/polls/${poll.id}`)"
+              >
+                <div :class="$style.image_wrapper">
+                  <div
+                    :class="$style.image"
+                    :style="`background-image:url(${poll.thumbnail})`"
+                  ></div>
+                </div>
 
-        <el-row type="flex" :gutter="20" style="width: 100%">
-          <el-col v-for="poll in polls" :key="poll.id" :lg="24">
-            <div
-              :class="[$style.polls_card, 'rounded']"
-              @click="$router.push(`/polls/${poll.id}`)"
-            >
-              <div :class="$style.image_wrapper">
-                <div
-                  :class="$style.image"
-                  :style="`background-image:url(${poll.thumbnail})`"
-                ></div>
-              </div>
+                <div :class="$style.meta">
+                  <div :class="$style.category">{{ poll.category }}</div>
+                  <div :class="$style.title">
+                    {{ poll.label }}
+                  </div>
+                </div>
 
-              <div :class="$style.meta">
-                <div :class="$style.category">{{ poll.category }}</div>
-                <div :class="$style.title">
-                  {{ poll.label }}
+                <div :class="$style.footer">
+                  <el-button
+                    type="primary"
+                    @click="$router.push(`/polls/${poll.id}`)"
+                    >Перейти</el-button
+                  >
                 </div>
               </div>
-
-              <div :class="$style.footer">
-                <el-button
-                  type="primary"
-                  @click="$router.push(`/polls/${poll.id}`)"
-                  >Перейти</el-button
-                >
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import PollListSkeleton from "../skeletons/PollListSkeleton.vue";
+
 export default {
+  components: {
+    PollListSkeleton,
+  },
+
   data() {
     return {
       polls: [],
