@@ -240,19 +240,31 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary);
+}
+
+.el-radio-group label {
+  display: flex;
+  align-items: center;
 }
 
 .el-radio__label {
   font-size: 16px;
+  white-space: break-spaces;
 }
 
 /************************** MEDIA QUERIES ***************************/
 
-@media (max-width: 570px) {
+@media (max-width: 420px) {
   .container {
-    max-width: 490px;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 490px) {
+  .container {
+    max-width: 430px;
   }
 }
 

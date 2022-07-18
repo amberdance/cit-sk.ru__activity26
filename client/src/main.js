@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 import VueCookies from "vue-cookies";
 import VueCountdown from "@chenfengyuan/vue-countdown";
+import "element-ui/lib/theme-chalk/display.css";
 
 import "@/utils/axios";
 import "@/plugins/element";
