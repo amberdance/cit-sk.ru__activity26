@@ -112,13 +112,14 @@ export default {
         await this.validate();
 
         this.isVoting = true;
+
         await this.$http.post("/polls/vote", {
           pollId: this.poll.id,
           userId: this.$store.getters.get("user")["id"],
           variants: this.variants,
         });
 
-        this.variants = {};
+        this.$router.push("/home");
         this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
       } catch (e) {
         if (e.code == 401) {
@@ -166,28 +167,23 @@ export default {
   color: var(--color-font--secondary);
   background-color: var(--color-primary);
 }
-
 .poll_wrapper .image_wrapper {
   margin: 1rem 0;
 }
-
 .poll_wrapper .meta_wrapper {
   font-size: 18px;
   font-weight: bold;
   color: #606266;
   padding: 1rem 1.5rem;
 }
-
 .poll_wrapper .poll_label {
   font-size: 30px;
 }
-
 .poll_wrapper .poll_id {
   padding: 0.5rem;
   border-radius: 5px;
   border: 2px solid var(--color-font--secondary);
 }
-
 .questions_wrapper .question {
   border: 1px dashed #ebebeb;
   margin: 1rem 0;
