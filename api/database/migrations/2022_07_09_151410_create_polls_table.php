@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->id();
+            $table->integer('sort')->default(500);
             $table->integer('category_id');
             $table->string('label');
             $table->longText('description');

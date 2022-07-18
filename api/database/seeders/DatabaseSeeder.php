@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        PollQuestion::factory()->count(4)->has(PollVariant::factory()->count(4), 'variants')->create();
-        User::factory()->create();
+        // PollQuestion::factory()->count(4)->has(PollVariant::factory()->count(4), 'variants')->create();
+        // User::factory()->create();
     }
 
 }

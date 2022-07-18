@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('poll_questions', function (Blueprint $table) {
             $table->id();
+            $table->integer('sort')->default(500);
             $table->integer('poll_id');
+            $table->boolean('is_multiple')->default(false);
+            $table->boolean('is_custom')->default(false);
             $table->string('label');
         });
     }

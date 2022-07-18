@@ -18,11 +18,10 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name'              => 'Пиво',
-            'surname'           => 'Рыба',
-            'surname'           => 'Закуска',
+            'name'              => 'Admin',
+            'surname'           => 'admin',
             'uuid'              => Str::uuid(),
-            'phone'             => '+7(996)4163600',
+            'phone'             => '+7(999)9999999',
             'email'             => 'testless@test.ru',
             'email_verified_at' => now(),
             'password'          => password_hash('testless', PASSWORD_DEFAULT),

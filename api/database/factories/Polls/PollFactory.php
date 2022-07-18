@@ -43,7 +43,7 @@ class PollFactory extends Factory
 
         return [
             'label'       => Arr::random($this->labels),
-            'description' => $this->faker->text(rand(10, 100)),
+            'description' => 'Прочитайте, пожалуйста, внимательно вопрос и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то напишите свой вариант.',
             'category_id' => PollCategory::factory(),
             'image'       => $image,
             'is_popular'  => rand(0, 1),
