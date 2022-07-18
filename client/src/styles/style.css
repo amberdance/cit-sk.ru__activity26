@@ -250,9 +250,15 @@ button {
 
 /************************** MEDIA QUERIES ***************************/
 
-@media (max-width: 570px) {
+@media (max-width: 420px) {
   .container {
-    max-width: 490px;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 490px) {
+  .container {
+    max-width: 430px;
   }
 }
 

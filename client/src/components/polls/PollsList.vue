@@ -1,12 +1,19 @@
 <template>
   <div style="background-color: #f5d299">
     <div class="container">
-      <div :class="$style.polls_list">
+      <div :class="$style.polls_wrapper">
         <div :class="$style.heading">Опросы</div>
         <PollListSkeleton v-if="isLoading" />
+
         <template v-else>
-          <el-row type="flex" :gutter="20" style="width: 100%">
-            <el-col v-for="poll in polls" :key="poll.id" :lg="24">
+          <el-row type="flex" :class="$style.polls_list" :gutter="20">
+            <el-col
+              v-for="poll in polls"
+              :key="poll.id"
+              :xs="24"
+              :sm="12"
+              :lg="24"
+            >
               <div
                 :class="[$style.polls_card, 'rounded']"
                 @click="$router.push(`/polls/${poll.id}`)"
@@ -69,29 +76,25 @@ export default {
 };
 </script>
 <style module>
-.polls_list {
-  color: var(--color-font--primary);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.polls_wrapper {
   padding: 1rem 0;
 }
-.polls_list .polls_wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-.polls_list .heading {
+.polls_wrapper .heading {
   font-size: 40px;
   width: 100%;
   margin: 1rem 0;
   text-align: center;
   font-weight: bold;
 }
+.polls_list {
+  color: var(--color-font--primary);
+}
+
 .polls_card {
   background-color: #ffffff;
   cursor: pointer;
   transition: box-shadow 0.2s linear;
+  margin-bottom: 0.5rem;
 }
 
 .polls_card .meta {
@@ -153,5 +156,13 @@ export default {
 
 .polls_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
+}
+@media (max-width: 992px) {
+  .polls_list {
+    flex-wrap: wrap;
+  }
+  .polls_list .polls_card {
+    border-radius: 0;
+  }
 }
 </style>
