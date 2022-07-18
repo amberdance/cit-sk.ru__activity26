@@ -49,10 +49,11 @@
     </div>
     <el-dialog
       v-if="!isAuthorized"
-      :visible="Boolean(authComponent)"
-      custom-class="rounded"
-      @close="authComponent = null"
       width="25%"
+      custom-class="rounded"
+      :visible="Boolean(authComponent)"
+      :lock-scroll="false"
+      @close="authComponent = null"
     >
       <component :is="authComponent" @onSuccessfullAuth="vote" />
     </el-dialog>
