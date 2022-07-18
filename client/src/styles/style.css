@@ -240,12 +240,18 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary);
+}
+
+.el-radio-group label {
+  display: flex;
+  align-items: center;
 }
 
 .el-radio__label {
   font-size: 16px;
+  white-space: break-spaces;
 }
 
 /************************** MEDIA QUERIES ***************************/

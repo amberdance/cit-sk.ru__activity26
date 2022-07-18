@@ -31,7 +31,7 @@
         />
         <el-skeleton-item
           variant="image"
-          style="width: 50%; height: auto; min-height: 410px; margin-top: 1rem"
+          style="width: 100%; height: auto; min-height: 500px; margin-top: 1rem"
         />
 
         <div

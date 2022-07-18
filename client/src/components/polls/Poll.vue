@@ -17,11 +17,9 @@
               <span>{{ poll.description }}</span>
             </div>
 
-            <div
-              v-if="poll.image"
-              :class="$style.image"
-              :style="`background-image:url(${poll.image});`"
-            ></div>
+            <div v-if="poll.image" :class="$style.image_wrapper">
+              <img :src="poll.image" />
+            </div>
 
             <div :class="$style.questions_wrapper">
               <div
@@ -168,26 +166,26 @@ export default {
   color: var(--color-font--secondary);
   background-color: var(--color-primary);
 }
+
+.poll_wrapper .image_wrapper {
+  margin: 1rem 0;
+}
+
 .poll_wrapper .meta_wrapper {
   font-size: 18px;
   font-weight: bold;
   color: #606266;
   padding: 1rem 1.5rem;
 }
+
 .poll_wrapper .poll_label {
   font-size: 30px;
 }
+
 .poll_wrapper .poll_id {
   padding: 0.5rem;
   border-radius: 5px;
   border: 2px solid var(--color-font--secondary);
-}
-
-.poll_wrapper .image {
-  padding-bottom: 30%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  margin-top: 1rem;
 }
 
 .questions_wrapper .question {
