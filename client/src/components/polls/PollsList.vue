@@ -10,9 +10,10 @@
             <el-col
               v-for="poll in polls"
               :key="poll.id"
-              :xs="24"
+              :xs="12"
               :sm="12"
-              :lg="24"
+              :lg="8"
+              :xl="24"
             >
               <div
                 :class="[$style.polls_card, 'rounded']"
@@ -60,10 +61,11 @@ export default {
       isLoading: false,
     };
   },
+
   async created() {
     try {
       this.isLoading = true;
-      this.polls = await this.$http.get("/polls");
+      this.polls = await this.$http.get("/polls", { limit: 4 });
     } catch (e) {
       console.error(e);
     } finally {
@@ -85,6 +87,9 @@ export default {
 }
 .polls_list {
   color: var(--color-font--primary);
+  justify-content: center;
+  width: 100%;
+  margin: 0 !important;
 }
 .polls_card {
   background-color: #ffffff;
