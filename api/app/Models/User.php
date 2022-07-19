@@ -10,14 +10,15 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  *  @property int $id
- *  @property int $policy_agree
+ *  @property int $district_id
  *  @property int $points
  *  @property bool $is_active
  *  @property bool $is_admin
  *  @property string $uuid
- *  @property string $name
- *  @property string $surname
+ *  @property string $fist_name
+ *  @property string $last_mame
  *  @property string $patronymic
+ *  @property string $address
  *  @property string $email
  *  @property string $password
  *  @property string $ip_address
@@ -32,17 +33,19 @@ class User extends Authenticatable implements JWTSubject
     protected $guarded = [];
 
     protected $hidden = [
-        'name',
-        'surname',
+        'id',
+        'first_name',
+        'last_name',
         'patronymic',
         'ip_address',
         'email',
-        'policy_agree',
+        'address',
         'password',
         'is_active',
         'is_admin',
         'created_at',
         'updated_at',
+        'email_verified_at'
     ];
 
     protected $casts = [

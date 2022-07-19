@@ -18,15 +18,18 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name'              => 'Admin',
-            'surname'           => 'admin',
+            'first_name'        => 'Admin',
+            'last_name'         => 'admin',
+            'birthday'          => '66.66.1666',
+            'district_id'       => 1,
+            'address'           => 'test Address',
             'uuid'              => Str::uuid(),
             'phone'             => '+7(999)9999999',
             'email'             => 'testless@test.ru',
             'email_verified_at' => now(),
             'password'          => password_hash('testless', PASSWORD_DEFAULT),
-            'is_admin'          => 1,
-            'is_active'         => 1,
+            'is_admin'          => true,
+            'is_active'         => true,
             'ip_address'        => '127.0.0.1',
         ];
     }
