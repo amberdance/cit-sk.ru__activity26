@@ -20,11 +20,10 @@ return new class extends Migration
             $table->integer('points')->default(20);
             $table->integer('category_id');
             $table->string('label');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->string('image')->default('images/polls/image_default.png');
             $table->string('thumbnail')->default(Thumbnail::createSmall(public_path() . '/assets/images/polls/image_default.png'));
             $table->boolean('is_active')->default(true);
-            $table->boolean('is_ranged')->default(false);
             $table->boolean('is_completed')->default(false);
             $table->boolean('is_popular')->default(false);
             $table->timestamp('active_from')->nullable();
