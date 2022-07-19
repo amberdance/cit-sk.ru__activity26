@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  *  @property int $attempts
  *  @property string $type
  *  @property string $created_at
- *  @property string $update_at
+ *  @property string $updated_at
  */
 
 class Registration extends Model

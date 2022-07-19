@@ -16,11 +16,7 @@ class PollCategoryFactory extends Factory
     }
 
     protected $categories = [
-        'Солцеликий',
-        'Величайший',
-        'Политика',
-        'Атмосфера',
-        'Zдобрый вечер',
+        'Общество',
     ];
 
     public function definition()

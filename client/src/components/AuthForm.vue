@@ -46,7 +46,7 @@
 
       <div class="a-center m-1">
         <span style="font-weight: bold"> Нет аккаунта? </span>
-        <router-link to="registration">Зарегистрироваться</router-link>
+        <router-link to="/registration">Зарегистрироваться</router-link>
       </div>
     </div>
   </div>

@@ -10,9 +10,10 @@
             <el-col
               v-for="poll in polls"
               :key="poll.id"
-              :xs="24"
+              :xs="12"
               :sm="12"
-              :lg="24"
+              :lg="8"
+              :xl="24"
             >
               <div
                 :class="[$style.polls_card, 'rounded']"
@@ -50,12 +51,10 @@
 
 <script>
 import PollListSkeleton from "../skeletons/PollListSkeleton.vue";
-
 export default {
   components: {
     PollListSkeleton,
   },
-
   data() {
     return {
       polls: [],
@@ -66,7 +65,7 @@ export default {
   async created() {
     try {
       this.isLoading = true;
-      this.polls = await this.$http.get("/polls");
+      this.polls = await this.$http.get("/polls", { limit: 4 });
     } catch (e) {
       console.error(e);
     } finally {
@@ -88,15 +87,16 @@ export default {
 }
 .polls_list {
   color: var(--color-font--primary);
+  justify-content: center;
+  width: 100%;
+  margin: 0 !important;
 }
-
 .polls_card {
   background-color: #ffffff;
   cursor: pointer;
   transition: box-shadow 0.2s linear;
   margin-bottom: 0.5rem;
 }
-
 .polls_card .meta {
   padding: 1rem;
   min-height: 90px;
@@ -114,6 +114,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   transform: scale3d(1, 1, 1);
@@ -124,7 +125,6 @@ export default {
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
 }
-
 .polls_card .image:hover {
   transform: scale3d(1.1, 1.1, 1.1);
   -webkit-transform: scale3d(1.1, 1.1, 1.1);
@@ -153,10 +153,16 @@ export default {
   width: 100%;
   transition: all 0.2s linear;
 }
-
 .polls_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
 }
+
+@media (min-width: 1500px) {
+  .polls_card {
+    max-width: 320px;
+  }
+}
+
 @media (max-width: 992px) {
   .polls_list {
     flex-wrap: wrap;

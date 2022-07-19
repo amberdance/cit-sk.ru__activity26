@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  *  @property int $id
  *  @property int $category_id
+ *  @property int $points
+ *  @property int $sort
  *  @property string $label
  *  @property string $description
  *  @property string $image

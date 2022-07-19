@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('poll_id');
             $table->integer('question_id');
             $table->integer('variant_id');
+            $table->string('custom_answer')->nullable();
         });
     }
 

@@ -150,6 +150,10 @@ button {
   margin: 2rem 0;
 }
 
+.m-0 {
+  margin: 0;
+}
+
 .m-1 {
   margin: 1rem 0;
 }
@@ -218,10 +222,6 @@ button {
   background-color: var(--color-danger);
 }
 
-.el-form-item__error {
-  padding: 0px;
-}
-
 .el-radio__inner {
   height: 30px;
   width: 30px;
@@ -240,7 +240,7 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary);
 }
 
@@ -295,5 +295,11 @@ button {
 @media (min-width: 1400px) {
   .container {
     max-width: 1400px;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .el-col-xs-12 {
+    width: 100%;
   }
 }
