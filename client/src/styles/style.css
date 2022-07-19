@@ -150,6 +150,10 @@ button {
   margin: 2rem 0;
 }
 
+.m-0 {
+  margin: 0;
+}
+
 .m-1 {
   margin: 1rem 0;
 }
@@ -218,10 +222,6 @@ button {
   background-color: var(--color-danger);
 }
 
-.el-form-item__error {
-  padding: 0px;
-}
-
 .el-radio__inner {
   height: 30px;
   width: 30px;
@@ -244,15 +244,27 @@ button {
   color: var(--color-primary);
 }
 
+.el-radio-group label {
+  display: flex;
+  align-items: center;
+}
+
 .el-radio__label {
   font-size: 16px;
+  white-space: break-spaces;
 }
 
 /************************** MEDIA QUERIES ***************************/
 
-@media (max-width: 570px) {
+@media (max-width: 420px) {
   .container {
-    max-width: 490px;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 490px) {
+  .container {
+    max-width: 430px;
   }
 }
 
@@ -283,5 +295,11 @@ button {
 @media (min-width: 1400px) {
   .container {
     max-width: 1400px;
+  }
+}
+
+@media only screen and (max-width: 580px) {
+  .el-col-xs-12 {
+    width: 100%;
   }
 }

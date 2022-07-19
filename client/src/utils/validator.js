@@ -24,3 +24,8 @@ export const passwordStrengthValidator = (password) =>
   );
 
 export const incomeCallCodeValidator = (code) => /^\d{4}/g.test(code);
+
+export const birthdatValidator = (birthday) =>
+  /^(?:0[1-9]|[12]\d|3[01])([/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/g.test(
+    birthday
+  );

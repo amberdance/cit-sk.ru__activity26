@@ -1,46 +1,60 @@
 <template>
   <div style="background-color: #f5d299">
     <div class="container">
-      <div :class="$style.polls_list" v-loading="isLoading">
+      <div :class="$style.polls_wrapper">
         <div :class="$style.heading">Опросы</div>
+        <PollListSkeleton v-if="isLoading" />
 
-        <el-row type="flex" :gutter="20" style="width: 100%">
-          <el-col v-for="poll in polls" :key="poll.id" :lg="24">
-            <div
-              :class="[$style.polls_card, 'rounded']"
-              @click="$router.push(`/polls/${poll.id}`)"
+        <template v-else>
+          <el-row type="flex" :class="$style.polls_list" :gutter="20">
+            <el-col
+              v-for="poll in polls"
+              :key="poll.id"
+              :xs="12"
+              :sm="12"
+              :lg="8"
+              :xl="24"
             >
-              <div :class="$style.image_wrapper">
-                <div
-                  :class="$style.image"
-                  :style="`background-image:url(${poll.thumbnail})`"
-                ></div>
-              </div>
+              <div
+                :class="[$style.polls_card, 'rounded']"
+                @click="$router.push(`/polls/${poll.id}`)"
+              >
+                <div :class="$style.image_wrapper">
+                  <div
+                    :class="$style.image"
+                    :style="`background-image:url(${poll.thumbnail})`"
+                  ></div>
+                </div>
 
-              <div :class="$style.meta">
-                <div :class="$style.category">{{ poll.category }}</div>
-                <div :class="$style.title">
-                  {{ poll.label }}
+                <div :class="$style.meta">
+                  <div :class="$style.category">{{ poll.category }}</div>
+                  <div :class="$style.title">
+                    {{ poll.label }}
+                  </div>
+                </div>
+
+                <div :class="$style.footer">
+                  <el-button
+                    type="primary"
+                    @click="$router.push(`/polls/${poll.id}`)"
+                    >Перейти</el-button
+                  >
                 </div>
               </div>
-
-              <div :class="$style.footer">
-                <el-button
-                  type="primary"
-                  @click="$router.push(`/polls/${poll.id}`)"
-                  >Перейти</el-button
-                >
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import PollListSkeleton from "../skeletons/PollListSkeleton.vue";
 export default {
+  components: {
+    PollListSkeleton,
+  },
   data() {
     return {
       polls: [],
@@ -51,7 +65,7 @@ export default {
   async created() {
     try {
       this.isLoading = true;
-      this.polls = await this.$http.get("/polls");
+      this.polls = await this.$http.get("/polls", { limit: 4 });
     } catch (e) {
       console.error(e);
     } finally {
@@ -61,31 +75,28 @@ export default {
 };
 </script>
 <style module>
-.polls_list {
-  color: var(--color-font--primary);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.polls_wrapper {
   padding: 1rem 0;
 }
-.polls_list .polls_wrapper {
-  display: flex;
-  justify-content: space-between;
-}
-.polls_list .heading {
+.polls_wrapper .heading {
   font-size: 40px;
   width: 100%;
   margin: 1rem 0;
   text-align: center;
   font-weight: bold;
 }
+.polls_list {
+  color: var(--color-font--primary);
+  justify-content: center;
+  width: 100%;
+  margin: 0 !important;
+}
 .polls_card {
   background-color: #ffffff;
   cursor: pointer;
   transition: box-shadow 0.2s linear;
+  margin-bottom: 0.5rem;
 }
-
 .polls_card .meta {
   padding: 1rem;
   min-height: 90px;
@@ -103,6 +114,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   transform: scale3d(1, 1, 1);
@@ -113,7 +125,6 @@ export default {
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
 }
-
 .polls_card .image:hover {
   transform: scale3d(1.1, 1.1, 1.1);
   -webkit-transform: scale3d(1.1, 1.1, 1.1);
@@ -142,8 +153,22 @@ export default {
   width: 100%;
   transition: all 0.2s linear;
 }
-
 .polls_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
+}
+
+@media (min-width: 1500px) {
+  .polls_card {
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 992px) {
+  .polls_list {
+    flex-wrap: wrap;
+  }
+  .polls_list .polls_card {
+    border-radius: 0;
+  }
 }
 </style>

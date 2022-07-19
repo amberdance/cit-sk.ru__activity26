@@ -10,17 +10,22 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  *  @property int $id
- *  @property int $policy_agree
+ *  @property int $district_id
+ *  @property int $points
  *  @property bool $is_active
  *  @property bool $is_admin
  *  @property string $uuid
- *  @property string $name
- *  @property string $surname
+ *  @property string $fist_name
+ *  @property string $last_mame
  *  @property string $patronymic
+ *  @property string $birthday
+ *  @property string $address
  *  @property string $email
  *  @property string $password
  *  @property string $ip_address
  *  @property string $phone
+ *  @property string $created_at
+ *  @property string $updated_at
  */
 
 class User extends Authenticatable implements JWTSubject
@@ -31,22 +36,28 @@ class User extends Authenticatable implements JWTSubject
     protected $guarded = [];
 
     protected $hidden = [
-        'name',
-        'surname',
+        'id',
+        'first_name',
+        'last_name',
         'patronymic',
+        'district_id',
+        'phone',
+        'birthday',
         'ip_address',
         'email',
-        'policy_agree',
+        'address',
         'password',
         'is_active',
         'is_admin',
         'created_at',
         'updated_at',
+        'email_verified_at',
     ];
 
     protected $casts = [
         'is_admin'   => 'boolean',
         'is_active'  => 'boolean',
+        'birthday'   => 'datetime:d.m.Y',
         'created_at' => 'datetime:d.m.Y H:i:s',
         'updated_at' => 'datetime:d.m.Y H:i:s',
     ];
@@ -58,7 +69,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function getFullNameAttribute(): string
     {
-        return "{$this->surname} {$this->name}" . ($this->patronymic ? " {$this->patronymic}" : "");
+        return "{$this->last_name} {$this->first_name}" . ($this->patronymic ? " {$this->patronymic}" : "");
     }
 
     /**

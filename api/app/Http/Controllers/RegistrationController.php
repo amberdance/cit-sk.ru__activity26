@@ -67,6 +67,7 @@ class RegistrationController extends Controller
      */
     public function resetCode(Request $request): JsonResponse
     {
+
         $user       = $this->userRepository->getUserByUUID($request->uuid);
         $verifyCode = rand(1000, 9999);
 

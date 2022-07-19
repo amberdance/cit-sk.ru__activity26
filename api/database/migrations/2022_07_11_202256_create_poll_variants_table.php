@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('poll_variants', function (Blueprint $table) {
             $table->id();
+            $table->integer('sort')->default(500);
             $table->integer('question_id');
             $table->string('label');
-            $table->integer('sort')->default(500);
         });
     }
 

@@ -8,7 +8,7 @@
 
     <div :class="[$style.auth_wrapper, 'd-flex align-center']">
       <template v-if="isAuthorized">
-        <a href="#" @click="$logout()" :class="$style.item"
+        <a href="#" @click="$logout()" :class="$style.item" style="padding: 0"
           ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
             >Выход</span
           ></a

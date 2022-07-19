@@ -18,9 +18,9 @@
           <el-divider></el-divider>
 
           <div :class="$style.form_item">
-            <el-form-item required label="Фамилия" prop="surname">
+            <el-form-item required label="Фамилия" prop="lastName">
               <el-input
-                v-model="formData.surname"
+                v-model="formData.lastName"
                 clearable
                 :disabled="isFormSubmitted"
               />
@@ -32,9 +32,9 @@
           </div>
 
           <div :class="$style.form_item">
-            <el-form-item required label="Имя" prop="name">
+            <el-form-item required label="Имя" prop="firstName">
               <el-input
-                v-model="formData.name"
+                v-model="formData.firstName"
                 clearable
                 :disabled="isFormSubmitted"
               />
@@ -53,6 +53,29 @@
                 :disabled="isFormSubmitted"
               />
             </el-form-item>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Дата рождения" prop="birthday">
+              <el-input
+                v-model="formData.birthday"
+                clearable
+                v-mask="'##.##.####'"
+                placeholder="12.12.1993"
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Адрес проживания" prop="address">
+              <el-input
+                v-model="formData.address"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
 
           <div :class="$style.form_item">
@@ -156,6 +179,7 @@ import {
   matchPasswordsValidator,
   phoneNumberValidator,
   emailValidator,
+  birthdatValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
@@ -173,28 +197,47 @@ export default {
       isFormSubmitted: false,
 
       formData: {
-        name: null,
-        surname: null,
+        firstName: null,
+        lastName: null,
+        districtId: 0,
+        address: null,
+        birthday: null,
         patronymic: null,
         phone: null,
         email: null,
         password: null,
         confirmPassword: null,
-        policyAgree: [],
       },
 
       rules: {
-        name: [
+        firstName: [
           {
             required: true,
             message: VALIDATE_DEFAULT_ERROR,
           },
         ],
 
-        surname: [
+        lastName: [
           {
             required: true,
             message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        address: [
+          {
+            required: true,
+            message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        birthday: [
+          {
+            required: true,
+            validator: (rule, birthday, callback) =>
+              birthdatValidator(birthday)
+                ? callback()
+                : callback(new Error("Укажите дату рождения")),
           },
         ],
 
@@ -239,15 +282,6 @@ export default {
                 : callback(new Error("Укажите номер телефона")),
           },
         ],
-
-        policyAgree: [
-          {
-            type: "array",
-            required: true,
-            message: "Подтвердите ознакомление",
-            trigger: "change",
-          },
-        ],
       },
     };
   },
@@ -263,9 +297,12 @@ export default {
         this.isLoading = true;
 
         const { uuid } = await this.$http.post("/users", {
-          name: this.formData.name,
-          surname: this.formData.surname,
+          firstName: this.formData.firstName,
+          lastName: this.formData.lastName,
           patronymic: this.formData.patronymic,
+          districtId: this.formData.districtId || 66,
+          birthday: this.formData.birthday,
+          address: this.formData.address,
           phone: this.formData.phone,
           email: this.formData.email,
           password: this.formData.password,
@@ -276,16 +313,17 @@ export default {
         this.$refs.dialog.show(uuid);
       } catch (e) {
         if (e.code == 422)
-          return this.$onWarning("Заполните все обязательные поля");
-
-        if (e.error == "The phone format is invalid.")
-          return this.$onWarning("Некорректый номер телефона");
+          return this.$onWarning("Не все поля заполнены корректно");
 
         if (e.code == 1062)
-          return this.$onWarning(
-            `Номер телефона ${this.formData.phone} был ранее зарегистрирован`
-          );
+          if (e.message.includes("mail"))
+            return this.$onWarning(
+              "Такой адрес электронной почты уже зарегистрирован"
+            );
+        if (e.message.includes("phone"))
+          return this.$onWarning("Такой номер телефона уже зарегистрирован");
 
+        this.$onError();
         console.error(e);
       } finally {
         this.isLoading = false;

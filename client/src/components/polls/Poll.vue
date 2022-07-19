@@ -17,11 +17,9 @@
               <span>{{ poll.description }}</span>
             </div>
 
-            <div
-              v-if="poll.image"
-              :class="$style.image"
-              :style="`background-image:url(${poll.image});`"
-            ></div>
+            <div v-if="poll.image" :class="$style.image_wrapper">
+              <img :src="poll.image" />
+            </div>
 
             <div :class="$style.questions_wrapper">
               <div
@@ -51,10 +49,11 @@
     </div>
     <el-dialog
       v-if="!isAuthorized"
-      :visible="Boolean(authComponent)"
-      custom-class="rounded"
-      @close="authComponent = null"
       width="25%"
+      custom-class="rounded"
+      :visible="Boolean(authComponent)"
+      :lock-scroll="false"
+      @close="authComponent = null"
     >
       <component :is="authComponent" @onSuccessfullAuth="vote" />
     </el-dialog>
@@ -63,7 +62,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PollSketelon from "../skeletons/PollSketelon.vue";
+import PollSketelon from "../skeletons/PollSkeleton.vue";
 
 export default {
   components: {
@@ -114,13 +113,14 @@ export default {
         await this.validate();
 
         this.isVoting = true;
+
         await this.$http.post("/polls/vote", {
           pollId: this.poll.id,
           userId: this.$store.getters.get("user")["id"],
           variants: this.variants,
         });
 
-        this.variants = {};
+        this.$router.push("/home");
         this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
       } catch (e) {
         if (e.code == 401) {
@@ -168,6 +168,15 @@ export default {
   color: var(--color-font--secondary);
   background-color: var(--color-primary);
 }
+.poll_wrapper .image_wrapper {
+  margin: 1rem 0;
+}
+.poll_wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+}
 .poll_wrapper .meta_wrapper {
   font-size: 18px;
   font-weight: bold;
@@ -182,14 +191,6 @@ export default {
   border-radius: 5px;
   border: 2px solid var(--color-font--secondary);
 }
-
-.poll_wrapper .image {
-  padding-bottom: 30%;
-  background-repeat: no-repeat;
-  background-size: contain;
-  margin-top: 1rem;
-}
-
 .questions_wrapper .question {
   border: 1px dashed #ebebeb;
   margin: 1rem 0;

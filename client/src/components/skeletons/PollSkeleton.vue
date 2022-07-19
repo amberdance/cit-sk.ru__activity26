@@ -1,5 +1,5 @@
 <template>
-  <el-skeleton :loading="true" animated :class="$style.root">
+  <el-skeleton animated :class="$style.root">
     <template slot="template">
       <div class="d-flex align-center">
         <el-skeleton-item
@@ -31,7 +31,7 @@
         />
         <el-skeleton-item
           variant="image"
-          style="width: 50%; height: auto; min-height: 410px; margin-top: 1rem"
+          style="width: 100%; height: auto; min-height: 500px; margin-top: 1rem"
         />
 
         <div
@@ -57,16 +57,6 @@
   </el-skeleton>
 </template>
 
-<script>
-export default {
-  props: {
-    isLoading: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-</script>
 <style module>
 .root .item {
   margin-top: 0.5rem;

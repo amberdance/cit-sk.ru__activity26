@@ -23,16 +23,31 @@ class PollRepository implements PollRepositoryInterface
     /**
      * @return Collection
      */
-    public function getAllPolls(): Collection
+    public function getAllPolls(?array $params = null, ?int $limit = null): Collection
     {
-        return Poll::select("polls.*", "poll_categories.label as category")
-            ->where([
-                'polls.is_active'    => 1,
-                'polls.is_completed' => 0,
-            ])
+
+        $select = Poll::select("polls.*", "poll_categories.label as category")
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
-            ->orderByDesc('created_at')
-            ->take(4)
+            ->orderByDesc('created_at');
+
+        if (is_array($params)) {
+            if (in_array('completed', $params)) {
+                $select->where('polls.is_completed', true);
+            }
+
+            if (in_array('available', $params)) {
+                $select->where('polls.is_completed', false);
+
+            }
+        }
+
+        if ($limit) {
+            $select->take($limit);
+        }
+
+        return $select->where('polls.is_active', true)
+            ->where('polls.active_to', '=', null)
+            ->orWhere('polls.active_to', '>=', date('Y-m-d H:i:s'))
             ->get('label as category');
     }
 
@@ -46,8 +61,8 @@ class PollRepository implements PollRepositoryInterface
         return Poll::select("polls.*", "poll_categories.label as category")
             ->where([
                 'polls.id'           => $id,
-                'polls.is_active'    => 1,
-                'polls.is_completed' => 0,
+                'polls.is_active'    => true,
+                'polls.is_completed' => false,
             ])
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
             ->firstOrFail('label as category');

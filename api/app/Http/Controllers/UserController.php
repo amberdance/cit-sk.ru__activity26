@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ValidationHelper;
 use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
@@ -32,12 +33,16 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'name'            => 'required',
-            'surname'         => 'required',
+            'firstName'       => 'required',
+            'lastName'        => 'required',
             'confirmPassword' => 'required',
+            'address'         => 'required',
+            'districtId'      => 'required',
+            'address'         => 'required',
             'email'           => 'required|email',
-            'password'        => ['required', 'regex:/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/'],
-            'phone'           => ['required', 'regex:/^(\+7[\- ]?)?(\([9]{1}\d{2}\)?[\- ]?)?[\d\- ]{5,10}$/'],
+            'birthday'        => ['required', 'regex:' . ValidationHelper::BIRTHDAY_REGEXP],
+            'password'        => ['required', 'regex:' . ValidationHelper::PASSWORD_REGEXP],
+            'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
         ]);
 
         if ($request->password !== $request->confirmPassword) {
@@ -63,12 +68,17 @@ class UserController extends Controller
                 Response::HTTP_CREATED
             );
         } catch (Throwable $e) {
-            $error = $e->errorInfo;
 
-            // Dublicate entry error
-            if ($error[1] == 1062) {
-                return Response::jsonError($error[1], $error[2]);
+            if (property_exists($e, 'errorInfo')) {
+                $error = $e->errorInfo;
+
+                // Dublicate entry error
+                if ($error[1] == 1062) {
+                    return Response::jsonError($error[1], $error[2]);
+                }
             }
+
+            return Response::jsonError(0, $e->getMessage());
         }
     }
 
