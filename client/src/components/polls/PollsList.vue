@@ -114,6 +114,7 @@ export default {
   left: 0;
   height: 100%;
   width: 100%;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
   transform: scale3d(1, 1, 1);
@@ -155,6 +156,13 @@ export default {
 .polls_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
 }
+
+@media (min-width: 1500px) {
+  .polls_card {
+    max-width: 320px;
+  }
+}
+
 @media (max-width: 992px) {
   .polls_list {
     flex-wrap: wrap;

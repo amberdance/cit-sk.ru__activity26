@@ -1,5 +1,6 @@
 <?php
 
+use App\Lib\Thumbnail;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->string('label');
             $table->longText('description');
             $table->string('image')->default('images/polls/image_default.png');
-            $table->string('thumbnail')->default('images/polls/image_default.png');
+            $table->string('thumbnail')->default(Thumbnail::createSmall(public_path() . '/assets/images/polls/image_default.png'));
             $table->boolean('is_active')->default(true);
             $table->boolean('is_ranged')->default(false);
             $table->boolean('is_completed')->default(false);
