@@ -9,7 +9,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  *  @property int $id
  *  @property int $poll_id
+ *  @property int $sort
+ *  @property int $max_allowed
+ *  @property int $min_allowed
  *  @property string $label
+ *  @property string $description
+ *  @property string $type
+ *  @property bool $has_own_variant
  */
 
 class PollQuestion extends Model

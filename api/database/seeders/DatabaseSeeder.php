@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Polls\PollQuestion;
-use App\Models\Polls\PollVariant;
 use App\Models\User;
+use Database\Factories\Polls\PollFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Seed the application's database.
      *
@@ -16,8 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // PollQuestion::factory()->count(4)->has(PollVariant::factory()->count(4), 'variants')->create();
-        // User::factory()->create();
+        User::factory()->create();
+        PollFactory::createPoliticsPoll();
     }
-
 }

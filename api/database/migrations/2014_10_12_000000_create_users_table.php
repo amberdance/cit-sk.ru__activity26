@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->boolean('policy_agree')->default(true);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_admin')->default(false);
+            $table->integer('points')->default(0);
         });
     }
 

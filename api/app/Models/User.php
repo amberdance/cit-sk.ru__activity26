@@ -11,6 +11,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 /**
  *  @property int $id
  *  @property int $policy_agree
+ *  @property int $points
  *  @property bool $is_active
  *  @property bool $is_admin
  *  @property string $uuid

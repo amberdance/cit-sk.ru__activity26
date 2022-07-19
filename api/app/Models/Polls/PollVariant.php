@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  *  @property int $id
  *  @property int $question_id
+ *  @property int $sort
  *  @property string $label
  */
 
