@@ -77,6 +77,10 @@ const plugins = () => {
   };
 };
 
+Vue.prototype.$openNewWindow = link => {
+  window.open(link, "_blank");
+};
+
 Vue.use(plugins);
 
 const responseData = (data, responseType = null) => {
