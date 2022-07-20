@@ -19,7 +19,7 @@
           style="font-size: 22px"
           type="primary"
           @click="$router.push(`/polls/${currentPollId}`)"
-          >Пройти опрос
+          >Перейти к опросам
         </el-button>
 
         <div :class="[$style.quotation_wrapper]">
@@ -34,6 +34,7 @@
       </div>
     </MainLayout>
     <Statistics />
+    <News />
     <PollsList />
   </div>
 </template>
@@ -41,7 +42,8 @@
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
-import PollsList from "../components/polls/PollsList";
+import News from "@/components/News";
+import PollsList from "@/components/polls/PollsList";
 import { getRandomQuote } from "@/utils/common.js";
 
 export default {
@@ -49,6 +51,7 @@ export default {
     MainLayout,
     Statistics,
     PollsList,
+    News,
   },
 
   data() {
