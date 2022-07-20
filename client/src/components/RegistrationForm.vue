@@ -68,6 +68,24 @@
           </div>
 
           <div :class="$style.form_item">
+            <el-form-item
+              label="Город/район//муниципальный округ"
+              prop="districtId"
+            >
+              <el-select v-model="formData.districtId" clearable filterable>
+                <el-option
+                  v-for="item in districts"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.name"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+
+          <div :class="$style.form_item">
             <el-form-item label="Адрес проживания" prop="address">
               <el-input
                 v-model="formData.address"
@@ -195,11 +213,12 @@ export default {
     return {
       isLoading: false,
       isFormSubmitted: false,
+      districts: [],
 
       formData: {
         firstName: null,
         lastName: null,
-        districtId: 0,
+        districtId: null,
         address: null,
         birthday: null,
         patronymic: null,
@@ -225,6 +244,13 @@ export default {
         ],
 
         address: [
+          {
+            required: true,
+            message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        districtId: [
           {
             required: true,
             message: VALIDATE_DEFAULT_ERROR,
@@ -286,6 +312,19 @@ export default {
     };
   },
 
+  async created() {
+    try {
+      this.isLoading = true;
+      const { districts } = await this.$http.get("/registration/districts");
+      this.districts = districts;
+    } catch (e) {
+      this.$onError("Не удалось загрузить список регионов");
+      console.error(e);
+    } finally {
+      this.isLoading = false;
+    }
+  },
+
   methods: {
     async submit() {
       await this.$refs.form.validate();
@@ -300,7 +339,7 @@ export default {
           firstName: this.formData.firstName,
           lastName: this.formData.lastName,
           patronymic: this.formData.patronymic,
-          districtId: this.formData.districtId || 66,
+          districtId: this.formData.districtId,
           birthday: this.formData.birthday,
           address: this.formData.address,
           phone: this.formData.phone,
