@@ -32,6 +32,7 @@ Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser
 |--------------------------------------------------------------------------
  */
 Route::prefix('registration')->group(function () {
+    Route::get('/districts', [\App\Http\Controllers\RegistrationController::class, 'districts']);
     Route::get('/reset-code', [\App\Http\Controllers\RegistrationController::class, 'resetCode']);
     Route::get('/verify-code', [\App\Http\Controllers\RegistrationController::class, 'verifyCode']);
 });
