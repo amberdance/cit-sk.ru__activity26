@@ -32,6 +32,7 @@ Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser
 |--------------------------------------------------------------------------
  */
 Route::prefix('registration')->group(function () {
+    Route::get('/districts', [\App\Http\Controllers\RegistrationController::class, 'districts']);
     Route::get('/reset-code', [\App\Http\Controllers\RegistrationController::class, 'resetCode']);
     Route::get('/verify-code', [\App\Http\Controllers\RegistrationController::class, 'verifyCode']);
 });
@@ -54,5 +55,5 @@ Route::apiResources([
  */
 Route::group(['prefix' => 'pages'], function () {
     Route::get('/main/counters', [\App\Http\Controllers\MainPageController::class, 'getCounters']);
-    Route::get('/main/quote', [\App\Http\Controllers\MainPageController::class, 'getQuote']);
+    Route::get('/main/news', [\App\Http\Controllers\MainPageController::class, 'getNews']);
 });

@@ -20,11 +20,11 @@ class UserFactory extends Factory
         return [
             'first_name'        => 'Admin',
             'last_name'         => 'admin',
-            'birthday'          => '66.66.1666',
+            'birthday'          => '66.66.1966',
             'district_id'       => 1,
             'address'           => 'test Address',
             'uuid'              => Str::uuid(),
-            'phone'             => '+7(999)9999999',
+            'phone'             => '9999999999',
             'email'             => 'testless@test.ru',
             'email_verified_at' => now(),
             'password'          => password_hash('testless', PASSWORD_DEFAULT),

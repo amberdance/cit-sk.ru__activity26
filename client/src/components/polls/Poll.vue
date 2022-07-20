@@ -22,23 +22,41 @@
             </div>
 
             <div :class="$style.questions_wrapper">
-              <div
-                v-for="question in poll.questions"
-                :class="$style.question"
-                :key="question.id"
-              >
-                <h2 :class="$style.title">{{ question.label }}</h2>
+              <el-form ref="form">
+                <el-form-item
+                  v-for="question in poll.questions"
+                  :class="$style.question"
+                  :key="question.id"
+                >
+                  <h2 :class="$style.title">{{ question.label }}</h2>
 
-                <div :class="$style.variants_wrapper">
-                  <div v-for="variant in question.variants" :key="variant.id">
-                    <el-radio-group v-model="variants[question.id]">
-                      <el-radio :label="variant.id" :class="$style.title">{{
-                        variant.label
-                      }}</el-radio>
-                    </el-radio-group>
-                  </div>
-                </div>
-              </div>
+                  <el-radio-group
+                    v-if="question.type == 'radio'"
+                    v-model="variants[question.id]"
+                  >
+                    <el-radio
+                      v-for="variant in question.variants"
+                      :key="variant.id"
+                      :label="variant.id"
+                      :class="$style.title"
+                      >{{ variant.label }}</el-radio
+                    >
+                  </el-radio-group>
+
+                  <el-checkbox-group
+                    v-else
+                    v-model="formData.checkbox"
+                    :max="question.maxAllowed"
+                  >
+                    <el-checkbox
+                      v-for="variant in question.variants"
+                      :key="variant.id"
+                      :label="variant.id"
+                      >{{ variant.label }}</el-checkbox
+                    >
+                  </el-checkbox-group>
+                </el-form-item>
+              </el-form>
             </div>
           </div>
           <div class="a-center">
@@ -77,6 +95,11 @@ export default {
       authComponent: null,
       poll: {},
       variants: {},
+
+      formData: {
+        checkbox: [],
+        radio: {},
+      },
     };
   },
 
@@ -109,29 +132,30 @@ export default {
     },
 
     async vote() {
-      try {
-        await this.validate();
+      console.log(this.formData, this.variants);
+      // try {
+      //   await this.validate();
 
-        this.isVoting = true;
+      //   this.isVoting = true;
 
-        await this.$http.post("/polls/vote", {
-          pollId: this.poll.id,
-          userId: this.$store.getters.get("user")["id"],
-          variants: this.variants,
-        });
+      //   await this.$http.post("/polls/vote", {
+      //     pollId: this.poll.id,
+      //     userId: this.$store.getters.get("user")["id"],
+      //     variants: this.variants,
+      //   });
 
-        this.$router.push("/home");
-        this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
-      } catch (e) {
-        if (e.code == 401) {
-          this.$store.commit("setUser", {});
-          this.authComponent = () => import("@/components/AuthForm.vue");
-        } else if (e.code == 12)
-          return this.$onWarning("В данном опросе Вы уже принимали участие");
-        else console.error(e);
-      } finally {
-        this.isVoting = false;
-      }
+      //   this.$router.push("/home");
+      //   this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
+      // } catch (e) {
+      //   if (e.code == 401) {
+      //     this.$store.commit("setUser", {});
+      //     this.authComponent = () => import("@/components/AuthForm.vue");
+      //   } else if (e.code == 12)
+      //     return this.$onWarning("В данном опросе Вы уже принимали участие");
+      //   else console.error(e);
+      // } finally {
+      //   this.isVoting = false;
+      // }
     },
 
     validate() {
@@ -174,8 +198,8 @@ export default {
 .poll_wrapper img {
   width: 100%;
   height: auto;
-  max-height: 500px;
-  object-fit: contain;
+  max-height: 650px;
+  object-fit: cover;
 }
 .poll_wrapper .meta_wrapper {
   font-size: 18px;

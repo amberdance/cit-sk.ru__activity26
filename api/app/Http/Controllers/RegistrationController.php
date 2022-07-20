@@ -6,6 +6,7 @@ use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\RegistrationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
+use App\Lib\EdrosAPI;
 use App\Models\Registration;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,6 +33,31 @@ class RegistrationController extends Controller
 
         $this->registrationRepository = $registrationRepository;
         $this->userRepository         = $userRepository;
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function districts(): JsonResponse
+    {
+
+        $response = EdrosAPI::getDistricts();
+
+        switch ($response['info']['http_code']) {
+            case 401:
+                return Response::jsonUnathorized();
+                break;
+
+            case 403:
+                return Response::jsonForbidden();
+                break;
+
+            case 404:
+
+            case 200:
+                return Response::jsonSuccess($response['data']);
+                break;
+        }
     }
 
     /**

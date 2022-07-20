@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create();
         PollFactory::createPoliticsPoll();
+        PollFactory::createTestPoll();
+        // PollQuestion::factory()->count(2)->has(PollVariant::factory()->count(4), 'variants')->create();
     }
 }

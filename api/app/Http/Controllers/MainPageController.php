@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Response;
+use App\Lib\NewsRss;
 use App\Repositories\PollRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class MainPageController extends Controller
 {
@@ -33,5 +35,15 @@ class MainPageController extends Controller
             'polls_count'        => $pollsCount,
             'users_count'        => $usersCount,
         ]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function getNews(Request $request): JsonResponse
+    {
+
+        return Response::jsonSuccess(NewsRss::news1777ru($request->limit ?? null));
+
     }
 }
