@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #f5d299">
+  <div style="background-color: rgb(211 211 211)">
     <div class="container">
       <div :class="$style.polls_wrapper">
         <div :class="$style.heading">Опросы</div>
@@ -66,6 +66,7 @@ export default {
     try {
       this.isLoading = true;
       this.polls = await this.$http.get("/polls", { limit: 4 });
+      console.log(this.polls)
     } catch (e) {
       console.error(e);
     } finally {
@@ -90,6 +91,9 @@ export default {
   justify-content: center;
   width: 100%;
   margin: 0 !important;
+  background-color: #ebebeb;
+  padding: 20px;
+  border-radius: 15px;
 }
 .polls_card {
   background-color: #ffffff;
