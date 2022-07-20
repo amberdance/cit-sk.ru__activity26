@@ -26,8 +26,8 @@
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. Используйте буквы русского
-              алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Используйте буквы русского алфавита.</span>
             </div>
           </div>
 
@@ -40,8 +40,8 @@
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. Используйте буквы русского
-              алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Используйте буквы русского алфавита.</span>
             </div>
           </div>
 
@@ -52,6 +52,7 @@
                 clearable
                 :disabled="isFormSubmitted"
               />
+              <div :class="$style.hint"></div>
             </el-form-item>
           </div>
 
@@ -65,12 +66,14 @@
                 :disabled="isFormSubmitted"
               />
             </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
 
           <div :class="$style.form_item">
             <el-form-item
-              label="Город/район//муниципальный округ"
+              label="Город/район/муниципальный округ"
               prop="districtId"
+              style="max-width: 370px"
             >
               <el-select v-model="formData.districtId" clearable filterable>
                 <el-option
@@ -129,8 +132,8 @@
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. <br />
-              Буквы только латинского алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Буквы только латинского алфавита.</span>
             </div>
           </div>
 
@@ -166,13 +169,11 @@
 
           <el-divider></el-divider>
           <div :class="$style.policy_text">
-            <p>
-              Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
-              <a href="#">условиями использования</a>
-            </p>
+            Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
+            <a href="#">условиями использования</a>
           </div>
 
-          <div class="a-right">
+          <div class="a-center">
             <el-button
               type="primary"
               :disabled="isFormSubmitted"
@@ -379,7 +380,7 @@ export default {
   margin-bottom: 25px;
 }
 
-.heading {
+.registration_wrapper .heading {
   font-size: 26px;
   margin-bottom: 10px;
   font-weight: bold;
@@ -398,45 +399,49 @@ export default {
   color: #333;
 }
 
-.policy_text {
-  font-size: 16px;
-  color: var(--color-font--primary);
+.form_item .hint,
+.registration_wrapper .policy_text {
+  color: #9ea4ac;
+}
+.registration_wrapper .policy_text {
+  margin: 1rem 0;
 }
 
 .form_item {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  color: #9ea4ac;
+  margin-bottom: 1rem;
 }
-
-.hint {
-  display: flex;
+.form_item div:first-child {
+  min-width: 350px;
+  margin-right: 20px;
+}
+.form_item .hint {
   font-weight: bold;
-  max-width: 300px;
-  margin-left: 20px;
   font-size: 14px;
 }
 
-.form_item input {
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-@media (max-width: 590px) {
+@media (max-width: 790px) {
   .form_item {
-    display: block;
+    flex-wrap: wrap;
   }
 
-  .form_item {
-    margin-bottom: 1rem;
-  }
-  .hint {
+  .form_item .hint {
     max-width: unset;
   }
-  .hint,
+  .form_item .hint,
   .form_item input {
     margin: 0;
+  }
+}
+@media (max-width: 430px) {
+  .form_item div:first-child {
+    min-width: unset;
+    width: 100%;
+    margin-right: 0;
+  }
+  .form_wrapper button {
+    width: 100%;
   }
 }
 </style>
