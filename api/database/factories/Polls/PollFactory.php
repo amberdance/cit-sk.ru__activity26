@@ -8,7 +8,6 @@ use App\Models\Polls\PollCategory;
 use App\Models\Polls\PollQuestion;
 use App\Models\Polls\PollVariant;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -21,36 +20,16 @@ class PollFactory extends Factory
         return PollFactory::new ();
     }
 
-    protected $labels = [
-        'Жестка посадка',
-        'На дворе 2022 год',
-        'А тем временем',
-        'Что сегодня на обед ?',
-        'Времени на раскачку не осталось',
-        'Когда доставят Xbox',
-    ];
-
-    protected $images = [
-        "/images/polls/Putin.jpg",
-        "/images/polls/1575.jpg",
-        "/images/polls/5h4YhDFNw4E.jpg",
-        "/images/polls/7zRZR4Dna-k.jpg",
-        "/images/polls/8RXOuIsU5O0.jpg",
-        "/images/polls/1024px-Operation_Upshot-Knothole_-_Badger_001.jpg",
-    ];
-
     public function definition()
     {
 
-        $image = Arr::random($this->images);
-
         return [
-            'label'       => Arr::random($this->labels),
+            'label'       => 'Тестовый опрос',
             'description' => 'Прочитайте, пожалуйста, внимательно вопрос и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то напишите свой вариант.',
             'category_id' => PollCategory::factory(),
-            'image'       => $image,
-            'is_popular'  => rand(0, 1),
-            'thumbnail'   => Thumbnail::createSmall(public_path() . "/assets/" . $image, public_path() . "/assets/images/polls/thumbnails"),
+            'is_popular'  => true,
+            'image'       => '/images/polls/8888.jpg',
+            'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/8888.jpg'),
         ];
     }
 
@@ -62,6 +41,8 @@ class PollFactory extends Factory
                 'sort'        => 1,
                 'is_popular'  => true,
                 'label'       => 'Опросный лист общественного мнения',
+                'image'       => '/images/polls/8888.jpg',
+                'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/8888.jpg'),
                 'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то укажите свой вариант.',
             ],
 
@@ -221,6 +202,107 @@ class PollFactory extends Factory
                 'label'           => trim($params['label']),
                 'sort'            => $params['sort'],
                 'has_own_variant' => $params['has_own_variant'] ?? false,
+                'type'            => $params['type'] ?? 'radio',
+                'poll_id'         => $pollId,
+
+            ])['id'];
+
+            foreach ($params['variants'] as $i => $variant) {
+
+                PollVariant::create([
+                    'label'       => trim($variant),
+                    'question_id' => $questionId,
+                    'sort'        => $i + 1,
+                ]);
+            }
+        }
+    }
+
+    public static function createTestPoll()
+    {
+
+        $data = [
+            'poll'      => [
+                'sort'        => 1,
+                'is_popular'  => true,
+                'label'       => 'Тестовый опрос',
+                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то укажите свой вариант.',
+            ],
+
+            'questions' => [
+                [
+                    'label'           => 'Radio type test',
+                    'sort'            => 1,
+                    'has_own_variant' => true,
+                    'variants'        => [
+                        'Да, знаю',
+                        'Нет, не знаю',
+                    ],
+                ],
+                [
+                    'label'           => 'Checkbox test',
+                    'sort'            => 2,
+                    'type'            => 'checkbox',
+                    'has_own_variant' => true,
+                    'variants'        => [
+                        '«Ставропольская правда»',
+                        'Местная газета',
+                        '«Вечерний Ставрополь»',
+                        '«Комсомольская правда»',
+                        '«МК-Кавказ»',
+                        '«Ставропольские Ведомости»',
+                        'Другая газета (укажите)',
+                    ],
+                ],
+
+                [
+                    'label'           => 'Another Radio type test',
+                    'description'     => 'Test description here',
+                    'sort'            => 3,
+                    'has_own_variant' => false,
+                    'variants'        => [
+                        'Да, знаю',
+                        'Нет, не знаю',
+                    ],
+                ],
+
+                [
+                    'label'           => 'Another checkbox test',
+                    'description'     => 'Test description here',
+                    'sort'            => 4,
+                    'type'            => 'checkbox',
+                    'has_own_variant' => false,
+                    'max_allowed'     => 3,
+                    'min_allowed'     => 1,
+                    'variants'        => [
+                        '«Ставропольская правда»',
+                        'Местная газета',
+                        '«Вечерний Ставрополь»',
+                        '«Комсомольская правда»',
+                        '«МК-Кавказ»',
+                        '«Ставропольские Ведомости»',
+                        'Другая газета (укажите)',
+                    ],
+                ],
+            ],
+
+            'category'  => 'Test category',
+        ];
+
+        $data['poll']['category_id'] = PollCategory::create([
+            'label' => $data['category'],
+        ])['id'];
+
+        $pollId = Poll::create($data['poll'])['id'];
+
+        foreach ($data['questions'] as $params) {
+            $questionId = PollQuestion::create([
+                'label'           => trim($params['label']),
+                'sort'            => $params['sort'],
+                'has_own_variant' => $params['has_own_variant'] ?? false,
+                'description'     => $params['description'] ?? null,
+                'max_allowed'     => $params['max_allowed'] ?? 20,
+                'min_allowed'     => $params['min_allowed'] ?? 1,
                 'type'            => $params['type'] ?? 'radio',
                 'poll_id'         => $pollId,
 
