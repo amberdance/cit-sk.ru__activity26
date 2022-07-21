@@ -14,7 +14,7 @@
           style="font-size: 22px"
           class="m-1"
           type="primary"
-          @click="$router.push(`/polls/${currentPollId}`)"
+          v-scroll-to="'#polls'"
           >Перейти к опросам
         </el-button>
 
@@ -31,7 +31,7 @@
     </MainLayout>
     <Statistics />
     <News />
-    <PollsList />
+    <PollsList id="polls" />
   </div>
 </template>
 
