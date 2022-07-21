@@ -242,7 +242,7 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary);
 }
 
@@ -280,6 +280,16 @@ button {
 
 .poll .el-checkbox {
   min-width: 40%;
+}
+
+.el-dialog__title {
+  font-weight: bold;
+}
+
+.el-dialog__body,
+.el-dialog__header,
+.el-dialog__footer {
+  padding: 1rem 2rem;
 }
 
 /************************** MEDIA QUERIES ***************************/

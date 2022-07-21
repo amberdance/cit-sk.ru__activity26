@@ -101,7 +101,7 @@ class PollRepository implements PollRepositoryInterface
                     'user_id'     => $params['userId'],
                     'poll_id'     => $params['pollId'],
                     'question_id' => $question['id'],
-                    'variant_id'  => $answer['variantId'],
+                    'variant_id'  => $answer['id'],
                     'user_answer' => $answer['input'] ?? null,
                 ]);
             }

@@ -22,7 +22,7 @@
             </div>
 
             <div :class="$style.questions_wrapper">
-              <el-form ref="form" v-model="values">
+              <el-form ref="form" v-model="formData">
                 <el-form-item
                   v-for="question in poll.questions"
                   :class="$style.question"
@@ -32,7 +32,7 @@
 
                   <el-radio-group
                     v-if="question.type == 'radio'"
-                    v-model="values[question.id]"
+                    v-model="formData[question.id]"
                     :disabled="isVotted"
                   >
                     <el-radio
@@ -46,7 +46,7 @@
 
                   <el-checkbox-group
                     v-else
-                    v-model="values[question.id]"
+                    v-model="formData[question.id]"
                     :max="question.maxAllowed"
                     :disabled="isVotted"
                   >
@@ -77,13 +77,6 @@
       </div>
     </div>
 
-    <el-dialog title="Ваш вариант ответа" :visible="isUserVariantChanged">
-      <el-input type="textarea" :rows="2" v-model="userVariant"></el-input>
-      <el-button type="danger" @click="isUserVariantChanged = false"
-        >Отмена</el-button
-      >
-      <el-button type="primary" @click="saveUserVariant">Отправить</el-button>
-    </el-dialog>
     <el-dialog
       v-if="!isAuthorized"
       width="25%"
@@ -94,17 +87,20 @@
     >
       <component :is="authComponent" @onSuccessfullAuth="vote" />
     </el-dialog>
+    <UserAnswer ref="userAnswerDialog" @onUserAnswerChanged="saveUserAnswer" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
 import PollSketelon from "../skeletons/PollSkeleton.vue";
+import UserAnswer from "../dialogs/UserAnswer.vue";
 
 export default {
   components: {
     MainLayout,
     PollSketelon,
+    UserAnswer,
   },
 
   data() {
@@ -119,7 +115,7 @@ export default {
       poll: {},
       variants: {},
       userVariant: null,
-      values: [],
+      formData: [],
     };
   },
 
@@ -137,7 +133,7 @@ export default {
       this.poll = data.poll;
       this.poll.questions = data.questions;
       this.poll.questions.forEach(
-        (question) => (this.values[question.id] = [])
+        (question) => (this.formData[question.id] = [])
       );
     } catch (e) {
       if (e.code == 404) return this.$onError("Опрос не найден");
@@ -162,10 +158,10 @@ export default {
         await this.$http.post("/polls/vote", {
           pollId: this.poll.id,
           userId: this.$store.getters.get("user")["id"],
-          values: this.collectValues(),
+          values: this.getValues(),
         });
 
-        // this.isVotted = true;
+        this.isVotted = true;
         this.$onSuccess(
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
@@ -182,11 +178,11 @@ export default {
       }
     },
 
-    collectValues() {
+    getValues() {
       const values = [];
       let index = 0;
 
-      this.values.forEach((variant, id) => {
+      this.formData.forEach((variant, id) => {
         if (
           variant == "undefined" ||
           variant == null ||
@@ -196,11 +192,19 @@ export default {
 
         values.push({ id, answer: [] });
 
-        if (_.isNumber(variant))
-          values[index].answer.push({ variantId: variant });
+        if (_.isNumber(variant)) values[index].answer.push({ id: variant });
 
         if (_.isArray(variant)) {
-          variant.forEach((id) => values[index].answer.push({ variantId: id }));
+          variant.forEach((item) => {
+            const isObject = _.isObject(item);
+            const params = {
+              id: isObject ? item.id : item,
+            };
+
+            if (isObject) params.input = item.input;
+
+            values[index].answer.push(params);
+          });
         }
 
         index++;
@@ -210,37 +214,25 @@ export default {
     },
 
     onUserVariantChange(questionId, variant) {
-      if (!variant.hasUserVariant) return;
+      console.log(variant);
+      if (!variant.hasUserAnswer) return;
 
-      this.questionId = questionId;
-      this.variantId = variant.id;
-      this.isUserVariantChanged = true;
+      this.$refs.userAnswerDialog.show({
+        questionId,
+        variantId: variant.id,
+      });
     },
 
-    saveUserVariant() {
-      this.values[this.questionId] = this.values[this.questionId].filter(
-        (variantId) => variantId != this.variantId
-      );
-      this.values[this.questionId].push({
-        id: this.variantId,
-        input: this.userVariant,
+    saveUserAnswer() {
+      const { questionId, variantId, input } =
+        this.$refs.userAnswerDialog.getData();
+
+      this.formData[questionId].forEach((item, i) => {
+        if (item == variantId)
+          this.formData[questionId][i] = { id: variantId, input };
       });
 
-      this.isUserVariantChanged = false;
-    },
-
-    validate() {
-      let isValid = true;
-      this.poll.questions.forEach((item) => {
-        if (!this.variants[item.id]) isValid = false;
-      });
-
-      return isValid
-        ? Promise.resolve()
-        : Promise.reject(
-            "Async validate failed",
-            this.$onWarning("Ответьте на все вопросы")
-          );
+      this.$refs.userAnswerDialog.hide();
     },
   },
 };
