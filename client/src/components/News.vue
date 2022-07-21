@@ -4,29 +4,27 @@
       <div :class="$style.news_wrapper">
         <div :class="$style.heading">Новости</div>
 
-        <el-row type="flex" :class="$style.news_list" :gutter="20">
-          <el-col
-            v-for="news in news"
-            :key="news.link"
-            :xs="12"
-            :sm="12"
-            :lg="8"
-            :xl="24"
-          >
+        <el-row
+          type="flex"
+          :class="$style.news_list"
+          :gutter="20"
+          v-loading="isLoading"
+        >
+          <el-col v-for="post in news" :xs="12" :sm="12" :lg="8" :xl="24">
             <div
               :class="[$style.news_card, 'rounded']"
-              @click="$router.push(`${news.link}`)"
+              @click="$openNewWindow(`${post.link}`)"
             >
               <div :class="[$style.image_wrapper]">
                 <div
                   :class="$style.image"
-                  :style="`background-image:url(${news.enclosure.attributes.url})`"
+                  :style="`background-image:url(${post.enclosure.attributes.url})`"
                 ></div>
               </div>
               <div :class="$style.meta">
-                <div :class="$style.category">{{ news.category }}</div>
+                <div :class="$style.category">{{ post.category }}</div>
                 <div :class="$style.title">
-                  {{ news.title }}
+                  {{ post.title }}
                 </div>
               </div>
             </div>
@@ -39,7 +37,6 @@
 
 <script>
 export default {
-  components: {},
   data() {
     return {
       news: [],
@@ -48,10 +45,12 @@ export default {
 
   async created() {
     try {
+      this.isLoading = true;
       this.news = await this.$http.get("/pages/main/news");
-      console.log(this.news);
-    } catch (e) {
-      console.error(e);
+    } catch {
+      this.$onError("Не удалось загрузить список новостей");
+    } finally {
+      this.isLoading = false;
     }
   },
 };
@@ -132,14 +131,6 @@ export default {
 }
 .news_card .title {
   font-size: 18px;
-}
-.news_card .footer {
-  padding: 1rem;
-  text-align: center;
-}
-.news_card .footer button {
-  width: 100%;
-  transition: all 0.2s linear;
 }
 .news_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
