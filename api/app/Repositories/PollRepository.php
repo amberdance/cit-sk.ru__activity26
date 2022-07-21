@@ -95,13 +95,23 @@ class PollRepository implements PollRepositoryInterface
     public function vote(array $params): void
     {
 
-        foreach ($params['variants'] as $questionId => $variantId) {
-            PollResult::create([
-                'user_id'     => $params['userId'],
-                'poll_id'     => $params['pollId'],
-                'question_id' => $questionId,
-                'variant_id'  => $variantId,
-            ]);
+        $params['results'] = array_filter($params['results']);
+        $data              = [
+            'user_id' => $params['userId'],
+            'poll_id' => $params['pollId'],
+
+        ];
+
+        foreach ($params['results'] as $questionId => $variantId) {
+            $data['question_id'] = $questionId;
+
+            if (is_array($variantId)) {
+                foreach ($variantId as $id) {
+                    PollResult::create(array_merge($data, ['variant_id' => $id]));
+                }
+            } else {
+                PollResult::create(array_merge($data, ['variant_id' => $variantId]));
+            }
         }
     }
 

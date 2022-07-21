@@ -222,12 +222,14 @@ button {
   background-color: var(--color-danger);
 }
 
-.el-radio__inner {
+.el-radio__inner,
+.el-checkbox__inner {
   height: 30px;
   width: 30px;
   border: 2px solid #dcdfe6;
   margin-right: 0.5rem;
 }
+
 
 .el-radio__input.is-checked .el-radio__inner {
   border-color: var(--color-primary);
@@ -240,7 +242,7 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary);
 }
 
@@ -249,9 +251,31 @@ button {
   align-items: center;
 }
 
-.el-radio__label {
+.el-radio__label,
+.el-checkbox__label {
   font-size: 16px;
   white-space: break-spaces;
+}
+
+
+.el-checkbox-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: var(--color-primary);
+  border-color: #ffffff;
+}
+
+
+.el-checkbox__inner::after {
+  height: 8px;
+  width: 4px;
+  border-right-width: 3px;
+  border-bottom-width: 3px;
+  left: 10px;
+  top: 6px;
 }
 
 /************************** MEDIA QUERIES ***************************/
