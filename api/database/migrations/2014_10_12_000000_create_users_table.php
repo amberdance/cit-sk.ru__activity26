@@ -17,16 +17,20 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->char('uuid', 38)->unique();
             $table->timestamps();
-            $table->string('name');
-            $table->string('surname');
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('patronymic')->nullable();
+            $table->integer('district_id');
+            $table->string('address');
+            $table->string('birthday');
             $table->string('email')->unique();
             $table->string('password');
             $table->string('phone', 14)->unique();
             $table->string('ip_address');
-            $table->boolean('policy_agree')->default(true);
             $table->boolean('is_active')->default(false);
             $table->boolean('is_admin')->default(false);
+            $table->integer('points')->default(0);
         });
     }
 

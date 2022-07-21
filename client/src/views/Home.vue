@@ -1,57 +1,67 @@
 <template>
   <div>
-    <MainLayout style="min-height: calc(100vh - 110px)">
+    <MainLayout :class="$style.root">
       <div :class="[$style.main_wrapper, 'container']">
         <div :class="$style.main_title">
-          <h1>Уважаемые жители Ставропольского края!</h1>
+          Уважаемые жители Ставропольского края!
         </div>
 
-        <div :class="$style.divider"></div>
         <div :class="$style.main_subtitle">
-          <h2>
-            Aute pariatur eu laborum aliqua labore reprehenderit dolor et minim
-            qui ea. Nulla incididunt incididunt velit amet aliquip sunt ullamco
-            exercitation minim. Qui ea adipisicing culpa nostrud id enim mollit
-          </h2>
+          {{ description }}
         </div>
 
         <el-button
           style="font-size: 22px"
+          class="m-1"
           type="primary"
-          @click="$router.push('/vote')"
-          >Пройти опрос
+          v-scroll-to="'#polls'"
+          >Перейти к опросам
         </el-button>
 
-        <div :class="[$style.quotation_wrapper, 'container']">
-          <div :class="$style.quotation__title">
-            <q>{{ quote.title }}</q>
-          </div>
+        <div :class="[$style.quotation_wrapper]">
+          <div class="container">
+            <div :class="$style.quotation__title">
+              <q>{{ quote.title }}</q>
+            </div>
 
-          <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
+            <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
+          </div>
         </div>
       </div>
     </MainLayout>
     <Statistics />
+    <News />
+    <PollsList id="polls" />
   </div>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
+import News from "@/components/News";
+import PollsList from "@/components/polls/PollsList";
 import { getRandomQuote } from "@/utils/common.js";
+import { APP_DESCRIPTION } from "@/values";
+
 export default {
   components: {
     MainLayout,
     Statistics,
+    PollsList,
+    News,
   },
+
   data() {
     return {
+      description: APP_DESCRIPTION(),
+
       quote: {
         title: "",
         author: "",
       },
     };
   },
+
   async mounted() {
     this.quote = await getRandomQuote();
   },
@@ -59,42 +69,49 @@ export default {
 </script>
 
 <style module>
+.root {
+  min-height: calc(100vh - 110px);
+}
 .main_wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
   flex-direction: column;
+  margin-top: 10rem;
 }
-.main_wrapper h1 {
-  margin: 0;
+.main_title {
+  width: 100%;
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
-.main_wrapper h2 {
-  margin: 0 0 2rem 0;
-}
+
 .main_title,
 .main_subtitle {
-  max-width: 830px;
-  line-height: 30px;
+  max-width: 1024px;
+  text-align: center;
 }
 .main_subtitle {
-  margin: 0 auto;
-}
-.divider {
-  width: 60%;
-  margin: 1.5rem 0;
-  border-bottom: 1px solid var(--color-divider);
+  font-size: 25px;
+  font-weight: bold;
 }
 
 .quotation_wrapper {
   position: absolute;
   top: calc(100vh - 230px);
   font-weight: bold;
+  width: 100%;
 }
 .quotation__title {
   font-size: 20px;
   font-style: italic;
   quotes: "«" "»";
+  text-align: center;
+}
+.quotation__title,
+.quotation__subtitle {
+  color: #7c4b02;
+  text-align: center;
 }
 .quotation__subtitle {
   font-size: 18px;
@@ -103,5 +120,38 @@ export default {
 .quotation__subtitle::before {
   content: "\00a9";
   margin-right: 5px;
+}
+
+@media (max-height: 790px) {
+  .main_wrapper {
+    margin-top: 0;
+  }
+  .root {
+    min-height: 100vh;
+  }
+  .quotation_wrapper {
+    top: calc(100vh - 110px);
+  }
+}
+
+@media (min-height: 900px) {
+  .main_wrapper {
+    margin-top: 10rem;
+  }
+}
+
+@media (min-height: 1100px) {
+  .main_wrapper {
+    margin-top: 15rem;
+  }
+}
+
+@media (max-width: 670px) {
+  .main_title {
+    font-size: 30px;
+  }
+  .quotation_wrapper {
+    display: none;
+  }
 }
 </style>

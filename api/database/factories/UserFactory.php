@@ -18,11 +18,19 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'name'              => $this->faker->name(),
-            'email'             => $this->faker->safeEmail(),
+            'first_name'        => 'Admin',
+            'last_name'         => 'admin',
+            'birthday'          => '66.66.1966',
+            'district_id'       => 1,
+            'address'           => 'test Address',
+            'uuid'              => Str::uuid(),
+            'phone'             => '9999999999',
+            'email'             => 'testless@test.ru',
             'email_verified_at' => now(),
-            'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'password'          => password_hash('testless', PASSWORD_DEFAULT),
+            'is_admin'          => true,
+            'is_active'         => true,
+            'ip_address'        => '127.0.0.1',
         ];
     }
 

@@ -1,9 +1,14 @@
 <template>
   <div :class="$style.statistic_wrapper">
-    <div class="container" style="width: 100%">
+    <div class="container">
       <div :class="$style.statistic_content">
         <div v-for="(item, i) in stats" :key="i">
-          <div :class="$style.count">{{ getRandom() }}</div>
+          <AnimatedNumber
+            :class="$style.count"
+            :value="item.count"
+            :round="1"
+            :duration="200"
+          ></AnimatedNumber>
           <div :class="$style.label">{{ item.label }}</div>
         </div>
       </div>
@@ -12,7 +17,13 @@
 </template>
 
 <script>
+import AnimatedNumber from "animated-number-vue";
+
 export default {
+  components: {
+    AnimatedNumber,
+  },
+
   data() {
     return {
       stats: [
@@ -32,10 +43,16 @@ export default {
     };
   },
 
-  methods: {
-    getRandom() {
-      return _.random(999999);
-    },
+  async created() {
+    try {
+      const counters = await this.$http.get("/pages/main/counters");
+
+      this.stats[0].count = counters.usersCount;
+      this.stats[1].count = counters.passedPollsCount;
+      this.stats[2].count = counters.pollsCount;
+    } catch (e) {
+      console.error(e);
+    }
   },
 };
 </script>
@@ -45,7 +62,7 @@ export default {
   background-color: var(--color-primary);
 }
 .statistic_content {
-  height: 110px;
+  min-height: 110px;
   max-width: 700px;
   margin: auto;
   display: flex;
@@ -53,6 +70,7 @@ export default {
   align-items: center;
   text-align: center;
   text-transform: lowercase;
+  flex-wrap: wrap;
   color: var(--color-font--secondary);
 }
 
@@ -62,5 +80,11 @@ export default {
 
 .statistic_content .label {
   font-size: 18px;
+}
+
+@media (max-width: 590px) {
+  .statistic_content {
+    display: none;
+  }
 }
 </style>

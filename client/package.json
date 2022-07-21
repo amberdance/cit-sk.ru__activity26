@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^1.1.5",
+    "animated-number-vue": "^1.0.0",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "element-ui": "2.15.6",
@@ -16,6 +17,7 @@
     "vue": "^2.7.3",
     "vue-cookies": "^1.7.4",
     "vue-router": "^3.2.0",
+    "vue-scrollto": "^2.20.0",
     "vue-the-mask": "^0.11.1",
     "vuex": "^3.4.0"
   },

@@ -1,6 +1,7 @@
 <?php
 namespace App\Repositories;
 
+use App\Helpers\ValidationHelper;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -50,15 +51,19 @@ class UserRepository implements UserRepositoryInterface
 
     public function store(array $params): User
     {
+
         return User::create([
-            'name'       => $params['name'],
-            'surname'    => $params['surname'],
-            'patronymic' => $params['patronymic'],
-            'email'      => $params['email'],
-            'phone'      => $params['phone'],
-            'password'   => Hash::make($params['password']),
-            'uuid'       => Str::uuid(),
-            'ip_address' => request()->ip(),
+            'first_name'  => $params['firstName'],
+            'last_name'   => $params['lastName'],
+            'patronymic'  => $params['patronymic'],
+            'email'       => $params['email'],
+            'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
+            'address'     => $params['address'],
+            'district_id' => $params['districtId'],
+            'birthday'    => date('Y-m-d', strtotime($params['birthday'])),
+            'password'    => Hash::make($params['password']),
+            'uuid'        => Str::uuid(),
+            'ip_address'  => request()->ip(),
         ]);
     }
 
@@ -84,5 +89,18 @@ class UserRepository implements UserRepositoryInterface
     {
         $user->is_active = $state;
         $user->save();
+    }
+
+    public function getUsersCount(bool $onlyVerified = false): int
+    {
+        $result = 0;
+
+        if ($onlyVerified) {
+            return $result = User::select('id')->where('is_active', true)->count();
+        } else {
+            $result = User::all("id")->count();
+        }
+
+        return $result;
     }
 }

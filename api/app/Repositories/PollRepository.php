@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Interfaces\PollRepositoryInterface;
 use App\Models\Polls\Poll;
 use App\Models\Polls\PollQuestion;
+use App\Models\Polls\PollResult;
 use Illuminate\Database\Eloquent\Collection;
 
 class PollRepository implements PollRepositoryInterface
@@ -22,16 +23,31 @@ class PollRepository implements PollRepositoryInterface
     /**
      * @return Collection
      */
-    public function getAllPolls(): Collection
+    public function getAllPolls(?array $params = null, ?int $limit = null): Collection
     {
-        return Poll::select("polls.*", "poll_categories.label as category")
-            ->where([
-                'polls.is_active'    => 1,
-                'polls.is_completed' => 0,
-            ])
+
+        $select = Poll::select("polls.*", "poll_categories.label as category")
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
-            ->orderByDesc('created_at')
-            ->take(4)
+            ->orderByDesc('created_at');
+
+        if (is_array($params)) {
+            if (in_array('completed', $params)) {
+                $select->where('polls.is_completed', true);
+            }
+
+            if (in_array('available', $params)) {
+                $select->where('polls.is_completed', false);
+
+            }
+        }
+
+        if ($limit) {
+            $select->take($limit);
+        }
+
+        return $select->where('polls.is_active', true)
+            ->where('polls.active_to', '=', null)
+            ->orWhere('polls.active_to', '>=', date('Y-m-d H:i:s'))
             ->get('label as category');
     }
 
@@ -45,8 +61,8 @@ class PollRepository implements PollRepositoryInterface
         return Poll::select("polls.*", "poll_categories.label as category")
             ->where([
                 'polls.id'           => $id,
-                'polls.is_active'    => 1,
-                'polls.is_completed' => 0,
+                'polls.is_active'    => true,
+                'polls.is_completed' => false,
             ])
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
             ->firstOrFail('label as category');
@@ -60,7 +76,6 @@ class PollRepository implements PollRepositoryInterface
     public function getPollQuestionsByPollId(int $id): Collection
     {
 
-        //TO DO: Сделать сортировку вариантов ответов
         $questions = PollQuestion::where('poll_id', $id)->get();
 
         //TO DO: Сделать проверку на пустую коллекцию
@@ -70,5 +85,75 @@ class PollRepository implements PollRepositoryInterface
         }
 
         return $questions;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
+    public function vote(array $params): void
+    {
+
+        $params['results'] = array_filter($params['results']);
+        $data              = [
+            'user_id' => $params['userId'],
+            'poll_id' => $params['pollId'],
+
+        ];
+
+        foreach ($params['results'] as $questionId => $variantId) {
+            $data['question_id'] = $questionId;
+
+            if (is_array($variantId)) {
+                foreach ($variantId as $id) {
+                    PollResult::create(array_merge($data, ['variant_id' => $id]));
+                }
+            } else {
+                PollResult::create(array_merge($data, ['variant_id' => $variantId]));
+            }
+        }
+    }
+
+    /**
+     * @param int $userId
+     * @param int $pollId
+     *
+     * @return bool
+     */
+    public function isUserVoted(int $userId, int $pollId): bool
+    {
+        return boolval(PollResult::select("id")
+                ->where([
+                    'user_id' => $userId,
+                    'poll_id' => $pollId,
+                ])
+                ->first());
+    }
+
+    /**
+     * @param bool $onlyActive
+     *
+     * @return int
+     */
+    public function getPollsCount(bool $onlyActive = false): int
+    {
+        $result = 0;
+
+        if ($onlyActive) {
+            $result = Poll::select('id')->where('is_active', true)->count();
+        } else {
+            $result = Poll::all('id')->count();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPassedPollsCount(): int
+    {
+        return PollResult::all('id')->count();
     }
 }

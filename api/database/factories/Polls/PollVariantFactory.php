@@ -4,6 +4,7 @@ namespace Database\Factories\Polls;
 
 use App\Models\Polls\PollQuestion;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -18,9 +19,8 @@ class PollVariantFactory extends Factory
     public function definition()
     {
         return [
-            'label'       => $this->faker->sentence(),
+            'label'       => $this->faker->text,
             'question_id' => PollQuestion::factory(),
         ];
-
     }
 }

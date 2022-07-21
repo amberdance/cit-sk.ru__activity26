@@ -7,7 +7,6 @@ import {
   Alert,
   Button,
   Container,
-  Checkbox,
   Divider,
   Dialog,
   Form,
@@ -24,6 +23,18 @@ import {
   Row,
   Col,
   Drawer,
+  Skeleton,
+  SkeletonItem,
+  Card,
+  Radio,
+  RadioButton,
+  RadioGroup,
+  CheckboxGroup,
+  Checkbox,
+  CheckboxButton,
+  Option,
+  OptionGroup,
+  Select,
 } from "element-ui";
 
 [
@@ -44,6 +55,18 @@ import {
   Row,
   Col,
   Drawer,
+  Skeleton,
+  SkeletonItem,
+  Card,
+  Radio,
+  RadioButton,
+  RadioGroup,
+  CheckboxGroup,
+  Checkbox,
+  CheckboxButton,
+  Option,
+  OptionGroup,
+  Select,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

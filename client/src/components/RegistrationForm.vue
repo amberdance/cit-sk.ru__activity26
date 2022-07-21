@@ -5,41 +5,43 @@
         :class="$style.registration_wrapper"
         :rules="rules"
         :model="formData"
+        :hide-required-asterisk="true"
         ref="form"
         size="large"
-        :hide-required-asterisk="true"
+        label-position="left"
       >
         <div
-          :class="[$style.form_wrapper, 'bordered', 'shadowed']"
+          :class="[$style.form_wrapper, 'rounded', 'shadowed']"
           v-loading="isLoading"
         >
           <div :class="$style.heading">Личные данные</div>
+          <el-divider></el-divider>
 
           <div :class="$style.form_item">
-            <el-form-item required label="Фамилия" prop="surname">
+            <el-form-item required label="Фамилия" prop="lastName">
               <el-input
-                v-model="formData.surname"
+                v-model="formData.lastName"
                 clearable
                 :disabled="isFormSubmitted"
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. Используйте буквы русского
-              алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Используйте буквы русского алфавита.</span>
             </div>
           </div>
 
           <div :class="$style.form_item">
-            <el-form-item required label="Имя" prop="name">
+            <el-form-item required label="Имя" prop="firstName">
               <el-input
-                v-model="formData.name"
+                v-model="formData.firstName"
                 clearable
                 :disabled="isFormSubmitted"
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. Используйте буквы русского
-              алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Используйте буквы русского алфавита.</span>
             </div>
           </div>
 
@@ -50,7 +52,51 @@
                 clearable
                 :disabled="isFormSubmitted"
               />
+              <div :class="$style.hint"></div>
             </el-form-item>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Дата рождения" prop="birthday">
+              <el-input
+                v-model="formData.birthday"
+                clearable
+                v-mask="'##.##.####'"
+                placeholder="12.12.1993"
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item
+              label="Город/район/муниципальный округ"
+              prop="districtId"
+              style="max-width: 370px"
+            >
+              <el-select v-model="formData.districtId" clearable filterable>
+                <el-option
+                  v-for="item in districts"
+                  :key="item.id"
+                  :value="item.id"
+                  :label="item.name"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
+          </div>
+
+          <div :class="$style.form_item">
+            <el-form-item label="Адрес проживания" prop="address">
+              <el-input
+                v-model="formData.address"
+                clearable
+                :disabled="isFormSubmitted"
+              />
+            </el-form-item>
+            <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
 
           <div :class="$style.form_item">
@@ -69,10 +115,11 @@
         </div>
 
         <div
-          :class="[$style.form_wrapper, 'bordered', 'shadowed']"
+          :class="[$style.form_wrapper, 'rounded', 'shadowed']"
           v-loading="isLoading"
         >
           <div :class="$style.heading">Данные аккаунта</div>
+          <el-divider></el-divider>
 
           <div :class="$style.form_item">
             <el-form-item label="Электронная почта" prop="email">
@@ -85,8 +132,8 @@
               />
             </el-form-item>
             <div :class="$style.hint">
-              Поле обязательно для заполнения. <br />
-              Буквы только латинского алфавита.
+              <span>Поле обязательно для заполнения.</span> <br />
+              <span>Буквы только латинского алфавита.</span>
             </div>
           </div>
 
@@ -119,17 +166,16 @@
             </el-form-item>
             <div :class="$style.hint">Поле обязательно для заполнения.</div>
           </div>
+
+          <el-divider></el-divider>
           <div :class="$style.policy_text">
-            <p>
-              Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
-              <a href="#">условиями использования</a>
-            </p>
+            Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
+            <a href="#">условиями использования</a>
           </div>
 
-          <div class="a-right">
+          <div class="a-center">
             <el-button
               type="primary"
-              size="default"
               :disabled="isFormSubmitted"
               @click="submit"
               >Зарегистрироваться
@@ -152,6 +198,7 @@ import {
   matchPasswordsValidator,
   phoneNumberValidator,
   emailValidator,
+  birthdatValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
@@ -167,30 +214,57 @@ export default {
     return {
       isLoading: false,
       isFormSubmitted: false,
+      districts: [],
 
       formData: {
-        name: null,
-        surname: null,
+        firstName: null,
+        lastName: null,
+        districtId: null,
+        address: null,
+        birthday: null,
         patronymic: null,
         phone: null,
         email: null,
         password: null,
         confirmPassword: null,
-        policyAgree: [],
       },
 
       rules: {
-        name: [
+        firstName: [
           {
             required: true,
             message: VALIDATE_DEFAULT_ERROR,
           },
         ],
 
-        surname: [
+        lastName: [
           {
             required: true,
             message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        address: [
+          {
+            required: true,
+            message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        districtId: [
+          {
+            required: true,
+            message: VALIDATE_DEFAULT_ERROR,
+          },
+        ],
+
+        birthday: [
+          {
+            required: true,
+            validator: (rule, birthday, callback) =>
+              birthdatValidator(birthday)
+                ? callback()
+                : callback(new Error("Укажите дату рождения")),
           },
         ],
 
@@ -235,17 +309,21 @@ export default {
                 : callback(new Error("Укажите номер телефона")),
           },
         ],
-
-        policyAgree: [
-          {
-            type: "array",
-            required: true,
-            message: "Подтвердите ознакомление",
-            trigger: "change",
-          },
-        ],
       },
     };
+  },
+
+  async created() {
+    try {
+      this.isLoading = true;
+      const { districts } = await this.$http.get("/registration/districts");
+      this.districts = districts;
+    } catch (e) {
+      this.$onError("Не удалось загрузить список регионов");
+      console.error(e);
+    } finally {
+      this.isLoading = false;
+    }
   },
 
   methods: {
@@ -259,9 +337,12 @@ export default {
         this.isLoading = true;
 
         const { uuid } = await this.$http.post("/users", {
-          name: this.formData.name,
-          surname: this.formData.surname,
+          firstName: this.formData.firstName,
+          lastName: this.formData.lastName,
           patronymic: this.formData.patronymic,
+          districtId: this.formData.districtId,
+          birthday: this.formData.birthday,
+          address: this.formData.address,
           phone: this.formData.phone,
           email: this.formData.email,
           password: this.formData.password,
@@ -272,16 +353,17 @@ export default {
         this.$refs.dialog.show(uuid);
       } catch (e) {
         if (e.code == 422)
-          return this.$onWarning("Заполните все обязательные поля");
-
-        if (e.error == "The phone format is invalid.")
-          return this.$onWarning("Некорректый номер телефона");
+          return this.$onWarning("Не все поля заполнены корректно");
 
         if (e.code == 1062)
-          return this.$onWarning(
-            `Номер телефона ${this.formData.phone} был ранее зарегистрирован`
-          );
+          if (e.message.includes("mail"))
+            return this.$onWarning(
+              "Такой адрес электронной почты уже зарегистрирован"
+            );
+        if (e.message.includes("phone"))
+          return this.$onWarning("Такой номер телефона уже зарегистрирован");
 
+        this.$onError();
         console.error(e);
       } finally {
         this.isLoading = false;
@@ -298,9 +380,10 @@ export default {
   margin-bottom: 25px;
 }
 
-.heading {
+.registration_wrapper .heading {
   font-size: 26px;
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .registration_wrapper {
@@ -316,27 +399,49 @@ export default {
   color: #333;
 }
 
-.policy_text {
-  font-size: 16px;
-  color: var(--color-font--primary);
+.form_item .hint,
+.registration_wrapper .policy_text {
+  color: #9ea4ac;
+}
+.registration_wrapper .policy_text {
+  margin: 1rem 0;
 }
 
 .form_item {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  color: #9ea4ac;
+  margin-bottom: 1rem;
 }
-
-.hint {
-  display: flex;
-  max-width: 300px;
-  margin-left: 20px;
+.form_item div:first-child {
+  min-width: 350px;
+  margin-right: 20px;
+}
+.form_item .hint {
+  font-weight: bold;
   font-size: 14px;
 }
 
-.form_item input {
-  width: 100%;
-  margin-bottom: 1rem;
+@media (max-width: 790px) {
+  .form_item {
+    flex-wrap: wrap;
+  }
+
+  .form_item .hint {
+    max-width: unset;
+  }
+  .form_item .hint,
+  .form_item input {
+    margin: 0;
+  }
+}
+@media (max-width: 430px) {
+  .form_item div:first-child {
+    min-width: unset;
+    width: 100%;
+    margin-right: 0;
+  }
+  .form_wrapper button {
+    width: 100%;
+  }
 }
 </style>
