@@ -2,7 +2,7 @@
   <div :class="$style.header_content">
     <div :class="[$style.logo_wrapper, 'd-flex align-center']">
       <router-link to="/">
-        <img src="@/assets/logo_primary.webp" alt="logo_primary" />
+        <img src="@/assets/logo_primary.svg" />
       </router-link>
     </div>
 
@@ -70,6 +70,7 @@ export default {
   padding-right: 1rem;
 }
 .logo_wrapper img {
-  max-width: 70px;
+  height: 70px;
+  width: 70px;
 }
 </style>
