@@ -22,45 +22,50 @@
             </div>
 
             <div :class="$style.questions_wrapper">
-              <el-form ref="form">
+              <el-form ref="form" v-model="results">
                 <el-form-item
-                  v-for="(question, i) in poll.questions"
+                  v-for="question in poll.questions"
                   :class="$style.question"
                   :key="question.id"
                 >
                   <h2 :class="$style.title">{{ question.label }}</h2>
 
-                  <el-radio-group
-                    v-if="question.type == 'radio'"
-                    v-model="variants[question.id]"
-                  >
-                    <el-radio
-                      v-for="variant in question.variants"
-                      :key="variant.id"
-                      :label="variant.id"
-                      :class="$style.title"
-                      >{{ variant.label }}</el-radio
+                  <div v-for="variant in question.variants" :key="variant.id">
+                    <el-radio-group
+                      v-if="question.type == 'radio'"
+                      v-model="results[question.id]"
+                      :disabled="isVotted"
                     >
-                  </el-radio-group>
+                      <el-radio :label="variant.id" :class="$style.title">{{
+                        variant.label
+                      }}</el-radio>
+                    </el-radio-group>
 
-                  <el-checkbox-group
-                    v-else
-                    v-model="test[i][question.id]"
-                    :max="question.maxAllowed"
-                  >
-                    <el-checkbox
-                      v-for="variant in question.variants"
-                      :key="variant.id"
-                      :label="variant.id"
-                      >{{ variant.label }}</el-checkbox
+                    <el-checkbox-group
+                      v-else
+                      v-model="results[question.id]"
+                      :max="question.maxAllowed"
+                      :disabled="isVotted"
                     >
-                  </el-checkbox-group>
+                      <el-checkbox :label="variant.id">{{
+                        variant.label
+                      }}</el-checkbox>
+                    </el-checkbox-group>
+                  </div>
                 </el-form-item>
               </el-form>
             </div>
           </div>
           <div class="a-center">
-            <el-button type="primary" @click="submit">Отправить</el-button>
+            <el-button
+              v-if="isVotted"
+              type="primary"
+              @click="$router.push('/home')"
+              >На главную страницу</el-button
+            >
+            <el-button v-else type="primary" @click="submit"
+              >Отправить</el-button
+            >
           </div>
         </template>
       </div>
@@ -92,16 +97,11 @@ export default {
     return {
       isLoading: false,
       isVoting: false,
+      isVotted: false,
       authComponent: null,
       poll: {},
       variants: {},
-
-      formData: {
-        checkbox: [],
-        radio: {},
-      },
-
-      test: [],
+      results: [],
     };
   },
 
@@ -109,15 +109,22 @@ export default {
     isAuthorized() {
       return this.$store.getters.isUserAuthorized;
     },
+
+    checkbox() {
+      return this.results;
+    },
   },
 
   async created() {
     try {
       this.isLoading = true;
       const data = await this.$http.get(`/polls/${this.$route.params.id}`);
+
       this.poll = data.poll;
       this.poll.questions = data.questions;
-      this.poll.questions.forEach((item) => this.test.push({ [item.id]: [] }));
+      this.poll.questions.forEach((question) => {
+        this.results[question.id] = [];
+      });
     } catch (e) {
       if (e.code == 404) return this.$onError("Опрос не найден");
       this.$onError();
@@ -135,30 +142,31 @@ export default {
     },
 
     async vote() {
-      console.log(this.test);
-      // try {
-      //   await this.validate();
+      try {
+        this.isVoting = true;
 
-      //   this.isVoting = true;
+        //TO DO: Remove empty elements from results with saving initial indexes
+        await this.$http.post("/polls/vote", {
+          pollId: this.poll.id,
+          userId: this.$store.getters.get("user")["id"],
+          results: this.results,
+        });
 
-      //   await this.$http.post("/polls/vote", {
-      //     pollId: this.poll.id,
-      //     userId: this.$store.getters.get("user")["id"],
-      //     variants: this.variants,
-      //   });
-
-      //   this.$router.push("/home");
-      //   this.$onSuccess("Ваш голос принят! Спасибо за участие в опросе");
-      // } catch (e) {
-      //   if (e.code == 401) {
-      //     this.$store.commit("setUser", {});
-      //     this.authComponent = () => import("@/components/AuthForm.vue");
-      //   } else if (e.code == 12)
-      //     return this.$onWarning("В данном опросе Вы уже принимали участие");
-      //   else console.error(e);
-      // } finally {
-      //   this.isVoting = false;
-      // }
+        this.isVotted = true;
+        this.$onSuccess(
+          "Благодарим Вас за участие в исследовании общественного мнения!"
+        );
+      } catch (e) {
+        if (e.code == 401) {
+          this.$store.commit("setUser", {});
+          this.authComponent = () => import("@/components/AuthForm.vue");
+        } else if (e.code == 12) {
+          this.isVotted = true;
+          return this.$onWarning("В данном опросе Вы уже принимали участие");
+        } else console.error(e);
+      } finally {
+        this.isVoting = false;
+      }
     },
 
     validate() {
