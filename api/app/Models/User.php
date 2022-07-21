@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Polls\PollResult;
+use App\Models\Polls\PollAnswer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -92,6 +92,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function votes(): HasMany
     {
-        return $this->hasMany(PollResult::class, 'user_id');
+        return $this->hasMany(PollAnswer::class, 'user_id');
     }
 }

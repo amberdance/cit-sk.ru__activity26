@@ -19,10 +19,10 @@ class PollQuestionFactory extends Factory
     public function definition()
     {
         return [
-            'poll_id'         => Poll::factory(),
-            'label'           => 'Test question',
-            'type'            => Arr::random(['radio', 'checkbox']),
-            'has_own_variant' => true,
+            'poll_id'          => Poll::factory(),
+            'label'            => 'Test question',
+            'type'             => Arr::random(['radio', 'checkbox']),
+            'has_user_answer' => true,
         ];
     }
 }

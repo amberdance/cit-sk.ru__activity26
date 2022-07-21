@@ -73,7 +73,8 @@
 
 /************************** NORMALIZED ***************************/
 
-body {
+body,
+textarea {
   font-family: "GOST UI 2";
 }
 
@@ -222,21 +223,20 @@ button {
   background-color: var(--color-danger);
 }
 
-.el-radio__inner,
-.el-checkbox__inner {
+.poll .el-radio__inner,
+.poll .el-checkbox__inner {
   height: 30px;
   width: 30px;
   border: 2px solid #dcdfe6;
   margin-right: 0.5rem;
 }
 
-
 .el-radio__input.is-checked .el-radio__inner {
   border-color: var(--color-primary);
   background: #ffffff;
 }
 
-.el-radio__inner::after {
+.poll .el-radio__inner::after {
   width: 20px;
   height: 20px;
   background-color: var(--color-primary);
@@ -246,21 +246,22 @@ button {
   color: var(--color-primary);
 }
 
-.el-radio-group label {
+.poll .el-radio-group label {
   display: flex;
   align-items: center;
 }
 
-.el-radio__label,
-.el-checkbox__label {
+.poll .el-radio__label,
+.poll .el-checkbox__label {
   font-size: 16px;
   white-space: break-spaces;
 }
 
-
-.el-checkbox-group {
+.poll .el-checkbox-group {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .el-checkbox__input.is-checked .el-checkbox__inner {
@@ -268,14 +269,17 @@ button {
   border-color: #ffffff;
 }
 
-
-.el-checkbox__inner::after {
+.poll .el-checkbox__inner::after {
   height: 8px;
   width: 4px;
   border-right-width: 3px;
   border-bottom-width: 3px;
   left: 10px;
   top: 6px;
+}
+
+.poll .el-checkbox {
+  min-width: 40%;
 }
 
 /************************** MEDIA QUERIES ***************************/

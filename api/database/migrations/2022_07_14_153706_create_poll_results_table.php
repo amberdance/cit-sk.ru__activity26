@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('poll_results', function (Blueprint $table) {
+        Schema::create('poll_answers', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
             $table->integer('poll_id');
             $table->integer('question_id');
             $table->integer('variant_id');
-            $table->string('custom_answer')->nullable();
+            $table->string('user_answer')->nullable();
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('poll_results');
+        Schema::dropIfExists('poll_answers');
     }
 };

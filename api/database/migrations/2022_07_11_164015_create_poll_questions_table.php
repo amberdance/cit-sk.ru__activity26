@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('label');
             $table->string('description')->nullable();
             $table->string('type')->default('radio');
-            $table->boolean('has_own_variant')->default(false);
             $table->boolean('is_required')->default(true);
             $table->integer('max_allowed')->default(20);
             $table->integer('min_allowed')->default(1);

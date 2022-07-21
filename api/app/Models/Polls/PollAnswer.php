@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *  @property int $question_id
  *  @property int $variant_id
  *  @property int $user_id
- *  @property string $custom_answer
+ *  @property string $user_answer
  */
 
-class PollResult extends Model
+class PollAnswer extends Model
 {
     public $timestamps = false;
 

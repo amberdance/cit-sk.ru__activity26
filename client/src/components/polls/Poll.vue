@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-    <div class="container" v-loading="isVoting">
+    <div class="poll container" v-loading="isVoting">
       <div :class="[$style.poll_wrapper, 'rounded', 'shadowed']">
         <PollSketelon v-if="isLoading" />
 
@@ -22,7 +22,7 @@
             </div>
 
             <div :class="$style.questions_wrapper">
-              <el-form ref="form" v-model="results">
+              <el-form ref="form" v-model="values">
                 <el-form-item
                   v-for="question in poll.questions"
                   :class="$style.question"
@@ -30,33 +30,39 @@
                 >
                   <h2 :class="$style.title">{{ question.label }}</h2>
 
-                  <div v-for="variant in question.variants" :key="variant.id">
-                    <el-radio-group
-                      v-if="question.type == 'radio'"
-                      v-model="results[question.id]"
-                      :disabled="isVotted"
+                  <el-radio-group
+                    v-if="question.type == 'radio'"
+                    v-model="values[question.id]"
+                    :disabled="isVotted"
+                  >
+                    <el-radio
+                      v-for="variant in question.variants"
+                      :key="variant.id"
+                      :label="variant.id"
+                      :class="$style.title"
+                      >{{ variant.label }}</el-radio
                     >
-                      <el-radio :label="variant.id" :class="$style.title">{{
-                        variant.label
-                      }}</el-radio>
-                    </el-radio-group>
+                  </el-radio-group>
 
-                    <el-checkbox-group
-                      v-else
-                      v-model="results[question.id]"
-                      :max="question.maxAllowed"
-                      :disabled="isVotted"
-                    >
-                      <el-checkbox :label="variant.id">{{
-                        variant.label
-                      }}</el-checkbox>
-                    </el-checkbox-group>
-                  </div>
+                  <el-checkbox-group
+                    v-else
+                    v-model="values[question.id]"
+                    :max="question.maxAllowed"
+                    :disabled="isVotted"
+                  >
+                    <el-checkbox
+                      v-for="variant in question.variants"
+                      :key="variant.id"
+                      :label="variant.id"
+                      @change="onUserVariantChange(question.id, variant)"
+                      >{{ variant.label }}
+                    </el-checkbox>
+                  </el-checkbox-group>
                 </el-form-item>
               </el-form>
             </div>
           </div>
-          <div class="a-center">
+          <div :class="$style.btn_group">
             <el-button
               v-if="isVotted"
               type="primary"
@@ -70,6 +76,14 @@
         </template>
       </div>
     </div>
+
+    <el-dialog title="Ваш вариант ответа" :visible="isUserVariantChanged">
+      <el-input type="textarea" :rows="2" v-model="userVariant"></el-input>
+      <el-button type="danger" @click="isUserVariantChanged = false"
+        >Отмена</el-button
+      >
+      <el-button type="primary" @click="saveUserVariant">Отправить</el-button>
+    </el-dialog>
     <el-dialog
       v-if="!isAuthorized"
       width="25%"
@@ -98,20 +112,20 @@ export default {
       isLoading: false,
       isVoting: false,
       isVotted: false,
+      isUserVariantChanged: false,
+      questionId: null,
+      variantId: null,
       authComponent: null,
       poll: {},
       variants: {},
-      results: [],
+      userVariant: null,
+      values: [],
     };
   },
 
   computed: {
     isAuthorized() {
       return this.$store.getters.isUserAuthorized;
-    },
-
-    checkbox() {
-      return this.results;
     },
   },
 
@@ -122,9 +136,9 @@ export default {
 
       this.poll = data.poll;
       this.poll.questions = data.questions;
-      this.poll.questions.forEach((question) => {
-        this.results[question.id] = [];
-      });
+      this.poll.questions.forEach(
+        (question) => (this.values[question.id] = [])
+      );
     } catch (e) {
       if (e.code == 404) return this.$onError("Опрос не найден");
       this.$onError();
@@ -145,14 +159,13 @@ export default {
       try {
         this.isVoting = true;
 
-        //TO DO: Remove empty elements from results with saving initial indexes
         await this.$http.post("/polls/vote", {
           pollId: this.poll.id,
           userId: this.$store.getters.get("user")["id"],
-          results: this.results,
+          values: this.collectValues(),
         });
 
-        this.isVotted = true;
+        // this.isVotted = true;
         this.$onSuccess(
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
@@ -167,6 +180,53 @@ export default {
       } finally {
         this.isVoting = false;
       }
+    },
+
+    collectValues() {
+      const values = [];
+      let index = 0;
+
+      this.values.forEach((variant, id) => {
+        if (
+          variant == "undefined" ||
+          variant == null ||
+          (_.isArray(variant) && !variant.length)
+        )
+          return;
+
+        values.push({ id, answer: [] });
+
+        if (_.isNumber(variant))
+          values[index].answer.push({ variantId: variant });
+
+        if (_.isArray(variant)) {
+          variant.forEach((id) => values[index].answer.push({ variantId: id }));
+        }
+
+        index++;
+      });
+
+      return values;
+    },
+
+    onUserVariantChange(questionId, variant) {
+      if (!variant.hasUserVariant) return;
+
+      this.questionId = questionId;
+      this.variantId = variant.id;
+      this.isUserVariantChanged = true;
+    },
+
+    saveUserVariant() {
+      this.values[this.questionId] = this.values[this.questionId].filter(
+        (variantId) => variantId != this.variantId
+      );
+      this.values[this.questionId].push({
+        id: this.variantId,
+        input: this.userVariant,
+      });
+
+      this.isUserVariantChanged = false;
     },
 
     validate() {
@@ -225,6 +285,12 @@ export default {
   padding: 0.5rem;
   border-radius: 5px;
   border: 2px solid var(--color-font--secondary);
+}
+.poll_wrapper .btn_group {
+  text-align: center;
+}
+.poll_wrapper .btn_group button {
+  font-size: 18px;
 }
 .questions_wrapper .question {
   border: 1px dashed #ebebeb;

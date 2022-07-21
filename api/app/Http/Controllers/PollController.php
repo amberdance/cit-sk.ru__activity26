@@ -53,9 +53,9 @@ class PollController extends Controller
     {
 
         $request->validate([
-            "userId"  => "required",
-            "pollId"  => "required",
-            "results" => "required",
+            "userId" => "required",
+            "pollId" => "required",
+            "values" => "required",
         ]);
 
         if ($this->pollRepository->isUserVoted($request->userId, $request->pollId)) {

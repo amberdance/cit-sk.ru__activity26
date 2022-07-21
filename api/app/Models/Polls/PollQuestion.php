@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *  @property string $label
  *  @property string $description
  *  @property string $type
- *  @property bool $has_own_variant
  */
 
 class PollQuestion extends Model
@@ -27,6 +26,10 @@ class PollQuestion extends Model
     protected $guarded = [];
     protected $hidden  = [
         'poll_id',
+    ];
+
+    protected $casts = [
+        'is_required'      => 'boolean',
     ];
 
     /**

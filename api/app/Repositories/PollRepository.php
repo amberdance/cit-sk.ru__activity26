@@ -3,8 +3,8 @@ namespace App\Repositories;
 
 use App\Interfaces\PollRepositoryInterface;
 use App\Models\Polls\Poll;
+use App\Models\Polls\PollAnswer;
 use App\Models\Polls\PollQuestion;
-use App\Models\Polls\PollResult;
 use Illuminate\Database\Eloquent\Collection;
 
 class PollRepository implements PollRepositoryInterface
@@ -95,22 +95,15 @@ class PollRepository implements PollRepositoryInterface
     public function vote(array $params): void
     {
 
-        $params['results'] = array_filter($params['results']);
-        $data              = [
-            'user_id' => $params['userId'],
-            'poll_id' => $params['pollId'],
-
-        ];
-
-        foreach ($params['results'] as $questionId => $variantId) {
-            $data['question_id'] = $questionId;
-
-            if (is_array($variantId)) {
-                foreach ($variantId as $id) {
-                    PollResult::create(array_merge($data, ['variant_id' => $id]));
-                }
-            } else {
-                PollResult::create(array_merge($data, ['variant_id' => $variantId]));
+        foreach ($params['values'] as $question) {
+            foreach ($question['answer'] as $answer) {
+                PollAnswer::create([
+                    'user_id'     => $params['userId'],
+                    'poll_id'     => $params['pollId'],
+                    'question_id' => $question['id'],
+                    'variant_id'  => $answer['variantId'],
+                    'user_answer' => $answer['input'] ?? null,
+                ]);
             }
         }
     }
@@ -123,7 +116,7 @@ class PollRepository implements PollRepositoryInterface
      */
     public function isUserVoted(int $userId, int $pollId): bool
     {
-        return boolval(PollResult::select("id")
+        return boolval(PollAnswer::select("id")
                 ->where([
                     'user_id' => $userId,
                     'poll_id' => $pollId,
@@ -154,6 +147,6 @@ class PollRepository implements PollRepositoryInterface
      */
     public function getPassedPollsCount(): int
     {
-        return PollResult::all('id')->count();
+        return PollAnswer::all('id')->count();
     }
 }
