@@ -19,6 +19,10 @@ class NewsRss
             $response = self::parse('https://news.1777.ru/rss/yandex');
             $result   = array_filter($response['channel']['item'], fn($item) => in_array($item['category'], ['Общество', 'Экономика', 'Спорт, отдых']));
 
+            foreach ($result as $i => $item) {
+                $result[$i]['image'] = $item['enclosure'][0]['@attributes']['url'] ?? $item['enclosure']['@attributes']['url'];
+            }
+
             return array_slice($result, 0, $limit ?? 4);
         } catch (Exception $e) {
             return [];
