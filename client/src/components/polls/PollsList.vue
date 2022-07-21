@@ -66,7 +66,6 @@ export default {
     try {
       this.isLoading = true;
       this.polls = await this.$http.get("/polls", { limit: 4 });
-      console.log(this.polls)
     } catch (e) {
       console.error(e);
     } finally {

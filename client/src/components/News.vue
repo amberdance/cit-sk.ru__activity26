@@ -1,59 +1,64 @@
 <template>
-    <div style="background-color: rgb(211 211 211)">
-        <div class="container">
-            <div :class="$style.news_wrapper">
-                <div :class="$style.heading">Новости</div>
+  <div style="background-color: rgb(211 211 211)">
+    <div class="container">
+      <div :class="$style.news_wrapper">
+        <div :class="$style.heading">Новости</div>
 
-                <el-row type="flex" :class="$style.news_list" :gutter="20">
-                    <el-col v-for="news in news" :key="news.link" :xs="12" :sm="12" :lg="8" :xl="24">
-                        <div :class="[$style.news_card, 'rounded']" @click="$router.push(`${news.link}`)">
-                            <div :class="[$style.image_wrapper]">
-                                <div :class="$style.image"
-                                    :style="`background-image:url(${news.enclosure.attributes.url})`">
-                                </div>
-                            </div>
-                            <div :class="$style.meta">
-                                        <div :class="$style.category">{{ news.category }}</div>
-                                        <div :class="$style.title">
-                                            {{ news.title }}
-                                        </div>
-                                    </div>
-                        </div>
-                    </el-col>
-                </el-row>
+        <el-row type="flex" :class="$style.news_list" :gutter="20">
+          <el-col
+            v-for="news in news"
+            :key="news.link"
+            :xs="12"
+            :sm="12"
+            :lg="8"
+            :xl="24"
+          >
+            <div
+              :class="[$style.news_card, 'rounded']"
+              @click="$router.push(`${news.link}`)"
+            >
+              <div :class="[$style.image_wrapper]">
+                <div
+                  :class="$style.image"
+                  :style="`background-image:url(${news.enclosure.attributes.url})`"
+                ></div>
+              </div>
+              <div :class="$style.meta">
+                <div :class="$style.category">{{ news.category }}</div>
+                <div :class="$style.title">
+                  {{ news.title }}
+                </div>
+              </div>
             </div>
-        </div>
+          </el-col>
+        </el-row>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    components: {},
-    data() {
-        return {
-            news: [],
-        };
-    },
+  components: {},
+  data() {
+    return {
+      news: [],
+    };
+  },
 
-    created() {
-        this.link = this.$openNewWindow;
-    },
-
-    async created() {
-        try {
-            this.news = await this.$http.get("/pages/main/news");
-            console.log(this.news)
-        } catch (e) {
-            console.error(e);
-        } finally {
-        }
-    },
+  async created() {
+    try {
+      this.news = await this.$http.get("/pages/main/news");
+      console.log(this.news);
+    } catch (e) {
+      console.error(e);
+    }
+  },
 };
 </script>
 <style module>
-
 .image_wrapper {
-    border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0px 0px;
 }
 .news_wrapper {
   padding: 1rem 0;
@@ -141,18 +146,18 @@ export default {
 }
 
 @media (min-width: 1500px) {
-    .news_card {
-        max-width: 320px;
-    }
+  .news_card {
+    max-width: 320px;
+  }
 }
 
 @media (max-width: 992px) {
-    .news_list {
-        flex-wrap: wrap;
-    }
+  .news_list {
+    flex-wrap: wrap;
+  }
 
-    .news_list .news_card {
-        border-radius: 0;
-    }
+  .news_list .news_card {
+    border-radius: 0;
+  }
 }
 </style>

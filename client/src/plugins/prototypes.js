@@ -20,6 +20,10 @@ const plugins = () => {
   Vue.prototype.$onWarning = (message, duration) =>
     notificationBase("warning", message, duration);
 
+  Vue.prototype.$openNewWindow = (link) => {
+    window.open(link, "_blank");
+  };
+
   /*
    *--------------------------------------------------------------
    *            AUTH
@@ -75,10 +79,6 @@ const plugins = () => {
       return responseData(data);
     },
   };
-};
-
-Vue.prototype.$openNewWindow = link => {
-  window.open(link, "_blank");
 };
 
 Vue.use(plugins);
