@@ -5,20 +5,12 @@ process.env.VUE_APP_API_URL =
     : "https://activity26.ru/api";
 
 module.exports = {
-  productionSourceMap: false,
-  filenameHashing: true,
+  filenameHashing: false,
   lintOnSave: process.env.NODE_ENV !== "production",
 
   configureWebpack: {
     performance: {
       hints: false,
-    },
-
-    optimization: {
-      splitChunks: {
-        minSize: 10000,
-        maxSize: 250000,
-      },
     },
   },
 };
