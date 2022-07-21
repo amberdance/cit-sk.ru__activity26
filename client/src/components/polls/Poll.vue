@@ -24,7 +24,7 @@
             <div :class="$style.questions_wrapper">
               <el-form ref="form">
                 <el-form-item
-                  v-for="question in poll.questions"
+                  v-for="(question, i) in poll.questions"
                   :class="$style.question"
                   :key="question.id"
                 >
@@ -45,7 +45,7 @@
 
                   <el-checkbox-group
                     v-else
-                    v-model="formData.checkbox"
+                    v-model="test[i][question.id]"
                     :max="question.maxAllowed"
                   >
                     <el-checkbox
@@ -100,6 +100,8 @@ export default {
         checkbox: [],
         radio: {},
       },
+
+      test: [],
     };
   },
 
@@ -115,6 +117,7 @@ export default {
       const data = await this.$http.get(`/polls/${this.$route.params.id}`);
       this.poll = data.poll;
       this.poll.questions = data.questions;
+      this.poll.questions.forEach((item) => this.test.push({ [item.id]: [] }));
     } catch (e) {
       if (e.code == 404) return this.$onError("Опрос не найден");
       this.$onError();
@@ -132,7 +135,7 @@ export default {
     },
 
     async vote() {
-      console.log(this.formData, this.variants);
+      console.log(this.test);
       // try {
       //   await this.validate();
 
