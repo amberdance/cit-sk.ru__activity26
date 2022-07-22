@@ -22,10 +22,6 @@ class PollVariant extends Model
 
     protected $guarded = [];
 
-    protected $hidden = [
-        'question_id',
-    ];
-
     protected $casts = [
         'has_user_answer' => 'boolean',
     ];

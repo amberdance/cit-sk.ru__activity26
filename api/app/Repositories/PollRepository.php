@@ -102,7 +102,7 @@ class PollRepository implements PollRepositoryInterface
                     'poll_id'     => $params['pollId'],
                     'question_id' => $question['id'],
                     'variant_id'  => $answer['id'],
-                    'user_answer' => $answer['input'] ?? null,
+                    'user_answer' => isset($answer['input']) ? html_entity_decode(strip_tags($answer['input'])) : null,
                 ]);
             }
         }

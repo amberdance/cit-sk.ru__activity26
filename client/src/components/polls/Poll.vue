@@ -22,9 +22,9 @@
             </div>
 
             <div :class="$style.questions_wrapper">
-              <el-form ref="form" v-model="formData">
+              <el-form ref="form" v-model="formData[0][14]">
                 <el-form-item
-                  v-for="question in poll.questions"
+                  v-for="(question, i) in poll.questions"
                   :class="$style.question"
                   :key="question.id"
                 >
@@ -32,8 +32,8 @@
 
                   <el-radio-group
                     v-if="question.type == 'radio'"
-                    v-model="formData[question.id]"
-                    :disabled="isVotted"
+                    v-model="formData[i][question.id]"
+                    :disabled="isVoted"
                   >
                     <el-radio
                       v-for="variant in question.variants"
@@ -46,15 +46,21 @@
 
                   <el-checkbox-group
                     v-else
-                    v-model="formData[question.id]"
+                    v-model="formData[i][question.id]"
                     :max="question.maxAllowed"
-                    :disabled="isVotted"
+                    :disabled="isVoted"
                   >
                     <el-checkbox
                       v-for="variant in question.variants"
                       :key="variant.id"
                       :label="variant.id"
-                      @change="onUserVariantChange(question.id, variant)"
+                      @change="
+                        onUserVariantChange($event, {
+                          index: i,
+                          questionId: question.id,
+                          variant,
+                        })
+                      "
                       >{{ variant.label }}
                     </el-checkbox>
                   </el-checkbox-group>
@@ -64,7 +70,7 @@
           </div>
           <div :class="$style.btn_group">
             <el-button
-              v-if="isVotted"
+              v-if="isVoted"
               type="primary"
               @click="$router.push('/home')"
               >На главную страницу</el-button
@@ -87,7 +93,11 @@
     >
       <component :is="authComponent" @onSuccessfullAuth="vote" />
     </el-dialog>
-    <UserAnswer ref="userAnswerDialog" @onUserAnswerChanged="saveUserAnswer" />
+    <UserAnswer
+      ref="userAnswerDialog"
+      @onUserAnswerChanged="saveUserAnswer"
+      @onDialogClosed="uncheckUserAnswerCheckbox"
+    />
   </MainLayout>
 </template>
 
@@ -107,15 +117,14 @@ export default {
     return {
       isLoading: false,
       isVoting: false,
-      isVotted: false,
+      isVoted: false,
       isUserVariantChanged: false,
       questionId: null,
       variantId: null,
       authComponent: null,
-      poll: {},
-      variants: {},
-      userVariant: null,
       formData: [],
+      poll: {},
+      userAnswer: {},
     };
   },
 
@@ -132,8 +141,8 @@ export default {
 
       this.poll = data.poll;
       this.poll.questions = data.questions;
-      this.poll.questions.forEach(
-        (question) => (this.formData[question.id] = [])
+      this.poll.questions.forEach((question) =>
+        this.formData.push({ [question.id]: [] })
       );
     } catch (e) {
       if (e.code == 404) return this.$onError("Опрос не найден");
@@ -153,6 +162,8 @@ export default {
 
     async vote() {
       try {
+        await this.$refs.form.validate();
+
         this.isVoting = true;
 
         await this.$http.post("/polls/vote", {
@@ -161,7 +172,7 @@ export default {
           values: this.getValues(),
         });
 
-        this.isVotted = true;
+        this.isVoted = true;
         this.$onSuccess(
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
@@ -170,7 +181,7 @@ export default {
           this.$store.commit("setUser", {});
           this.authComponent = () => import("@/components/AuthForm.vue");
         } else if (e.code == 12) {
-          this.isVotted = true;
+          // this.isVoted = true;
           return this.$onWarning("В данном опросе Вы уже принимали участие");
         } else console.error(e);
       } finally {
@@ -182,28 +193,29 @@ export default {
       const values = [];
       let index = 0;
 
-      this.formData.forEach((variant, id) => {
-        if (
-          variant == "undefined" ||
-          variant == null ||
-          (_.isArray(variant) && !variant.length)
-        )
-          return;
+      this.formData.forEach((item) => {
+        const questionId = Number(Object.keys(item)[0]);
+        const variant = item[questionId];
 
-        values.push({ id, answer: [] });
+        // Setting initial structure
+        values.push({ id: questionId, answer: [] });
 
+        // Radio type handle
         if (_.isNumber(variant)) values[index].answer.push({ id: variant });
 
+        // Checkbox type handle
         if (_.isArray(variant)) {
-          variant.forEach((item) => {
-            const isObject = _.isObject(item);
-            const params = {
-              id: isObject ? item.id : item,
-            };
-
-            if (isObject) params.input = item.input;
+          variant.forEach((id, i) => {
+            let params = { id };
 
             values[index].answer.push(params);
+
+            // Replacing element of formdata with user answer by index
+            if (
+              _.isObject(this.userAnswer[questionId]) &&
+              this.userAnswer[questionId].id == id
+            )
+              values[index].answer[i].input = this.userAnswer[questionId].input;
           });
         }
 
@@ -213,26 +225,38 @@ export default {
       return values;
     },
 
-    onUserVariantChange(questionId, variant) {
-      console.log(variant);
+    onUserVariantChange(checked, { index, questionId, variant }) {
       if (!variant.hasUserAnswer) return;
 
+      if (checked)
+        this.uncheckUserAnswerCheckbox({
+          index,
+          questionId,
+          variantId: variant.id,
+        });
+
       this.$refs.userAnswerDialog.show({
+        index,
         questionId,
         variantId: variant.id,
       });
     },
 
     saveUserAnswer() {
-      const { questionId, variantId, input } =
+      const { index, questionId, variantId, input } =
         this.$refs.userAnswerDialog.getData();
 
-      this.formData[questionId].forEach((item, i) => {
-        if (item == variantId)
-          this.formData[questionId][i] = { id: variantId, input };
-      });
+      this.formData[index][questionId].push(variantId);
+      this.userAnswer[questionId] = { id: variantId, input };
+      this.$refs.userAnswerDialog.close();
+    },
 
-      this.$refs.userAnswerDialog.hide();
+    uncheckUserAnswerCheckbox({ index, questionId, variantId }) {
+      if (index === null) return;
+
+      this.formData[index][questionId] = this.formData[index][
+        questionId
+      ].filter((id) => id !== variantId);
     },
   },
 };

@@ -160,7 +160,7 @@ button {
 }
 
 .p-1 {
-  padding: 0 1rem;
+  padding: 1rem 0;
 }
 
 .icon-mini {
@@ -242,7 +242,7 @@ button {
   background-color: var(--color-primary);
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary);
 }
 
@@ -286,10 +286,18 @@ button {
   font-weight: bold;
 }
 
-.el-dialog__body,
-.el-dialog__header,
-.el-dialog__footer {
-  padding: 1rem 2rem;
+.el-textarea__inner:hover {
+  border-color: var(--color-primary);
+}
+
+.el-textarea__inner {
+  border-radius: 0px;
+  border: 2px var(--color-divider) solid;
+}
+
+.el-textarea__inner:focus {
+  border: 2px var(--color-primary) solid;
+  border-radius: 0px;
 }
 
 /************************** MEDIA QUERIES ***************************/
