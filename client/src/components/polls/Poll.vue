@@ -306,7 +306,7 @@ export default {
   text-align: center;
 }
 .poll_wrapper .btn_group button {
-  font-size: 18px;
+  font-size: 16px;
 }
 .questions_wrapper .question {
   border: 1px dashed #ebebeb;
