@@ -4,7 +4,7 @@
       <div :class="$style.news_wrapper">
         <div :class="$style.heading">Новости</div>
 
-        <SkeletonRow v-if="isLoading" />
+        <RowSkeleton v-if="isLoading" />
 
         <template v-else>
           <el-row
@@ -49,11 +49,11 @@
 </template>
 
 <script>
-import SkeletonRow from "./skeletons/SkeletonRow.vue";
+import RowSkeleton from "./skeletons/RowSkeleton.vue";
 
 export default {
   components: {
-    SkeletonRow,
+    RowSkeleton,
   },
 
   data() {

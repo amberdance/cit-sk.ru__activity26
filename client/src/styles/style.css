@@ -258,9 +258,7 @@ button {
 
 .poll .el-checkbox-group {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex-wrap: wrap;
+  flex-direction: column;
 }
 
 .el-checkbox__input.is-checked .el-checkbox__inner {

@@ -3,7 +3,7 @@
     <div class="container">
       <div :class="$style.polls_wrapper">
         <div :class="$style.heading">Опросы</div>
-        <SkeletonRow v-if="isLoading" />
+        <RowSkeleton v-if="isLoading" />
 
         <template v-else>
           <el-row type="flex" :class="$style.polls_list" :gutter="20">
@@ -50,11 +50,11 @@
 </template>
 
 <script>
-import SkeletonRow from "../skeletons/SkeletonRow.vue";
+import RowSkeleton from "../skeletons/RowSkeleton.vue";
 
 export default {
   components: {
-    SkeletonRow,
+    RowSkeleton,
   },
 
   data() {
