@@ -11,7 +11,7 @@
         </div>
 
         <el-button
-          style="font-size: 22px"
+          style="font-size: 18px"
           class="m-1"
           type="primary"
           v-scroll-to="'#polls'"

@@ -55,7 +55,8 @@ export default {
 
 .content_wrapper {
   background: url(../../assets/bg_primary.webp);
-  background-position: 50% 80%;
+  background-attachment: fixed;
+  background-position: 50% 100%;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--color-font--primary);

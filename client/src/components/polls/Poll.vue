@@ -285,7 +285,7 @@ export default {
 .poll_wrapper img {
   width: 100%;
   height: auto;
-  max-height: 650px;
+  max-height: 450px;
   object-fit: cover;
 }
 .poll_wrapper .meta_wrapper {
