@@ -17,8 +17,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->create();
-        PollFactory::createPoliticsPoll();
-        PollFactory::createTestPoll();
+        PollFactory::politics();
+        PollFactory::transport();
+        PollFactory::testPoll();
         // PollQuestion::factory()->count(2)->has(PollVariant::factory()->count(4), 'variants')->create();
     }
 }
