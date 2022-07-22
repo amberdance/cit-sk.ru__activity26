@@ -2,14 +2,14 @@
   <div :class="$style.statistic_wrapper">
     <div class="container">
       <div :class="$style.statistic_content">
-        <div v-for="(item, i) in stats" :key="i">
+        <div v-for="(count, key) in counters" :key="key">
           <AnimatedNumber
             :class="$style.count"
-            :value="item.count"
+            :value="count"
             :round="1"
             :duration="200"
           ></AnimatedNumber>
-          <div :class="$style.label">{{ item.label }}</div>
+          <div :class="$style.label">{{ labels[key] }}</div>
         </div>
       </div>
     </div>
@@ -26,30 +26,25 @@ export default {
 
   data() {
     return {
-      stats: [
-        {
-          label: "Активных граждан",
-          count: 0,
-        },
-        {
-          label: "Принято мнений",
-          count: 0,
-        },
-        {
-          label: "Пройдено опросов",
-          count: 0,
-        },
-      ],
+      labels: {
+        usersCount: "Активных граждан",
+        passedPollsCount: "Принято мнений",
+        pollsCount: "Всего опросов",
+      },
     };
   },
 
-  async created() {
-    try {
-      const counters = await this.$http.get("/pages/main/counters");
+  computed: {
+    counters() {
+      return this.$store.getters.objects("counters");
+    },
+  },
 
-      this.stats[0].count = counters.usersCount;
-      this.stats[1].count = counters.passedPollsCount;
-      this.stats[2].count = counters.pollsCount;
+  async created() {
+    if (!_.isEmpty(this.counters)) return;
+
+    try {
+      await this.$store.dispatch("loadCounters");
     } catch (e) {
       console.error(e);
     }
