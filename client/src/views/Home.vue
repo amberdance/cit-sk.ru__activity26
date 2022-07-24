@@ -18,7 +18,7 @@
           >Перейти к опросам
         </el-button>
 
-        <div :class="[$style.quotation_wrapper]">
+        <!-- <div :class="$style.quotation_wrapper">
           <div class="container">
             <div :class="$style.quotation__title">
               <q>{{ quote.title }}</q>
@@ -26,7 +26,7 @@
 
             <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
           </div>
-        </div>
+        </div> -->
       </div>
     </MainLayout>
     <Statistics />
@@ -81,9 +81,10 @@ export default {
 }
 .main_title {
   width: 100%;
-  font-size: 50px;
+  font-size: 70px;
+  line-height: 70px;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .main_title,
@@ -94,6 +95,7 @@ export default {
 .main_subtitle {
   font-size: 25px;
   font-weight: bold;
+  margin-bottom: 2rem;
 }
 
 .quotation_wrapper {
