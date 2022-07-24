@@ -40,7 +40,7 @@ export const notificationBase = (type, message = null, duration) => {
     type,
     message,
     position: "bottom-right",
-    duration: duration || 4500,
+    duration: duration || 3000,
   });
 };
 
