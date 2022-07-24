@@ -138,10 +138,7 @@ export default {
           code: this.formData.code,
         });
 
-        this.$router.push("/login");
-        this.$onSuccess(
-          "Ваш профиль подтвержден, теперь вы можете аутентифицироваться для участия в опросах"
-        );
+        this.$emit("onPhoneVerified");
       } catch (e) {
         if (e.code == 10) {
           this.isSmsExpired = true;

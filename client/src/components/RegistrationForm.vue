@@ -185,7 +185,7 @@
       </el-form>
     </div>
 
-    <PhoneVerifyDialog ref="dialog" />
+    <PhoneVerifyDialog ref="dialog" @onPhoneVerified="onRegistrateSuccess" />
   </MainLayout>
 </template>
 
@@ -227,6 +227,7 @@ export default {
         email: null,
         password: null,
         confirmPassword: null,
+        previousPageUrl: null,
       },
 
       rules: {
@@ -313,6 +314,10 @@ export default {
     };
   },
 
+  beforeRouteEnter(to, from, next) {
+    next((vm) => (vm.previousPageUrl = from.path || "/home"));
+  },
+
   async created() {
     try {
       this.isLoading = true;
@@ -370,6 +375,13 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    onRegistrateSuccess() {
+      this.$router.push(this.previousPageUrl);
+      this.$onSuccess(
+        "Ваш профиль зарегистрирован, теперь вы можете аутентифицироваться для участия в опросах"
+      );
     },
   },
 };
