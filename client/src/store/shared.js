@@ -13,7 +13,7 @@ export default {
   },
 
   getters: {
-    objects: (state) => (key) => {
+    list: (state) => (key) => {
       const values = Object.values(state[key]);
       return values.length == 1 ? values[0] : values;
     },

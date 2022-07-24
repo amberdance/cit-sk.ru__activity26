@@ -65,7 +65,7 @@ export default {
 
   computed: {
     polls() {
-      return this.$store.getters.get("polls");
+      return this.$store.getters.list("polls");
     },
   },
 

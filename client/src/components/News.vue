@@ -64,12 +64,12 @@ export default {
 
   computed: {
     news() {
-      return this.$store.getters.get("news");
+      return this.$store.getters.list("news");
     },
   },
 
   async created() {
-    if (!_.isEmpty(this.news)) return;
+    if (this.news.length) return;
 
     try {
       this.isLoading = true;

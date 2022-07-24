@@ -13,6 +13,7 @@
           </div>
 
           <div :class="$style.meta_wrapper">
+            <h1 v-if="!isAuthorized">Внимание. Надо войти</h1>
             <div v-if="poll.description" :class="$style.description">
               <span>{{ poll.description }}</span>
             </div>
@@ -76,7 +77,7 @@
               >На главную страницу</el-button
             >
             <el-button v-else type="primary" @click="submit"
-              >Отправить</el-button
+              >Ответить</el-button
             >
           </div>
         </template>

@@ -36,7 +36,7 @@ export default {
 
   computed: {
     counters() {
-      return this.$store.getters.objects("counters");
+      return this.$store.getters.list("counters");
     },
   },
 
