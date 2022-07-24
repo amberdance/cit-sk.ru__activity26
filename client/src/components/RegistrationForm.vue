@@ -2,7 +2,7 @@
   <MainLayout>
     <div class="container">
       <el-form
-        :class="$style.registration_wrapper"
+        :class="$style.registrate_wrapper"
         :rules="rules"
         :model="formData"
         :hide-required-asterisk="true"
@@ -329,10 +329,10 @@ export default {
   methods: {
     async submit() {
       await this.$refs.form.validate();
-      await this.registration();
+      await this.registrate();
     },
 
-    async registration() {
+    async registrate() {
       try {
         this.isLoading = true;
 
@@ -355,13 +355,15 @@ export default {
         if (e.code == 422)
           return this.$onWarning("Не все поля заполнены корректно");
 
-        if (e.code == 1062)
+        if (e.code == 1062) {
           if (e.message.includes("mail"))
             return this.$onWarning(
               "Такой адрес электронной почты уже зарегистрирован"
             );
-        if (e.message.includes("phone"))
-          return this.$onWarning("Такой номер телефона уже зарегистрирован");
+
+          if (e.message.includes("phone"))
+            return this.$onWarning("Такой номер телефона уже зарегистрирован");
+        }
 
         this.$onError();
         console.error(e);
@@ -380,13 +382,13 @@ export default {
   margin-bottom: 25px;
 }
 
-.registration_wrapper .heading {
+.registrate_wrapper .heading {
   font-size: 26px;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-.registration_wrapper {
+.registrate_wrapper {
   max-width: 750px;
   margin: auto;
   display: flex;
@@ -394,16 +396,16 @@ export default {
   justify-content: center;
 }
 
-.registration_wrapper label {
+.registrate_wrapper label {
   font-size: 18px;
   color: #333;
 }
 
 .form_item .hint,
-.registration_wrapper .policy_text {
+.registrate_wrapper .policy_text {
   color: #9ea4ac;
 }
-.registration_wrapper .policy_text {
+.registrate_wrapper .policy_text {
   margin: 1rem 0;
 }
 

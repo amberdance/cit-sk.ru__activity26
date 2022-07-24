@@ -6,7 +6,6 @@ use App\Helpers\ValidationHelper;
 use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
-use App\Lib\EdrosAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
