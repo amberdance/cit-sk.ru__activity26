@@ -12,8 +12,17 @@
             >
           </div>
 
+          <div v-if="!isAuthorized" :class="$style.auth_notice">
+            <h2>Внимание!</h2>
+            <span>Для участия в опросе необходимо авторизоваться</span>
+            <div>
+              <el-button type="primary" @click="showAuthDialog"
+                >Войти</el-button
+              >
+            </div>
+          </div>
+
           <div :class="$style.meta_wrapper">
-            <h1 v-if="!isAuthorized">Внимание. Надо войти</h1>
             <div v-if="poll.description" :class="$style.description">
               <span>{{ poll.description }}</span>
             </div>
@@ -69,7 +78,7 @@
               </el-form>
             </div>
           </div>
-          <div :class="$style.btn_group">
+          <div :class="$style.btn_group" v-if="isAuthorized">
             <el-button
               v-if="isVoted"
               type="primary"
@@ -92,7 +101,7 @@
       :lock-scroll="false"
       @close="authComponent = null"
     >
-      <component :is="authComponent" @onSuccessfullAuth="vote" />
+      <component :is="authComponent" />
     </el-dialog>
     <UserAnswer
       ref="userAnswerDialog"
@@ -156,8 +165,7 @@ export default {
 
   methods: {
     async submit() {
-      if (!this.isAuthorized)
-        this.authComponent = () => import("@/components/AuthForm.vue");
+      if (!this.isAuthorized) this.showAuthDialog();
       else await this.vote();
     },
 
@@ -182,12 +190,16 @@ export default {
           this.$store.commit("setUser", {});
           this.authComponent = () => import("@/components/AuthForm.vue");
         } else if (e.code == 12) {
-          // this.isVoted = true;
+          this.isVoted = true;
           return this.$onWarning("В данном опросе Вы уже принимали участие");
         } else console.error(e);
       } finally {
         this.isVoting = false;
       }
+    },
+
+    showAuthDialog() {
+      this.authComponent = () => import("@/components/AuthForm.vue");
     },
 
     getValues() {
@@ -270,11 +282,22 @@ export default {
   margin: 1rem 0;
   padding-bottom: 2rem;
 }
+.poll_wrapper .auth_notice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 18px;
+  margin: 1.5rem 0;
+  background-color: #f0b56052;
+}
+.poll_wrapper .auth_notice button {
+  margin: 1rem 0;
+}
 .poll_wrapper .heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 1rem 0;
   padding: 1rem;
   font-weight: bold;
   color: var(--color-font--secondary);
@@ -294,6 +317,7 @@ export default {
   font-weight: bold;
   color: #606266;
   padding: 1rem 1.5rem;
+  margin: 1rem 0;
 }
 .poll_wrapper .poll_label {
   font-size: 30px;
@@ -306,9 +330,7 @@ export default {
 .poll_wrapper .btn_group {
   text-align: center;
 }
-.poll_wrapper .btn_group button {
-  font-size: 16px;
-}
+
 .questions_wrapper .question {
   border: 1px dashed #ebebeb;
   margin: 1rem 0;
