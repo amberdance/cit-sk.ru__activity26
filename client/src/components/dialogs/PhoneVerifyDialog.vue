@@ -1,7 +1,7 @@
 <template>
   <el-dialog
+    title="Последние 4 цифры номера телефона"
     :visible="isVisible"
-    :modal="false"
     :append-to-body="true"
     :close-on-click-modal="false"
     :lock-scroll="true"
@@ -25,17 +25,13 @@
         class="align-center"
         style="flex-wrap: wrap"
       >
-        <el-col :lg="12" :sm="22" :xs="22">
-          <el-form-item
-            :class="$style.formItem"
-            label="Последние 4 цифры номера телефона"
-            prop="code"
-          >
+        <el-col :lg="12" :sm="22" :xs="22" :class="$style.column">
+          <el-form-item :class="$style.formItem" prop="code">
             <el-input
               v-model="formData.code"
               v-mask="'####'"
               clearable
-              :disabled="attempsCount >= 5 || isSmsExpired"
+              :disabled="attempsCount >= allowedAttemptsCount || isSmsExpired"
             />
           </el-form-item>
 
@@ -62,7 +58,7 @@
           ></el-col
         >
 
-        <el-col :lg="12" :sm="22" :xs="22" style="margin-top: 1rem">
+        <el-col :lg="12" :sm="22" :xs="22" :class="$style.column">
           В течение нескольких секунд на Ваш телефон поступит звонок-сброс с
           уникального номера. Вам нужно ввести последние 4 цифры этого номера.
 
@@ -90,7 +86,8 @@ export default {
       isLoading: false,
       isSmsExpired: false,
       attempsCount: 1,
-      time: 299999,
+      allowedAttemptsCount: 4,
+      time: 60000,
 
       formData: {
         code: "",
@@ -112,7 +109,7 @@ export default {
 
   computed: {
     buttonLabel() {
-      return this.isSmsExpired || this.attempsCount >= 5
+      return this.isSmsExpired || this.attempsCount >= this.allowedAttemptsCount
         ? "Запросить код повторно"
         : "Продолжить";
     },
@@ -124,7 +121,8 @@ export default {
 
   methods: {
     async submit() {
-      if (this.isSmsExpired || this.attempsCount >= 5) await this.resetCode();
+      if (this.isSmsExpired || this.attempsCount >= this.allowedAttemptsCount)
+        await this.resetCode();
       else {
         await this.$refs.form.validate();
         await this.verifyCode();
@@ -140,10 +138,7 @@ export default {
           code: this.formData.code,
         });
 
-        this.$router.push("/login");
-        this.$onSuccess(
-          "Ваш профиль подтвержден, теперь вы можете аутентифицироваться для участия в опросах"
-        );
+        this.$emit("onPhoneVerified");
       } catch (e) {
         if (e.code == 10) {
           this.isSmsExpired = true;
@@ -194,7 +189,7 @@ export default {
       this.attempsCount = 1;
 
       setTimeout(() => {
-        this.time = 299999;
+        this.time = 60000;
         this.isSmsExpired = false;
 
         setTimeout(() => {
@@ -211,10 +206,6 @@ export default {
 </script>
 
 <style module>
-.form_wrapper {
-  padding: 2rem;
-}
-
 .form_wrapper label {
   font-size: 22px;
   line-height: 30px;
@@ -224,5 +215,8 @@ export default {
 .form_wrapper .timer {
   width: 100%;
   margin: 1rem 0;
+}
+.form_wrapper .column {
+  min-height: 160px;
 }
 </style>

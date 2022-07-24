@@ -69,6 +69,17 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $params
+     *
+     * @return void
+     */
+    public function update(int $id, array $params): void
+    {
+        User::findOrFail($id)->update($params);
+    }
+
+    /**
+     * @param int $id
      * @param bool $state
      * @param mixed
      *

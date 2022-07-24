@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('sort')->default(500);
             $table->integer('question_id');
+            $table->boolean('has_user_answer')->default(false);
             $table->string('label');
         });
     }

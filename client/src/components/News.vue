@@ -1,53 +1,83 @@
 <template>
-  <div style="background-color: rgb(211 211 211)">
+  <div style="background-color: rgb(211 211 211)" v-if="hasPosts">
     <div class="container">
       <div :class="$style.news_wrapper">
         <div :class="$style.heading">Новости</div>
 
-        <el-row
-          type="flex"
-          :class="$style.news_list"
-          :gutter="20"
-          v-loading="isLoading"
-        >
-          <el-col v-for="post in news" :xs="12" :sm="12" :lg="8" :xl="24">
-            <div
-              :class="[$style.news_card, 'rounded']"
-              @click="$openNewWindow(`${post.link}`)"
+        <RowSkeleton v-if="isLoading" />
+
+        <template v-else>
+          <el-row
+            type="flex"
+            :class="$style.news_list"
+            :gutter="20"
+            v-show="!isLoading"
+          >
+            <el-col
+              v-for="post in news"
+              :key="post.id"
+              :xs="12"
+              :sm="12"
+              :lg="8"
+              :xl="24"
             >
-              <div :class="[$style.image_wrapper]">
-                <div
-                  :class="$style.image"
-                  :style="`background-image:url(${post.enclosure.attributes.url})`"
-                ></div>
-              </div>
-              <div :class="$style.meta">
-                <div :class="$style.category">{{ post.category }}</div>
-                <div :class="$style.title">
-                  {{ post.title }}
+              <a
+                :href="post.link"
+                target="_blank"
+                :class="[$style.post_card, 'rounded']"
+                @click="$openNewWindow(`${post.link}`)"
+              >
+                <div :class="[$style.image_wrapper]">
+                  <div
+                    :class="$style.image"
+                    :style="`background-image:url(${post.image})`"
+                  ></div>
                 </div>
-              </div>
-            </div>
-          </el-col>
-        </el-row>
+                <div :class="$style.meta">
+                  <div :class="$style.category">{{ post.category }}</div>
+                  <div :class="$style.title">
+                    {{ post.title }}
+                  </div>
+                </div>
+              </a>
+            </el-col>
+          </el-row>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import RowSkeleton from "./skeletons/RowSkeleton.vue";
+
 export default {
+  components: {
+    RowSkeleton,
+  },
+
   data() {
     return {
-      news: [],
+      hasPosts: false,
     };
   },
 
+  computed: {
+    news() {
+      return this.$store.getters.list("news");
+    },
+  },
+
   async created() {
+    if (this.news.length) return;
+
     try {
       this.isLoading = true;
-      this.news = await this.$http.get("/pages/main/news");
+      await this.$store.dispatch("loadNews", { limit: 4 });
+
+      if (!this.news.lenght) this.hasPosts = false;
     } catch {
+      this.hasPosts = false;
       this.$onError("Не удалось загрузить список новостей");
     } finally {
       this.isLoading = false;
@@ -78,24 +108,26 @@ export default {
   border-radius: 15px;
   background-color: #f3f3f3;
 }
-.news_card {
+.post_card {
+  display: block;
+  color: var(--color-font--primary);
   background-color: #ffffff;
   cursor: pointer;
   transition: box-shadow 0.2s linear;
   margin-bottom: 0.5rem;
 }
-.news_card .meta {
+.post_card .meta {
   padding: 1rem;
   min-height: 120px;
 }
-.news_card .image_wrapper {
+.post_card .image_wrapper {
   position: relative;
   width: 100%;
   overflow: hidden;
   padding-top: 66.6666%;
   margin-top: auto;
 }
-.news_card .image {
+.post_card .image {
   position: absolute;
   top: 0;
   left: 0;
@@ -112,16 +144,16 @@ export default {
   -moz-transition: all 0.3s ease-out;
   -o-transition: all 0.3s ease-out;
 }
-.news_card .image:hover {
+.post_card .image:hover {
   transform: scale3d(1.1, 1.1, 1.1);
   -webkit-transform: scale3d(1.1, 1.1, 1.1);
   -moz-transform: scale3d(1.1, 1.1, 1.1);
 }
-.news_card:hover button {
+.post_card:hover button {
   color: #000;
   background-color: #f6cd03 !important;
 }
-.news_card .category {
+.post_card .category {
   padding-bottom: 0.5rem;
   color: #767676;
   margin-bottom: 1rem;
@@ -129,15 +161,15 @@ export default {
   letter-spacing: 1px;
   border-bottom: 1px solid #76767626;
 }
-.news_card .title {
+.post_card .title {
   font-size: 18px;
 }
-.news_card:hover {
+.post_card:hover {
   box-shadow: 4px 3px 7px 0px #80808045;
 }
 
 @media (min-width: 1500px) {
-  .news_card {
+  .post_card {
     max-width: 320px;
   }
 }
@@ -147,7 +179,7 @@ export default {
     flex-wrap: wrap;
   }
 
-  .news_list .news_card {
+  .news_list .post_card {
     border-radius: 0;
   }
 }

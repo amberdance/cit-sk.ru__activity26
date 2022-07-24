@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *  @property int $question_id
  *  @property int $sort
  *  @property string $label
+ *  @property bool $has_user_answer
  */
 
 class PollVariant extends Model
@@ -20,8 +21,9 @@ class PollVariant extends Model
     public $timestamps = false;
 
     protected $guarded = [];
-    protected $hidden  = [
-        'question_id',
+
+    protected $casts = [
+        'has_user_answer' => 'boolean',
     ];
 
     /**

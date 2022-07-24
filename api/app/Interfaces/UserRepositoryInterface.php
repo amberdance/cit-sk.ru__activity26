@@ -41,6 +41,14 @@ interface UserRepositoryInterface
 
     /**
      * @param int $id
+     * @param array $params
+     *
+     * @return void
+     */
+    public function update(int $id, array $params): void;
+
+    /**
+     * @param int $id
      * @param bool $state
      *
      * @return void

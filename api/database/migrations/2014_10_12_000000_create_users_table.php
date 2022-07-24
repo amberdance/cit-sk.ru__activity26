@@ -31,6 +31,8 @@ class CreateUsersTable extends Migration
             $table->boolean('is_active')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->integer('points')->default(0);
+            $table->boolean('is_associated')->default(false);
+            $table->string('associate_id')->nullable();
         });
     }
 

@@ -3,7 +3,7 @@
     <div class="container">
       <div :class="$style.polls_wrapper">
         <div :class="$style.heading">Опросы</div>
-        <PollListSkeleton v-if="isLoading" />
+        <RowSkeleton v-if="isLoading" />
 
         <template v-else>
           <el-row type="flex" :class="$style.polls_list" :gutter="20">
@@ -50,22 +50,31 @@
 </template>
 
 <script>
-import PollListSkeleton from "../skeletons/PollListSkeleton.vue";
+import RowSkeleton from "../skeletons/RowSkeleton.vue";
+
 export default {
   components: {
-    PollListSkeleton,
+    RowSkeleton,
   },
+
   data() {
     return {
-      polls: [],
       isLoading: false,
     };
   },
 
+  computed: {
+    polls() {
+      return this.$store.getters.list("polls");
+    },
+  },
+
   async created() {
+    if (!_.isEmpty(this.polls)) return;
+
     try {
       this.isLoading = true;
-      this.polls = await this.$http.get("/polls", { limit: 4 });
+      await this.$store.dispatch("loadPolls", { limit: 4 });
     } catch (e) {
       console.error(e);
     } finally {

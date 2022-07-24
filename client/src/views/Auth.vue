@@ -1,6 +1,6 @@
 <template>
   <MainLayout>
-    <AuthForm :title="title" @onSuccessfullAuth="$router.push('/home')" />
+    <AuthForm :title="title" @onSuccessfullAuth="onAuthSuccess" />
   </MainLayout>
 </template>
 
@@ -19,6 +19,13 @@ export default {
     return {
       title: "Вход в информационный ресурс " + APP_TITLE,
     };
+  },
+
+  methods: {
+    onAuthSuccess() {
+      this.$router.push("/home");
+      this.$onSuccess("Теперь вы можете проходить опросы");
+    },
   },
 };
 </script>

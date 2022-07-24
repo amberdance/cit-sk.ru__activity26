@@ -19,9 +19,7 @@ export const emailValidator = (email) =>
   );
 
 export const passwordStrengthValidator = (password) =>
-  /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/g.test(
-    password
-  );
+  /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,}).{8,}$/g.test(password);
 
 export const incomeCallCodeValidator = (code) => /^\d{4}/g.test(code);
 

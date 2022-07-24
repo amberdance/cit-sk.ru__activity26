@@ -44,16 +44,24 @@ class CurlHelper
 
         curl_setopt_array($curl, [
             CURLOPT_URL            => $url,
-            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => "",
             CURLOPT_MAXREDIRS      => 10,
             CURLOPT_TIMEOUT        => 0,
-            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_FOLLOWLOCATION => 1,
             CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST  => $requestMethod,
             CURLOPT_HTTPHEADER     => $headers ?? [],
-            CURLOPT_POSTFIELDS     => $params ? http_build_query($params) : [],
         ]);
+
+        if (strtolower($requestMethod) == 'post') {
+            curl_setopt($curl, CURLOPT_POST, 1);
+
+        };
+
+        if ($params) {
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($params));
+        }
 
         $response = curl_exec($curl);
         $info     = curl_getinfo($curl);

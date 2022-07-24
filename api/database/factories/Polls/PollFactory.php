@@ -33,7 +33,7 @@ class PollFactory extends Factory
         ];
     }
 
-    public static function createPoliticsPoll()
+    public static function politics()
     {
 
         $data = [
@@ -79,56 +79,67 @@ class PollFactory extends Factory
                     ],
                 ],
                 [
-                    'label'           => 'Информацию каких местных телевизионных источников о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
-                    'sort'            => 4,
-                    'type'            => 'checkbox',
-                    'has_own_variant' => true,
-                    'variants'        => [
+                    'label'    => 'Информацию каких местных телевизионных источников о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
+                    'sort'     => 4,
+                    'type'     => 'checkbox',
+                    'variants' => [
                         'ГТРК «Ставрополье»',
                         '«Свое ТВ»',
-                        'Другие телеканалы (укажите)',
+                        [
+                            'label'           => 'Другие телеканалы (укажите)',
+                            'has_user_answer' => true,
+                        ],
                     ],
                 ],
                 [
-                    'label'           => 'Информацию каких местных газетных источников о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
-                    'sort'            => 5,
-                    'type'            => 'checkbox',
-                    'has_own_variant' => true,
-                    'variants'        => [
+                    'label'    => 'Информацию каких местных газетных источников о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
+                    'sort'     => 5,
+                    'type'     => 'checkbox',
+                    'variants' => [
                         '«Ставропольская правда»',
                         'Местная газета',
                         '«Вечерний Ставрополь»',
                         '«Комсомольская правда»',
                         '«МК-Кавказ»',
                         '«Ставропольские Ведомости»',
-                        'Другая газета (укажите)',
+                        [
+                            'label'           => 'Другая газета (укажите)',
+                            'has_user_answer' => true,
+                        ],
                     ],
                 ],
                 [
                     'label'           => 'Информацию каких местных радио-ресурсов о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
                     'sort'            => 6,
                     'type'            => 'checkbox',
-                    'has_own_variant' => true,
+                    'has_user_answer' => true,
                     'variants'        => [
                         'Радио «России»',
                         '«Вести ФМ»',
                         '«Дорожное радио»',
                         'Радио МИР',
-                        'Другое радио (укажите)',
+                        [
+                            'label'           => 'Другое радио (укажите)',
+                            'has_user_answer' => true,
+
+                        ],
                     ],
                 ],
                 [
                     'label'           => 'Информацию каких интернет источников о жизни вашего города, села, поселка, хутора Вы считаете достоверными (доверяете)?',
                     'sort'            => 7,
                     'type'            => 'checkbox',
-                    'has_own_variant' => true,
+                    'has_user_answer' => true,
                     'variants'        => [
                         'Информационное агентство «Победа-26»',
                         'Сетевое издание «Блокнот»',
                         'Сетевое издание «NewsTracker»',
                         'Город Ставрополь -1777.Ru ',
                         'Читаю блог',
-                        'Пользуюсь другими интернет-источниками (укажите)',
+                        [
+                            'label'           => 'Пользуюсь другими интернет-источниками (укажите)',
+                            'has_user_answer' => true,
+                        ],
                     ],
                 ],
                 [
@@ -140,12 +151,16 @@ class PollFactory extends Factory
                     ],
                 ],
                 [
-                    'label'           => 'Что на Ваш взгляд, нужно сделать в городе, селе, поселке, хуторе, Вашем дворе, на Вашей улице для удобства жителей? (пожалуйста, продолжите фразу во втором пункте)',
-                    'sort'            => 9,
-                    'has_own_variant' => true,
-                    'variants'        => [
+                    'label'       => 'Что на Ваш взгляд, нужно сделать в городе, селе, поселке, хуторе, Вашем дворе, на Вашей улице для удобства жителей? (пожалуйста, продолжите фразу во втором пункте)',
+                    'sort'        => 9,
+                    'max_allowed' => 1,
+                    'type'        => 'checkbox',
+                    'variants'    => [
                         'Всё уже сделано',
-                        'Необходимо сделать:',
+                        [
+                            'label'           => 'Необходимо сделать',
+                            'has_user_answer' => true,
+                        ],
                     ],
                 ],
                 [
@@ -199,51 +214,144 @@ class PollFactory extends Factory
 
         foreach ($data['questions'] as $params) {
             $questionId = PollQuestion::create([
-                'label'           => trim($params['label']),
-                'sort'            => $params['sort'],
-                'has_own_variant' => $params['has_own_variant'] ?? false,
-                'type'            => $params['type'] ?? 'radio',
-                'poll_id'         => $pollId,
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
 
             ])['id'];
 
             foreach ($params['variants'] as $i => $variant) {
-
                 PollVariant::create([
-                    'label'       => trim($variant),
-                    'question_id' => $questionId,
-                    'sort'        => $i + 1,
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
                 ]);
             }
         }
     }
 
-    public static function createTestPoll()
+    public static function transport()
+    {
+
+        $data = [
+            'poll'      => [
+                'sort'        => 2,
+                'label'       => 'Троллейбусы, автобусы или юркие маршрутки?',
+                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным.',
+                'image'       => '/images/polls/47006.jpg',
+                'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/47006.jpg'),
+            ],
+
+            'questions' => [
+                [
+                    'label'    => 'Какой наиболее удобный транспорт?',
+                    'sort'     => 1,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Троллейбусы',
+                        'Автобусы',
+                        'Маршрутные такси с высоким потолком',
+                        'Маленькие маршрутки',
+                        'Главное, чтобы был низкопольным и просторным, чтобы было удобно заходит с коляской или велосипедом',
+                    ],
+                ],
+                [
+                    'label'    => 'Наиболее удобное время пользования транспортом',
+                    'sort'     => 2,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'В рабочие дни до 7:00',
+                        'В рабочие дни с 7:00 до 10:00',
+                        'В рабочие дни с 17:00 до 20:00',
+                        'В рабочие дни с 20:00 до 22:00',
+                        'В рабочие дни с 20:00  до 00:00, если транспорт будет ходить регулярно',
+                        'В рабочие дни с 22:00  до 00:00, если транспорт будет ходить регулярно',
+                        'В выходные дни после обеда',
+                        'В выходные дни в первую половину дня',
+                    ],
+                ],
+                [
+                    'label'    => 'Опции комфорта в транспорте',
+                    'sort'     => 3,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Кондиционер летом и отопление зимой',
+                        'Бесконтактная оплата картой у водителей',
+                        'Возможность отслеживания движения транспорта через онлайн-карты в смартфоне',
+                        'Цифровые табло в салоне с данными об остановках и иной полезной информации',
+                        'Полностью цифровая система оплаты проезда при помощи единой транспортной карты с возможностью бесконтактной оплаты',
+                        'Видеокамера в салоне',
+                        'Проездные билеты на месяц',
+                        'Короткие проездные билеты - на 90 минут, день, неделю',
+                    ],
+                ],
+            ],
+
+            'category'  => 'Транспорт',
+        ];
+
+        $data['poll']['category_id'] = PollCategory::create([
+            'label' => $data['category'],
+        ])['id'];
+
+        $pollId = Poll::create($data['poll'])['id'];
+
+        foreach ($data['questions'] as $params) {
+            $questionId = PollQuestion::create([
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'description' => $params['description'] ?? null,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
+
+            ])['id'];
+
+            foreach ($params['variants'] as $i => $variant) {
+                PollVariant::create([
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
+                ]);
+            }
+        }
+    }
+
+    public static function testPoll()
     {
 
         $data = [
             'poll'      => [
                 'sort'        => 1,
-                'is_popular'  => true,
                 'label'       => 'Тестовый опрос',
                 'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то укажите свой вариант.',
             ],
 
             'questions' => [
                 [
-                    'label'           => 'Radio type test',
-                    'sort'            => 1,
-                    'has_own_variant' => true,
-                    'variants'        => [
+                    'label'    => 'Radio type test',
+                    'sort'     => 1,
+                    'variants' => [
                         'Да, знаю',
                         'Нет, не знаю',
+                        [
+                            'label'           => 'Свой вариант',
+                            'has_user_answer' => true,
+                        ],
+
                     ],
                 ],
                 [
                     'label'           => 'Checkbox test',
                     'sort'            => 2,
                     'type'            => 'checkbox',
-                    'has_own_variant' => true,
+                    'has_user_answer' => true,
                     'variants'        => [
                         '«Ставропольская правда»',
                         'Местная газета',
@@ -251,37 +359,37 @@ class PollFactory extends Factory
                         '«Комсомольская правда»',
                         '«МК-Кавказ»',
                         '«Ставропольские Ведомости»',
-                        'Другая газета (укажите)',
+                        [
+                            'label'           => 'Другая газета (укажите)',
+                            'has_user_answer' => true,
+                        ],
                     ],
                 ],
 
                 [
-                    'label'           => 'Another Radio type test',
-                    'description'     => 'Test description here',
-                    'sort'            => 3,
-                    'has_own_variant' => false,
-                    'variants'        => [
+                    'label'       => 'Another Radio type test',
+                    'description' => 'Test description here',
+                    'sort'        => 3,
+                    'variants'    => [
                         'Да, знаю',
                         'Нет, не знаю',
                     ],
                 ],
 
                 [
-                    'label'           => 'Another checkbox test',
-                    'description'     => 'Test description here',
-                    'sort'            => 4,
-                    'type'            => 'checkbox',
-                    'has_own_variant' => false,
-                    'max_allowed'     => 3,
-                    'min_allowed'     => 1,
-                    'variants'        => [
+                    'label'       => 'Another checkbox test',
+                    'description' => 'Test description here',
+                    'sort'        => 4,
+                    'type'        => 'checkbox',
+                    'max_allowed' => 3,
+                    'min_allowed' => 1,
+                    'variants'    => [
                         '«Ставропольская правда»',
                         'Местная газета',
                         '«Вечерний Ставрополь»',
                         '«Комсомольская правда»',
                         '«МК-Кавказ»',
                         '«Ставропольские Ведомости»',
-                        'Другая газета (укажите)',
                     ],
                 ],
             ],
@@ -297,23 +405,22 @@ class PollFactory extends Factory
 
         foreach ($data['questions'] as $params) {
             $questionId = PollQuestion::create([
-                'label'           => trim($params['label']),
-                'sort'            => $params['sort'],
-                'has_own_variant' => $params['has_own_variant'] ?? false,
-                'description'     => $params['description'] ?? null,
-                'max_allowed'     => $params['max_allowed'] ?? 20,
-                'min_allowed'     => $params['min_allowed'] ?? 1,
-                'type'            => $params['type'] ?? 'radio',
-                'poll_id'         => $pollId,
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'description' => $params['description'] ?? null,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
 
             ])['id'];
 
             foreach ($params['variants'] as $i => $variant) {
-
                 PollVariant::create([
-                    'label'       => trim($variant),
-                    'question_id' => $questionId,
-                    'sort'        => $i + 1,
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
                 ]);
             }
         }

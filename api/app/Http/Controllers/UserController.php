@@ -6,6 +6,7 @@ use App\Helpers\ValidationHelper;
 use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
+use App\Lib\EdrosAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
@@ -52,14 +53,22 @@ class UserController extends Controller
         try {
             $user       = $this->userRepository->store($request->all());
             $verifyCode = rand(1000, 9999);
-
-            $params = [
+            $params     = [
                 'user_id'     => $user->id,
                 'verify_code' => $verifyCode,
                 'response'    => \App\Models\Registration::makeIncomeCall($user->phone, $verifyCode),
             ];
 
             (new \App\Repositories\RegistrationRepository)->store($params);
+
+            $associateResponse = EdrosAPI::associate($request->all());
+
+            if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
+                $this->userRepository->update($user->id, [
+                    'is_associated' => true,
+                    'associate_id'  => $associateResponse['data']['id'],
+                ]);
+            }
 
             return Response::jsonSuccess([
                 'uuid'  => $user->uuid,

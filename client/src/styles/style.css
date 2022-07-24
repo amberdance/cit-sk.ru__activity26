@@ -73,7 +73,8 @@
 
 /************************** NORMALIZED ***************************/
 
-body {
+body,
+textarea {
   font-family: "GOST UI 2";
 }
 
@@ -159,7 +160,7 @@ button {
 }
 
 .p-1 {
-  padding: 0 1rem;
+  padding: 1rem 0;
 }
 
 .icon-mini {
@@ -187,11 +188,10 @@ button {
 
 .el-button {
   color: #ffffff;
-  border-radius: 10px;
+  border-radius: 8px;
   border: none;
-  padding: 10px 20px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
-  transition: all 0.2s linear;
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
 
@@ -222,21 +222,20 @@ button {
   background-color: var(--color-danger);
 }
 
-.el-radio__inner,
-.el-checkbox__inner {
+.poll .el-radio__inner,
+.poll .el-checkbox__inner {
   height: 30px;
   width: 30px;
   border: 2px solid #dcdfe6;
   margin-right: 0.5rem;
 }
 
-
 .el-radio__input.is-checked .el-radio__inner {
   border-color: var(--color-primary);
   background: #ffffff;
 }
 
-.el-radio__inner::after {
+.poll .el-radio__inner::after {
   width: 20px;
   height: 20px;
   background-color: var(--color-primary);
@@ -246,19 +245,18 @@ button {
   color: var(--color-primary);
 }
 
-.el-radio-group label {
+.poll .el-radio-group label {
   display: flex;
   align-items: center;
 }
 
-.el-radio__label,
-.el-checkbox__label {
+.poll .el-radio__label,
+.poll .el-checkbox__label {
   font-size: 16px;
   white-space: break-spaces;
 }
 
-
-.el-checkbox-group {
+.poll .el-checkbox-group {
   display: flex;
   flex-direction: column;
 }
@@ -268,14 +266,35 @@ button {
   border-color: #ffffff;
 }
 
-
-.el-checkbox__inner::after {
+.poll .el-checkbox__inner::after {
   height: 8px;
   width: 4px;
   border-right-width: 3px;
   border-bottom-width: 3px;
   left: 10px;
   top: 6px;
+}
+
+.poll .el-checkbox {
+  min-width: 40%;
+}
+
+.el-dialog__title {
+  font-weight: bold;
+}
+
+.el-textarea__inner:hover {
+  border-color: var(--color-primary);
+}
+
+.el-textarea__inner {
+  border-radius: 0px;
+  border: 2px var(--color-divider) solid;
+}
+
+.el-textarea__inner:focus {
+  border: 2px var(--color-primary) solid;
+  border-radius: 0px;
 }
 
 /************************** MEDIA QUERIES ***************************/
