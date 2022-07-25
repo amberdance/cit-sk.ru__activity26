@@ -105,6 +105,14 @@ button {
   font-family: "GOST UI 2";
 }
 
+li {
+  list-style-type: none;
+}
+
+ul {
+  list-style-type: none;
+}
+
 /************************** COMMON ***************************/
 .container {
   margin-right: auto;

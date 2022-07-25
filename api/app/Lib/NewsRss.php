@@ -20,6 +20,7 @@ class NewsRss
             $result   = array_filter($response['channel']['item'], fn($item) => in_array($item['category'], ['Общество', 'Экономика', 'Спорт, отдых']));
 
             foreach ($result as $i => $item) {
+                $result[$i]['id']    = $i;
                 $result[$i]['image'] = $item['enclosure'][0]['@attributes']['url'] ?? $item['enclosure']['@attributes']['url'];
             }
 

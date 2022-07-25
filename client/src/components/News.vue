@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: rgb(211 211 211)" v-if="hasPosts">
+  <div style="background-color: rgb(211 211 211)">
     <div class="container">
       <div :class="$style.news_wrapper">
         <div :class="$style.heading">Новости</div>
@@ -58,7 +58,7 @@ export default {
 
   data() {
     return {
-      hasPosts: false,
+      isLoading: false,
     };
   },
 
@@ -74,10 +74,7 @@ export default {
     try {
       this.isLoading = true;
       await this.$store.dispatch("loadNews", { limit: 4 });
-
-      if (!this.news.lenght) this.hasPosts = false;
     } catch {
-      this.hasPosts = false;
       this.$onError("Не удалось загрузить список новостей");
     } finally {
       this.isLoading = false;
