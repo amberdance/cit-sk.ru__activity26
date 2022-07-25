@@ -1,48 +1,46 @@
 <template>
-  <div style="z-index: 100">
-    <div :class="[$style.auth_wrapper, isShadowed, 'container', 'rounded']">
-      <div :class="$style.title">
-        <span>{{ title }}</span>
-      </div>
+  <div :class="[$style.auth_wrapper, isShadowed, 'container', 'rounded']">
+    <div :class="$style.title">
+      <span>{{ title }}</span>
+    </div>
 
-      <el-form
-        ref="form"
-        :model="formData"
-        :rules="formRules"
-        :show-message="false"
+    <el-form
+      ref="form"
+      :model="formData"
+      :rules="formRules"
+      :show-message="false"
+    >
+      <el-form-item prop="login">
+        <el-input
+          v-model="formData.login"
+          placeholder="логин"
+          autofocus
+          prefix-icon="el-icon-user"
+        />
+      </el-form-item>
+
+      <el-form-item prop="password">
+        <el-input
+          type="password"
+          v-model="formData.password"
+          placeholder="пароль"
+          prefix-icon="el-icon-lock"
+          show-password
+        />
+      </el-form-item>
+
+      <el-button
+        type="primary"
+        style="width: 100%"
+        :loading="isLoading"
+        @click="authorize"
+        >Войти</el-button
       >
-        <el-form-item prop="login">
-          <el-input
-            v-model="formData.login"
-            placeholder="логин"
-            autofocus
-            prefix-icon="el-icon-user"
-          />
-        </el-form-item>
+    </el-form>
 
-        <el-form-item prop="password">
-          <el-input
-            type="password"
-            v-model="formData.password"
-            placeholder="пароль"
-            prefix-icon="el-icon-lock"
-            show-password
-          />
-        </el-form-item>
-
-        <el-button
-          type="primary"
-          style="width: 100%"
-          :loading="isLoading"
-          @click="authorize"
-          >Войти</el-button
-        >
-      </el-form>
-
-      <div class="a-center m-1">
-        <span style="font-weight: bold"> Нет аккаунта? </span>
-        <router-link to="/registration">Зарегистрироваться</router-link>
-      </div>
+    <div class="a-center m-1">
+      <span style="font-weight: bold"> Нет аккаунта? </span>
+      <router-link to="/registration">Зарегистрироваться</router-link>
     </div>
   </div>
 </template>
@@ -116,23 +114,18 @@ export default {
 
 <style module>
 .auth_wrapper {
-  max-width: 350px;
-  min-height: 450px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 3rem;
-  margin-top: 5rem;
 }
-.title {
+.auth_wrapper .title {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-
-
 
 .auth_wrapper .title {
   display: flex;
@@ -143,11 +136,5 @@ export default {
   font-size: 18px;
   font-weight: bold;
   color: var(--color-font--primary);
-}
-.auth_wrapper .logo {
-  height: 110px;
-  width: 110px;
-  margin-bottom: 40px;
-  margin-top: -50px;
 }
 </style>

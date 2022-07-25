@@ -1,6 +1,10 @@
 <template>
   <MainLayout>
-    <AuthForm :title="title" @onSuccessfullAuth="onAuthSuccess" />
+    <AuthForm
+      :class="$style.auth"
+      :title="title"
+      @onSuccessfullAuth="onAuthSuccess"
+    />
   </MainLayout>
 </template>
 
@@ -29,3 +33,10 @@ export default {
   },
 };
 </script>
+<style module>
+.auth {
+  max-width: 350px;
+  min-height: 450px;
+  margin-top: 5rem;
+}
+</style>
