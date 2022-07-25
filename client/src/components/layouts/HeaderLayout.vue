@@ -78,7 +78,6 @@ export default {
   align-items: center;
   color: var(--color-font--secondary);
   border-radius: 40px;
-  margin: 40px auto;
 }
 
 .auth_wrapper {

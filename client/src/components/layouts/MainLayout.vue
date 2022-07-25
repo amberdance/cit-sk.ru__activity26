@@ -9,7 +9,10 @@
     </el-main>
 
     <transition name="el-fade-in">
-      <footer :class="$style.footer_wrapper" v-if="!isSlidebarHidden">
+      <footer
+        v-if="!isSlidebarHidden"
+        :class="[$style.footer_wrapper, 'rounded', 'shadowed']"
+      >
         <FooterLayout
           @onCookieAccept="acceptCookie"
           @onCookieDecline="isSlidebarHidden = true"
@@ -71,6 +74,7 @@ export default {
 <style module>
 .header_wrapper {
   height: inherit !important;
+  padding: 1rem 0 !important;
 }
 
 .content_wrapper {
@@ -87,11 +91,9 @@ export default {
   position: fixed;
   bottom: 0;
   background-color: #ffffff;
-  border-radius: 20px;
-  max-width: 1200px;
+  max-width: 1024px;
   margin: 5% auto 1rem auto;
   left: 0;
   right: 0;
-  box-shadow: 3px 3px 10px #89898985;
 }
 </style>
