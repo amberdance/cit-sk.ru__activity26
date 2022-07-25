@@ -1,17 +1,17 @@
 <template>
-  <el-container class="fill-height">
-    <el-main :class="$style.content_wrapper">
-      <el-header id="top" :class="[$style.header_wrapper, 'container']">
-        <HeaderLayout />
-      </el-header>
+  <div :class="$style.root">
+    <el-header id="top" :class="[$style.header, 'container']">
+      <HeaderLayout />
+    </el-header>
 
+    <el-main :class="$style.content">
       <slot></slot>
     </el-main>
 
     <transition name="el-fade-in">
       <footer
         v-if="!isSlidebarHidden"
-        :class="[$style.footer_wrapper, 'rounded', 'shadowed']"
+        :class="[$style.footer, 'rounded', 'shadowed']"
       >
         <FooterLayout
           @onCookieAccept="acceptCookie"
@@ -29,7 +29,7 @@
         <i class="el-icon-top"></i>
       </div>
     </transition>
-  </el-container>
+  </div>
 </template>
 
 <script>
@@ -72,12 +72,7 @@ export default {
 </script>
 
 <style module>
-.header_wrapper {
-  height: inherit !important;
-  padding: 1rem 0 !important;
-}
-
-.content_wrapper {
+.root {
   background: url(../../assets/bg_primary.webp);
   background-attachment: fixed;
   background-position: 50% 100%;
@@ -86,7 +81,20 @@ export default {
   color: var(--color-font--primary);
 }
 
-.footer_wrapper {
+.header {
+  padding: 1rem 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 20;
+}
+
+.content {
+  padding-top: 100px !important;
+}
+.footer {
   z-index: 10000;
   position: fixed;
   bottom: 0;
