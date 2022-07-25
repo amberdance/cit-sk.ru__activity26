@@ -17,7 +17,9 @@ class NewsRss
 
         try {
             $response = self::parse('https://news.1777.ru/rss/yandex');
-            $result   = array_filter($response['channel']['item'], fn($item) => in_array($item['category'], ['Общество', 'Экономика', 'Спорт, отдых']));
+            $result   = array_filter($response['channel']['item'], function ($item) {
+                return in_array($item['category'], ['Общество', 'Экономика', 'Спорт, отдых']) && !preg_match("/(земле|дтп|убий|вой|воен|операц|санкц|нарк|крещ|крест|кредит|долг)/", mb_strtolower($item['title']));
+            });
 
             foreach ($result as $i => $item) {
                 $result[$i]['id']    = $i;
