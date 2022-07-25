@@ -25,7 +25,6 @@
                 :href="post.link"
                 target="_blank"
                 :class="[$style.post_card, 'rounded']"
-                @click="$openNewWindow(`${post.link}`)"
               >
                 <div :class="[$style.image_wrapper]">
                   <div
