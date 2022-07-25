@@ -1,51 +1,57 @@
 <template>
-  <div class="container-sm">
-    <div :class="[$style.header_wrapper, 'shadowed']">
-      <router-link to="/">
-        <div :class="$style.logo_wrapper">
-          <img src="@/assets/logo_primary.svg" />
+  <div :class="$style.header">
+    <div class="container-sm">
+      <div :class="[$style.header_wrapper, 'shadowed']">
+        <router-link to="/">
+          <div :class="$style.logo_wrapper">
+            <img src="@/assets/logo_primary.svg" />
+          </div>
+        </router-link>
+
+        <ul :class="$style.menu_wrapper">
+          <li v-for="(item, i) in menu" :key="i" :class="$style.nav_item">
+            <a
+              v-if="$route.path == '/home' && 'isHomePageOnly' in item"
+              v-scroll-to="item.scroll"
+              >{{ item.label }}</a
+            >
+
+            <a
+              v-else-if="$route.path == '/home' && 'scroll' in item"
+              v-scroll-to="item.scroll"
+              >{{ item.label }}</a
+            >
+            <router-link v-else-if="'link' in item" :to="item.link">
+              {{ item.label }}</router-link
+            >
+          </li>
+        </ul>
+
+        <div :class="$style.auth_wrapper">
+          <template v-if="isAuthorized">
+            <a
+              href="#"
+              @click="$logout()"
+              :class="$style.item"
+              style="padding: 0"
+              ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
+                >Выход</span
+              ></a
+            >
+          </template>
+          <template v-else>
+            <router-link to="/login" :class="$style.item"
+              ><img src="@/assets/icon_user.png" class="icon-mini" /><span
+                >Вход</span
+              ></router-link
+            >
+
+            <router-link to="/registration" :class="$style.item">
+              <img src="@/assets/icon_key.png" class="icon-mini" />
+              <span>Регистрация</span></router-link
+            >
+          </template>
         </div>
-      </router-link>
-
-      <ul :class="$style.menu_wrapper">
-        <li v-for="(item, i) in menu" :key="i" :class="$style.nav_item">
-          <a
-            v-if="$route.path == '/home' && 'isHomePageOnly' in item"
-            v-scroll-to="item.scroll"
-            >{{ item.label }}</a
-          >
-
-          <a
-            v-else-if="$route.path == '/home' && 'scroll' in item"
-            v-scroll-to="item.scroll"
-            >{{ item.label }}</a
-          >
-          <router-link v-else-if="'link' in item" :to="item.link">
-            {{ item.label }}</router-link
-          >
-        </li>
-      </ul>
-
-      <div :class="$style.auth_wrapper">
-        <template v-if="isAuthorized">
-          <a href="#" @click="$logout()" :class="$style.item" style="padding: 0"
-            ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
-              >Выход</span
-            ></a
-          >
-        </template>
-        <template v-else>
-          <router-link to="/login" :class="$style.item"
-            ><img src="@/assets/icon_user.png" class="icon-mini" /><span
-              >Вход</span
-            ></router-link
-          >
-
-          <router-link to="/registration" :class="$style.item">
-            <img src="@/assets/icon_key.png" class="icon-mini" />
-            <span>Регистрация</span></router-link
-          >
-        </template>
       </div>
     </div>
   </div>
@@ -70,6 +76,15 @@ export default {
 </script>
 
 <style module>
+.header {
+  padding: 1rem 0 !important;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
 .header_wrapper {
   background-color: #ffffff;
   display: flex;
