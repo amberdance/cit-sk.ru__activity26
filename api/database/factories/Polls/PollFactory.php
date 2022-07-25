@@ -443,6 +443,111 @@ class PollFactory extends Factory
         }
     }
 
+    public static function comfortableCity()
+    {
+
+        $data = [
+            'poll'      => [
+                'sort'        => 4,
+                'label'       => 'В гостях хорошо, а дома лучше...',
+                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным.',
+                'image'       => '/images/polls/603507_main.jpg',
+                'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/603507_main.jpg'),
+            ],
+
+            'questions' => [
+                [
+                    'label'    => 'Устраивает ли вас инфраструктура вашего населенного пункта?',
+                    'sort'     => 1,
+                    'variants' => [
+                        'Полностью устраивает',
+                        'В целом, неплохо',
+                        'Не совсем устраивает',
+                        'Совсем не устраивает',
+                        'Люблю отдых на природе',
+                    ],
+                ],
+                [
+                    'label'    => 'Что бы вы хотели изменить/добавить?',
+                    'sort'     => 2,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Развлекательные заведения',
+                        'Парки/скверы',
+                        'Детские площадки',
+                        'Общественные туалеты',
+                        [
+                            'label'           => 'Свой вариант',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+                [
+                    'label'    => 'Порекомендовали бы вы ваш населенный пункт к переезду?',
+                    'sort'     => 3,
+                    'variants' => [
+                        'Конечно, порекомендовал(а) бы',
+                        'Да, но предупредил(а) бы о недостатках',
+                        'Термальные источники',
+                        'Нет, не стал(а) бы рекомендовать ',
+                    ],
+                ],
+                [
+                    'label'    => 'Желаете ли вы переехать в другой город?',
+                    'sort'     => 4,
+                    'variants' => [
+                        'Да, планирую переезд',
+                        'Хотелось бы, но нет возможности',
+                        'Не думал(а) об этом ',
+                        'Нет, переезжать не хочу',
+                    ],
+                ],
+                [
+                    'label'    => 'Какой город в крае вы считаете наиболее благоприятным для жизни?',
+                    'sort'     => 5,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Ставрополь',
+                        'Пятигорск',
+                        'Кисловодск',
+                        'Минеральные воды',
+                        'Буденновск',
+                    ],
+                ],
+            ],
+
+            'category'  => 'Инфраструктура',
+        ];
+
+        $data['poll']['category_id'] = PollCategory::create([
+            'label' => $data['category'],
+        ])['id'];
+
+        $pollId = Poll::create($data['poll'])['id'];
+
+        foreach ($data['questions'] as $params) {
+            $questionId = PollQuestion::create([
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'description' => $params['description'] ?? null,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
+
+            ])['id'];
+
+            foreach ($params['variants'] as $i => $variant) {
+                PollVariant::create([
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
+                ]);
+            }
+        }
+    }
+
     public static function testPoll()
     {
 
