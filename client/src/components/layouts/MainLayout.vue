@@ -1,23 +1,18 @@
 <template>
   <div :class="$style.root">
-    <el-header id="top" :class="[$style.header, 'container']">
-      <HeaderLayout />
-    </el-header>
+    <HeaderLayout id="top" />
 
     <el-main :class="$style.content">
       <slot></slot>
     </el-main>
 
     <transition name="el-fade-in">
-      <footer
-        v-if="!isSlidebarHidden"
-        :class="[$style.footer, 'rounded', 'shadowed']"
+      <CookiePolicy
+        v-if="!isCookieBannerHidden"
+        @onCookieAccept="acceptCookie"
+        @onCookieDecline="isCookieBannerHidden = true"
       >
-        <FooterLayout
-          @onCookieAccept="acceptCookie"
-          @onCookieDecline="isSlidebarHidden = true"
-        />
-      </footer>
+      </CookiePolicy>
     </transition>
 
     <transition name="el-fade-in-linear">
@@ -34,24 +29,26 @@
 
 <script>
 import HeaderLayout from "./HeaderLayout.vue";
-import FooterLayout from "./FooterLayout.vue";
+import CookiePolicy from "../CookiePolicy";
 
 export default {
   components: {
     HeaderLayout,
-    FooterLayout,
+    CookiePolicy,
   },
 
   data() {
     return {
-      isSlidebarHidden: false,
+      isCookieBannerHidden: false,
       windowTop: null,
     };
   },
 
   created() {
     window.addEventListener("scroll", this.onScroll);
-    if ($cookies.get("cookie_policy_slidebar")) this.isSlidebarHidden = true;
+
+    if ($cookies.get("cookie_policy_slidebar"))
+      this.isCookieBannerHidden = true;
   },
 
   beforeDestroy() {
@@ -65,7 +62,7 @@ export default {
 
     acceptCookie() {
       $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "1d");
-      this.isSlidebarHidden = true;
+      this.isCookieBannerHidden = true;
     },
   },
 };
@@ -81,27 +78,7 @@ export default {
   color: var(--color-font--primary);
 }
 
-.header {
-  padding: 1rem 0 !important;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 20;
-}
-
 .content {
   padding-top: 100px !important;
-}
-.footer {
-  z-index: 10000;
-  position: fixed;
-  bottom: 0;
-  background-color: #ffffff;
-  max-width: 1024px;
-  margin: 5% auto 1rem auto;
-  left: 0;
-  right: 0;
 }
 </style>
