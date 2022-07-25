@@ -1,50 +1,48 @@
 <template>
-  <div style="background-color: rgb(211 211 211)">
-    <div class="container">
-      <div :class="$style.polls_wrapper">
-        <div :class="$style.heading">Опросы</div>
-        <RowSkeleton v-if="isLoading" />
+  <div class="container">
+    <div :class="$style.polls_wrapper">
+      <div :class="$style.heading">Опросы</div>
+      <RowSkeleton v-if="isLoading" />
 
-        <template v-else>
-          <el-row type="flex" :class="$style.polls_list" :gutter="20">
-            <el-col
-              v-for="poll in polls"
-              :key="poll.id"
-              :xs="12"
-              :sm="12"
-              :lg="8"
-              :xl="24"
+      <template v-else>
+        <el-row type="flex" :class="$style.polls_list" :gutter="20">
+          <el-col
+            v-for="poll in polls"
+            :key="poll.id"
+            :xs="12"
+            :sm="12"
+            :lg="8"
+            :xl="24"
+          >
+            <div
+              :class="[$style.polls_card, 'rounded']"
+              @click="$router.push(`/polls/${poll.id}`)"
             >
-              <div
-                :class="[$style.polls_card, 'rounded']"
-                @click="$router.push(`/polls/${poll.id}`)"
-              >
-                <div :class="$style.image_wrapper">
-                  <div
-                    :class="$style.image"
-                    :style="`background-image:url(${poll.thumbnail})`"
-                  ></div>
-                </div>
+              <div :class="$style.image_wrapper">
+                <div
+                  :class="$style.image"
+                  :style="`background-image:url(${poll.thumbnail})`"
+                ></div>
+              </div>
 
-                <div :class="$style.meta">
-                  <div :class="$style.category">{{ poll.category }}</div>
-                  <div :class="$style.title">
-                    {{ poll.label }}
-                  </div>
-                </div>
-
-                <div :class="$style.footer">
-                  <el-button
-                    type="primary"
-                    @click="$router.push(`/polls/${poll.id}`)"
-                    >Перейти</el-button
-                  >
+              <div :class="$style.meta">
+                <div :class="$style.category">{{ poll.category }}</div>
+                <div :class="$style.title">
+                  {{ poll.label }}
                 </div>
               </div>
-            </el-col>
-          </el-row>
-        </template>
-      </div>
+
+              <div :class="$style.footer">
+                <el-button
+                  type="primary"
+                  @click="$router.push(`/polls/${poll.id}`)"
+                  >Перейти</el-button
+                >
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </template>
     </div>
   </div>
 </template>

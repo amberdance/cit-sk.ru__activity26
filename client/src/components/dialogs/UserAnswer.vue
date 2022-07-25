@@ -14,8 +14,13 @@
     <div class="p-1 a-right">Осталось {{ charsLength }} символов</div>
     <template #footer>
       <el-button-group class="a-right">
-        <el-button type="danger" @click="destroy">Отмена</el-button>
-        <el-button type="primary" @click="$emit('onUserAnswerChanged')"
+        <el-button type="danger" size="medium" @click="destroy"
+          >Отмена</el-button
+        >
+        <el-button
+          type="primary"
+          size="medium"
+          @click="$emit('onUserAnswerChanged')"
           >Отправить</el-button
         >
       </el-button-group>

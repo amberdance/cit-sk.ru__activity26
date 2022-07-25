@@ -14,11 +14,11 @@ module.exports = {
       hints: false,
     },
 
-    // optimization: {
-    //   splitChunks: {
-    //     minSize: 10000,
-    //     maxSize: 250000,
-    //   },
-    // },
+    optimization: {
+      splitChunks: {
+        minSize: 10000,
+        maxSize: 250000,
+      },
+    },
   },
 };

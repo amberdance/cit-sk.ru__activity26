@@ -19,7 +19,7 @@
         </el-button>
       </div>
     </MainLayout>
-    <Statistics />
+    <Counters />
     <News id="news" />
     <PollsList id="polls" />
   </div>
@@ -27,7 +27,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import Statistics from "@/components/Statistics.vue";
+import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
 import { APP_DESCRIPTION } from "@/values";
@@ -35,7 +35,7 @@ import { APP_DESCRIPTION } from "@/values";
 export default {
   components: {
     MainLayout,
-    Statistics,
+    Counters,
     PollsList,
     News,
   },

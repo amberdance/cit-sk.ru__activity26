@@ -171,7 +171,9 @@
             <el-divider></el-divider>
             <div :class="$style.policy_text">
               Нажимая кнопку "Зарегистрироваться" вы соглашаетесь с
-              <a href="#">условиями использования</a>
+              <a href="#policy" @click="$refs.policyDialog.show()"
+                >условиями использования</a
+              >
             </div>
 
             <div class="a-center">
@@ -186,12 +188,17 @@
         </el-form>
       </div>
     </div>
-    <PhoneVerifyDialog ref="dialog" @onPhoneVerified="onRegistrateSuccess" />
+    <PrivacyPolicyDialog ref="policyDialog" />
+    <PhoneVerifyDialog
+      ref="phoneVerifyDialog"
+      @onPhoneVerified="onRegistrateSuccess"
+    />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
+import PrivacyPolicyDialog from "./dialogs/PrivacyPolicyDialog";
 import PhoneVerifyDialog from "@/components/dialogs/PhoneVerifyDialog";
 import { mask } from "vue-the-mask";
 import {
@@ -206,6 +213,7 @@ import { VALIDATE_DEFAULT_ERROR } from "@/values";
 export default {
   components: {
     MainLayout,
+    PrivacyPolicyDialog,
     PhoneVerifyDialog,
   },
 
@@ -356,7 +364,7 @@ export default {
         });
 
         this.isFormSubmitted = true;
-        this.$refs.dialog.show(uuid);
+        this.$refs.phoneVerifyDialog.show(uuid);
       } catch (e) {
         if (e.code == 422)
           return this.$onWarning("Не все поля заполнены корректно");
