@@ -287,11 +287,131 @@ class PollFactory extends Factory
                         'Видеокамера в салоне',
                         'Проездные билеты на месяц',
                         'Короткие проездные билеты - на 90 минут, день, неделю',
+                        'Наличие биотуалета',
                     ],
                 ],
             ],
 
             'category'  => 'Транспорт',
+        ];
+
+        $data['poll']['category_id'] = PollCategory::create([
+            'label' => $data['category'],
+        ])['id'];
+
+        $pollId = Poll::create($data['poll'])['id'];
+
+        foreach ($data['questions'] as $params) {
+            $questionId = PollQuestion::create([
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'description' => $params['description'] ?? null,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
+
+            ])['id'];
+
+            foreach ($params['variants'] as $i => $variant) {
+                PollVariant::create([
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
+                ]);
+            }
+        }
+    }
+
+    public static function traveling()
+    {
+
+        $data = [
+            'poll'      => [
+                'sort'        => 3,
+                'label'       => 'Прогулки по городу или отдых на природе?',
+                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным.',
+                'image'       => '/images/polls/photo_2022-07-25_11-22-54.jpg',
+                'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/photo_2022-07-25_11-22-54.jpg'),
+            ],
+
+            'questions' => [
+                [
+                    'label'    => 'Где вы предпочитаете проводить время на выходных?',
+                    'sort'     => 1,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'На работе',
+                        'Дома',
+                        'В развлекательных заведениях',
+                        'Выезжать за пределы населенного пункта',
+                        'Люблю отдых на природе',
+                        [
+                            'label'           => 'Свой вариант ответа',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+                [
+                    'label'    => 'Как Вы предпочитаете путешествовать?',
+                    'sort'     => 2,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Пешие прогулки',
+                        'Вело-туризм',
+                        'Электро самокат',
+                        'Путешествую на автомобиле',
+                        'Путешествую на общественном транспорте',
+                        [
+                            'label'           => 'Свой вариант ответа',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+                [
+                    'label'    => 'Какие достопримечательности края импонируют Вам больше всего?',
+                    'sort'     => 3,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Величественные Горы Пятигорска',
+                        'Нарзанные ванны Кисловодска',
+                        'Термальные источники',
+                        'Кисловодский национальный парк',
+                        [
+                            'label'           => 'Свой вариант ответа',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+                [
+                    'label'    => 'Как часто Вы посещаете достопримечательности?',
+                    'sort'     => 4,
+                    'type'     => 'radio',
+                    'variants' => [
+                        'Довольно часто',
+                        'Люблю куда-то выбраться раз в месяц',
+                        'Редко куда-то выбираюсь',
+                        'Вообще не путешествую',
+                    ],
+                ],
+                [
+                    'label'    => 'Что вас не устраивает во время путешествий по Ставропольскому краю?',
+                    'sort'     => 5,
+                    'type'     => 'checkbox',
+                    'variants' => [
+                        'Всё устраивает',
+                        'Не достаточно туалетов',
+                        'Качество дорожного покрытия',
+                        [
+                            'label'           => 'Свой вариант ответа',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+            ],
+
+            'category'  => 'Путешествия',
         ];
 
         $data['poll']['category_id'] = PollCategory::create([
