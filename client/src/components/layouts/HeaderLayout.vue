@@ -7,19 +7,19 @@
             <div :class="$style.primary_logo">
               <img src="@/assets/logo_primary.svg" />
             </div>
-            <div :class="$style.flag">
-              <img src="@/assets/flag_gif.gif" />
-            </div>
           </div>
         </router-link>
       </div>
+
       <div :class="$style.nav">
         <ul :class="$style.nav_ul">
           <li :class="$style.nav_item">Новости</li>
           <li v-scroll-to="'#polls'" :class="$style.nav_item">Опросы</li>
           <li :class="$style.nav_item">Контакты</li>
+          <li :class="$style.nav_item">О проекте</li>
         </ul>
       </div>
+
       <div :class="$style.auth">
         <div :class="[$style.auth_wrapper, 'd-flex align-center']">
           <template v-if="isAuthorized">
