@@ -97,7 +97,7 @@ export default {
   justify-content: center;
   width: 100%;
   margin: 0 !important;
-  background-color: #ebebeb;
+  background-color: #0469ff2e;
   padding: 20px;
   border-radius: 15px;
 }

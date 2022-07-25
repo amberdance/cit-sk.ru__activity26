@@ -1,6 +1,7 @@
 <template>
-  <div class="container">
-    <div :class="$style.news_wrapper">
+  <div :class="$style.news_wrapper">
+    <div class="container">
+      <!-- <div :class="$style.overlay"></div> -->
       <div :class="$style.heading">Новости</div>
 
       <RowSkeleton v-if="isLoading" />
@@ -8,8 +9,8 @@
       <template v-else>
         <el-row
           type="flex"
-          :class="$style.news_list"
           :gutter="20"
+          :class="$style.news_list"
           v-show="!isLoading"
         >
           <el-col
@@ -23,7 +24,7 @@
             <a
               :href="post.link"
               target="_blank"
-              :class="[$style.post_card, 'rounded']"
+              :class="[$style.post_card, 'shadowed', 'rounded']"
             >
               <div :class="[$style.image_wrapper]">
                 <div
@@ -80,28 +81,27 @@ export default {
 };
 </script>
 <style module>
+.overlay {
+  position: absolute;
+  background: #0469ff54;
+  height: 650px;
+  left: 0;
+  right: 0;
+}
+
 .image_wrapper {
   border-radius: 10px 10px 0px 0px;
 }
-.news_wrapper {
-  padding: 1rem 0;
-}
+
 .news_wrapper .heading {
   font-size: 40px;
-  width: 100%;
-  margin: 1rem 0;
-  text-align: center;
+  padding: 3rem 0 1rem 0;
   font-weight: bold;
+  position: relative;
+  border-bottom: 3px solid var(--color-font--primary);
+  margin-bottom: 3rem;
 }
-.news_list {
-  color: var(--color-font--primary);
-  justify-content: center;
-  width: 100%;
-  margin: 0 !important;
-  padding: 20px;
-  border-radius: 15px;
-  background-color: #f3f3f3;
-}
+
 .post_card {
   display: block;
   color: var(--color-font--primary);
@@ -112,7 +112,7 @@ export default {
 }
 .post_card .meta {
   padding: 1rem;
-  min-height: 120px;
+  min-height: 100px;
 }
 .post_card .image_wrapper {
   position: relative;
@@ -150,31 +150,9 @@ export default {
 .post_card .category {
   padding-bottom: 0.5rem;
   color: #767676;
+  font-weight: bold;
   margin-bottom: 1rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
   border-bottom: 1px solid #76767626;
-}
-.post_card .title {
-  font-size: 18px;
-}
-.post_card:hover {
-  box-shadow: 4px 3px 7px 0px #80808045;
-}
-
-@media (min-width: 1500px) {
-  .post_card {
-    max-width: 320px;
-  }
-}
-
-@media (max-width: 992px) {
-  .news_list {
-    flex-wrap: wrap;
-  }
-
-  .news_list .post_card {
-    border-radius: 0;
-  }
 }
 </style>
