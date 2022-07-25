@@ -1,93 +1,96 @@
 <template>
-  <div :class="$style.header_content">
+  <div class="container-sm">
     <div :class="[$style.header_wrapper, 'shadowed']">
-      <div :class="$style.logo">
-        <router-link to="/">
-          <div :class="[$style.logo_wrapper, 'd-flex align-center']">
-            <div :class="$style.primary_logo">
-              <img src="@/assets/logo_primary.svg" />
-            </div>
-          </div>
-        </router-link>
-      </div>
-
-      <div :class="$style.nav">
-        <ul :class="$style.nav_ul">
-          <li :class="$style.nav_item">Новости</li>
-          <li v-scroll-to="'#polls'" :class="$style.nav_item">Опросы</li>
-          <li :class="$style.nav_item">Контакты</li>
-          <li :class="$style.nav_item">О проекте</li>
-        </ul>
-      </div>
-
-      <div :class="$style.auth">
-        <div :class="[$style.auth_wrapper, 'd-flex align-center']">
-          <template v-if="isAuthorized">
-            <a
-              href="#"
-              @click="$logout()"
-              :class="$style.item"
-              style="padding: 0"
-              ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
-                >Выход</span
-              ></a
-            >
-          </template>
-          <template v-else>
-            <router-link to="/login" :class="$style.item"
-              ><img src="@/assets/icon_user.png" class="icon-mini" /><span
-                >Вход</span
-              ></router-link
-            >
-
-            <router-link to="/registration" :class="$style.item">
-              <img src="@/assets/icon_key.png" class="icon-mini" />
-              <span>Регистрация</span></router-link
-            >
-          </template>
+      <router-link to="/">
+        <div :class="$style.logo_wrapper">
+          <img src="@/assets/logo_primary.svg" />
         </div>
+      </router-link>
+
+      <ul :class="$style.menu_wrapper">
+        <li v-for="(item, i) in menu" :key="i" :class="$style.nav_item">
+          <a
+            v-if="$route.path == '/home' && 'isHomePageOnly' in item"
+            v-scroll-to="item.scroll"
+            >{{ item.label }}</a
+          >
+
+          <a
+            v-else-if="$route.path == '/home' && 'scroll' in item"
+            v-scroll-to="item.scroll"
+            >{{ item.label }}</a
+          >
+          <router-link v-else-if="'link' in item" :to="item.link">
+            {{ item.label }}</router-link
+          >
+        </li>
+      </ul>
+
+      <div :class="$style.auth_wrapper">
+        <template v-if="isAuthorized">
+          <a href="#" @click="$logout()" :class="$style.item" style="padding: 0"
+            ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
+              >Выход</span
+            ></a
+          >
+        </template>
+        <template v-else>
+          <router-link to="/login" :class="$style.item"
+            ><img src="@/assets/icon_user.png" class="icon-mini" /><span
+              >Вход</span
+            ></router-link
+          >
+
+          <router-link to="/registration" :class="$style.item">
+            <img src="@/assets/icon_key.png" class="icon-mini" />
+            <span>Регистрация</span></router-link
+          >
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { navigationMenu } from "@/values";
+
 export default {
   computed: {
     isAuthorized() {
       return this.$store.getters.isUserAuthorized;
     },
   },
+
+  data() {
+    return {
+      menu: navigationMenu,
+    };
+  },
 };
 </script>
-<style module>
-.header_content {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  align-items: center;
-  color: var(--color-font--secondary);
-  margin: 40px 0px;
-}
 
+<style module>
 .header_wrapper {
   background-color: #ffffff;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   flex-wrap: wrap;
   align-items: center;
   color: var(--color-font--secondary);
   border-radius: 40px;
+  margin: 40px auto;
 }
 
 .auth_wrapper {
+  display: flex;
+  align-items: center;
   font-weight: bold;
   font-size: 16px;
   border-radius: 50px;
   padding: 20px;
 }
-
-.auth_wrapper a {
+.auth_wrapper a,
+.menu_wrapper li a {
   color: var(--color-font--primary);
 }
 
@@ -96,7 +99,9 @@ export default {
   align-items: center;
 }
 
-.auth_wrapper span:hover {
+.auth_wrapper span:hover,
+.menu_wrapper li:hover a {
+  cursor: pointer;
   color: var(--color-link);
   transition: 0.3s;
 }
@@ -109,37 +114,21 @@ export default {
   padding-right: 1rem;
 }
 
-.logo_wrapper {
-  border-radius: 50px;
-  padding: 5px 10px;
-}
 .logo_wrapper img {
   height: 50px;
+  width: 50px;
   padding: 0px 10px;
 }
-.flag img {
-  height: 50px;
-  border-radius: 100px;
-}
 
-.nav {
-  display: flex !important;
-}
-
-.nav_ul {
+.menu_wrapper {
   display: flex;
+  align-items: center;
+  flex-wrap: wrap;
   padding: 0;
-  color: #000000;
 }
 
-.nav_item {
-  padding: 0rem 1rem;
+.menu_wrapper .nav_item {
+  padding: 0rem 1.2rem;
   font-weight: bold;
-}
-
-.nav_item:hover {
-  cursor: pointer;
-  color: var(--color-link);
-  transition: 0.3s;
 }
 </style>

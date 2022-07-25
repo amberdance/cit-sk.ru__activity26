@@ -17,20 +17,10 @@
           v-scroll-to="'#polls'"
           >Перейти к опросам
         </el-button>
-
-        <!-- <div :class="$style.quotation_wrapper">
-          <div class="container">
-            <div :class="$style.quotation__title">
-              <q>{{ quote.title }}</q>
-            </div>
-
-            <div :class="$style.quotation__subtitle">{{ quote.author }}</div>
-          </div>
-        </div> -->
       </div>
     </MainLayout>
     <Statistics />
-    <News />
+    <News id="news" />
     <PollsList id="polls" />
   </div>
 </template>
@@ -40,7 +30,6 @@ import MainLayout from "@/components/layouts/MainLayout.vue";
 import Statistics from "@/components/Statistics.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
-import { getRandomQuote } from "@/utils/common.js";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
@@ -54,16 +43,7 @@ export default {
   data() {
     return {
       description: APP_DESCRIPTION(),
-
-      quote: {
-        title: "",
-        author: "",
-      },
     };
-  },
-
-  async mounted() {
-    this.quote = await getRandomQuote();
   },
 };
 </script>
