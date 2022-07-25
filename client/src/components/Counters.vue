@@ -1,7 +1,7 @@
 <template>
-  <div :class="$style.statistic_wrapper">
-    <div class="container">
-      <div :class="$style.statistic_content">
+  <div :class="$style.counters">
+    <div class="container-sm">
+      <div :class="$style.counters_wrapper">
         <div v-for="(count, key) in counters" :key="key">
           <AnimatedNumber
             :class="$style.count"
@@ -53,12 +53,11 @@ export default {
 </script>
 
 <style module>
-.statistic_wrapper {
+.counters {
   background-color: var(--color-primary);
 }
-.statistic_content {
+.counters_wrapper {
   min-height: 110px;
-  max-width: 700px;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -69,17 +68,11 @@ export default {
   color: var(--color-font--secondary);
 }
 
-.statistic_content .count {
+.counters_wrapper .count {
   font-size: 44px;
 }
 
-.statistic_content .label {
+.counters_wrapper .label {
   font-size: 18px;
-}
-
-@media (max-width: 590px) {
-  .statistic_content {
-    display: none;
-  }
 }
 </style>

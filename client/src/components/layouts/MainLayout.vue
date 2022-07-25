@@ -70,6 +70,7 @@ export default {
 
 <style module>
 .root {
+  min-height: 100vh;
   background: url(../../assets/bg_primary.webp);
   background-attachment: fixed;
   background-position: 50% 100%;

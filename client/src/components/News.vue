@@ -1,48 +1,46 @@
 <template>
-  <div style="background-color: rgb(211 211 211)">
-    <div class="container">
-      <div :class="$style.news_wrapper">
-        <div :class="$style.heading">Новости</div>
+  <div class="container">
+    <div :class="$style.news_wrapper">
+      <div :class="$style.heading">Новости</div>
 
-        <RowSkeleton v-if="isLoading" />
+      <RowSkeleton v-if="isLoading" />
 
-        <template v-else>
-          <el-row
-            type="flex"
-            :class="$style.news_list"
-            :gutter="20"
-            v-show="!isLoading"
+      <template v-else>
+        <el-row
+          type="flex"
+          :class="$style.news_list"
+          :gutter="20"
+          v-show="!isLoading"
+        >
+          <el-col
+            v-for="post in news"
+            :key="post.id"
+            :xs="12"
+            :sm="12"
+            :lg="8"
+            :xl="24"
           >
-            <el-col
-              v-for="post in news"
-              :key="post.id"
-              :xs="12"
-              :sm="12"
-              :lg="8"
-              :xl="24"
+            <a
+              :href="post.link"
+              target="_blank"
+              :class="[$style.post_card, 'rounded']"
             >
-              <a
-                :href="post.link"
-                target="_blank"
-                :class="[$style.post_card, 'rounded']"
-              >
-                <div :class="[$style.image_wrapper]">
-                  <div
-                    :class="$style.image"
-                    :style="`background-image:url(${post.image})`"
-                  ></div>
+              <div :class="[$style.image_wrapper]">
+                <div
+                  :class="$style.image"
+                  :style="`background-image:url(${post.image})`"
+                ></div>
+              </div>
+              <div :class="$style.meta">
+                <div :class="$style.category">{{ post.category }}</div>
+                <div :class="$style.title">
+                  {{ post.title }}
                 </div>
-                <div :class="$style.meta">
-                  <div :class="$style.category">{{ post.category }}</div>
-                  <div :class="$style.title">
-                    {{ post.title }}
-                  </div>
-                </div>
-              </a>
-            </el-col>
-          </el-row>
-        </template>
-      </div>
+              </div>
+            </a>
+          </el-col>
+        </el-row>
+      </template>
     </div>
   </div>
 </template>
