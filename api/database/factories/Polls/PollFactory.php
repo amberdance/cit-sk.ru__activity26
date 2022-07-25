@@ -33,6 +33,37 @@ class PollFactory extends Factory
         ];
     }
 
+    private static function push(array $data)
+    {
+        $data['poll']['category_id'] = PollCategory::create([
+            'label' => $data['category'],
+        ])['id'];
+
+        $pollId = Poll::create($data['poll'])['id'];
+
+        foreach ($data['questions'] as $params) {
+            $questionId = PollQuestion::create([
+                'label'       => trim($params['label']),
+                'sort'        => $params['sort'],
+                'description' => $params['description'] ?? null,
+                'max_allowed' => $params['max_allowed'] ?? 20,
+                'min_allowed' => $params['min_allowed'] ?? 1,
+                'type'        => $params['type'] ?? 'radio',
+                'poll_id'     => $pollId,
+
+            ])['id'];
+
+            foreach ($params['variants'] as $i => $variant) {
+                PollVariant::create([
+                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
+                    'question_id'     => $questionId,
+                    'sort'            => $i + 1,
+                ]);
+            }
+        }
+    }
+
     public static function politics()
     {
 
@@ -206,32 +237,7 @@ class PollFactory extends Factory
             'category'  => 'Общество',
         ];
 
-        $data['poll']['category_id'] = PollCategory::create([
-            'label' => $data['category'],
-        ])['id'];
-
-        $pollId = Poll::create($data['poll'])['id'];
-
-        foreach ($data['questions'] as $params) {
-            $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
-                'type'        => $params['type'] ?? 'radio',
-                'poll_id'     => $pollId,
-                'max_allowed' => $params['max_allowed'] ?? 20,
-                'min_allowed' => $params['min_allowed'] ?? 1,
-
-            ])['id'];
-
-            foreach ($params['variants'] as $i => $variant) {
-                PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
-                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
-                    'question_id'     => $questionId,
-                    'sort'            => $i + 1,
-                ]);
-            }
-        }
+        self::push($data);
     }
 
     public static function transport()
@@ -295,33 +301,7 @@ class PollFactory extends Factory
             'category'  => 'Транспорт',
         ];
 
-        $data['poll']['category_id'] = PollCategory::create([
-            'label' => $data['category'],
-        ])['id'];
-
-        $pollId = Poll::create($data['poll'])['id'];
-
-        foreach ($data['questions'] as $params) {
-            $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
-                'description' => $params['description'] ?? null,
-                'max_allowed' => $params['max_allowed'] ?? 20,
-                'min_allowed' => $params['min_allowed'] ?? 1,
-                'type'        => $params['type'] ?? 'radio',
-                'poll_id'     => $pollId,
-
-            ])['id'];
-
-            foreach ($params['variants'] as $i => $variant) {
-                PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
-                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
-                    'question_id'     => $questionId,
-                    'sort'            => $i + 1,
-                ]);
-            }
-        }
+        self::push($data);
     }
 
     public static function traveling()
@@ -370,7 +350,7 @@ class PollFactory extends Factory
                     ],
                 ],
                 [
-                    'label'    => 'Какие достопримечательности края импонируют Вам больше всего?',
+                    'label'    => 'Какие достояния края импонируют Вам больше всего?',
                     'sort'     => 3,
                     'type'     => 'checkbox',
                     'variants' => [
@@ -401,7 +381,7 @@ class PollFactory extends Factory
                     'type'     => 'checkbox',
                     'variants' => [
                         'Всё устраивает',
-                        'Не достаточно туалетов',
+                        'Не достаточно общественных туалетов',
                         'Качество дорожного покрытия',
                         [
                             'label'           => 'Свой вариант ответа',
@@ -414,33 +394,7 @@ class PollFactory extends Factory
             'category'  => 'Путешествия',
         ];
 
-        $data['poll']['category_id'] = PollCategory::create([
-            'label' => $data['category'],
-        ])['id'];
-
-        $pollId = Poll::create($data['poll'])['id'];
-
-        foreach ($data['questions'] as $params) {
-            $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
-                'description' => $params['description'] ?? null,
-                'max_allowed' => $params['max_allowed'] ?? 20,
-                'min_allowed' => $params['min_allowed'] ?? 1,
-                'type'        => $params['type'] ?? 'radio',
-                'poll_id'     => $pollId,
-
-            ])['id'];
-
-            foreach ($params['variants'] as $i => $variant) {
-                PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
-                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
-                    'question_id'     => $questionId,
-                    'sort'            => $i + 1,
-                ]);
-            }
-        }
+        self::create($data);
     }
 
     public static function comfortableCity()
@@ -519,135 +473,6 @@ class PollFactory extends Factory
             'category'  => 'Инфраструктура',
         ];
 
-        $data['poll']['category_id'] = PollCategory::create([
-            'label' => $data['category'],
-        ])['id'];
-
-        $pollId = Poll::create($data['poll'])['id'];
-
-        foreach ($data['questions'] as $params) {
-            $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
-                'description' => $params['description'] ?? null,
-                'max_allowed' => $params['max_allowed'] ?? 20,
-                'min_allowed' => $params['min_allowed'] ?? 1,
-                'type'        => $params['type'] ?? 'radio',
-                'poll_id'     => $pollId,
-
-            ])['id'];
-
-            foreach ($params['variants'] as $i => $variant) {
-                PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
-                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
-                    'question_id'     => $questionId,
-                    'sort'            => $i + 1,
-                ]);
-            }
-        }
-    }
-
-    public static function testPoll()
-    {
-
-        $data = [
-            'poll'      => [
-                'sort'        => 1,
-                'label'       => 'Тестовый опрос',
-                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным. Если Вы не нашли подходящего ответа среди предложенных, то укажите свой вариант.',
-            ],
-
-            'questions' => [
-                [
-                    'label'    => 'Radio type test',
-                    'sort'     => 1,
-                    'variants' => [
-                        'Да, знаю',
-                        'Нет, не знаю',
-                        [
-                            'label'           => 'Свой вариант',
-                            'has_user_answer' => true,
-                        ],
-
-                    ],
-                ],
-                [
-                    'label'           => 'Checkbox test',
-                    'sort'            => 2,
-                    'type'            => 'checkbox',
-                    'has_user_answer' => true,
-                    'variants'        => [
-                        '«Ставропольская правда»',
-                        'Местная газета',
-                        '«Вечерний Ставрополь»',
-                        '«Комсомольская правда»',
-                        '«МК-Кавказ»',
-                        '«Ставропольские Ведомости»',
-                        [
-                            'label'           => 'Другая газета (укажите)',
-                            'has_user_answer' => true,
-                        ],
-                    ],
-                ],
-
-                [
-                    'label'       => 'Another Radio type test',
-                    'description' => 'Test description here',
-                    'sort'        => 3,
-                    'variants'    => [
-                        'Да, знаю',
-                        'Нет, не знаю',
-                    ],
-                ],
-
-                [
-                    'label'       => 'Another checkbox test',
-                    'description' => 'Test description here',
-                    'sort'        => 4,
-                    'type'        => 'checkbox',
-                    'max_allowed' => 3,
-                    'min_allowed' => 1,
-                    'variants'    => [
-                        '«Ставропольская правда»',
-                        'Местная газета',
-                        '«Вечерний Ставрополь»',
-                        '«Комсомольская правда»',
-                        '«МК-Кавказ»',
-                        '«Ставропольские Ведомости»',
-                    ],
-                ],
-            ],
-
-            'category'  => 'Test category',
-        ];
-
-        $data['poll']['category_id'] = PollCategory::create([
-            'label' => $data['category'],
-        ])['id'];
-
-        $pollId = Poll::create($data['poll'])['id'];
-
-        foreach ($data['questions'] as $params) {
-            $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
-                'description' => $params['description'] ?? null,
-                'max_allowed' => $params['max_allowed'] ?? 20,
-                'min_allowed' => $params['min_allowed'] ?? 1,
-                'type'        => $params['type'] ?? 'radio',
-                'poll_id'     => $pollId,
-
-            ])['id'];
-
-            foreach ($params['variants'] as $i => $variant) {
-                PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
-                    'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
-                    'question_id'     => $questionId,
-                    'sort'            => $i + 1,
-                ]);
-            }
-        }
+        self::push($data);
     }
 }
