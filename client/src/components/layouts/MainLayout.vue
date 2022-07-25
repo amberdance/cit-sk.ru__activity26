@@ -63,7 +63,7 @@ export default {
 }
 
 .footer_wrapper {
-  z-index: 10;
+  z-index: 10000;
   position: fixed;
   bottom: 0;
   background-color: #ffffff;
