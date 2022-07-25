@@ -1,7 +1,7 @@
 <template>
   <el-container class="fill-height">
     <el-main :class="$style.content_wrapper">
-      <el-header :class="[$style.header_wrapper, 'container']">
+      <el-header id="top" :class="[$style.header_wrapper, 'container']">
         <HeaderLayout />
       </el-header>
 
@@ -15,6 +15,16 @@
           @onCookieDecline="isSlidebarHidden = true"
         />
       </footer>
+    </transition>
+
+    <transition name="el-fade-in-linear">
+      <div
+        v-show="windowTop >= 500"
+        class="up_btn shadowed"
+        v-scroll-to="'#top'"
+      >
+        <i class="el-icon-top"></i>
+      </div>
     </transition>
   </el-container>
 </template>
@@ -32,14 +42,24 @@ export default {
   data() {
     return {
       isSlidebarHidden: false,
+      windowTop: null,
     };
   },
 
   created() {
+    window.addEventListener("scroll", this.onScroll);
     if ($cookies.get("cookie_policy_slidebar")) this.isSlidebarHidden = true;
   },
 
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScroll);
+  },
+
   methods: {
+    onScroll() {
+      this.windowTop = window.top.scrollY;
+    },
+
     acceptCookie() {
       $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "1d");
       this.isSlidebarHidden = true;
