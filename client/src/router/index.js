@@ -19,7 +19,7 @@ const routes = [
 
   {
     path: "/home",
-    component: () => import("@/views/Home"),
+    component: () => import("@/views/home/Index"),
   },
 
   {
