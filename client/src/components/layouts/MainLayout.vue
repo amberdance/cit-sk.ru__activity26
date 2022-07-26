@@ -1,8 +1,10 @@
 <template>
-  <div>
+  <div :class="isInnerPage ? $style.root : null">
     <HeaderLayout id="top" />
 
-    <el-main>
+    <div v-if="isInnerPage" :class="$style.overlay"></div>
+
+    <el-main :class="isInnerPage ? $style.content : null">
       <slot></slot>
     </el-main>
 
@@ -41,10 +43,13 @@ export default {
     return {
       isCookieBannerHidden: false,
       windowTop: null,
+      isInnerPage: false,
     };
   },
 
   created() {
+    this.isInnerPage = this.$route.path !== "/home";
+
     window.addEventListener("scroll", this.onScroll);
 
     if ($cookies.get("cookie_policy_slidebar"))
@@ -67,3 +72,29 @@ export default {
   },
 };
 </script>
+
+<style module>
+.root {
+  min-height: 100vh;
+  background: url(../../assets/bg_primary.webp);
+  background-attachment: fixed;
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--color-font--primary);
+}
+
+.content {
+  padding-top: 100px !important;
+  position: relative;
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #6060601c;
+}
+</style>

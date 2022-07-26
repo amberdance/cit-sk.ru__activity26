@@ -4,7 +4,7 @@
       class="img clouds"
       tag="img"
       :src="require('@/assets/parallax-bg/clouds.png')"
-      :strength="-1"
+      :strength="0.5"
       type="depth_inv"
     />
     <kinesis-element
