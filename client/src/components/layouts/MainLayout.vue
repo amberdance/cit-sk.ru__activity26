@@ -1,8 +1,8 @@
 <template>
-  <div :class="$style.root">
+  <div>
     <HeaderLayout id="top" />
 
-    <el-main :class="$style.content">
+    <el-main>
       <slot></slot>
     </el-main>
 
@@ -67,19 +67,3 @@ export default {
   },
 };
 </script>
-
-<style module>
-.root {
-  min-height: 100vh;
-  background: url(../../assets/bg_primary.webp);
-  background-attachment: fixed;
-  background-position: 50% 100%;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: var(--color-font--primary);
-}
-
-.content {
-  padding-top: 100px !important;
-}
-</style>

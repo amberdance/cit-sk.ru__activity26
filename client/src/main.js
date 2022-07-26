@@ -5,6 +5,7 @@ import store from "./store";
 import VueCookies from "vue-cookies";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 import VueScrollTo from "vue-scrollto";
+import VueKinesis from "vue-kinesis";
 
 import "@/utils/axios";
 import "@/plugins/element";
@@ -16,6 +17,7 @@ Vue.config.productionTip = false;
 
 Vue.use(VueCookies);
 Vue.use(VueScrollTo);
+Vue.use(VueKinesis);
 Vue.component(VueCountdown.name, VueCountdown);
 
 new Vue({

@@ -1,21 +1,25 @@
 <template>
   <MainLayout>
-    <div class="container-sm">
-      <div :class="$style.main_wrapper">
-        <div :class="$style.main_title">
-          Уважаемые жители Ставропольского края!
-        </div>
+    <div :class="$style.main_banner">
+      <Paralax :class="$style.img_block" />
 
-        <div :class="$style.main_subtitle">
-          {{ description }}
+      <div class="container-sm">
+        <div :class="$style.main_wrapper">
+          <div :class="$style.main_title">
+            Уважаемые жители Ставропольского края!
+          </div>
+
+          <div :class="$style.main_subtitle">
+            {{ description }}
+          </div>
+          <el-button
+            style="font-size: 18px"
+            class="m-1"
+            type="primary"
+            v-scroll-to="'#polls'"
+            >Перейти к опросам
+          </el-button>
         </div>
-        <el-button
-          style="font-size: 18px"
-          class="m-1"
-          type="primary"
-          v-scroll-to="'#polls'"
-          >Перейти к опросам
-        </el-button>
       </div>
     </div>
 
@@ -30,11 +34,13 @@ import MainLayout from "@/components/layouts/MainLayout.vue";
 import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
+import Paralax from "../Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {
     MainLayout,
+    Paralax,
     Counters,
     PollsList,
     News,
@@ -49,13 +55,18 @@ export default {
 </script>
 
 <style module>
+.main_banner {
+  position: relative;
+  min-height: 830px;
+}
+
 .main_wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 5rem;
-  min-height: 860px;
+  position: relative;
+  top: 10rem;
 }
 .main_title {
   width: 100%;
