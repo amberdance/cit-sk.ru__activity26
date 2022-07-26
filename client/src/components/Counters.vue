@@ -2,14 +2,20 @@
   <div :class="$style.counters">
     <div class="container-sm">
       <div :class="$style.counters_wrapper">
-        <div v-for="(count, key) in counters" :key="key">
-          <AnimatedNumber
-            :class="$style.count"
-            :value="count"
-            :round="1"
-            :duration="200"
-          ></AnimatedNumber>
-          <div :class="$style.label">{{ labels[key] }}</div>
+        <div
+          v-for="(count, key) in counters"
+          :key="key"
+          :class="$style.counter"
+        >
+          <div :class="$style.meta">
+            <AnimatedNumber
+              :class="$style.count"
+              :value="count"
+              :round="1"
+              :duration="200"
+            ></AnimatedNumber>
+            <span :class="$style.label">{{ labels[key] }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -58,7 +64,6 @@ export default {
 }
 .counters_wrapper {
   min-height: 110px;
-  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -68,6 +73,24 @@ export default {
   color: var(--color-font--secondary);
 }
 
+.counter {
+  flex-grow: 1;
+
+  display: flex;
+  transform: skewX(-15deg);
+  align-items: center;
+  justify-content: center;
+}
+
+.counter:not(:last-child) {
+  border-right: 2px solid var(--color-font--secondary);
+}
+.counter .meta {
+  transform: skewX(15deg);
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
 .counters_wrapper .count {
   font-size: 44px;
 }

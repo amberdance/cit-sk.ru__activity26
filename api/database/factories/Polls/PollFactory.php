@@ -394,7 +394,7 @@ class PollFactory extends Factory
             'category'  => 'Путешествия',
         ];
 
-        self::create($data);
+        self::push($data);
     }
 
     public static function comfortableCity()
