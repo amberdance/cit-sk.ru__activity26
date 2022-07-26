@@ -12,6 +12,7 @@ import "@/plugins/element";
 import "@/plugins/prototypes";
 import "element-ui/lib/theme-chalk/display.css";
 import "@/styles/style.css";
+import "@/styles/grid.css";
 
 Vue.config.productionTip = false;
 

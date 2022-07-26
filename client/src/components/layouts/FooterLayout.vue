@@ -2,8 +2,8 @@
   <div class="footer">
     <footer>
       <div class="container">
-        <el-row type="flex" class="footer_content">
-          <el-col :lg="12" :md="12" :sm="24">
+        <div class="row footer_content">
+          <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="heading">Контакты</div>
             <div class="contacts_wrapper">
               <div
@@ -20,9 +20,9 @@
                 </div>
               </div>
             </div>
-          </el-col>
+          </div>
 
-          <el-col :lg="12" :md="12" :sm="24">
+          <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="heading">Полезные ссылки</div>
             <div class="links_wrapper">
               <a
@@ -34,8 +34,8 @@
                 >{{ item.label }}</a
               >
             </div>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
 
         <div class="year">{{ getYear() }}</div>
       </div>
@@ -104,9 +104,7 @@ footer,
   font-weight: bold;
   margin-bottom: 1rem;
 }
-.footer_content {
-  flex-wrap: wrap;
-}
+
 .footer_content .el-col {
   margin-bottom: 1rem;
 }

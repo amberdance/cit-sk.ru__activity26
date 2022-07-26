@@ -14,7 +14,7 @@
           </div>
           <el-button
             style="font-size: 18px"
-            class="m-1"
+            class="mt-3"
             type="primary"
             v-scroll-to="'#polls'"
             >Перейти к опросам

@@ -93,6 +93,8 @@ export default {
   align-items: center;
   color: var(--color-font--secondary);
   border-radius: 40px;
+  max-width: 800px;
+  margin: auto;
 }
 
 .auth_wrapper {
@@ -129,8 +131,7 @@ export default {
 }
 
 .logo_wrapper img {
-  height: 50px;
-  width: 50px;
+  width: 60px;
   padding: 0px 10px;
 }
 

@@ -63,7 +63,9 @@ export default {
   background-color: var(--color-primary);
 }
 .counters_wrapper {
+  max-width: 800px;
   min-height: 110px;
+  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -75,7 +77,6 @@ export default {
 
 .counter {
   flex-grow: 1;
-
   display: flex;
   transform: skewX(-15deg);
   align-items: center;

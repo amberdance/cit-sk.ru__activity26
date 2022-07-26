@@ -6,14 +6,11 @@
       <PostsListSkeletonBase v-if="loading" />
 
       <template v-else>
-        <el-row type="flex" :gutter="20" class="posts_wrapper">
-          <el-col
+        <div class="row posts_wrapper">
+          <div
             v-for="post in posts"
+            class="col-lg-3 col-md-6 col-sm-6 col-xs-12"
             :key="post.id"
-            :xs="12"
-            :sm="12"
-            :lg="8"
-            :xl="24"
           >
             <a
               v-if="'link' in post"
@@ -55,8 +52,8 @@
                 </div>
               </div>
             </router-link>
-          </el-col>
-        </el-row>
+          </div>
+        </div>
       </template>
     </div>
   </div>
@@ -114,7 +111,7 @@ export default {
 }
 .post_card .meta {
   padding: 1rem;
-  min-height: 105px;
+  min-height: 120px;
 }
 .post_card .image_wrapper {
   position: relative;

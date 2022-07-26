@@ -19,13 +19,8 @@
       label-position="top"
       size="large"
     >
-      <el-row
-        type="flex"
-        :gutter="20"
-        class="align-center"
-        style="flex-wrap: wrap"
-      >
-        <el-col :lg="12" :sm="22" :xs="22" :class="$style.column">
+      <div class="row">
+        <div :class="[$style.column, 'col-xl-6 col-md-12 col-sm-12']">
           <el-form-item :class="$style.formItem" prop="code">
             <el-input
               v-model="formData.code"
@@ -48,26 +43,27 @@
             повторно
           </countdown>
 
-          <el-button
-            type="primary"
-            size="default"
-            style="width: 100%"
-            :loading="isLoading"
-            @click="submit"
-            >{{ buttonLabel }}</el-button
-          ></el-col
-        >
+          <div>
+            <el-button
+              style="width: 100%"
+              type="primary"
+              :loading="isLoading"
+              @click="submit"
+              >{{ buttonLabel }}</el-button
+            >
+          </div>
+        </div>
 
-        <el-col :lg="12" :sm="22" :xs="22" :class="$style.column">
+        <div :class="[$style.column, 'col']">
           В течение нескольких секунд на Ваш телефон поступит звонок-сброс с
           уникального номера. Вам нужно ввести последние 4 цифры этого номера.
 
           <p>
             <span style="font-weight: bold; margin-right: 0.3rem">Пример:</span
             ><span>8951</span>
-          </p></el-col
-        >
-      </el-row>
+          </p>
+        </div>
+      </div>
     </el-form>
   </el-dialog>
 </template>

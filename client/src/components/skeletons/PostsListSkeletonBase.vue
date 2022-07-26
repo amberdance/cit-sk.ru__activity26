@@ -101,6 +101,6 @@
 
 .polls_card {
   padding: 1rem;
-  min-height: 90px;
+  min-height: 120px;
 }
 </style>
