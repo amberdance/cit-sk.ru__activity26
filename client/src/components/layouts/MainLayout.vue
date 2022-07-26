@@ -8,6 +8,8 @@
       <slot></slot>
     </el-main>
 
+    <FooterLayout id="footer" />
+
     <transition name="el-fade-in">
       <CookiePolicy
         v-if="!isCookieBannerHidden"
@@ -30,13 +32,15 @@
 </template>
 
 <script>
-import HeaderLayout from "./HeaderLayout.vue";
+import HeaderLayout from "./HeaderLayout";
 import CookiePolicy from "../CookiePolicy";
+import FooterLayout from "./FooterLayout";
 
 export default {
   components: {
     HeaderLayout,
     CookiePolicy,
+    FooterLayout,
   },
 
   data() {
