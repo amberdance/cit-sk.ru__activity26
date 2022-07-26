@@ -4,25 +4,28 @@
       class="img clouds"
       tag="img"
       :src="require('@/assets/parallax-bg/clouds.png')"
-      :strength="-10"
+      :strength="-1"
+      type="depth_inv"
     />
     <kinesis-element
       class="img mountain left_mountain"
       tag="img"
       :src="require('@/assets/parallax-bg/left_mountains.png')"
-      :strength="-10"
+      :strength="0.5"
+      type="rotate"
     />
     <kinesis-element
       class="img mountain right_mountain"
       tag="img"
       :src="require('@/assets/parallax-bg/right_mountains.png')"
-      :strength="-10"
+      :strength="0.5"
+      type="rotate"
     />
     <kinesis-element
       class="img field"
       tag="img"
       :src="require('@/assets/parallax-bg/field.png')"
-      :strength="-10"
+      :strength="-5"
     />
   </kinesis-container>
 </template>

@@ -34,7 +34,7 @@ import MainLayout from "@/components/layouts/MainLayout.vue";
 import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
-import Paralax from "../Paralax";
+import Paralax from "@/components/Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
