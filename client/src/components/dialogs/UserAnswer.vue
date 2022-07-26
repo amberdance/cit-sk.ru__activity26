@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     title="Ваш вариант ответа"
-    width="25%"
+    width="500px"
     :visible="isVisible"
     :show-close="false"
   >

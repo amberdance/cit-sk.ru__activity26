@@ -5,11 +5,6 @@ export const APP_DESCRIPTION = () =>
 export const VALIDATE_DEFAULT_ERROR = "Поле обязательно для заполнения";
 export const navigationMenu = [
   {
-    label: "Новости",
-    scroll: "#news",
-    isHomePageOnly: true,
-  },
-  {
     label: "Опросы",
     link: "/polls",
     scroll: "#polls",

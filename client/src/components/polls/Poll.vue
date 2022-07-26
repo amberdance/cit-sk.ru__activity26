@@ -97,12 +97,14 @@
       v-if="!isAuthorized"
       width="20%"
       custom-class="rounded"
+      :close-on-click-modal="false"
       :visible="Boolean(authComponent)"
       :lock-scroll="false"
       @close="authComponent = null"
     >
       <component :is="authComponent" />
     </el-dialog>
+
     <UserAnswer
       ref="userAnswerDialog"
       @onUserAnswerChanged="saveUserAnswer"

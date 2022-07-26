@@ -178,11 +178,11 @@ section {
 }
 
 .rounded {
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
 
 .shadowed {
-  box-shadow: 4px 3px 7px 0px #80808045;
+  box-shadow: 4px 3px 7px 0px #80808045 !important;
 }
 
 /************************** APP ***************************/
@@ -231,12 +231,12 @@ section {
   background-color: var(--color-danger) !important;
 }
 
-.el-button-group>.el-button:first-child {
+.el-button-group > .el-button:first-child {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
-.el-button-group>.el-button:last-child {
+.el-button-group > .el-button:last-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
@@ -260,7 +260,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -347,8 +347,6 @@ section {
 
 /************************** MEDIA QUERIES ***************************/
 
-
-
 @media (min-width: 1200px) {
   .container-sm {
     max-width: 800px !important;
@@ -364,7 +362,6 @@ section {
     width: 100% !important;
   }
 }
-
 
 @media (max-width: 890px) {
   .el-dialog {
