@@ -1,18 +1,18 @@
 <template>
   <MainLayout>
     <div class="poll container" v-loading="isVoting">
-      <div :class="[$style.poll_wrapper, 'rounded', 'shadowed']">
+      <div class="poll_wrapper rounded shadowed">
         <PollSketelon v-if="isLoading" />
 
         <template v-else>
-          <div :class="$style.heading">
-            <span :class="$style.poll_label">{{ poll.label }}</span>
-            <span :class="$style.poll_id"
+          <div class="heading">
+            <span class="poll_label">{{ poll.label }}</span>
+            <span class="poll_id"
               ><span style="margin-right: 0.3rem">ID</span>{{ poll.id }}</span
             >
           </div>
 
-          <div v-if="!isAuthorized" :class="$style.auth_notice">
+          <div v-if="!isAuthorized" class="auth_notice">
             <h2>Внимание!</h2>
             <span>Для участия в опросе необходимо авторизоваться</span>
             <div>
@@ -22,23 +22,23 @@
             </div>
           </div>
 
-          <div :class="$style.meta_wrapper">
-            <div v-if="poll.description" :class="$style.description">
+          <div class="meta_wrapper">
+            <div v-if="poll.description" class="description">
               <span>{{ poll.description }}</span>
             </div>
 
-            <div v-if="poll.image" :class="$style.image_wrapper">
+            <div v-if="poll.image" class="image_wrapper">
               <img :src="poll.image" />
             </div>
 
-            <div :class="$style.questions_wrapper">
+            <div class="questions_wrapper">
               <el-form ref="form" v-model="formData[0][14]">
                 <el-form-item
                   v-for="(question, i) in poll.questions"
-                  :class="$style.question"
+                  class="question"
                   :key="question.id"
                 >
-                  <h2 :class="$style.title">{{ question.label }}</h2>
+                  <h2 class="title">{{ question.label }}</h2>
 
                   <el-radio-group
                     v-if="question.type == 'radio'"
@@ -49,7 +49,7 @@
                       v-for="variant in question.variants"
                       :key="variant.id"
                       :label="variant.id"
-                      :class="$style.title"
+                      class="title"
                       >{{ variant.label }}</el-radio
                     >
                   </el-radio-group>
@@ -78,7 +78,7 @@
               </el-form>
             </div>
           </div>
-          <div :class="$style.btn_group" v-if="isAuthorized">
+          <div class="btn_group" v-if="isAuthorized">
             <el-button
               v-if="isVoted"
               type="primary"
@@ -95,7 +95,7 @@
 
     <el-dialog
       v-if="!isAuthorized"
-      width="25%"
+      width="20%"
       custom-class="rounded"
       :visible="Boolean(authComponent)"
       :lock-scroll="false"
@@ -275,7 +275,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .poll_wrapper {
   background-color: #ffffff;
   min-height: 700px;

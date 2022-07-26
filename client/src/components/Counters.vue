@@ -1,15 +1,17 @@
 <template>
-  <div :class="$style.counters">
+  <div class="counters">
     <div class="container-sm">
-      <div :class="$style.counters_wrapper">
-        <div v-for="(count, key) in counters" :key="key">
-          <AnimatedNumber
-            :class="$style.count"
-            :value="count"
-            :round="1"
-            :duration="200"
-          ></AnimatedNumber>
-          <div :class="$style.label">{{ labels[key] }}</div>
+      <div class="counters_wrapper">
+        <div v-for="(count, key) in counters" :key="key" class="counter">
+          <div class="meta">
+            <AnimatedNumber
+              class="count"
+              :value="count"
+              :round="1"
+              :duration="200"
+            ></AnimatedNumber>
+            <span class="label">{{ labels[key] }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -52,13 +54,12 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .counters {
   background-color: var(--color-primary);
 }
 .counters_wrapper {
   min-height: 110px;
-  margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -67,11 +68,25 @@ export default {
   flex-wrap: wrap;
   color: var(--color-font--secondary);
 }
-
+.counter {
+  flex-grow: 1;
+  display: flex;
+  transform: skewX(-15deg);
+  align-items: center;
+  justify-content: center;
+}
+.counter:not(:last-child) {
+  border-right: 2px solid var(--color-font--secondary);
+}
+.counter .meta {
+  transform: skewX(15deg);
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
 .counters_wrapper .count {
   font-size: 44px;
 }
-
 .counters_wrapper .label {
   font-size: 18px;
 }

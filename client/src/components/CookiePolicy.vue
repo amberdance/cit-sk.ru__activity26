@@ -1,6 +1,6 @@
 <template>
-  <div :class="[$style.footer, 'shadowed', 'rounded']">
-    <div :class="$style.footer_content">
+  <div class="cookie shadowed rounded">
+    <div class="cookie_content">
       <div>
         Мы используем файлы cookie для улучшения работы сайта. Продолжая
         просматривать этот сайт, вы соглашаетесь с условиями использования
@@ -21,7 +21,7 @@
         viewBox="0 0 1024 1024"
         xmlns="http://www.w3.org/2000/svg"
         data-v-78e17ca8=""
-        :class="$style.btn_close"
+        class="btn_close"
         @click="$emit('onCookieDecline')"
       >
         <path
@@ -33,8 +33,8 @@
   </div>
 </template>
 
-<style module>
-.footer {
+<style scoped>
+.cookie {
   z-index: 10000;
   position: fixed;
   bottom: 0;
@@ -44,17 +44,17 @@
   left: 0;
   right: 0;
 }
-.footer .footer_content {
+.cookie .cookie_content {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
-.footer .btn_accept {
+.cookie .btn_accept {
   font-size: 15px;
   margin: 0 0.5rem;
 }
-.footer .btn_close {
+.cookie .btn_close {
   color: #000000;
   height: 50px;
   width: 50px;

@@ -1,43 +1,50 @@
 <template>
   <MainLayout>
-    <div class="container-sm">
-      <div :class="$style.main_wrapper">
-        <div :class="$style.main_title">
-          Уважаемые жители Ставропольского края!
-        </div>
+    <div class="main_banner">
+      <Paralax class="img_block" />
 
-        <div :class="$style.main_subtitle">
-          {{ description }}
+      <div class="container-sm">
+        <div class="main_wrapper">
+          <div class="main_title">Уважаемые жители Ставропольского края!</div>
+
+          <div class="main_subtitle">
+            {{ description }}
+          </div>
+          <el-button
+            style="font-size: 18px"
+            class="mt-3"
+            type="primary"
+            v-scroll-to="'#polls'"
+            >Перейти к опросам
+          </el-button>
         </div>
-        <el-button
-          style="font-size: 18px"
-          class="m-1"
-          type="primary"
-          v-scroll-to="'#polls'"
-          >Перейти к опросам
-        </el-button>
       </div>
     </div>
 
     <section id="counters"><Counters /></section>
     <section id="news"><News /></section>
     <section id="polls"><PollsList /></section>
+    <FooterLayout id="footer" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
+import FooterLayout from "@/components/layouts/FooterLayout.vue";
 import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
+import Paralax from "@/components/Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {
     MainLayout,
+    Paralax,
     Counters,
     PollsList,
     News,
+    FooterLayout,
   },
 
   data() {
@@ -48,14 +55,19 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
+.main_banner {
+  position: relative;
+  min-height: 830px;
+}
+
 .main_wrapper {
   display: flex;
   align-items: center;
   flex-direction: column;
   text-align: center;
-  margin-top: 5rem;
-  min-height: 860px;
+  position: relative;
+  top: 10rem;
 }
 .main_title {
   width: 100%;

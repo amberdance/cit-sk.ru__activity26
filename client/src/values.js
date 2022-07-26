@@ -17,7 +17,7 @@ export const navigationMenu = [
   {
     label: "Контакты",
     link: "/contacts",
-    scroll: "#contacts",
+    scroll: "#footer",
   },
   {
     label: "О проекте",

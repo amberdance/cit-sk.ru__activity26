@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->create();
         PollFactory::politics();
-        PollFactory::transport();
-        PollFactory::traveling();
         PollFactory::comfortableCity();
+        PollFactory::traveling();
+        PollFactory::transport();
     }
 }

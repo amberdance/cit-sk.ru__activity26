@@ -1,5 +1,5 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition name="el-fade-in-linear"> <router-view /></transition>
   </div>
 </template>

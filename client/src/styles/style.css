@@ -61,7 +61,7 @@
 :root {
   --color-primary: #0469ff;
   --color-secondary: #122050;
-  --color-info: #606984;
+  --color-info: #767676;
   --color-danger: #d51a1a;
   --color-success: #25b38b;
   --color-warning: #f6cd03;
@@ -117,6 +117,7 @@ li {
 }
 
 section {
+  position: relative;
   background-color: var(--color-section);
 }
 
@@ -167,18 +168,6 @@ section {
   margin: 2rem 0;
 }
 
-.m-0 {
-  margin: 0 !important;
-}
-
-.m-1 {
-  margin: 1rem 0 !important;
-}
-
-.p-1 {
-  padding: 1rem 0 !important;
-}
-
 .icon-mini {
   height: 20px;
   width: 20px;
@@ -208,7 +197,7 @@ section {
 
 .el-button {
   color: #ffffff !important;
-  border-radius: 8px;
+  border-radius: 8px !important;
   border: none !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
@@ -240,6 +229,16 @@ section {
 
 .el-button--danger:focus {
   background-color: var(--color-danger) !important;
+}
+
+.el-button-group>.el-button:first-child {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.el-button-group>.el-button:last-child {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }
 
 .poll .el-radio__inner,
@@ -348,63 +347,15 @@ section {
 
 /************************** MEDIA QUERIES ***************************/
 
-@media (max-width: 420px) {
 
-  .container,
-  .container-sm {
-    max-width: 350px;
-  }
-}
-
-@media (min-width: 490px) {
-
-  .container,
-  .container-sm {
-    max-width: 430px;
-  }
-}
-
-@media (min-width: 576px) {
-
-  .container,
-  .container-sm {
-    max-width: 540px;
-  }
-}
-
-@media (min-width: 768px) {
-
-  .container,
-  .container-sm {
-    max-width: 720px;
-  }
-}
-
-@media (min-width: 992px) {
-  .container {
-    max-width: 960px;
-  }
-
-  .container-sm {
-    max-width: 760px;
-  }
-}
-
-@media (min-width: 1100px) {
-  .container-sm {
-    max-width: 800px;
-  }
-}
 
 @media (min-width: 1200px) {
-  .container {
-    max-width: 1140px;
+  .container-sm {
+    max-width: 800px !important;
   }
-}
 
-@media (min-width: 1400px) {
   .container {
-    max-width: 1400px;
+    max-width: 1400px !important;
   }
 }
 
@@ -414,7 +365,14 @@ section {
   }
 }
 
-@media (max-width: 992px) {
+
+@media (max-width: 890px) {
+  .el-dialog {
+    width: 70% !important;
+  }
+}
+
+@media (max-width: 590px) {
   .el-dialog {
     width: 90% !important;
   }
