@@ -12,7 +12,7 @@
   >
     <el-form
       v-loading="isLoading"
-      :class="$style.form_wrapper"
+      class="form_wrapper"
       :rules="rules"
       :model="formData"
       ref="form"
@@ -20,8 +20,8 @@
       size="large"
     >
       <div class="row">
-        <div :class="[$style.column, 'col-xl-6 col-md-12 col-sm-12']">
-          <el-form-item :class="$style.formItem" prop="code">
+        <div class="column col-xl-6 col-md-12 col-sm-12">
+          <el-form-item prop="code">
             <el-input
               v-model="formData.code"
               v-mask="'####'"
@@ -35,7 +35,7 @@
             v-slot="{ minutes, seconds }"
             ref="countdown"
             tag="div"
-            :class="$style.timer"
+            class="timer"
             :time="time"
             @end="onCountdownEnd"
           >
@@ -45,7 +45,7 @@
 
           <div>
             <el-button
-              style="width: 100%"
+              style="white-space: break-spaces; width: 100%"
               type="primary"
               :loading="isLoading"
               @click="submit"
@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div :class="[$style.column, 'col']">
+        <div class="column col">
           В течение нескольких секунд на Ваш телефон поступит звонок-сброс с
           уникального номера. Вам нужно ввести последние 4 цифры этого номера.
 
@@ -201,7 +201,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .form_wrapper label {
   font-size: 22px;
   line-height: 30px;

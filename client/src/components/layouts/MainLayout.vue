@@ -1,14 +1,12 @@
 <template>
-  <div :class="isInnerPage ? $style.root : null">
+  <div :class="isInnerPage ? 'root' : null">
     <HeaderLayout id="top" />
 
-    <div v-if="isInnerPage" :class="$style.overlay"></div>
+    <div v-if="isInnerPage" class="overlay"></div>
 
-    <el-main :class="isInnerPage ? $style.content : null">
+    <el-main :class="isInnerPage ? 'content' : null">
       <slot></slot>
     </el-main>
-
-    <FooterLayout id="footer" />
 
     <transition name="el-fade-in">
       <CookiePolicy
@@ -34,13 +32,11 @@
 <script>
 import HeaderLayout from "./HeaderLayout";
 import CookiePolicy from "../CookiePolicy";
-import FooterLayout from "./FooterLayout";
 
 export default {
   components: {
     HeaderLayout,
     CookiePolicy,
-    FooterLayout,
   },
 
   data() {
@@ -77,7 +73,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .root {
   min-height: 100vh;
   background: url(../../assets/bg_primary.webp);

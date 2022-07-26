@@ -6,12 +6,13 @@
     :show-close="false"
   >
     <el-input
-      :maxlength="maxlength"
-      type="textarea"
-      :rows="5"
       v-model="userAnswer"
+      :maxlength="maxlength"
+      :rows="5"
+      type="textarea"
     ></el-input>
-    <div class="p-1 a-right">Осталось {{ charsLength }} символов</div>
+
+    <div class="pt-3 a-right">Осталось {{ charsLength }} символов</div>
     <template #footer>
       <el-button-group class="a-right">
         <el-button type="danger" size="medium" @click="destroy"

@@ -202,7 +202,6 @@ section {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
   cursor: pointer !important;
-  white-space: break-spaces;
 }
 
 .el-button--primary {
@@ -348,7 +347,13 @@ section {
 
 /************************** MEDIA QUERIES ***************************/
 
+
+
 @media (min-width: 1200px) {
+  .container-sm {
+    max-width: 800px !important;
+  }
+
   .container {
     max-width: 1400px !important;
   }

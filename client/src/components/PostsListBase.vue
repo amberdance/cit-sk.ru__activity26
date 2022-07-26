@@ -154,10 +154,6 @@ export default {
 }
 
 @media (max-width: 992px) {
-  .posts_wrapper {
-    flex-wrap: wrap;
-  }
-
   .post_card,
   .image_wrapper {
     border-radius: 0 !important;

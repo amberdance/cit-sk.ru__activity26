@@ -1,15 +1,15 @@
 <template>
-  <div :class="$style.header">
+  <div class="header">
     <div class="container-sm">
-      <div :class="[$style.header_wrapper, 'shadowed']">
+      <div class="header_wrapper shadowed">
         <router-link to="/">
-          <div :class="$style.logo_wrapper">
+          <div class="logo_wrapper">
             <img src="@/assets/logo_primary.svg" />
           </div>
         </router-link>
 
-        <ul :class="$style.menu_wrapper">
-          <li v-for="(item, i) in menu" :key="i" :class="$style.nav_item">
+        <ul class="menu_wrapper">
+          <li v-for="(item, i) in menu" :key="i" class="nav_item">
             <a
               v-if="$route.path == '/home' && 'isHomePageOnly' in item"
               v-scroll-to="item.scroll"
@@ -27,26 +27,22 @@
           </li>
         </ul>
 
-        <div :class="$style.auth_wrapper">
+        <div class="auth_wrapper">
           <template v-if="isAuthorized">
-            <a
-              href="#"
-              @click="$logout()"
-              :class="$style.item"
-              style="padding: 0"
+            <a href="#" @click="$logout()" class="item" style="padding: 0"
               ><img src="@/assets/icon_logout.png" class="icon-mini" /><span
                 >Выход</span
               ></a
             >
           </template>
           <template v-else>
-            <router-link to="/login" :class="$style.item"
+            <router-link to="/login" class="item"
               ><img src="@/assets/icon_user.png" class="icon-mini" /><span
                 >Вход</span
               ></router-link
             >
 
-            <router-link to="/registration" :class="$style.item">
+            <router-link to="/registration" class="item">
               <img src="@/assets/icon_key.png" class="icon-mini" />
               <span>Регистрация</span></router-link
             >
@@ -75,7 +71,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .header {
   padding: 1rem 0 !important;
   position: fixed;
@@ -84,7 +80,6 @@ export default {
   right: 0;
   z-index: 20;
 }
-
 .header_wrapper {
   background-color: #ffffff;
   display: flex;
@@ -93,10 +88,8 @@ export default {
   align-items: center;
   color: var(--color-font--secondary);
   border-radius: 40px;
-  max-width: 800px;
   margin: auto;
 }
-
 .auth_wrapper {
   display: flex;
   align-items: center;
@@ -109,41 +102,34 @@ export default {
 .menu_wrapper li a {
   color: var(--color-font--primary);
 }
-
 .auth_wrapper .item {
   display: flex;
   align-items: center;
 }
-
 .auth_wrapper span:hover,
 .menu_wrapper li:hover a {
   cursor: pointer;
   color: var(--color-link);
   transition: 0.3s;
 }
-
 .auth_wrapper .item img {
   margin-right: 0.3rem;
 }
-
 .auth_wrapper .item:first-child {
   padding-right: 1rem;
 }
-
 .logo_wrapper img {
-  width: 60px;
+  width: 65px;
   padding: 0px 10px;
 }
-
 .menu_wrapper {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   padding: 0;
 }
-
 .menu_wrapper .nav_item {
-  padding: 0rem 1.2rem;
+  padding: 0 1.2rem;
   font-weight: bold;
 }
 </style>

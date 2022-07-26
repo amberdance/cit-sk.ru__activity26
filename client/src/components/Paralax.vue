@@ -46,14 +46,12 @@ export default {
   top: -210px;
   right: 0;
 }
-
 .parallax .img {
   left: 0;
   right: 0;
   width: 100%;
   height: 100%;
 }
-
 .parallax .clouds {
   position: relative;
   height: 1000px;

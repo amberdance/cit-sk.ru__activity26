@@ -1,15 +1,13 @@
 <template>
   <MainLayout>
-    <div :class="$style.main_banner">
-      <Paralax :class="$style.img_block" />
+    <div class="main_banner">
+      <Paralax class="img_block" />
 
       <div class="container-sm">
-        <div :class="$style.main_wrapper">
-          <div :class="$style.main_title">
-            Уважаемые жители Ставропольского края!
-          </div>
+        <div class="main_wrapper">
+          <div class="main_title">Уважаемые жители Ставропольского края!</div>
 
-          <div :class="$style.main_subtitle">
+          <div class="main_subtitle">
             {{ description }}
           </div>
           <el-button
@@ -26,11 +24,13 @@
     <section id="counters"><Counters /></section>
     <section id="news"><News /></section>
     <section id="polls"><PollsList /></section>
+    <FooterLayout id="footer" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
+import FooterLayout from "@/components/layouts/FooterLayout.vue";
 import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
@@ -44,6 +44,7 @@ export default {
     Counters,
     PollsList,
     News,
+    FooterLayout,
   },
 
   data() {
@@ -54,7 +55,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .main_banner {
   position: relative;
   min-height: 830px;

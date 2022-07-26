@@ -12,7 +12,7 @@
                 :key="prop"
               >
                 <div class="contact_item d-flex">
-                  <div class="icon"><i :class="value.icon"></i></div>
+                  <div class="icon"><i class="value.icon"></i></div>
                   <div>
                     <div class="label">{{ value.heading }}</div>
                     <div class="text">{{ value.title }}</div>

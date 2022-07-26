@@ -1,91 +1,18 @@
 <template>
   <div class="container">
-    <el-skeleton animated :class="$style.root">
+    <el-skeleton animated>
       <template slot="template">
-        <div :class="[$style.wrapper, 'd-flex']">
-          <div :class="$style.polls_card">
-            <el-skeleton-item
-              variant="image"
-              class="rounded"
-              style="width: 300px; height: 200px"
-            />
-            <div style="padding-top: 14px">
-              <el-skeleton-item variant="h2" style="width: 60%" />
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-items: space-between;
-                  margin-top: 16px;
-                  height: 16px;
-                "
-              >
-                <el-skeleton-item variant="h3" style="margin-right: 16px" />
-              </div>
-            </div>
-          </div>
+        <div class="row">
+          <div
+            v-for="i in 4"
+            :key="i"
+            class="col-lg-3 col-md-6 col-sm-6 col-xs-12 skeleton_item"
+          >
+            <el-skeleton-item variant="image" class="image rounded" />
 
-          <div :class="$style.polls_card">
-            <el-skeleton-item
-              variant="image"
-              class="rounded"
-              style="width: 300px; height: 200px"
-            />
-            <div style="padding-top: 14px">
-              <el-skeleton-item variant="h2" style="width: 60%" />
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-items: space-between;
-                  margin-top: 16px;
-                  height: 16px;
-                "
-              >
-                <el-skeleton-item variant="h3" style="margin-right: 16px" />
-              </div>
-            </div>
-          </div>
-          <div :class="$style.polls_card">
-            <el-skeleton-item
-              variant="image"
-              class="rounded"
-              style="width: 300px; height: 200px"
-            />
-            <div style="padding-top: 14px">
-              <el-skeleton-item variant="h2" style="width: 60%" />
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-items: space-between;
-                  margin-top: 16px;
-                  height: 16px;
-                "
-              >
-                <el-skeleton-item variant="h3" style="margin-right: 16px" />
-              </div>
-            </div>
-          </div>
-          <div :class="$style.polls_card">
-            <el-skeleton-item
-              variant="image"
-              class="rounded"
-              style="width: 300px; height: 200px"
-            />
-            <div style="padding-top: 14px">
-              <el-skeleton-item variant="h2" style="width: 60%" />
-              <div
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-items: space-between;
-                  margin-top: 16px;
-                  height: 16px;
-                "
-              >
-                <el-skeleton-item variant="h3" style="margin-right: 16px" />
-              </div>
+            <div class="meta">
+              <el-skeleton-item variant="text" style="width: 60%" />
+              <el-skeleton-item variant="text" />
             </div>
           </div>
         </div>
@@ -94,13 +21,13 @@
   </div>
 </template>
 
-<style module>
-.wrapper {
-  padding: 1rem 0;
+<style scoped>
+.skeleton_item .image {
+  height: 245px;
 }
 
-.polls_card {
-  padding: 1rem;
-  min-height: 120px;
+.skeleton_item .meta {
+  padding: 1rem 0;
+  height: 120px;
 }
 </style>

@@ -1,43 +1,50 @@
 <template>
-  <div>
-    <MainLayout :class="$style.root">
-      <div :class="[$style.main_wrapper, 'container']">
-        <div :class="$style.main_title">
-          Уважаемые жители Ставропольского края!
-        </div>
+  <MainLayout>
+    <div class="main_banner">
+      <Paralax />
 
-        <div :class="$style.main_subtitle">
-          {{ description }}
-        </div>
+      <div class="container-sm">
+        <div class="main_wrapper">
+          <div class="main_title">Уважаемые жители Ставропольского края!</div>
 
-        <el-button
-          style="font-size: 18px"
-          class="m-1"
-          type="primary"
-          v-scroll-to="'#polls'"
-          >Перейти к опросам
-        </el-button>
+          <div class="main_subtitle">
+            {{ description }}
+          </div>
+          <el-button
+            style="font-size: 18px"
+            class="mt-3"
+            type="primary"
+            v-scroll-to="'#polls'"
+            >Перейти к опросам
+          </el-button>
+        </div>
       </div>
-    </MainLayout>
-    <Counters />
-    <News id="news" />
-    <PollsList id="polls" />
-  </div>
+    </div>
+
+    <section id="counters"><Counters /></section>
+    <section id="news"><News /></section>
+    <section id="polls"><PollsList /></section>
+    <FooterLayout id="footer" />
+  </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
+import FooterLayout from "@/components/layouts/FooterLayout.vue";
 import Counters from "@/components/Counters.vue";
 import News from "@/components/News";
 import PollsList from "@/components/polls/PollsList";
+import Paralax from "@/components/Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {
     MainLayout,
+    Paralax,
     Counters,
     PollsList,
     News,
+    FooterLayout,
   },
 
   data() {
@@ -48,16 +55,19 @@ export default {
 };
 </script>
 
-<style module>
-.root {
-  min-height: calc(100vh - 110px);
+<style scoped>
+.main_banner {
+  position: relative;
+  min-height: 830px;
 }
+
 .main_wrapper {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top: 10rem;
+  text-align: center;
+  position: relative;
+  top: 10rem;
 }
 .main_title {
   width: 100%;
@@ -67,73 +77,8 @@ export default {
   margin-bottom: 2rem;
 }
 
-.main_title,
-.main_subtitle {
-  max-width: 1024px;
-  text-align: center;
-}
 .main_subtitle {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 2rem;
-}
-
-.quotation_wrapper {
-  position: absolute;
-  top: calc(100vh - 230px);
-  font-weight: bold;
-  width: 100%;
-}
-.quotation__title {
-  font-size: 20px;
-  font-style: italic;
-  quotes: "«" "»";
-  text-align: center;
-}
-.quotation__title,
-.quotation__subtitle {
-  color: #7c4b02;
-  text-align: center;
-}
-.quotation__subtitle {
-  font-size: 18px;
-  margin-top: 0.5rem;
-}
-.quotation__subtitle::before {
-  content: "\00a9";
-  margin-right: 5px;
-}
-
-@media (max-height: 790px) {
-  .main_wrapper {
-    margin-top: 0;
-  }
-  .root {
-    min-height: 100vh;
-  }
-  .quotation_wrapper {
-    top: calc(100vh - 110px);
-  }
-}
-
-@media (min-height: 900px) {
-  .main_wrapper {
-    margin-top: 10rem;
-  }
-}
-
-@media (min-height: 1100px) {
-  .main_wrapper {
-    margin-top: 15rem;
-  }
-}
-
-@media (max-width: 670px) {
-  .main_title {
-    font-size: 30px;
-  }
-  .quotation_wrapper {
-    display: none;
-  }
 }
 </style>

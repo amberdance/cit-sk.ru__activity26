@@ -5,7 +5,7 @@
     :show-close="false"
     top="1%"
   >
-    <div :class="$style.policy_wrapper">
+    <div class="policy_wrapper">
       <p>
         Я даю свое согласие Всероссийской политической партии «ЕДИНАЯ РОССИЯ» и
         всем ее структурным подразделениям на обработку моих персональных
@@ -130,7 +130,7 @@ export default {
 };
 </script>
 
-<style module>
+<style scoped>
 .policy_wrapper {
   font-size: 16px;
 }
