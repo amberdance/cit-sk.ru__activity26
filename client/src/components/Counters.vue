@@ -28,6 +28,7 @@ export default {
 
   data() {
     return {
+      counters: {},
       labels: {
         usersCount: "Активных граждан",
         passedPollsCount: "Принято мнений",
@@ -36,17 +37,9 @@ export default {
     };
   },
 
-  computed: {
-    counters() {
-      return this.$store.getters.list("counters");
-    },
-  },
-
   async created() {
-    if (!_.isEmpty(this.counters)) return;
-
     try {
-      await this.$store.dispatch("loadCounters");
+      this.counters = await this.$http.get("/pages/main/counters");
     } catch (e) {
       console.error(e);
     }

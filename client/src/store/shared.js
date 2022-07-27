@@ -9,7 +9,6 @@ export default {
     user: {},
     polls: [],
     news: [],
-    counters: {},
   },
 
   getters: {
@@ -31,20 +30,10 @@ export default {
       state.user = payload;
     },
 
-    increaseStats(state, { key, value }) {
-      state.statistics[key] = state.statistics[key] + value;
-    },
-
     ...mutations,
   },
 
   actions: {
-    async loadCounters({ commit }) {
-      commit("clear", "statistics");
-      const props = await dispatch.get("/pages/main/counters");
-      commit("set", { key: "counters", props });
-    },
-
     async loadPolls({ commit }, params) {
       commit("clear", "polls");
       const polls = await dispatch.get("/polls", params);
