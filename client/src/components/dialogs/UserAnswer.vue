@@ -19,6 +19,7 @@
           >Отмена</el-button
         >
         <el-button
+          v-if="charsLength !== maxlength"
           type="primary"
           size="medium"
           @click="$emit('onUserAnswerChanged')"
@@ -38,15 +39,13 @@ export default {
       index: null,
       questionId: null,
       variantId: null,
-      userAnswer: null,
+      userAnswer: "",
     };
   },
 
   computed: {
     charsLength() {
-      const length = this.maxlength - String(this.userAnswer).length;
-
-      return length > 0 ? length : 0;
+      return this.maxlength - this.userAnswer.length;
     },
   },
 
@@ -60,7 +59,7 @@ export default {
 
     close() {
       this.isVisible = false;
-      this.userAnswer = null;
+      this.userAnswer = "";
     },
 
     destroy() {
@@ -73,7 +72,7 @@ export default {
       });
 
       this.index = null;
-      this.userAnswer = null;
+      this.userAnswer = "";
       this.questionId = null;
       this.variantId = null;
     },

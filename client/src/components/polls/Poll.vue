@@ -32,9 +32,10 @@
             </div>
 
             <div class="questions_wrapper">
-              <el-form ref="form" v-model="formData[0][14]">
+              <el-form ref="form">
                 <el-form-item
                   v-for="(question, i) in poll.questions"
+                  :ref="`question${[i]}`"
                   class="question"
                   :key="question.id"
                 >
@@ -44,6 +45,7 @@
                     v-if="question.type == 'radio'"
                     v-model="formData[i][question.id]"
                     :disabled="isVoted"
+                    @change="clearValidation(i)"
                   >
                     <el-radio
                       v-for="variant in question.variants"
@@ -65,7 +67,7 @@
                       :key="variant.id"
                       :label="variant.id"
                       @change="
-                        onUserVariantChange($event, {
+                        onCheckboxChange($event, {
                           index: i,
                           questionId: question.id,
                           variant,
@@ -78,6 +80,7 @@
               </el-form>
             </div>
           </div>
+
           <div class="btn_group" v-if="isAuthorized">
             <el-button
               v-if="isVoted"
@@ -173,7 +176,7 @@ export default {
 
     async vote() {
       try {
-        await this.$refs.form.validate();
+        await this.validate();
 
         this.isVoting = true;
 
@@ -188,6 +191,8 @@ export default {
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
       } catch (e) {
+        if (e.code == 66) return this.$onError("Ответьте на вопросы");
+
         if (e.code == 401) {
           this.$store.commit("setUser", {});
           this.authComponent = () => import("@/components/AuthForm.vue");
@@ -198,6 +203,32 @@ export default {
       } finally {
         this.isVoting = false;
       }
+    },
+
+    async validate() {
+      const missed = [];
+
+      this.formData.forEach((question, i) => {
+        const id = Object.keys(question);
+        const answer = question[id];
+        const element = this.$refs[`question${i}`][0].$el;
+
+        if (_.isArray(answer) && !answer.length) {
+          element.classList.add("is-error");
+          missed.push(this.poll.questions[i].label);
+        } else element.classList.remove("is-error");
+      });
+
+      if (missed.length)
+        return Promise.reject({
+          message: "Answer is required",
+          code: 66,
+          questions: missed,
+        });
+    },
+
+    clearValidation(refId) {
+      if (this.$refs[`question${refId}`][0].$el.classList.remove("is-error"));
     },
 
     showAuthDialog() {
@@ -240,7 +271,9 @@ export default {
       return values;
     },
 
-    onUserVariantChange(checked, { index, questionId, variant }) {
+    onCheckboxChange(checked, { index, questionId, variant }) {
+      this.clearValidation(index);
+
       if (!variant.hasUserAnswer) return;
 
       if (checked)
@@ -337,5 +370,16 @@ export default {
   border: 1px dashed #ebebeb;
   margin: 1rem 0;
   padding: 0 1rem 1rem 1rem;
+}
+
+.questions_wrapper .question.is-error {
+  border-style: solid;
+  border-color: var(--color-danger);
+}
+.questions_wrapper .question.is-error::after {
+  content: "Вопрос является обязательным";
+  font-size: 14px;
+  margin: 1rem 0;
+  color: var(--color-danger);
 }
 </style>

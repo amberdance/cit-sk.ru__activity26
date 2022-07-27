@@ -196,49 +196,39 @@ section {
 }
 
 .el-button {
-  color: #ffffff !important;
-  border-radius: 8px !important;
+  color: #ffffff;
+  border-radius: 8px;
   border: none !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 .el-button--primary {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary);
 }
 
 .el-button--danger {
-  background-color: var(--color-danger) !important;
+  background-color: var(--color-danger);
 }
 
 .el-button--primary:hover,
 .el-button--primary:active {
-  color: #000 !important;
-  background-color: #f6cd03 !important;
+  color: #000;
+  background-color: #f6cd03;
 }
 
 .el-button--danger:hover,
 .el-button--danger:active {
-  background-color: #fe2a2a !important;
+  background-color: #fe2a2a;
 }
 
 .el-button--primary:focus {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary);
 }
 
 .el-button--danger:focus {
-  background-color: var(--color-danger) !important;
-}
-
-.el-button-group > .el-button:first-child {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.el-button-group > .el-button:last-child {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+  background-color: var(--color-danger);
 }
 
 .poll .el-radio__inner,
