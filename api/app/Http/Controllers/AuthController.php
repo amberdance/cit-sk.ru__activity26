@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ValidationHelper;
 use App\Http\Response;
-use App\Repositories\UserRepository;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,20 +13,36 @@ class AuthController extends Controller
 {
 
     /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+
+    }
+
+    /**
      * @param Request $request
      *
      * @return JsonResponse
      */
     public function login(Request $request)
     {
+        $isLoginPhone = preg_match(ValidationHelper::PHONE_REGEXP, $request->login);
 
         $request->validate([
-            "login"    => "required|email",
+            "login"    => $isLoginPhone ? ['required', 'regex:' . ValidationHelper::PHONE_REGEXP] : "required|email",
             "password" => "required",
         ]);
 
         try {
-            if (!(new UserRepository)->getUserByEmail($request->login)->is_active) {
+            $user = $isLoginPhone
+            ? $this->userRepository->getUserByPhone(ValidationHelper::replacePhoneNumber($request->login))
+            : $this->userRepository->getUserByEmail($request->login);
+
+            if (!$user->is_active) {
                 return Response::jsonForbidden();
             }
         } catch (ModelNotFoundException $e) {
@@ -33,8 +50,8 @@ class AuthController extends Controller
         }
 
         if (!$token = auth()->attempt([
-            'email'    => $request->login,
-            'password' => $request->password,
+            $isLoginPhone ? 'phone' : 'email' => $isLoginPhone ? ValidationHelper::replacePhoneNumber($request->login) : $request->login,
+            'password'                        => $request->password,
         ])) {
             return Response::jsonUnathorized();
         }
@@ -56,10 +73,10 @@ class AuthController extends Controller
     /**
      * @return JsonResponse
      */
-    public function me(): JsonResponse
+    public function me()
     {
 
-        return response()->json(auth()->user());
+        return response()->json($this->getUserPayload());
 
     }
 
@@ -78,11 +95,25 @@ class AuthController extends Controller
      */
     private function getJsonJwtData(string $token): array
     {
+
         return [
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60,
-            'user'         => auth()->user(),
+            'user'         => $this->getUserPayload(),
         ];
+    }
+
+    /**
+     * @return \App\Models\User
+     */
+    private function getUserPayload(): \App\Models\User
+    {
+
+        $user                 = auth()->user();
+        $user['passed_polls'] = $this->userRepository->getPassedPollsId($user['id']);
+
+        return $user;
+
     }
 }

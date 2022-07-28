@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import PostsListSkeletonBase from "./skeletons/PostsListSkeletonBase";
+import PostsListSkeletonBase from "../skeletons/PostsListSkeletonBase";
 
 export default {
   components: {

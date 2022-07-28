@@ -15,7 +15,7 @@
           <div v-if="!isAuthorized" class="auth_notice">
             <h2>Внимание!</h2>
             <span>Для участия в опросе необходимо авторизоваться</span>
-            <div>
+            <div class="btn a-center w-100">
               <el-button type="primary" @click="showAuthDialog"
                 >Войти</el-button
               >
@@ -32,9 +32,10 @@
             </div>
 
             <div class="questions_wrapper">
-              <el-form ref="form" v-model="formData[0][14]">
+              <el-form ref="form">
                 <el-form-item
                   v-for="(question, i) in poll.questions"
+                  :ref="`question${[i]}`"
                   class="question"
                   :key="question.id"
                 >
@@ -44,6 +45,7 @@
                     v-if="question.type == 'radio'"
                     v-model="formData[i][question.id]"
                     :disabled="isVoted"
+                    @change="clearValidation(i)"
                   >
                     <el-radio
                       v-for="variant in question.variants"
@@ -65,7 +67,7 @@
                       :key="variant.id"
                       :label="variant.id"
                       @change="
-                        onUserVariantChange($event, {
+                        onCheckboxChange($event, {
                           index: i,
                           questionId: question.id,
                           variant,
@@ -78,6 +80,7 @@
               </el-form>
             </div>
           </div>
+
           <div class="btn_group" v-if="isAuthorized">
             <el-button
               v-if="isVoted"
@@ -95,14 +98,19 @@
 
     <el-dialog
       v-if="!isAuthorized"
-      width="20%"
+      width="25%"
       custom-class="rounded"
+      :close-on-click-modal="false"
       :visible="Boolean(authComponent)"
       :lock-scroll="false"
       @close="authComponent = null"
     >
-      <component :is="authComponent" />
+      <component
+        :is="authComponent"
+        @onSuccessfullAuth="redirectIfPollPassed"
+      />
     </el-dialog>
+
     <UserAnswer
       ref="userAnswerDialog"
       @onUserAnswerChanged="saveUserAnswer"
@@ -139,6 +147,10 @@ export default {
   },
 
   computed: {
+    user() {
+      return this.$store.getters.get("user");
+    },
+
     isAuthorized() {
       return this.$store.getters.isUserAuthorized;
     },
@@ -150,6 +162,8 @@ export default {
       const data = await this.$http.get(`/polls/${this.$route.params.id}`);
 
       this.poll = data.poll;
+      this.redirectIfPollPassed();
+
       this.poll.questions = data.questions;
       this.poll.questions.forEach((question) =>
         this.formData.push({ [question.id]: [] })
@@ -171,7 +185,7 @@ export default {
 
     async vote() {
       try {
-        await this.$refs.form.validate();
+        await this.validate();
 
         this.isVoting = true;
 
@@ -182,13 +196,21 @@ export default {
         });
 
         this.isVoted = true;
+
+        this.$router.push({
+          name: "PollResult",
+          params: { poll: this.poll },
+        });
+
         this.$onSuccess(
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
       } catch (e) {
+        if (e.code == 66) return this.$onError("Ответьте на вопросы");
+
         if (e.code == 401) {
           this.$store.commit("setUser", {});
-          this.authComponent = () => import("@/components/AuthForm.vue");
+          this.authComponent = () => import("@/components/shared/AuthForm.vue");
         } else if (e.code == 12) {
           this.isVoted = true;
           return this.$onWarning("В данном опросе Вы уже принимали участие");
@@ -198,8 +220,34 @@ export default {
       }
     },
 
+    async validate() {
+      const missed = [];
+
+      this.formData.forEach((question, i) => {
+        const id = Object.keys(question);
+        const answer = question[id];
+        const element = this.$refs[`question${i}`][0].$el;
+
+        if (_.isArray(answer) && !answer.length) {
+          element.classList.add("is-error");
+          missed.push(this.poll.questions[i].label);
+        } else element.classList.remove("is-error");
+      });
+
+      if (missed.length)
+        return Promise.reject({
+          message: "Answer is required",
+          code: 66,
+          questions: missed,
+        });
+    },
+
+    clearValidation(refId) {
+      if (this.$refs[`question${refId}`][0].$el.classList.remove("is-error"));
+    },
+
     showAuthDialog() {
-      this.authComponent = () => import("@/components/AuthForm.vue");
+      this.authComponent = () => import("@/components/shared/AuthForm.vue");
     },
 
     getValues() {
@@ -238,7 +286,9 @@ export default {
       return values;
     },
 
-    onUserVariantChange(checked, { index, questionId, variant }) {
+    onCheckboxChange(checked, { index, questionId, variant }) {
+      this.clearValidation(index);
+
       if (!variant.hasUserAnswer) return;
 
       if (checked)
@@ -271,6 +321,14 @@ export default {
         questionId
       ].filter((id) => id !== variantId);
     },
+
+    redirectIfPollPassed() {
+      if (this.isAuthorized && this.user.passedPolls.includes(this.poll.id))
+        return this.$router.push({
+          name: "PollResult",
+          params: { poll: this.poll },
+        });
+    },
   },
 };
 </script>
@@ -289,7 +347,9 @@ export default {
   flex-wrap: wrap;
   font-size: 18px;
   margin: 1.5rem 0;
-  background-color: #f0b56052;
+  padding: 0 1rem;
+  color: var(--color-font--secondary);
+  background-color: var(--color-danger);
 }
 .poll_wrapper .auth_notice button {
   margin: 1rem 0;
@@ -335,5 +395,29 @@ export default {
   border: 1px dashed #ebebeb;
   margin: 1rem 0;
   padding: 0 1rem 1rem 1rem;
+}
+
+.questions_wrapper .question.is-error {
+  border-style: solid;
+  border-color: var(--color-danger);
+}
+.questions_wrapper .question.is-error::after {
+  content: "Вопрос является обязательным";
+  font-size: 14px;
+  margin: 1rem 0;
+  color: var(--color-danger);
+}
+
+@media (max-width: 690px) {
+  .questions_wrapper h2 {
+    font-size: 20px;
+  }
+  .auth_notice {
+    align-items: flex-start !important;
+  }
+
+  .auth_notice button {
+    width: 100% !important;
+  }
 }
 </style>

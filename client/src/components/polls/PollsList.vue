@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import PostsListBase from "../PostsListBase";
+import PostsListBase from "../shared/PostsListBase";
 
 export default {
   components: {

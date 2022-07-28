@@ -95,6 +95,11 @@
             </el-form-item>
             <div class="hint">Поле обязательно для заполнения.</div>
           </div>
+        </div>
+
+        <div class="form_wrapper rounded shadowed" v-loading="isLoading">
+          <div class="heading">Данные аккаунта</div>
+          <el-divider></el-divider>
 
           <div class="form_item">
             <el-form-item label="Телефон" prop="phone">
@@ -109,11 +114,6 @@
             </el-form-item>
             <div class="hint">Поле обязательно для заполнения.</div>
           </div>
-        </div>
-
-        <div class="form_wrapper rounded shadowed" v-loading="isLoading">
-          <div class="heading">Данные аккаунта</div>
-          <el-divider></el-divider>
 
           <div class="form_item">
             <el-form-item label="Электронная почта" prop="email">
@@ -126,7 +126,6 @@
               />
             </el-form-item>
             <div class="hint">
-              <span>Поле обязательно для заполнения.</span> <br />
               <span>Буквы только латинского алфавита.</span>
             </div>
           </div>
@@ -191,14 +190,13 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PrivacyPolicyDialog from "./dialogs/PrivacyPolicyDialog";
+import PrivacyPolicyDialog from "../dialogs/PrivacyPolicyDialog";
 import PhoneVerifyDialog from "@/components/dialogs/PhoneVerifyDialog";
 import { mask } from "vue-the-mask";
 import {
   passwordStrengthValidator,
   matchPasswordsValidator,
   phoneNumberValidator,
-  emailValidator,
   birthdatValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR } from "@/values";
@@ -268,16 +266,6 @@ export default {
               birthdatValidator(birthday)
                 ? callback()
                 : callback(new Error("Укажите дату рождения")),
-          },
-        ],
-
-        email: [
-          {
-            required: true,
-            validator: (rule, email, callback) =>
-              emailValidator(email)
-                ? callback()
-                : callback(new Error("Укажите адрес электронной почты")),
           },
         ],
 
@@ -359,8 +347,13 @@ export default {
         this.isFormSubmitted = true;
         this.$refs.phoneVerifyDialog.show(uuid);
       } catch (e) {
-        if (e.code == 422)
-          return this.$onWarning("Не все поля заполнены корректно");
+        if (e.code == 422) {
+          if (e.message.includes("email"))
+            return this.$onWarning("Некорректный формат электронной почты");
+
+          if (e.message.includes("phone"))
+            return this.$onWarning("Некорректный формат номера телефона");
+        }
 
         if (e.code == 1062) {
           if (e.message.includes("mail"))

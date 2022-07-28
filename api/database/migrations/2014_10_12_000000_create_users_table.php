@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('district_id');
             $table->string('address');
             $table->string('birthday');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->string('phone', 14)->unique();
             $table->string('ip_address');

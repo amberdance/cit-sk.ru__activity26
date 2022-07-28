@@ -13,10 +13,19 @@
       >
         <el-form-item prop="login">
           <el-input
+            v-if="isLoginEmail"
             v-model="formData.login"
-            placeholder="логин"
+            placeholder="email"
             autofocus
             prefix-icon="el-icon-user"
+            clearable
+          />
+          <el-input
+            v-else
+            v-model="formData.login"
+            prefix-icon="el-icon-phone"
+            type="tel"
+            clearable
           />
         </el-form-item>
 
@@ -30,6 +39,13 @@
           />
         </el-form-item>
 
+        <el-switch
+          v-model="isLoginEmail"
+          @change="changeLoginType"
+          class="mt-3 mb-3 w-100"
+          active-text="Вход по email"
+          inactive-text="Вход по номеру телефона"
+        ></el-switch>
         <el-button
           type="primary"
           style="width: 100%"
@@ -48,7 +64,8 @@
 </template>
 
 <script>
-import { emailValidator } from "@/utils/validator";
+import { emailValidator, phoneNumberValidator } from "@/utils/validator";
+import { mask } from "vue-the-mask";
 
 export default {
   props: {
@@ -58,9 +75,12 @@ export default {
     },
   },
 
+  directives: { mask },
+
   data() {
     return {
       isLoading: false,
+      isLoginEmail: true,
 
       formData: {
         login: null,
@@ -71,14 +91,28 @@ export default {
         login: [
           {
             trigger: "blur",
-            validator: (rule, email, callback) =>
-              emailValidator(email)
-                ? callback()
-                : callback(new Error("Укажите адрес электронной почты")),
+            validator: (rule, value, callback) => {
+              if (this.isLoginEmail)
+                emailValidator(value)
+                  ? callback()
+                  : callback(new Error("Укажите адрес электронной почты"));
+              else
+                phoneNumberValidator(value)
+                  ? callback()
+                  : callback(
+                      new Error("Укажите номер телефона в формате +79999999999")
+                    );
+            },
           },
         ],
 
-        password: [{ required: "true", trigger: "blur" }],
+        password: [
+          {
+            required: "true",
+            trigger: "blur",
+            message: "Укажите пароль",
+          },
+        ],
       },
     };
   },
@@ -109,6 +143,12 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    changeLoginType() {
+      this.$refs.form.resetFields();
+      this.$refs.form.clearValidate();
+      this.formData.login = null;
     },
   },
 };

@@ -6,7 +6,7 @@ process.env.VUE_APP_API_URL =
 
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== "production",
-  productionSourceMap: false,
+  productionSourceMap: true,
   filenameHashing: true,
 
   configureWebpack: {
@@ -14,11 +14,11 @@ module.exports = {
       hints: false,
     },
 
-    optimization: {
-      splitChunks: {
-        minSize: 10000,
-        maxSize: 250000,
-      },
-    },
+    // optimization: {
+    //   splitChunks: {
+    //     minSize: 10000,
+    //     maxSize: 350000,
+    //   },
+    // },
   },
 };

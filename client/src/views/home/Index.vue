@@ -10,10 +10,9 @@ export default {
   },
 
   created() {
-    this.homeComponent =
-      document.documentElement.clientWidth <= 960
-        ? () => import("./Device.vue")
-        : () => import("./Desktop.vue");
+    this.homeComponent = this.$isMobile()
+      ? () => import("./Mobile.vue")
+      : () => import("./Desktop.vue");
   },
 };
 </script>

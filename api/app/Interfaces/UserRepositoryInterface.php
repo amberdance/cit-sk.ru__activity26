@@ -33,6 +33,13 @@ interface UserRepositoryInterface
     public function getUserByEmail(string $email): User;
 
     /**
+     * @param string $phone
+     *
+     * @return User
+     */
+    public function getUserByPhone(string $phone): User;
+
+    /**
      * @param array $params
      *
      * @return User
@@ -62,5 +69,12 @@ interface UserRepositoryInterface
      * @return void
      */
     public function setUserActiveByModel(User $user, bool $state = true): void;
+
+    /**
+     * @param int $userId
+     *
+     * @return Collection
+     */
+    public function getPassedPollsId(int $userId);
 
 }

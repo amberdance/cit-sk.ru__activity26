@@ -62,7 +62,7 @@
   --color-primary: #0469ff;
   --color-secondary: #122050;
   --color-info: #767676;
-  --color-danger: #d51a1a;
+  --color-danger: #ff6767;
   --color-success: #25b38b;
   --color-warning: #f6cd03;
   --color-section: #ffffffd1;
@@ -70,6 +70,7 @@
   --color-divider: #dddddd;
   --color-font--primary: #363636;
   --color-font--secondary: #ffffff;
+  --header-height: 80px;
 }
 
 /************************** NORMALIZED ***************************/
@@ -173,16 +174,12 @@ section {
   width: 20px;
 }
 
-.fill-height {
-  min-height: 100vh;
-}
-
 .rounded {
-  border-radius: 10px;
+  border-radius: 10px !important;
 }
 
 .shadowed {
-  box-shadow: 4px 3px 7px 0px #80808045;
+  box-shadow: 4px 3px 7px 0px #80808045 !important;
 }
 
 /************************** APP ***************************/
@@ -196,49 +193,39 @@ section {
 }
 
 .el-button {
-  color: #ffffff !important;
-  border-radius: 8px !important;
-  border: none !important;
+  color: #ffffff;
+  border-radius: 8px;
+  border: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 .el-button--primary {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary);
 }
 
 .el-button--danger {
-  background-color: var(--color-danger) !important;
+  background-color: var(--color-danger);
 }
 
 .el-button--primary:hover,
 .el-button--primary:active {
-  color: #000 !important;
-  background-color: #f6cd03 !important;
+  color: #000;
+  background-color: #f6cd03;
 }
 
 .el-button--danger:hover,
 .el-button--danger:active {
-  background-color: #fe2a2a !important;
+  background-color: #fe2a2a;
 }
 
 .el-button--primary:focus {
-  background-color: var(--color-primary) !important;
+  background-color: var(--color-primary);
 }
 
 .el-button--danger:focus {
-  background-color: var(--color-danger) !important;
-}
-
-.el-button-group>.el-button:first-child {
-  border-top-right-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-.el-button-group>.el-button:last-child {
-  border-top-left-radius: 0 !important;
-  border-bottom-left-radius: 0 !important;
+  background-color: var(--color-danger);
 }
 
 .poll .el-radio__inner,
@@ -345,9 +332,17 @@ section {
   font-weight: bold;
 }
 
+.el-progress-bar__outer{
+  height: 8px !important;
+  border-radius: 0 !important;
+}
 /************************** MEDIA QUERIES ***************************/
 
-
+@media (max-width: 960px) {
+  .v-modal {
+    top: var(--header-height);
+  }
+}
 
 @media (min-width: 1200px) {
   .container-sm {
@@ -364,7 +359,6 @@ section {
     width: 100% !important;
   }
 }
-
 
 @media (max-width: 890px) {
   .el-dialog {

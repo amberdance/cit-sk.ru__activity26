@@ -40,11 +40,16 @@ class UserController extends Controller
             'address'         => 'required',
             'districtId'      => 'required',
             'address'         => 'required',
-            'email'           => 'required|email',
             'birthday'        => ['required', 'regex:' . ValidationHelper::BIRTHDAY_REGEXP],
             'password'        => ['required', 'regex:' . ValidationHelper::PASSWORD_REGEXP],
             'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
         ]);
+
+        if ($request->email) {
+            $request->validate([
+                'email' => 'email',
+            ]);
+        }
 
         if ($request->password !== $request->confirmPassword) {
             return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);

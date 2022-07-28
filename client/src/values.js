@@ -1,14 +1,10 @@
 export const APP_TITLE = "Активный гражданин Ставропольского края";
 export const APP_DESCRIPTION = () =>
-  `Проект ${APP_TITLE} создан как площадка для проведения среди различных групп населения Ставропольского края голосований в электронной форме по вопросам городского развития.`;
+  `Проект ${APP_TITLE} создан как площадка для проведения среди различных групп населения Ставропольского края голосований в электронной форме по вопросам развития.`;
 
 export const VALIDATE_DEFAULT_ERROR = "Поле обязательно для заполнения";
-export const navigationMenu = [
-  {
-    label: "Новости",
-    scroll: "#news",
-    isHomePageOnly: true,
-  },
+
+export const DESKTOP_MENU = [
   {
     label: "Опросы",
     link: "/polls",
@@ -18,6 +14,17 @@ export const navigationMenu = [
     label: "Контакты",
     link: "/contacts",
     scroll: "#footer",
+  },
+  {
+    label: "О проекте",
+    link: "/about",
+  },
+];
+
+export const MOBILE_MENU = [
+  {
+    label: "Опросы",
+    link: "/polls",
   },
   {
     label: "О проекте",

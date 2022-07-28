@@ -33,6 +33,13 @@ interface PollRepositoryInterface
     public function getPollQuestionsByPollId(int $id): Collection;
 
     /**
+     * @param int $pollId
+     *
+     * @return Collection
+     */
+    public function getResultsByPollId(int $pollId): array;
+
+    /**
      * @param array $params
      *
      * @return void

@@ -31,7 +31,7 @@
 
 <script>
 import HeaderLayout from "./HeaderLayout";
-import CookiePolicy from "../CookiePolicy";
+import CookiePolicy from "../shared/CookiePolicy";
 
 export default {
   components: {

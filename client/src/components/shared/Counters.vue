@@ -28,6 +28,7 @@ export default {
 
   data() {
     return {
+      counters: {},
       labels: {
         usersCount: "Активных граждан",
         passedPollsCount: "Принято мнений",
@@ -36,17 +37,9 @@ export default {
     };
   },
 
-  computed: {
-    counters() {
-      return this.$store.getters.list("counters");
-    },
-  },
-
   async created() {
-    if (!_.isEmpty(this.counters)) return;
-
     try {
-      await this.$store.dispatch("loadCounters");
+      this.counters = await this.$http.get("/pages/main/counters");
     } catch (e) {
       console.error(e);
     }
@@ -71,15 +64,16 @@ export default {
 .counter {
   flex-grow: 1;
   display: flex;
-  transform: skewX(-15deg);
+  transform: skewX(-10deg);
   align-items: center;
   justify-content: center;
 }
 .counter:not(:last-child) {
-  border-right: 2px solid var(--color-font--secondary);
+  border-right: 3px solid #00000015;
+  border-radius: 15px;
 }
 .counter .meta {
-  transform: skewX(15deg);
+  transform: skewX(10deg);
   display: flex;
   flex-direction: column;
   line-height: 1;

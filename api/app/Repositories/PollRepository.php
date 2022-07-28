@@ -78,7 +78,6 @@ class PollRepository implements PollRepositoryInterface
 
         $questions = PollQuestion::where('poll_id', $id)->get();
 
-        //TO DO: Сделать проверку на пустую коллекцию
         foreach ($questions as $question) {
             $question->variants;
 
@@ -143,10 +142,42 @@ class PollRepository implements PollRepositoryInterface
     }
 
     /**
+     * @param int $pollId
+     *
+     * @return array
+     */
+    public function getResultsByPollId(int $pollId): array
+    {
+
+        $totalAnswersCount = PollAnswer::select('id')->where('poll_id', $pollId)->count();
+        $result            = [
+            'poll'      => $this->getPollById($pollId),
+            'questions' => $this->getPollQuestionsByPollId($pollId),
+        ];
+
+        foreach ($result['questions'] as $i => $question) {
+            foreach ($question['variants'] as $k => $variant) {
+                $answersCount = PollAnswer::select('id')
+                    ->where([
+                        'question_id' => $question['id'],
+                        'variant_id'  => $variant['id'],
+                    ])
+                    ->count();
+
+                $result['questions'][$i]['variants'][$k]['answers_count'] = $answersCount;
+                $result['questions'][$i]['variants'][$k]['percent']       = round($answersCount / $totalAnswersCount, 1);
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @return int
      */
     public function getPassedPollsCount(): int
     {
         return PollAnswer::all('id')->count();
     }
+
 }
