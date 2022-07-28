@@ -195,7 +195,7 @@ export default {
 
         if (e.code == 401) {
           this.$store.commit("setUser", {});
-          this.authComponent = () => import("@/components/AuthForm.vue");
+          this.authComponent = () => import("@/components/shared/AuthForm.vue");
         } else if (e.code == 12) {
           this.isVoted = true;
           return this.$onWarning("В данном опросе Вы уже принимали участие");
@@ -232,7 +232,7 @@ export default {
     },
 
     showAuthDialog() {
-      this.authComponent = () => import("@/components/AuthForm.vue");
+      this.authComponent = () => import("@/components/shared/AuthForm.vue");
     },
 
     getValues() {

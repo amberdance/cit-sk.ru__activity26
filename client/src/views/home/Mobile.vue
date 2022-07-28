@@ -1,8 +1,6 @@
 <template>
   <MainLayout>
     <div class="main_banner">
-      <Paralax />
-
       <div class="container-sm">
         <div class="main_wrapper">
           <div class="main_title">Уважаемые жители Ставропольского края!</div>
@@ -29,18 +27,16 @@
 </template>
 
 <script>
-import MainLayout from "@/components/layouts/MainLayout.vue";
-import FooterLayout from "@/components/layouts/FooterLayout.vue";
-import Counters from "@/components/Counters.vue";
-import News from "@/components/News";
+import MainLayout from "@/components/layouts/MainLayout";
+import FooterLayout from "@/components/layouts/FooterLayout";
+import Counters from "@/components/shared/Counters";
+import News from "@/components/shared/News";
 import PollsList from "@/components/polls/PollsList";
-import Paralax from "@/components/Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {
     MainLayout,
-    Paralax,
     Counters,
     PollsList,
     News,
@@ -57,8 +53,13 @@ export default {
 
 <style scoped>
 .main_banner {
-  position: relative;
-  min-height: 830px;
+  min-height: 110vh;
+  background: url(../../assets/bg_primary.webp);
+  background-attachment: fixed;
+  background-position: 50% 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--color-font--primary);
 }
 
 .main_wrapper {
@@ -67,12 +68,14 @@ export default {
   flex-direction: column;
   text-align: center;
   position: relative;
-  top: 10rem;
+  top: 100px;
+  word-break: break-word;
+  z-index: 10;
 }
 .main_title {
   width: 100%;
-  font-size: 70px;
-  line-height: 70px;
+  font-size: 50px;
+  line-height: 50px;
   font-weight: bold;
   margin-bottom: 2rem;
 }
@@ -80,5 +83,11 @@ export default {
 .main_subtitle {
   font-size: 25px;
   font-weight: bold;
+}
+
+@media (max-width: 550px) {
+  #counters {
+    display: none;
+  }
 }
 </style>

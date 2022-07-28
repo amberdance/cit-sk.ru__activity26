@@ -191,7 +191,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import PrivacyPolicyDialog from "./dialogs/PrivacyPolicyDialog";
+import PrivacyPolicyDialog from "../dialogs/PrivacyPolicyDialog";
 import PhoneVerifyDialog from "@/components/dialogs/PhoneVerifyDialog";
 import { mask } from "vue-the-mask";
 import {

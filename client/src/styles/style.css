@@ -246,7 +246,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -329,6 +329,10 @@ section {
 .up_btn i {
   font-size: 20px;
   font-weight: bold;
+}
+
+.v-modal {
+  top: 66px;
 }
 
 /************************** MEDIA QUERIES ***************************/

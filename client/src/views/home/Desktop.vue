@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <div class="main_banner">
-      <Paralax class="img_block" />
+      <Paralax />
 
       <div class="container-sm">
         <div class="main_wrapper">
@@ -31,10 +31,10 @@
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
 import FooterLayout from "@/components/layouts/FooterLayout.vue";
-import Counters from "@/components/Counters.vue";
-import News from "@/components/News";
+import Paralax from "@/components/shared/Paralax";
+import Counters from "@/components/shared/Counters.vue";
+import News from "@/components/shared/News";
 import PollsList from "@/components/polls/PollsList";
-import Paralax from "@/components/Paralax";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {

@@ -24,6 +24,8 @@ const plugins = () => {
     window.open(link, "_blank");
   };
 
+  Vue.prototype.$isMobile = () => document.documentElement.clientWidth <= 960;
+
   /*
    *--------------------------------------------------------------
    *            AUTH

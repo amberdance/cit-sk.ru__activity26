@@ -6,7 +6,7 @@
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import AuthForm from "../components/AuthForm";
+import AuthForm from "@/components/shared/AuthForm.vue";
 import { APP_TITLE } from "@/values.js";
 
 export default {

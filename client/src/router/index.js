@@ -35,7 +35,7 @@ const routes = [
 
   {
     path: "/registration",
-    component: () => import("@/components/RegistrationForm"),
+    component: () => import("@/components/shared/RegistrationForm"),
     meta: { onlyForUnauthorized: true },
   },
 ];
