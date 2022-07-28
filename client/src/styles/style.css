@@ -332,6 +332,10 @@ section {
   font-weight: bold;
 }
 
+.el-progress-bar__outer{
+  height: 8px !important;
+  border-radius: 0 !important;
+}
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 960px) {

@@ -105,7 +105,10 @@
       :lock-scroll="false"
       @close="authComponent = null"
     >
-      <component :is="authComponent" />
+      <component
+        :is="authComponent"
+        @onSuccessfullAuth="redirectIfPollPassed"
+      />
     </el-dialog>
 
     <UserAnswer
@@ -144,6 +147,10 @@ export default {
   },
 
   computed: {
+    user() {
+      return this.$store.getters.get("user");
+    },
+
     isAuthorized() {
       return this.$store.getters.isUserAuthorized;
     },
@@ -155,6 +162,8 @@ export default {
       const data = await this.$http.get(`/polls/${this.$route.params.id}`);
 
       this.poll = data.poll;
+      this.redirectIfPollPassed();
+
       this.poll.questions = data.questions;
       this.poll.questions.forEach((question) =>
         this.formData.push({ [question.id]: [] })
@@ -170,8 +179,6 @@ export default {
 
   methods: {
     async submit() {
-      await this.$http.get(`/polls/${this.poll.id}/results`);
-      return;
       if (!this.isAuthorized) this.showAuthDialog();
       else await this.vote();
     },
@@ -189,6 +196,12 @@ export default {
         });
 
         this.isVoted = true;
+
+        this.$router.push({
+          name: "PollResult",
+          params: { poll: this.poll },
+        });
+
         this.$onSuccess(
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
@@ -307,6 +320,14 @@ export default {
       this.formData[index][questionId] = this.formData[index][
         questionId
       ].filter((id) => id !== variantId);
+    },
+
+    redirectIfPollPassed() {
+      if (this.isAuthorized && this.user.passedPolls.includes(this.poll.id))
+        return this.$router.push({
+          name: "PollResult",
+          params: { poll: this.poll },
+        });
     },
   },
 };

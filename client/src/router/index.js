@@ -34,6 +34,12 @@ const routes = [
   },
 
   {
+    path: "/polls/:id/result",
+    name: "PollResult",
+    component: () => import("@/components/polls/PollResult"),
+  },
+
+  {
     path: "/registration",
     component: () => import("@/components/shared/RegistrationForm"),
     meta: { onlyForUnauthorized: true },

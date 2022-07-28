@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Helpers\ValidationHelper;
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Polls\PollAnswer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Hash;
@@ -112,6 +113,11 @@ class UserRepository implements UserRepositoryInterface
         $user->save();
     }
 
+    /**
+     * @param bool $onlyVerified
+     *
+     * @return int
+     */
     public function getUsersCount(bool $onlyVerified = false): int
     {
         $result = 0;
@@ -120,6 +126,26 @@ class UserRepository implements UserRepositoryInterface
             return $result = User::select('id')->where('is_active', true)->count();
         } else {
             $result = User::all("id")->count();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param int $userId
+     *
+     * @return array
+     */
+    public function getPassedPollsId(int $userId)
+    {
+        $result     = [];
+        $collection = PollAnswer::select('poll_id')
+            ->where('user_id', $userId)
+            ->groupBy('poll_id')
+            ->get();
+
+        foreach ($collection as $answer) {
+            $result[] = $answer['poll_id'];
         }
 
         return $result;

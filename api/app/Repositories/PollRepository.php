@@ -78,7 +78,6 @@ class PollRepository implements PollRepositoryInterface
 
         $questions = PollQuestion::where('poll_id', $id)->get();
 
-        //TO DO: Сделать проверку на пустую коллекцию
         foreach ($questions as $question) {
             $question->variants;
 
@@ -142,18 +141,35 @@ class PollRepository implements PollRepositoryInterface
         return $result;
     }
 
-    public function getResultsByPollId(int $pollId)
+    /**
+     * @param int $pollId
+     *
+     * @return array
+     */
+    public function getResultsByPollId(int $pollId): array
     {
-        // $totalAnswersCount = PollAnswer::select('id')->where('poll_id', $pollId)->count();
-        $answers = PollAnswer::select('question.id', 'question.label')
-            ->join('poll_questions as question', 'poll_answers.question_id', '=', 'question.id')
-            ->groupBy('question.id')
-            ->having('poll_answers.poll_id', '=', $pollId)
-            // ->where("poll_answers.poll_id", $pollId)
-            ->get();
 
-        return $answers;
-        // return $totalAnswersCount;
+        $totalAnswersCount = PollAnswer::select('id')->where('poll_id', $pollId)->count();
+        $result            = [
+            'poll'      => $this->getPollById($pollId),
+            'questions' => $this->getPollQuestionsByPollId($pollId),
+        ];
+
+        foreach ($result['questions'] as $i => $question) {
+            foreach ($question['variants'] as $k => $variant) {
+                $answersCount = PollAnswer::select('id')
+                    ->where([
+                        'question_id' => $question['id'],
+                        'variant_id'  => $variant['id'],
+                    ])
+                    ->count();
+
+                $result['questions'][$i]['variants'][$k]['answers_count'] = $answersCount;
+                $result['questions'][$i]['variants'][$k]['percent']       = round($answersCount / $totalAnswersCount, 1);
+            }
+        }
+
+        return $result;
     }
 
     /**

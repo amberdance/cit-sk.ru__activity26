@@ -4,13 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ValidationHelper;
 use App\Http\Response;
-use App\Repositories\UserRepository;
+use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
+
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    public function __construct(UserRepositoryInterface $userRepository)
+    {
+        $this->userRepository = $userRepository;
+
+    }
 
     /**
      * @param Request $request
@@ -28,8 +39,8 @@ class AuthController extends Controller
 
         try {
             $user = $isLoginPhone
-            ? (new UserRepository)->getUserByPhone(ValidationHelper::replacePhoneNumber($request->login))
-            : (new UserRepository)->getUserByEmail($request->login);
+            ? $this->userRepository->getUserByPhone(ValidationHelper::replacePhoneNumber($request->login))
+            : $this->userRepository->getUserByEmail($request->login);
 
             if (!$user->is_active) {
                 return Response::jsonForbidden();
@@ -62,10 +73,10 @@ class AuthController extends Controller
     /**
      * @return JsonResponse
      */
-    public function me(): JsonResponse
+    public function me()
     {
 
-        return response()->json(auth()->user());
+        return response()->json($this->getUserPayload());
 
     }
 
@@ -84,11 +95,25 @@ class AuthController extends Controller
      */
     private function getJsonJwtData(string $token): array
     {
+
         return [
             'access_token' => $token,
             'token_type'   => 'bearer',
             'expires_in'   => auth()->factory()->getTTL() * 60,
-            'user'         => auth()->user(),
+            'user'         => $this->getUserPayload(),
         ];
+    }
+
+    /**
+     * @return \App\Models\User
+     */
+    private function getUserPayload(): \App\Models\User
+    {
+
+        $user                 = auth()->user();
+        $user['passed_polls'] = $this->userRepository->getPassedPollsId($user['id']);
+
+        return $user;
+
     }
 }

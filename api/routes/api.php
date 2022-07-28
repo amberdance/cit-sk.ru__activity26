@@ -43,7 +43,7 @@ Route::prefix('registration')->group(function () {
 |--------------------------------------------------------------------------
  */
 Route::post('/polls/vote', [\App\Http\Controllers\PollController::class, 'vote'])->middleware('auth:api');
-Route::get('/polls/{id}/results', [\App\Http\Controllers\PollController::class, 'results'])->middleware('auth:api');
+Route::get('/polls/{id}/result', [\App\Http\Controllers\PollController::class, 'results'])->middleware('auth:api');
 
 Route::apiResources([
     'polls' => \App\Http\Controllers\PollController::class,

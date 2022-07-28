@@ -149,8 +149,6 @@ export default {
       this.$refs.form.resetFields();
       this.$refs.form.clearValidate();
       this.formData.login = null;
-
-      console.log(this.formData, this.isLoginEmail);
     },
   },
 };

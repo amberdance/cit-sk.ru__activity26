@@ -51,6 +51,8 @@ class User extends Authenticatable implements JWTSubject
         'created_at',
         'updated_at',
         'email_verified_at',
+        'associate_id',
+        'is_associated',
     ];
 
     protected $casts = [

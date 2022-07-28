@@ -70,4 +70,11 @@ interface UserRepositoryInterface
      */
     public function setUserActiveByModel(User $user, bool $state = true): void;
 
+    /**
+     * @param int $userId
+     *
+     * @return Collection
+     */
+    public function getPassedPollsId(int $userId);
+
 }

@@ -37,6 +37,7 @@ import {
   Select,
   ButtonGroup,
   Switch,
+  Progress,
 } from "element-ui";
 
 [
@@ -70,7 +71,8 @@ import {
   OptionGroup,
   Select,
   ButtonGroup,
-  Switch
+  Switch,
+  Progress,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);
