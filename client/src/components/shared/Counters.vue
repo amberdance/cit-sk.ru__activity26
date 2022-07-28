@@ -64,15 +64,16 @@ export default {
 .counter {
   flex-grow: 1;
   display: flex;
-  transform: skewX(-15deg);
+  transform: skewX(-10deg);
   align-items: center;
   justify-content: center;
 }
 .counter:not(:last-child) {
-  border-right: 2px solid var(--color-font--secondary);
+  border-right: 3px solid #00000015;
+  border-radius: 15px;
 }
 .counter .meta {
-  transform: skewX(15deg);
+  transform: skewX(10deg);
   display: flex;
   flex-direction: column;
   line-height: 1;
