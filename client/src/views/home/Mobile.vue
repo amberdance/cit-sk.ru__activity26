@@ -86,8 +86,17 @@ export default {
 }
 
 @media (max-width: 550px) {
+  .main_title {
+    font-size: 40px;
+  }
+
   #counters {
     display: none;
+  }
+}
+@media (max-height: 720px) {
+  .main_wrapper {
+    min-height: 130vh;
   }
 }
 </style>

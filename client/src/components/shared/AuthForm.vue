@@ -11,20 +11,18 @@
         :rules="formRules"
         :show-message="false"
       >
-        <el-form-item v-if="isLoginEmail" prop="login">
+        <el-form-item prop="login">
           <el-input
+            v-if="isLoginEmail"
             v-model="formData.login"
             placeholder="email"
             autofocus
             prefix-icon="el-icon-user"
+            clearable
           />
-        </el-form-item>
-
-        <el-form-item v-else prop="login">
           <el-input
+            v-else
             v-model="formData.login"
-            v-mask="'+7(###)#######'"
-            placeholder="+7(999)9999999"
             prefix-icon="el-icon-phone"
             type="tel"
             clearable
@@ -43,7 +41,7 @@
 
         <el-switch
           v-model="isLoginEmail"
-          @change="formData.login = null"
+          @change="changeLoginType"
           class="mt-3 mb-3 w-100"
           active-text="Вход по email"
           inactive-text="Вход по номеру телефона"
@@ -92,10 +90,8 @@ export default {
       formRules: {
         login: [
           {
-            trigger: "change",
+            trigger: "blur",
             validator: (rule, value, callback) => {
-              console.log(value, phoneNumberValidator(value));
-
               if (this.isLoginEmail)
                 emailValidator(value)
                   ? callback()
@@ -147,6 +143,14 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+
+    changeLoginType() {
+      this.$refs.form.resetFields();
+      this.$refs.form.clearValidate();
+      this.formData.login = null;
+
+      console.log(this.formData, this.isLoginEmail);
     },
   },
 };

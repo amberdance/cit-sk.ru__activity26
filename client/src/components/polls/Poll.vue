@@ -98,7 +98,7 @@
 
     <el-dialog
       v-if="!isAuthorized"
-      width="20%"
+      width="25%"
       custom-class="rounded"
       :close-on-click-modal="false"
       :visible="Boolean(authComponent)"
@@ -170,8 +170,8 @@ export default {
 
   methods: {
     async submit() {
-      // await this.$http.get(`/polls/${this.poll.id}/results`);
-      // return;
+      await this.$http.get(`/polls/${this.poll.id}/results`);
+      return;
       if (!this.isAuthorized) this.showAuthDialog();
       else await this.vote();
     },
