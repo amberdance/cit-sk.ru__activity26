@@ -416,7 +416,7 @@ export default {
     align-items: flex-start !important;
   }
 
-  .auth_notice button {
+  .poll_wrapper button {
     width: 100% !important;
   }
 }

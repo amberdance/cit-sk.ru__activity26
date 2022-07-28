@@ -55,7 +55,6 @@ export default {
 .main_banner {
   min-height: 110vh;
   background: url(../../assets/bg_primary.webp);
-  background-attachment: fixed;
   background-position: 50% 100%;
   background-repeat: no-repeat;
   background-size: cover;
