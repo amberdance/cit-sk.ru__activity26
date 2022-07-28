@@ -15,7 +15,7 @@
           <div v-if="!isAuthorized" class="auth_notice">
             <h2>Внимание!</h2>
             <span>Для участия в опросе необходимо авторизоваться</span>
-            <div>
+            <div class="btn a-center w-100">
               <el-button type="primary" @click="showAuthDialog"
                 >Войти</el-button
               >
@@ -324,7 +324,9 @@ export default {
   flex-wrap: wrap;
   font-size: 18px;
   margin: 1.5rem 0;
-  background-color: #f0b56052;
+  padding: 0 1rem;
+  color: var(--color-font--secondary);
+  background-color: var(--color-danger);
 }
 .poll_wrapper .auth_notice button {
   margin: 1rem 0;
@@ -381,5 +383,18 @@ export default {
   font-size: 14px;
   margin: 1rem 0;
   color: var(--color-danger);
+}
+
+@media (max-width: 690px) {
+  .questions_wrapper h2 {
+    font-size: 20px;
+  }
+  .auth_notice {
+    align-items: flex-start !important;
+  }
+
+  .auth_notice button {
+    width: 100% !important;
+  }
 }
 </style>
