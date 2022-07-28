@@ -70,6 +70,7 @@
   --color-divider: #dddddd;
   --color-font--primary: #363636;
   --color-font--secondary: #ffffff;
+  --header-height: 80px;
 }
 
 /************************** NORMALIZED ***************************/
@@ -331,11 +332,13 @@ section {
   font-weight: bold;
 }
 
-.v-modal {
-  top: 66px;
-}
-
 /************************** MEDIA QUERIES ***************************/
+
+@media (max-width: 960px) {
+  .v-modal {
+    top: var(--header-height);
+  }
+}
 
 @media (min-width: 1200px) {
   .container-sm {

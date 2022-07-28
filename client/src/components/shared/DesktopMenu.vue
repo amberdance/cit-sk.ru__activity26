@@ -126,20 +126,24 @@
 </template>
 
 <script>
+import { DESKTOP_MENU } from "../../values";
+
 export default {
   props: {
-    menu: {
-      type: Array,
-      required: true,
-    },
-
     isAuthorized: {
       type: Boolean,
       required: true,
     },
   },
+
+  data() {
+    return {
+      menu: DESKTOP_MENU,
+    };
+  },
 };
 </script>
+
 <style scoped>
 .header {
   padding: 1rem 0 !important;

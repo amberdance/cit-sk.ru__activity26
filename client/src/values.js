@@ -3,7 +3,8 @@ export const APP_DESCRIPTION = () =>
   `Проект ${APP_TITLE} создан как площадка для проведения среди различных групп населения Ставропольского края голосований в электронной форме по вопросам развития.`;
 
 export const VALIDATE_DEFAULT_ERROR = "Поле обязательно для заполнения";
-export const navigationMenu = [
+
+export const DESKTOP_MENU = [
   {
     label: "Опросы",
     link: "/polls",
@@ -13,6 +14,17 @@ export const navigationMenu = [
     label: "Контакты",
     link: "/contacts",
     scroll: "#footer",
+  },
+  {
+    label: "О проекте",
+    link: "/about",
+  },
+];
+
+export const MOBILE_MENU = [
+  {
+    label: "Опросы",
+    link: "/polls",
   },
   {
     label: "О проекте",

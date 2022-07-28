@@ -49,7 +49,12 @@ export default {
   transition-duration: 0.5s;
   background-color: var(--color-primary);
 }
-
+.btn_mobile.open::after {
+  top: 15px;
+}
+.btn_mobile.open::before {
+  top: -5px;
+}
 .btn_mobile.open span {
   opacity: 0;
   background: transparent;
@@ -57,7 +62,7 @@ export default {
 .btn_mobile.open::before {
   transform: rotateZ(45deg) scaleX(1.25) translate(6.5px, 6.5px);
 }
-.btn_mobile.open:after {
+.btn_mobile.open::after {
   transform: rotateZ(-45deg) scaleX(1.25) translate(6px, -6px);
 }
 </style>

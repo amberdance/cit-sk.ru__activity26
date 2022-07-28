@@ -68,7 +68,7 @@ export default {
   flex-direction: column;
   text-align: center;
   position: relative;
-  top: 100px;
+  top: 150px;
   word-break: break-word;
   z-index: 10;
 }

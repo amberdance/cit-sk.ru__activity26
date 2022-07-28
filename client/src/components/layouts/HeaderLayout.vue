@@ -1,14 +1,8 @@
 <template>
-  <component
-    :is="navigationMenuComponent"
-    :menu="menu"
-    :isAuthorized="isAuthorized"
-  />
+  <component :is="navigationMenuComponent" :isAuthorized="isAuthorized" />
 </template>
 
 <script>
-import { navigationMenu } from "@/values";
-
 export default {
   computed: {
     isAuthorized() {
@@ -19,13 +13,12 @@ export default {
   data() {
     return {
       navigationMenuComponent: null,
-      menu: navigationMenu,
     };
   },
 
   created() {
     this.navigationMenuComponent = this.$isMobile()
-      ? () => import("@/components/shared/DesktopMenu.vue")
+      ? () => import("@/components/shared/MobileMenu.vue")
       : () => import("@/components/shared/DesktopMenu.vue");
   },
 };
