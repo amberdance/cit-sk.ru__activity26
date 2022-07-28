@@ -17,6 +17,6 @@ class ValidationHelper
      */
     public static function replacePhoneNumber(string $phone): string
     {
-        return preg_replace("/^(\+7)|[\D]/", "", $phone);
+        return preg_replace("/^(\+7)|8|-|[\D]/", "", $phone);
     }
 }
