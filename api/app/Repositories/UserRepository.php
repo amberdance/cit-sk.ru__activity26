@@ -49,6 +49,16 @@ class UserRepository implements UserRepositoryInterface
         return User::where('email', $email)->firstOrFail();
     }
 
+    /**
+     * @param string $phone
+     *
+     * @return User
+     */
+    public function getUserByPhone(string $phone): User
+    {
+        return User::where('phone', $phone)->firstOrFail();
+    }
+
     public function store(array $params): User
     {
 

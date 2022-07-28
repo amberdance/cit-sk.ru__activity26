@@ -170,6 +170,8 @@ export default {
 
   methods: {
     async submit() {
+      // await this.$http.get(`/polls/${this.poll.id}/results`);
+      // return;
       if (!this.isAuthorized) this.showAuthDialog();
       else await this.vote();
     },

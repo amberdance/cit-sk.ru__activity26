@@ -33,6 +33,13 @@ interface UserRepositoryInterface
     public function getUserByEmail(string $email): User;
 
     /**
+     * @param string $phone
+     *
+     * @return User
+     */
+    public function getUserByPhone(string $phone): User;
+
+    /**
      * @param array $params
      *
      * @return User

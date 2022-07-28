@@ -11,12 +11,23 @@
         :rules="formRules"
         :show-message="false"
       >
-        <el-form-item prop="login">
+        <el-form-item v-if="isLoginEmail" prop="login">
           <el-input
             v-model="formData.login"
-            placeholder="логин"
+            placeholder="email"
             autofocus
             prefix-icon="el-icon-user"
+          />
+        </el-form-item>
+
+        <el-form-item v-else prop="login">
+          <el-input
+            v-model="formData.login"
+            v-mask="'+7(###)#######'"
+            placeholder="+7(999)9999999"
+            prefix-icon="el-icon-phone"
+            type="tel"
+            clearable
           />
         </el-form-item>
 
@@ -30,6 +41,13 @@
           />
         </el-form-item>
 
+        <el-switch
+          v-model="isLoginEmail"
+          @change="formData.login = null"
+          class="mt-3 mb-3 w-100"
+          active-text="Вход по email"
+          inactive-text="Вход по номеру телефона"
+        ></el-switch>
         <el-button
           type="primary"
           style="width: 100%"
@@ -48,7 +66,8 @@
 </template>
 
 <script>
-import { emailValidator } from "@/utils/validator";
+import { emailValidator, phoneNumberValidator } from "@/utils/validator";
+import { mask } from "vue-the-mask";
 
 export default {
   props: {
@@ -58,9 +77,12 @@ export default {
     },
   },
 
+  directives: { mask },
+
   data() {
     return {
       isLoading: false,
+      isLoginEmail: true,
 
       formData: {
         login: null,
@@ -70,15 +92,31 @@ export default {
       formRules: {
         login: [
           {
-            trigger: "blur",
-            validator: (rule, email, callback) =>
-              emailValidator(email)
-                ? callback()
-                : callback(new Error("Укажите адрес электронной почты")),
+            trigger: "change",
+            validator: (rule, value, callback) => {
+              console.log(value, phoneNumberValidator(value));
+
+              if (this.isLoginEmail)
+                emailValidator(value)
+                  ? callback()
+                  : callback(new Error("Укажите адрес электронной почты"));
+              else
+                phoneNumberValidator(value)
+                  ? callback()
+                  : callback(
+                      new Error("Укажите номер телефона в формате +79999999999")
+                    );
+            },
           },
         ],
 
-        password: [{ required: "true", trigger: "blur" }],
+        password: [
+          {
+            required: "true",
+            trigger: "blur",
+            message: "Укажите пароль",
+          },
+        ],
       },
     };
   },

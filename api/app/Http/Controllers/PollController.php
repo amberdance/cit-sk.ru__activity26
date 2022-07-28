@@ -67,4 +67,10 @@ class PollController extends Controller
         return Response::jsonSuccess();
     }
 
+    public function results(int $id): JsonResponse
+    {
+
+        return Response::jsonSuccess($this->pollRepository->getResultsByPollId($id));
+    }
+
 }

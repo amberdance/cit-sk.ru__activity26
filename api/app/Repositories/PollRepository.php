@@ -142,6 +142,20 @@ class PollRepository implements PollRepositoryInterface
         return $result;
     }
 
+    public function getResultsByPollId(int $pollId)
+    {
+        // $totalAnswersCount = PollAnswer::select('id')->where('poll_id', $pollId)->count();
+        $answers = PollAnswer::select('question.id', 'question.label')
+            ->join('poll_questions as question', 'poll_answers.question_id', '=', 'question.id')
+            ->groupBy('question.id')
+            ->having('poll_answers.poll_id', '=', $pollId)
+            // ->where("poll_answers.poll_id", $pollId)
+            ->get();
+
+        return $answers;
+        // return $totalAnswersCount;
+    }
+
     /**
      * @return int
      */
@@ -149,4 +163,5 @@ class PollRepository implements PollRepositoryInterface
     {
         return PollAnswer::all('id')->count();
     }
+
 }
