@@ -38,6 +38,11 @@
         </div>
 
         <div class="year">{{ getYear() }}</div>
+        <div class="privacy">
+          <router-link to="/privacy-policy"
+            >Политика конфиденциальности</router-link
+          >
+        </div>
       </div>
     </footer>
   </div>

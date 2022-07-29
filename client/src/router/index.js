@@ -44,6 +44,12 @@ const routes = [
     component: () => import("@/components/shared/RegistrationForm"),
     meta: { onlyForUnauthorized: true },
   },
+
+  {
+    path: "/privacy-policy",
+    component: () => import("@/components/shared/PrivacyPolicy"),
+    meta: { onlyForUnauthorized: true },
+  },
 ];
 
 const router = new VueRouter({
