@@ -106,7 +106,7 @@
               <el-input
                 v-model="formData.phone"
                 v-mask="'+7##########'"
-                placeholder="+7(999)9999999"
+                placeholder="+79999999999"
                 type="tel"
                 clearable
                 :disabled="isFormSubmitted"

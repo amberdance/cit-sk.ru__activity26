@@ -15,6 +15,7 @@
         class="drawer"
         size="100%"
         direction="ltr"
+        ref="drawer"
         :visible="isDrawerOpened"
         :with-header="false"
         :wrapper-closable="false"
@@ -33,6 +34,7 @@
               <router-link to="/login">
                 <span>Вход</span> <i class="el-icon-arrow-right"></i
               ></router-link>
+
               <router-link to="/registration"
                 ><span>Регистрация</span> <i class="el-icon-arrow-right"></i
               ></router-link>
@@ -45,6 +47,7 @@
               :key="i"
               :to="item.link"
               class="nav_item"
+              @click.native="handleClickLink($event, item)"
             >
               <span> {{ item.label }}</span>
               <i class="el-icon-arrow-right"></i>
@@ -80,6 +83,13 @@ export default {
   methods: {
     opendrawer() {
       this.isDrawerOpened = !this.isDrawerOpened;
+    },
+
+    handleClickLink(event, item) {
+      if (this.$route.path == "/home" && "scroll" in item) {
+        this.isDrawerOpened = false;
+        this.$scrollTo(item.scroll);
+      }
     },
   },
 };

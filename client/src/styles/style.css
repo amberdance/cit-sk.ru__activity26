@@ -255,9 +255,11 @@ section {
   color: var(--color-primary) !important;
 }
 
-.poll .el-radio-group label {
+.poll .el-radio-group label,
+.poll .el-checkbox {
   display: flex;
   align-items: center;
+  margin-bottom: 0.6rem;
 }
 
 .poll .el-radio__label,
@@ -285,11 +287,7 @@ section {
   top: 6px !important;
 }
 
-.poll .el-checkbox {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
+
 
 .el-textarea__inner:hover {
   border-color: var(--color-primary) !important;

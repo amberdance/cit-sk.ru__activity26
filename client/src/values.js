@@ -25,5 +25,6 @@ export const MOBILE_MENU = [
   {
     label: "Опросы",
     link: "/polls",
+    scroll: "#polls",
   },
 ];
