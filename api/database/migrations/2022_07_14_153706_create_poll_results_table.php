@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('poll_answers', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('poll_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('poll_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('poll_id')->references('id')->on('polls')->onDelete('cascade');
             $table->integer('question_id');
             $table->integer('variant_id');
             $table->string('user_answer', 900)->nullable();

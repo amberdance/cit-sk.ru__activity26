@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('poll_questions', function (Blueprint $table) {
             $table->id();
-            $table->integer('poll_id');
+            $table->unsignedBigInteger('poll_id');
+            $table->foreign('poll_id')->references('id')->on('polls')->onDelete('cascade');
             $table->integer('sort')->default(500);
             $table->string('label');
             $table->string('description')->nullable();
