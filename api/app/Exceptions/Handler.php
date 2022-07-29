@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-use App\Http\Constants;
+use App\Constants;
 use App\Http\Response;
 use Exception;
 use Illuminate\Auth\AuthenticationException;

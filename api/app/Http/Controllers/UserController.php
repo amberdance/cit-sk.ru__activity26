@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ValidationHelper;
-use App\Http\Constants;
+use App\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Constants;
+use App\Constants;
 use App\Http\Response;
 use App\Interfaces\RegistrationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
