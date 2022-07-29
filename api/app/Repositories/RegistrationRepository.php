@@ -19,8 +19,8 @@ class RegistrationRepository implements RegistrationRepositoryInterface
             'type'        => $params['type'] ?? 'call',
             'user_id'     => $params['user_id'],
             'verify_code' => $params['verify_code'],
-            'error_code'  => $params['response']['msg']['err_code'],
-            'message_id'  => $params['response']['data']['id'],
+            'error_code'  => $params['response']['msg']['err_code'] ?? 123,
+            'message_id'  => $params['response']['data']['id'] ?? 123,
         ]);
     }
 
