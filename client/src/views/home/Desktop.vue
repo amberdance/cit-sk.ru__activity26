@@ -24,13 +24,11 @@
     <section id="counters"><Counters /></section>
     <section id="news"><News /></section>
     <section id="polls"><PollsList /></section>
-    <FooterLayout id="footer" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout.vue";
-import FooterLayout from "@/components/layouts/FooterLayout.vue";
 import Parallax from "@/components/shared/Parallax.vue";
 import Counters from "@/components/shared/Counters.vue";
 import News from "@/components/shared/News.vue";
@@ -44,7 +42,6 @@ export default {
     Counters,
     PollsList,
     News,
-    FooterLayout,
   },
 
   data() {

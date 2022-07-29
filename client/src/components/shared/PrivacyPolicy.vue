@@ -504,8 +504,8 @@
             ><br /><span
               >14.3. Актуальная версия Политики в свободном доступе расположена
               в сети Интернет по адресу
-              <a :href="`${SITE_URL}/privacy-policy`"
-                >{{ SITE_URL }}/privacy-policy</a
+              <router-link to="/privacy-policy"
+                >{{ SITE_URL }}/privacy-policy</router-link
               ></span
             >
           </div>
@@ -534,7 +534,7 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   background-color: #ffffff;
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .wrapper .heading {
