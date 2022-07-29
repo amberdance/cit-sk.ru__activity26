@@ -175,9 +175,17 @@ class PollRepository implements PollRepositoryInterface
     /**
      * @return int
      */
-    public function getPassedPollsCount(): int
+    public function getPassedPollsCount(bool $isCountDeletedUsers = false): int
     {
-        return PollAnswer::all('id')->count();
+        $result = 0;
+
+        if ($isCountDeletedUsers) {
+            $result = PollAnswer::all('id')->count();
+        } else {
+            $result = PollAnswer::select('poll_answers.id')->join('users', 'users.id', '=', 'poll_answers.user_id')->count();
+        }
+
+        return $result;
     }
 
 }
