@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Constants;
+use App\Constants;
 use App\Http\Controllers\Controller;
 use App\Http\Response;
 use App\Interfaces\PollRepositoryInterface;
@@ -28,7 +28,7 @@ class PollController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return Response::jsonSuccess($this->pollRepository->getAllPolls($request->filters, $request->limit));
+        return Response::jsonSuccess($this->pollRepository->getAllPolls($request->all()));
     }
 
     /**

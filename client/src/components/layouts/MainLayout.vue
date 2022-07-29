@@ -2,11 +2,11 @@
   <div :class="isInnerPage ? 'root' : null">
     <HeaderLayout id="top" />
 
-    <div v-if="isInnerPage" class="overlay"></div>
-
     <el-main :class="isInnerPage ? 'content' : null">
       <slot></slot>
     </el-main>
+
+    <FooterLayout id="footer" />
 
     <transition name="el-fade-in">
       <CookiePolicy
@@ -31,11 +31,13 @@
 
 <script>
 import HeaderLayout from "./HeaderLayout";
+import FooterLayout from "./FooterLayout";
 import CookiePolicy from "../shared/CookiePolicy";
 
 export default {
   components: {
     HeaderLayout,
+    FooterLayout,
     CookiePolicy,
   },
 
@@ -87,14 +89,5 @@ export default {
 .content {
   padding-top: 100px !important;
   position: relative;
-}
-
-.overlay {
-  position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #6060601c;
 }
 </style>

@@ -36,6 +36,8 @@
 <style scoped>
 .cookie {
   z-index: 10000;
+  transform: translateZ(10000);
+  -webkit-transform: translateZ(10000);
   position: fixed;
   bottom: 0;
   background-color: #ffffff;

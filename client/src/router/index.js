@@ -29,20 +29,35 @@ const routes = [
   },
 
   {
-    path: "/polls/:id",
+    path: "/registration",
+    component: () => import("@/components/shared/RegistrationForm"),
+    meta: { onlyForUnauthorized: true },
+  },
+
+  {
+    path: "/poll/results",
+    component: () => import("@/components/polls/PollResultList"),
+  },
+
+  {
+    path: "/poll/:id",
     component: () => import("@/components/polls/Poll"),
   },
 
   {
-    path: "/polls/:id/result",
+    path: "/poll/:id/result",
     name: "PollResult",
     component: () => import("@/components/polls/PollResult"),
   },
 
   {
-    path: "/registration",
-    component: () => import("@/components/shared/RegistrationForm"),
-    meta: { onlyForUnauthorized: true },
+    path: "/polls",
+    component: () => import("@/components/polls/PollList"),
+  },
+
+  {
+    path: "/privacy-policy",
+    component: () => import("@/components/shared/PrivacyPolicy"),
   },
 ];
 

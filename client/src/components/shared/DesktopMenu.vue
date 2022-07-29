@@ -146,12 +146,14 @@ export default {
 
 <style scoped>
 .header {
-  padding: 1rem 0 !important;
+  padding: 0.5rem 0 !important;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 20;
+  transform: translateZ(20);
+  -webkit-transform: translateZ(20);
 }
 .header_wrapper {
   background-color: #ffffff;

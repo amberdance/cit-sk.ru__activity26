@@ -70,7 +70,7 @@
   --color-divider: #dddddd;
   --color-font--primary: #363636;
   --color-font--secondary: #ffffff;
-  --header-height: 80px;
+  --header-height: 64px;
 }
 
 /************************** NORMALIZED ***************************/
@@ -119,6 +119,7 @@ li {
 
 section {
   position: relative;
+  margin: 2rem 0;
   background-color: var(--color-section);
 }
 
@@ -165,9 +166,6 @@ section {
   justify-content: center !important;
 }
 
-.section {
-  margin: 2rem 0;
-}
 
 .icon-mini {
   height: 20px;
@@ -180,6 +178,10 @@ section {
 
 .shadowed {
   box-shadow: 4px 3px 7px 0px #80808045 !important;
+}
+
+.w-100 {
+  width: 100% !important;
 }
 
 /************************** APP ***************************/
@@ -251,9 +253,11 @@ section {
   color: var(--color-primary) !important;
 }
 
-.poll .el-radio-group label {
+.poll .el-radio-group label,
+.poll .el-checkbox {
   display: flex;
   align-items: center;
+  margin-bottom: 0.6rem;
 }
 
 .poll .el-radio__label,
@@ -281,11 +285,7 @@ section {
   top: 6px !important;
 }
 
-.poll .el-checkbox {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
+
 
 .el-textarea__inner:hover {
   border-color: var(--color-primary) !important;
@@ -303,6 +303,8 @@ section {
 
 .up_btn {
   z-index: 999;
+  transform: translateZ(999);
+  -webkit-transform: translateZ(999);
   position: fixed;
   right: 20px;
   bottom: 20px;
@@ -332,15 +334,26 @@ section {
   font-weight: bold;
 }
 
-.el-progress-bar__outer{
+.el-progress-bar__outer {
   height: 8px !important;
   border-radius: 0 !important;
 }
+
+.el-notification {
+  -webkit-transform: translateZ(2000);
+  transform: translateZ(2000);
+}
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 960px) {
   .v-modal {
-    top: var(--header-height);
+    top: calc(var(--header-height) - 1px);
   }
 }
 

@@ -22,16 +22,14 @@
     <section id="counters"><Counters /></section>
     <section id="news"><News /></section>
     <section id="polls"><PollsList /></section>
-    <FooterLayout id="footer" />
   </MainLayout>
 </template>
 
 <script>
 import MainLayout from "@/components/layouts/MainLayout";
-import FooterLayout from "@/components/layouts/FooterLayout";
 import Counters from "@/components/shared/Counters";
 import News from "@/components/shared/News";
-import PollsList from "@/components/polls/PollsList";
+import PollsList from "@/components/polls/PollListHome";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
@@ -40,7 +38,6 @@ export default {
     Counters,
     PollsList,
     News,
-    FooterLayout,
   },
 
   data() {
@@ -55,7 +52,6 @@ export default {
 .main_banner {
   min-height: 110vh;
   background: url(../../assets/bg_primary.webp);
-  background-attachment: fixed;
   background-position: 50% 100%;
   background-repeat: no-repeat;
   background-size: cover;
@@ -67,10 +63,12 @@ export default {
   align-items: center;
   flex-direction: column;
   text-align: center;
-  position: relative;
-  top: 150px;
   word-break: break-word;
   z-index: 10;
+  transform: translateZ(10);
+  -webkit-transform: translateZ(10);
+  padding-top: calc(var(--header-height) + 100px);
+  padding-bottom: 2rem;
 }
 .main_title {
   width: 100%;
@@ -88,15 +86,6 @@ export default {
 @media (max-width: 550px) {
   .main_title {
     font-size: 40px;
-  }
-
-  #counters {
-    display: none;
-  }
-}
-@media (max-height: 720px) {
-  .main_wrapper {
-    min-height: 130vh;
   }
 }
 </style>

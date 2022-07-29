@@ -11,7 +11,7 @@ export const matchPasswordsValidator = (
 };
 
 export const phoneNumberValidator = (phone) =>
-  /^(\+7[- ]?)?(\([9]{1}\d{2}\)?[- ]?)?[\d- ]{5,10}$/g.test(phone);
+  /^(\+7|7|8)?(9){1}?[\d]{9}$/g.test(phone);
 
 export const emailValidator = (email) =>
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
@@ -19,7 +19,7 @@ export const emailValidator = (email) =>
   );
 
 export const passwordStrengthValidator = (password) =>
-  /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,}).{8,}$/g.test(password);
+  /^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){1,}).{6,}$/g.test(password);
 
 export const incomeCallCodeValidator = (code) => /^\d{4}/g.test(code);
 

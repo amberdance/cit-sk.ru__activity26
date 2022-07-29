@@ -37,7 +37,15 @@
           </div>
         </div>
 
-        <div class="year">{{ getYear() }}</div>
+        <div class="row pt-3 pb-3">
+          <div class="col-6">{{ getYear() }}</div>
+
+          <div class="col">
+            <router-link to="/privacy-policy"
+              >Политика конфиденциальности</router-link
+            >
+          </div>
+        </div>
       </div>
     </footer>
   </div>

@@ -16,7 +16,8 @@ class CreateRegistrationVerifyTable extends Migration
         Schema::create('registration_verify', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('verify_code', false, true);
             $table->integer('error_code');
             $table->integer('message_id');

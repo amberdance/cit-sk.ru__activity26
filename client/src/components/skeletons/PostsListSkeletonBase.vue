@@ -4,7 +4,7 @@
       <template slot="template">
         <div class="row">
           <div
-            v-for="i in 4"
+            v-for="i in skeletonCount"
             :key="i"
             class="col-lg-3 col-md-6 col-sm-6 col-xs-12 skeleton_item"
           >
@@ -20,6 +20,17 @@
     </el-skeleton>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    skeletonCount: {
+      type: Number,
+      default: 4,
+    },
+  },
+};
+</script>
 
 <style scoped>
 .skeleton_item .image {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants;
 use App\Helpers\ValidationHelper;
-use App\Http\Constants;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
@@ -56,7 +56,8 @@ class UserController extends Controller
         }
 
         try {
-            $user       = $this->userRepository->store($request->all());
+            $user = $this->userRepository->store($request->all());
+
             $verifyCode = rand(1000, 9999);
             $params     = [
                 'user_id'     => $user->id,

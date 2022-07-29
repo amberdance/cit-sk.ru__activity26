@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('poll_variants', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('question_id');
+            $table->foreign('question_id')->references('id')->on('poll_questions')->onDelete('cascade');
             $table->integer('sort')->default(500);
-            $table->integer('question_id');
             $table->boolean('has_user_answer')->default(false);
             $table->string('label');
         });

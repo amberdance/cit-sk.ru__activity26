@@ -12,11 +12,12 @@
             >
           </div>
 
-          <div class="meta_wrapper">
-            <div v-if="poll.image" class="image_wrapper">
-              <img :src="poll.image" />
-            </div>
+          <div class="notification" v-if="poll.isCompleted">
+            <h2>Опрос завершен</h2>
+            <div>Результаты голосований распределились следующим образом:</div>
+          </div>
 
+          <div class="meta_wrapper">
             <div class="questions_wrapper">
               <div
                 v-for="question in questions"
@@ -108,20 +109,18 @@ export default {
   padding-bottom: 2rem;
 }
 
-.results_wrapper .auth_notice {
+.results_wrapper .notification {
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
   font-size: 18px;
   margin: 1.5rem 0;
-  padding: 0 1rem;
+  padding: 1rem;
   color: var(--color-font--secondary);
-  background-color: var(--color-danger);
+  background-color: var(--color-success);
 }
-.results_wrapper .auth_notice button {
-  margin: 1rem 0;
-}
+
 .results_wrapper .heading {
   display: flex;
   align-items: center;
@@ -162,10 +161,7 @@ export default {
 }
 
 .variant {
-  display: flex;
-  flex-direction: column;
   padding: 1rem 0;
-  border-bottom: 1px dashed var(--color-divider);
 }
 
 .variant .label {

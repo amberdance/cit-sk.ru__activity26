@@ -7,18 +7,20 @@ process.env.VUE_APP_API_URL =
 module.exports = {
   lintOnSave: process.env.NODE_ENV !== "production",
   productionSourceMap: true,
-  filenameHashing: true,
 
-  configureWebpack: {
-    performance: {
-      hints: false,
-    },
-
-    // optimization: {
-    //   splitChunks: {
-    //     minSize: 10000,
-    //     maxSize: 350000,
-    //   },
-    // },
+  configureWebpack: (config) => {
+    if (process.env.NODE_ENV === "production") {
+      config.output.filename =
+        "js/[name].[contenthash:8].min.js" +
+        "?v=" +
+        process.env.VUE_APP_VERSION;
+      config.output.chunkFilename =
+        "js/[name].[contenthash:8].min.js" +
+        "?v=" +
+        process.env.VUE_APP_VERSION;
+    } else {
+      config.output.filename = "js/[name].js";
+      config.output.chunkFilename = "js/[name].js";
+    }
   },
 };

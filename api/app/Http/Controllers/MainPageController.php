@@ -19,21 +19,11 @@ class MainPageController extends Controller
     {
 
         $pollRepository = new PollRepository;
-        $user           = new UserRepository;
-
-        $passedPollsCount = $pollRepository->getPassedPollsCount();
-        $pollsCount       = $pollRepository->getPollsCount();
-        $usersCount       = $user->getUsersCount();
-
-        if (env('USE_BOOSTED_STATISTICS')) {
-            $usersCount       = round($usersCount + 1 * env('USERS_COUNT_RATIO'));
-            $passedPollsCount = round(($usersCount * $passedPollsCount * $pollsCount) / 2.5);
-        }
 
         return Response::jsonSuccess([
-            'passed_polls_count' => $passedPollsCount,
-            'polls_count'        => $pollsCount,
-            'users_count'        => $usersCount,
+            'passed_polls_count' => $pollRepository->getPassedPollsCount(),
+            'polls_count'        => $pollRepository->getPollsCount(),
+            'users_count'        => (new UserRepository)->getUsersCount(true),
         ]);
     }
 

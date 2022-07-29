@@ -84,4 +84,17 @@ export default {
 .counters_wrapper .label {
   font-size: 18px;
 }
+
+@media (max-width: 550px) {
+  .counters_wrapper {
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+
+  .counters_wrapper .counter {
+    margin-bottom: 1rem;
+    border: none;
+    width: 100%;
+  }
+}
 </style>

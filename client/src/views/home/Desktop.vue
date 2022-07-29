@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <div class="main_banner">
-      <Paralax />
+      <Parallax />
 
       <div class="container-sm">
         <div class="main_wrapper">
@@ -24,27 +24,24 @@
     <section id="counters"><Counters /></section>
     <section id="news"><News /></section>
     <section id="polls"><PollsList /></section>
-    <FooterLayout id="footer" />
   </MainLayout>
 </template>
 
 <script>
-import MainLayout from "@/components/layouts/MainLayout.vue";
-import FooterLayout from "@/components/layouts/FooterLayout.vue";
-import Paralax from "@/components/shared/Paralax";
-import Counters from "@/components/shared/Counters.vue";
+import MainLayout from "@/components/layouts/MainLayout";
+import Parallax from "@/components/shared/Parallax";
+import Counters from "@/components/shared/Counters";
 import News from "@/components/shared/News";
-import PollsList from "@/components/polls/PollsList";
+import PollsList from "@/components/polls/PollListHome";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {
     MainLayout,
-    Paralax,
+    Parallax,
     Counters,
     PollsList,
     News,
-    FooterLayout,
   },
 
   data() {

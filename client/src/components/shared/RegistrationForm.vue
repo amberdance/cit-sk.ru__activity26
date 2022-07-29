@@ -105,8 +105,8 @@
             <el-form-item label="Телефон" prop="phone">
               <el-input
                 v-model="formData.phone"
-                v-mask="'+7(###)#######'"
-                placeholder="+7(999)9999999"
+                v-mask="'+7##########'"
+                placeholder="+79999999999"
                 type="tel"
                 clearable
                 :disabled="isFormSubmitted"
@@ -157,7 +157,10 @@
                 autocomplete="off"
               />
             </el-form-item>
-            <div class="hint">Поле обязательно для заполнения.</div>
+            <div class="hint">
+              Поле обязательно для заполнения. Только буквы латинского алфавита.
+              1 Цифра, 3 символа в нижнем регистре, 2 буквы в верхнем регистре.
+            </div>
           </div>
 
           <el-divider></el-divider>

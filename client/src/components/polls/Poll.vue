@@ -44,7 +44,7 @@
                   <el-radio-group
                     v-if="question.type == 'radio'"
                     v-model="formData[i][question.id]"
-                    :disabled="isVoted"
+                    :disabled="!isAuthorized"
                     @change="clearValidation(i)"
                   >
                     <el-radio
@@ -60,7 +60,7 @@
                     v-else
                     v-model="formData[i][question.id]"
                     :max="question.maxAllowed"
-                    :disabled="isVoted"
+                    :disabled="!isAuthorized"
                   >
                     <el-checkbox
                       v-for="variant in question.variants"
@@ -82,15 +82,7 @@
           </div>
 
           <div class="btn_group" v-if="isAuthorized">
-            <el-button
-              v-if="isVoted"
-              type="primary"
-              @click="$router.push('/home')"
-              >На главную страницу</el-button
-            >
-            <el-button v-else type="primary" @click="submit"
-              >Ответить</el-button
-            >
+            <el-button type="primary" @click="submit">Ответить</el-button>
           </div>
         </template>
       </div>
@@ -389,6 +381,7 @@ export default {
 }
 .poll_wrapper .btn_group {
   text-align: center;
+  padding: 0 1rem;
 }
 
 .questions_wrapper .question {
@@ -416,7 +409,7 @@ export default {
     align-items: flex-start !important;
   }
 
-  .auth_notice button {
+  .poll_wrapper button {
     width: 100% !important;
   }
 }

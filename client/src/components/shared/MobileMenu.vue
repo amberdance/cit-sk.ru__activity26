@@ -15,6 +15,7 @@
         class="drawer"
         size="100%"
         direction="ltr"
+        ref="drawer"
         :visible="isDrawerOpened"
         :with-header="false"
         :wrapper-closable="false"
@@ -33,6 +34,7 @@
               <router-link to="/login">
                 <span>Вход</span> <i class="el-icon-arrow-right"></i
               ></router-link>
+
               <router-link to="/registration"
                 ><span>Регистрация</span> <i class="el-icon-arrow-right"></i
               ></router-link>
@@ -45,6 +47,7 @@
               :key="i"
               :to="item.link"
               class="nav_item"
+              @click.native="handleClickLink($event, item)"
             >
               <span> {{ item.label }}</span>
               <i class="el-icon-arrow-right"></i>
@@ -81,6 +84,13 @@ export default {
     opendrawer() {
       this.isDrawerOpened = !this.isDrawerOpened;
     },
+
+    handleClickLink(event, item) {
+      if (this.$route.path == "/home" && "scroll" in item) {
+        this.isDrawerOpened = false;
+        this.$scrollTo(item.scroll);
+      }
+    },
   },
 };
 </script>
@@ -92,6 +102,8 @@ export default {
   left: 0;
   right: 0;
   z-index: 20;
+  transform: translateZ(20);
+  -webkit-transform: translateZ(20);
   height: var(--header-height);
 }
 
@@ -100,10 +112,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1rem;
+  padding: 0.3rem 1rem;
 }
 .drawer {
-  top: var(--header-height);
+  top: calc(var(--header-height) - 2px);
 }
 
 .header_wrapper img {
@@ -124,7 +136,6 @@ export default {
   justify-content: space-between;
   cursor: pointer;
   padding: 1rem 0;
-
   border-bottom: 1px solid var(--color-divider);
 }
 </style>
