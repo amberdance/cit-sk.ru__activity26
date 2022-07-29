@@ -65,6 +65,8 @@ export default {
   text-align: center;
   word-break: break-word;
   z-index: 10;
+  transform: translateZ(10);
+  -webkit-transform: translateZ(10);
   padding-top: calc(var(--header-height) + 100px);
   padding-bottom: 2rem;
 }

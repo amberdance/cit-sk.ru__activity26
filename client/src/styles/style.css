@@ -70,7 +70,7 @@
   --color-divider: #dddddd;
   --color-font--primary: #363636;
   --color-font--secondary: #ffffff;
-  --header-height: 60px;
+  --header-height: 64px;
 }
 
 /************************** NORMALIZED ***************************/
@@ -307,6 +307,8 @@ section {
 
 .up_btn {
   z-index: 999;
+  transform: translateZ(999);
+  -webkit-transform: translateZ(999);
   position: fixed;
   right: 20px;
   bottom: 20px;
@@ -341,11 +343,16 @@ section {
   border-radius: 0 !important;
 }
 
+.el-notification {
+  -webkit-transform: translateZ(2000);
+  transform: translateZ(2000);
+}
+
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 960px) {
   .v-modal {
-    top: var(--header-height);
+    top: calc(var(--header-height) - 1px);
   }
 }
 

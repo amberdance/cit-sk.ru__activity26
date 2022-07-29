@@ -152,6 +152,8 @@ export default {
   left: 0;
   right: 0;
   z-index: 20;
+  transform: translateZ(20);
+  -webkit-transform: translateZ(20);
 }
 .header_wrapper {
   background-color: #ffffff;

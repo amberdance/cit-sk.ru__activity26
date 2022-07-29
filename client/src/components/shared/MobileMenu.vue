@@ -92,6 +92,8 @@ export default {
   left: 0;
   right: 0;
   z-index: 20;
+  transform: translateZ(20);
+  -webkit-transform: translateZ(20);
   height: var(--header-height);
 }
 
@@ -100,10 +102,10 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 1rem;
+  padding: 0.3rem 1rem;
 }
 .drawer {
-  top: var(--header-height);
+  top: calc(var(--header-height) - 2px);
 }
 
 .header_wrapper img {
@@ -124,7 +126,6 @@ export default {
   justify-content: space-between;
   cursor: pointer;
   padding: 1rem 0;
-
   border-bottom: 1px solid var(--color-divider);
 }
 </style>

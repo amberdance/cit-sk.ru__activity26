@@ -105,7 +105,7 @@
             <el-form-item label="Телефон" prop="phone">
               <el-input
                 v-model="formData.phone"
-                v-mask="'+7(###)#######'"
+                v-mask="'+7##########'"
                 placeholder="+7(999)9999999"
                 type="tel"
                 clearable

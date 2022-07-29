@@ -5,6 +5,10 @@ export const APP_DESCRIPTION = () =>
 export const VALIDATE_DEFAULT_ERROR = "Поле обязательно для заполнения";
 
 export const DESKTOP_MENU = [
+  // {
+  //   label: "Результаты",
+  //   link: "/poll/results",
+  // },
   {
     label: "Опросы",
     link: "/polls",
@@ -15,19 +19,11 @@ export const DESKTOP_MENU = [
     link: "/contacts",
     scroll: "#footer",
   },
-  {
-    label: "О проекте",
-    link: "/about",
-  },
 ];
 
 export const MOBILE_MENU = [
   {
     label: "Опросы",
     link: "/polls",
-  },
-  {
-    label: "О проекте",
-    link: "/about",
   },
 ];

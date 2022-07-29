@@ -35,7 +35,7 @@
 
             <router-link
               v-else
-              :to="`/polls/${post.id}`"
+              :to="`/poll/${post.id}`"
               class="post_card shadowed rounded"
             >
               <div class="image_wrapper">

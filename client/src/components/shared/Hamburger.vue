@@ -18,6 +18,8 @@ export default {
 .btn_mobile {
   position: relative;
   z-index: 10;
+  transform: translateZ(10);
+  -webkit-transform: translateZ(10);
   width: 24px;
   height: 20px;
   cursor: pointer;

@@ -29,12 +29,17 @@ const routes = [
   },
 
   {
-    path: "/polls/:id",
+    path: "/poll/results",
+    component: () => import("@/components/polls/PollResultList"),
+  },
+
+  {
+    path: "/poll/:id",
     component: () => import("@/components/polls/Poll"),
   },
 
   {
-    path: "/polls/:id/result",
+    path: "/poll/:id/result",
     name: "PollResult",
     component: () => import("@/components/polls/PollResult"),
   },
