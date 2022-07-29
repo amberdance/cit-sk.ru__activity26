@@ -3,10 +3,12 @@
     <div class="container">
       <div class="heading">{{ heading }}</div>
 
-      <PostsListSkeletonBase v-if="loading" />
+      <PostsListSkeletonBase v-if="visible" :skeleton-count="skeletonCount" />
 
       <template v-else>
-        <div class="row posts_wrapper">
+        <div class="empty-text" v-if="!posts.length">{{ emptyText }}</div>
+
+        <div v-else class="row posts_wrapper">
           <div
             v-for="post in posts"
             class="col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -35,13 +37,17 @@
 
             <router-link
               v-else
-              :to="`/poll/${post.id}`"
+              :to="
+                post.isCompleted
+                  ? `/poll/${post.id}/result`
+                  : `/poll/${post.id}`
+              "
               class="post_card shadowed rounded"
             >
               <div class="image_wrapper">
                 <div
                   class="image"
-                  :style="`background-image:url(${post.image})`"
+                  :style="`background-image:url(${post.thumbnail})`"
                 ></div>
               </div>
 
@@ -68,7 +74,7 @@ export default {
   },
 
   props: {
-    loading: {
+    visible: {
       type: Boolean,
       required: false,
       default: false,
@@ -83,6 +89,16 @@ export default {
       type: Array,
       required: true,
     },
+
+    skeletonCount: {
+      type: Number,
+      default: 4,
+    },
+
+    emptyText: {
+      type: String,
+      default: "Ничего не найдено",
+    },
   },
 };
 </script>
@@ -93,14 +109,21 @@ export default {
 .posts .heading {
   text-align: center;
   font-size: 40px;
-  padding: 3rem 0 1rem 0;
+  padding: 1rem;
   font-weight: bold;
   position: relative;
   color: var(--color-font--primary);
   border-bottom: 3px solid var(--color-font--primary);
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
 }
 
+.posts .empty-text {
+  font-size: 20px;
+  text-align: center;
+  font-weight: bold;
+  padding: 2rem 0;
+  color: var(--color-danger);
+}
 .post_card {
   display: block;
   color: var(--color-font--primary);

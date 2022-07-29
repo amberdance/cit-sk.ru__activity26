@@ -29,6 +29,12 @@ const routes = [
   },
 
   {
+    path: "/registration",
+    component: () => import("@/components/shared/RegistrationForm"),
+    meta: { onlyForUnauthorized: true },
+  },
+
+  {
     path: "/poll/results",
     component: () => import("@/components/polls/PollResultList"),
   },
@@ -45,15 +51,13 @@ const routes = [
   },
 
   {
-    path: "/registration",
-    component: () => import("@/components/shared/RegistrationForm"),
-    meta: { onlyForUnauthorized: true },
+    path: "/polls",
+    component: () => import("@/components/polls/PollList"),
   },
 
   {
     path: "/privacy-policy",
     component: () => import("@/components/shared/PrivacyPolicy"),
-    meta: { onlyForUnauthorized: true },
   },
 ];
 

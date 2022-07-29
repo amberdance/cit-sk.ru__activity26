@@ -3,7 +3,7 @@
     v-if="news.length"
     heading="Новости"
     :posts="news"
-    :loading="isLoading"
+    :visible="isLoading"
   />
 </template>
 

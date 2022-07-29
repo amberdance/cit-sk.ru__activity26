@@ -1,5 +1,5 @@
 <template>
-  <PostsListBase heading="Опросы" :posts="polls" :loading="isLoading" />
+  <PostsListBase heading="Опросы" :posts="polls" :visible="isLoading" />
 </template>
 
 <script>
@@ -27,7 +27,10 @@ export default {
 
     try {
       this.isLoading = true;
-      await this.$store.dispatch("loadPolls", { limit: 4 });
+      await this.$store.dispatch("loadPolls", {
+        filter: "available",
+        limit: 4,
+      });
     } catch (e) {
       console.error(e);
     } finally {

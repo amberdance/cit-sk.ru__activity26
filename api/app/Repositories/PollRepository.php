@@ -23,26 +23,27 @@ class PollRepository implements PollRepositoryInterface
     /**
      * @return Collection
      */
-    public function getAllPolls(?array $params = null, ?int $limit = null): Collection
+    public function getAllPolls(?array $params = null): Collection
     {
 
         $select = Poll::select("polls.*", "poll_categories.label as category")
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
             ->orderByDesc('created_at');
 
-        if (is_array($params)) {
-            if (in_array('completed', $params)) {
-                $select->where('polls.is_completed', true);
+        if ($params) {
+            if (isset($params['filter'])) {
+                if ($params['filter'] == 'completed') {
+                    $select->where('polls.is_completed', true);
+                }
+
+                if ($params['filter'] == 'available') {
+                    $select->where('polls.is_completed', false);
+                }
             }
 
-            if (in_array('available', $params)) {
-                $select->where('polls.is_completed', false);
-
+            if (isset($params['limit'])) {
+                $select->take($params['limit']);
             }
-        }
-
-        if ($limit) {
-            $select->take($limit);
         }
 
         return $select->where('polls.is_active', true)
@@ -60,9 +61,8 @@ class PollRepository implements PollRepositoryInterface
     {
         return Poll::select("polls.*", "poll_categories.label as category")
             ->where([
-                'polls.id'           => $id,
-                'polls.is_active'    => true,
-                'polls.is_completed' => false,
+                'polls.id'        => $id,
+                'polls.is_active' => true,
             ])
             ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
             ->firstOrFail('label as category');
@@ -165,7 +165,7 @@ class PollRepository implements PollRepositoryInterface
                     ->count();
 
                 $result['questions'][$i]['variants'][$k]['answers_count'] = $answersCount;
-                $result['questions'][$i]['variants'][$k]['percent']       = round($answersCount / $totalAnswersCount, 1);
+                $result['questions'][$i]['variants'][$k]['percent']       = round($answersCount / $totalAnswersCount, 2);
             }
         }
 

@@ -29,7 +29,7 @@
 import MainLayout from "@/components/layouts/MainLayout";
 import Counters from "@/components/shared/Counters";
 import News from "@/components/shared/News";
-import PollsList from "@/components/polls/PollsList";
+import PollsList from "@/components/polls/PollListHome";
 import { APP_DESCRIPTION } from "@/values";
 
 export default {

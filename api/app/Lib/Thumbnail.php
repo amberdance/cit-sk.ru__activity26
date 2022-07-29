@@ -77,7 +77,7 @@ class Thumbnail
 
             $img->save($path);
 
-            return preg_replace("/.*assets\//", "", $path);
+            return preg_replace("/.*assets/", "", $path);
         } catch (ImageException $e) {
             throw new Exception($e);
         }

@@ -119,6 +119,7 @@ li {
 
 section {
   position: relative;
+  margin: 2rem 0;
   background-color: var(--color-section);
 }
 
@@ -165,9 +166,6 @@ section {
   justify-content: center !important;
 }
 
-.section {
-  margin: 2rem 0;
-}
 
 .icon-mini {
   height: 20px;
@@ -344,6 +342,11 @@ section {
 .el-notification {
   -webkit-transform: translateZ(2000);
   transform: translateZ(2000);
+}
+
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
 /************************** MEDIA QUERIES ***************************/

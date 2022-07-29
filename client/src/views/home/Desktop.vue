@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import MainLayout from "@/components/layouts/MainLayout.vue";
-import Parallax from "@/components/shared/Parallax.vue";
-import Counters from "@/components/shared/Counters.vue";
-import News from "@/components/shared/News.vue";
-import PollsList from "@/components/polls/PollsList.vue";
-import { APP_DESCRIPTION } from "@/values.js";
+import MainLayout from "@/components/layouts/MainLayout";
+import Parallax from "@/components/shared/Parallax";
+import Counters from "@/components/shared/Counters";
+import News from "@/components/shared/News";
+import PollsList from "@/components/polls/PollListHome";
+import { APP_DESCRIPTION } from "@/values";
 
 export default {
   components: {

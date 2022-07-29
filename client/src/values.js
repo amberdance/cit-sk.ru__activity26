@@ -12,7 +12,6 @@ export const DESKTOP_MENU = [
   {
     label: "Опросы",
     link: "/polls",
-    scroll: "#polls",
   },
   {
     label: "Контакты",

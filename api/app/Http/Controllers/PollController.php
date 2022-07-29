@@ -28,7 +28,7 @@ class PollController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        return Response::jsonSuccess($this->pollRepository->getAllPolls($request->filters, $request->limit));
+        return Response::jsonSuccess($this->pollRepository->getAllPolls($request->all()));
     }
 
     /**
