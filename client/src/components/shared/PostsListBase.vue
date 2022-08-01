@@ -38,7 +38,7 @@
             <router-link
               v-else
               :to="
-                post.isCompleted
+                hasResults || post.isCompleted
                   ? `/poll/${post.id}/result`
                   : `/poll/${post.id}`
               "
@@ -98,6 +98,11 @@ export default {
     emptyText: {
       type: String,
       default: "Ничего не найдено",
+    },
+
+    hasResults: {
+      type: Boolean,
+      default: false,
     },
   },
 };

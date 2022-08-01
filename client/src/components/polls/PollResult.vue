@@ -12,8 +12,10 @@
             >
           </div>
 
-          <div class="notification" v-if="poll.isCompleted">
-            <h2>Опрос завершен</h2>
+          <div class="notification">
+            <h2 v-if="poll.isCompleted">Опрос завершен</h2>
+            <div>Принято голосов: {{ poll.totalAnswersCount }}</div>
+            <br />
             <div>Результаты голосований распределились следующим образом:</div>
           </div>
 
@@ -93,11 +95,11 @@ export default {
     }
   },
 
-  methods: {
-    progressbarText(percentage, count) {
-      return (percentage) => percentage + "%" + "Голоса:" + count;
-    },
-  },
+  // methods: {
+  // progressbarText(percentage, count) {
+  //   return `Голоса:${count} / ${percentage}%`;
+  // },
+  // },
 };
 </script>
 
@@ -114,7 +116,7 @@ export default {
   flex-direction: column;
   align-items: center;
   flex-wrap: wrap;
-  font-size: 18px;
+  font-size: 20px;
   margin: 1.5rem 0;
   padding: 1rem;
   color: var(--color-font--secondary);

@@ -156,6 +156,8 @@ class PollRepository implements PollRepositoryInterface
             'questions' => $this->getPollQuestionsByPollId($pollId),
         ];
 
+        $result['poll']['total_answers_count'] = $totalAnswersCount;
+
         foreach ($result['questions'] as $i => $question) {
             foreach ($question['variants'] as $k => $variant) {
                 $answersCount = PollAnswer::select('id')
@@ -166,7 +168,7 @@ class PollRepository implements PollRepositoryInterface
                     ->count();
 
                 $result['questions'][$i]['variants'][$k]['answers_count'] = $answersCount;
-                $result['questions'][$i]['variants'][$k]['percent']       = round($answersCount / $totalAnswersCount, 2);
+                $result['questions'][$i]['variants'][$k]['percent']       = $answersCount == 0 ? 0 : round($answersCount / $totalAnswersCount, 2);
             }
         }
 
