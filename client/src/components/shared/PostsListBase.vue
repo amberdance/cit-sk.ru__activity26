@@ -60,6 +60,10 @@
             </router-link>
           </div>
         </div>
+
+        <div class="footer" v-if="$slots.footer">
+          <slot name="footer"></slot>
+        </div>
       </template>
     </div>
   </div>
