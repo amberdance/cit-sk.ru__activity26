@@ -129,7 +129,7 @@ class PollRepository implements PollRepositoryInterface
      *
      * @return int
      */
-    public function getPollsCount(bool $onlyActive = false): int
+    public function getPollsCount(bool $onlyActive = true): int
     {
         $result = 0;
 
