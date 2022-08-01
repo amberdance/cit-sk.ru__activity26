@@ -10,7 +10,7 @@
               :round="1"
               :duration="200"
             ></AnimatedNumber>
-            <span class="label">{{ labels[key] }}</span>
+            <span class="label">{{ getDeclination(count, key) }}</span>
           </div>
         </div>
       </div>
@@ -20,6 +20,7 @@
 
 <script>
 import AnimatedNumber from "animated-number-vue";
+import plural from "plural-ru";
 
 export default {
   components: {
@@ -30,9 +31,17 @@ export default {
     return {
       counters: {},
       labels: {
-        usersCount: "Активных граждан",
-        passedPollsCount: "Принято мнений",
-        pollsCount: "Всего опросов",
+        usersCount: [
+          "Активный гражданин",
+          "Активных граждан",
+          "Активных граждан",
+        ],
+        passedPollsCount: [
+          "Принято мнение",
+          "Принято мнения",
+          "Принято мнений",
+        ],
+        pollsCount: ["Опрос", "Опроса", "Всего опросов"],
       },
     };
   },
@@ -43,6 +52,17 @@ export default {
     } catch (e) {
       console.error(e);
     }
+  },
+
+  methods: {
+    getDeclination(count, key) {
+      return plural(
+        count,
+        this.labels[key][0],
+        this.labels[key][1],
+        this.labels[key][2]
+      );
+    },
   },
 };
 </script>
