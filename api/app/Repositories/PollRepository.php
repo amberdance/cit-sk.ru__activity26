@@ -27,8 +27,7 @@ class PollRepository implements PollRepositoryInterface
     {
 
         $select = Poll::select("polls.*", "poll_categories.label as category")
-            ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
-            ->orderByDesc('created_at');
+            ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id');
 
         if ($params) {
             if (isset($params['filter'])) {
@@ -49,6 +48,8 @@ class PollRepository implements PollRepositoryInterface
         return $select->where('polls.is_active', true)
             ->where('polls.active_to', '=', null)
             ->orWhere('polls.active_to', '>=', date('Y-m-d H:i:s'))
+            ->orderBy('polls.sort')
+            ->orderByDesc('polls.created_at')
             ->get('label as category');
     }
 
