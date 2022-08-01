@@ -19,9 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  *  @property string $updated_at
  */
 
-class Registration extends Model
+class SmsApi extends Model
 {
-    protected $table   = 'registration_verify';
+    protected $table   = 'sms_codes';
     protected $guarded = [];
 
     /**

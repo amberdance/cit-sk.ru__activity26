@@ -1,16 +1,16 @@
 <?php
 namespace App\Interfaces;
 
-use App\Models\Registration;
+use App\Models\SmsApi;
 
 interface RegistrationRepositoryInterface
 {
     /**
      * @param array $params
      * 
-     * @return Registration
+     * @return SmsApi
      */
-    public function store(array $params): Registration;
+    public function store(array $params): SmsApi;
 
     /**
      * @param int $userId

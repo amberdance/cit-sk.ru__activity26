@@ -2,7 +2,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\RegistrationRepositoryInterface;
-use App\Models\Registration;
+use App\Models\SmsApi;
 use DateTime;
 
 class RegistrationRepository implements RegistrationRepositoryInterface
@@ -11,11 +11,11 @@ class RegistrationRepository implements RegistrationRepositoryInterface
     /**
      * @param array $params
      *
-     * @return Registration
+     * @return SmsApi
      */
-    public function store(array $params): Registration
+    public function store(array $params): SmsApi
     {
-        return Registration::create([
+        return SmsApi::create([
             'type'        => $params['type'] ?? 'call',
             'user_id'     => $params['user_id'],
             'verify_code' => $params['verify_code'],
@@ -32,7 +32,7 @@ class RegistrationRepository implements RegistrationRepositoryInterface
     public function isVerifyCodeExpired(int $userId): bool
     {
 
-        $createdAt = Registration::select('created_at')
+        $createdAt = SmsApi::select('created_at')
             ->where('user_id', $userId)
             ->orderByDesc('id')
             ->firstOrFail()['created_at'];
@@ -52,7 +52,7 @@ class RegistrationRepository implements RegistrationRepositoryInterface
      */
     public function increaseAttempts(int $userId): void
     {
-        Registration::where('user_id', $userId)
+        SmsApi::where('user_id', $userId)
             ->orderByDesc('id')
             ->firstOrFail()
             ->increment('attempts');
@@ -66,7 +66,7 @@ class RegistrationRepository implements RegistrationRepositoryInterface
      */
     public function isVerifyCodeMatched(int $userId, int $codeToCompare): bool
     {
-        $code = Registration::select('verify_code')
+        $code = SmsApi::select('verify_code')
             ->where('user_id', $userId)
             ->orderByDesc('id')
             ->firstOrFail()['verify_code'];

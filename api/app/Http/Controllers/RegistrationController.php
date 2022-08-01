@@ -7,7 +7,7 @@ use App\Http\Response;
 use App\Interfaces\RegistrationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
-use App\Models\Registration;
+use App\Models\SmsApi;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -100,7 +100,7 @@ class RegistrationController extends Controller
         $this->registrationRepository->store([
             'user_id'     => $user->id,
             'verify_code' => $verifyCode,
-            'response'    => Registration::makeIncomeCall($user->phone, $verifyCode),
+            'response'    => SmsApi::makeIncomeCall($user->phone, $verifyCode),
         ]);
 
         return Response::jsonSuccess();

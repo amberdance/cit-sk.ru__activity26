@@ -64,7 +64,7 @@ class UserController extends Controller
             $params     = [
                 'user_id'     => $user->id,
                 'verify_code' => $verifyCode,
-                'response'    => \App\Models\Registration::makeIncomeCall($user->phone, $verifyCode),
+                'response'    => \App\Models\SmsApi::makeIncomeCall($user->phone, $verifyCode),
             ];
 
             (new \App\Repositories\RegistrationRepository)->store($params);
