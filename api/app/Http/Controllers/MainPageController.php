@@ -23,7 +23,7 @@ class MainPageController extends Controller
         return Response::jsonSuccess([
             'passed_polls_count' => $pollRepository->getPassedPollsCount(),
             'polls_count'        => $pollRepository->getPollsCount(),
-            'users_count'        => (new UserRepository)->getUsersCount(true),
+            'users_count'        => (new UserRepository)->getUsersCount(),
         ]);
     }
 

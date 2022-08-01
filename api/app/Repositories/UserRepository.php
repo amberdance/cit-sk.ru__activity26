@@ -118,7 +118,7 @@ class UserRepository implements UserRepositoryInterface
      *
      * @return int
      */
-    public function getUsersCount(bool $onlyVerified = false): int
+    public function getUsersCount(bool $onlyVerified = true): int
     {
         $result = 0;
 

@@ -81,7 +81,6 @@ export default {
 .polls_wrapper {
   padding-bottom: 2rem;
 }
-
 .filter_wrapper {
   padding: 1rem;
   text-align: right;
