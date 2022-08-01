@@ -1,62 +1,29 @@
 <template>
   <MainLayout>
     <div class="container">
-      <div class="results">
+      <div class="polls results">
         <PostsListBase
           heading="Результаты опросов"
           :visible="isLoading"
           :posts="polls"
           :has-results="true"
-        />
+        >
+          <template #footer v-if="pagination.total !== polls.length">
+            <div class="w-100 a-center mt-3">
+              <el-button type="primary" @click="paginate(true)"
+                >Показать еще</el-button
+              >
+            </div></template
+          >
+        </PostsListBase>
       </div>
     </div>
   </MainLayout>
 </template>
-
 <script>
-import MainLayout from "../layouts/MainLayout.vue";
-import PostsListBase from "../shared/PostsListBase.vue";
+import pagination from "@/mixins/pollsPagination.js";
 
 export default {
-  components: { PostsListBase, MainLayout },
-
-  data() {
-    return {
-      isLoading: false,
-      polls: [],
-      filter: "all",
-      pageNumber: 1,
-      countPerPage: 10,
-    };
-  },
-
-  async created() {
-    await this.getPolls();
-  },
-
-  methods: {
-    async getPolls() {
-      try {
-        this.isLoading = true;
-
-        this.polls = await this.$http.get("/polls", {
-          limit: this.countPerPage,
-          pageNumber: this.pageNumber,
-        });
-      } catch (e) {
-        this.$onError();
-        console.error(e);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-  },
+  mixins: [pagination],
 };
 </script>
-
-<style scoped>
-.results {
-  padding-bottom: 2rem;
-  background-color: #ffffff;
-}
-</style>

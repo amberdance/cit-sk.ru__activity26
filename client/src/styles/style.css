@@ -355,7 +355,28 @@ section {
   border-color: var(--color-primary);
 }
 
+.polls {
+  background-color: #ffffff;
+}
+
+.polls .polls_wrapper {
+  padding-bottom: 2rem;
+}
+
+.polls .filter_wrapper {
+  padding: 1rem;
+  text-align: right;
+}
+
+
+
 /************************** MEDIA QUERIES ***************************/
+
+@media (max-width: 390px) {
+  .polls .footer button {
+    width: 100%;
+  }
+}
 
 @media (max-width: 410px) {
   .el-radio-group {
