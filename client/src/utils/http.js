@@ -15,7 +15,7 @@ const errorCollection = {
     422: (e) => {
       return Promise.reject({
         code: e.response.status,
-        message: e.response.data.message,
+        message: e.response.data.message || e.response.data.error.message,
         errors: e.errors,
       });
     },

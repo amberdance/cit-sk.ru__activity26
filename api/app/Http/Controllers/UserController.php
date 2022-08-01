@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Constants;
+use App\Exceptions\PhoneVerifyException;
 use App\Helpers\ValidationHelper;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class UserController extends Controller
@@ -33,29 +35,29 @@ class UserController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        $request->validate([
-            'firstName'       => 'required',
-            'lastName'        => 'required',
-            'confirmPassword' => 'required',
-            'address'         => 'required',
-            'districtId'      => 'required',
-            'address'         => 'required',
-            'birthday'        => ['required', 'regex:' . ValidationHelper::BIRTHDAY_REGEXP],
-            'password'        => ['required', 'regex:' . ValidationHelper::PASSWORD_REGEXP],
-            'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
-        ]);
-
-        if ($request->email) {
-            $request->validate([
-                'email' => 'email',
-            ]);
-        }
-
-        if ($request->password !== $request->confirmPassword) {
-            return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
         try {
+            $request->validate([
+                'firstName'       => 'required',
+                'lastName'        => 'required',
+                'confirmPassword' => 'required',
+                'address'         => 'required',
+                'districtId'      => 'required',
+                'address'         => 'required',
+                'birthday'        => ['required', 'regex:' . ValidationHelper::BIRTHDAY_REGEXP],
+                'password'        => ['required', 'regex:' . ValidationHelper::PASSWORD_REGEXP],
+                'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
+            ]);
+
+            if ($request->email) {
+                $request->validate([
+                    'email' => 'email',
+                ]);
+            }
+
+            if ($request->password !== $request->confirmPassword) {
+                return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
             $user = $this->userRepository->store($request->all());
 
             $verifyCode = rand(1000, 9999);
@@ -82,6 +84,15 @@ class UserController extends Controller
             ],
                 Response::HTTP_CREATED
             );
+        } catch (ValidationException $e) {
+            return Response::jsonError(422, $e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+
+        } catch (PhoneVerifyException $e) {
+            if ($user->id) {
+                $user->delete();
+            }
+
+            return Response::jsonError($e->getCode(), $e->getMessage());
         } catch (Throwable $e) {
 
             if (property_exists($e, 'errorInfo')) {
@@ -93,7 +104,7 @@ class UserController extends Controller
                 }
             }
 
-            return Response::jsonError(0, $e->getMessage());
+            return Response::jsonError($e->getCode() ?? 0, $e->getMessage());
         }
     }
 

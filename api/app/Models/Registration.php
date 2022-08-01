@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Constants;
+use App\Exceptions\PhoneVerifyException;
+use Error;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -47,9 +50,12 @@ class Registration extends Model
 
         $result = json_decode(curl_exec($curl), true);
 
+        if ($result['response']['msg']['err_code'] != 0) {
+            throw new PhoneVerifyException(Constants::FAILED_SEND_SMS_MESSAGE . " " . $phoneNumber, Constants::FAILED_SEND_SMS_CODE);
+        }
+
         curl_close($curl);
 
         return $result['response'] ?? [];
     }
-
 }

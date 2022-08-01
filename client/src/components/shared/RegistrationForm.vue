@@ -350,26 +350,37 @@ export default {
         this.isFormSubmitted = true;
         this.$refs.phoneVerifyDialog.show(uuid);
       } catch (e) {
-        if (e.code == 422) {
-          if (e.message.includes("email"))
-            return this.$onWarning("Некорректный формат электронной почты");
-
-          if (e.message.includes("phone"))
-            return this.$onWarning("Некорректный формат номера телефона");
-        }
-
-        if (e.code == 1062) {
-          if (e.message.includes("mail"))
-            return this.$onWarning(
-              "Такой адрес электронной почты уже зарегистрирован"
+        switch (e.code) {
+          case 13:
+            this.$onWarning(
+              `Не удалось отправить проверочный смс-код на номер телефона: ${this.formData.phone}`
             );
+            break;
 
-          if (e.message.includes("phone"))
-            return this.$onWarning("Такой номер телефона уже зарегистрирован");
+          case 422:
+            if (e.message.includes("email"))
+              this.$onWarning("Некорректный формат электронной почты");
+
+            if (e.message.includes("phone"))
+              this.$onWarning("Некорректный формат номера телефона");
+
+            break;
+
+          case 1062:
+            if (e.message.includes("mail"))
+              this.$onWarning(
+                "Такой адрес электронной почты уже зарегистрирован"
+              );
+
+            if (e.message.includes("phone"))
+              this.$onWarning("Такой номер телефона уже зарегистрирован");
+
+            break;
+
+          default:
+            this.$onError();
+            console.error(e);
         }
-
-        this.$onError();
-        console.error(e);
       } finally {
         this.isLoading = false;
       }
