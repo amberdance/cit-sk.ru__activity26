@@ -112,9 +112,14 @@ export default {
   }
 
   .counters_wrapper .counter {
-    margin-bottom: 1rem;
     border: none;
     width: 100%;
+  }
+
+  .counters_wrapper .meta {
+    border-bottom: 1px #ffffff solid;
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 }
 </style>
