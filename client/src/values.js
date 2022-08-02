@@ -32,3 +32,35 @@ export const MOBILE_MENU = [
     link: "/poll/results",
   },
 ];
+
+export const FOOTER_LINKS = [
+  {
+    label: "Музеи Ставропольского края",
+    link: "https://www.culture.ru/museums/institutes/location-stavropolskiy-kray",
+  },
+
+  {
+    label:
+      "Министерство туризма и оздоровительных курортов Ставропольского края",
+    link: "http://mintourism26.ru/",
+  },
+
+  {
+    label: "Министерство культуры Ставропольского края",
+    link: "http://mincultsk.ru/",
+  },
+];
+
+export const FOOTER_CONTACTS = {
+  address: {
+    heading: "Адрес",
+    icon: "el-icon-location-outline",
+    title: "350018 г. Краснодар, ул. Магистральная, 68",
+  },
+
+  phone: {
+    heading: "Телефон",
+    icon: "el-icon-phone-outline",
+    title: "(861)260-62-31",
+  },
+};
