@@ -6,8 +6,7 @@
         <el-divider />
 
         <div class="sub-heading">
-          Допускаются буквы латинского алфавита, состоящие из 1 цифры, 3 букв в
-          нижнем регистре, 2 букв в верхнем регистре.
+          {{ passwordStrength }}
         </div>
 
         <el-form
@@ -63,6 +62,7 @@ import {
   passwordStrengthValidator,
   matchPasswordsValidator,
 } from "@/utils/validator";
+import { PASSWORD_STRENGTH_TEXT } from "../../values";
 
 export default {
   components: { MainLayout },
@@ -70,6 +70,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      passwordStrength: PASSWORD_STRENGTH_TEXT,
 
       formData: {
         password: null,

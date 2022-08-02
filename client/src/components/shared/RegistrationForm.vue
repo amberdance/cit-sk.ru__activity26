@@ -158,8 +158,7 @@
               />
             </el-form-item>
             <div class="hint">
-              Допускаются буквы латинского алфавита, состоящие из 1 цифры, 3
-              букв в нижнем регистре, 2 букв в верхнем регистре.
+              {{ passwordStrength }}
             </div>
           </div>
 
@@ -202,7 +201,7 @@ import {
   phoneNumberValidator,
   birthdatValidator,
 } from "@/utils/validator";
-import { VALIDATE_DEFAULT_ERROR } from "@/values";
+import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
 export default {
   components: {
@@ -217,6 +216,7 @@ export default {
     return {
       isLoading: false,
       isFormSubmitted: false,
+      passwordStrength: PASSWORD_STRENGTH_TEXT,
       districts: [],
 
       formData: {
