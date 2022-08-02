@@ -158,8 +158,7 @@
               />
             </el-form-item>
             <div class="hint">
-              Поле обязательно для заполнения. Только буквы латинского алфавита.
-              1 Цифра, 3 символа в нижнем регистре, 2 буквы в верхнем регистре.
+              {{ passwordStrength }}
             </div>
           </div>
 
@@ -202,7 +201,7 @@ import {
   phoneNumberValidator,
   birthdatValidator,
 } from "@/utils/validator";
-import { VALIDATE_DEFAULT_ERROR } from "@/values";
+import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
 export default {
   components: {
@@ -217,6 +216,7 @@ export default {
     return {
       isLoading: false,
       isFormSubmitted: false,
+      passwordStrength: PASSWORD_STRENGTH_TEXT,
       districts: [],
 
       formData: {
@@ -314,7 +314,7 @@ export default {
   async created() {
     try {
       this.isLoading = true;
-      const { districts } = await this.$http.get("/registration/districts");
+      const { districts } = await this.$http.get("/users/districts");
       this.districts = districts;
     } catch (e) {
       this.$onError("Не удалось загрузить список регионов");
@@ -350,26 +350,37 @@ export default {
         this.isFormSubmitted = true;
         this.$refs.phoneVerifyDialog.show(uuid);
       } catch (e) {
-        if (e.code == 422) {
-          if (e.message.includes("email"))
-            return this.$onWarning("Некорректный формат электронной почты");
-
-          if (e.message.includes("phone"))
-            return this.$onWarning("Некорректный формат номера телефона");
-        }
-
-        if (e.code == 1062) {
-          if (e.message.includes("mail"))
-            return this.$onWarning(
-              "Такой адрес электронной почты уже зарегистрирован"
+        switch (e.code) {
+          case 13:
+            this.$onWarning(
+              `Не удалось отправить проверочный смс-код на номер телефона: ${this.formData.phone}`
             );
+            break;
 
-          if (e.message.includes("phone"))
-            return this.$onWarning("Такой номер телефона уже зарегистрирован");
+          case 422:
+            if (e.message.includes("email"))
+              this.$onWarning("Некорректный формат электронной почты");
+
+            if (e.message.includes("phone"))
+              this.$onWarning("Некорректный формат номера телефона");
+
+            break;
+
+          case 1062:
+            if (e.message.includes("mail"))
+              this.$onWarning(
+                "Такой адрес электронной почты уже зарегистрирован"
+              );
+
+            if (e.message.includes("phone"))
+              this.$onWarning("Такой номер телефона уже зарегистрирован");
+
+            break;
+
+          default:
+            this.$onError();
+            console.error(e);
         }
-
-        this.$onError();
-        console.error(e);
       } finally {
         this.isLoading = false;
       }
@@ -390,11 +401,6 @@ export default {
   background-color: #ffffff;
   padding: 2rem 2rem;
   margin-bottom: 25px;
-}
-.registrate_wrapper .heading {
-  font-size: 26px;
-  margin-bottom: 10px;
-  font-weight: bold;
 }
 .registrate_wrapper label {
   font-size: 18px;

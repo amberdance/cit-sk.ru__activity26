@@ -29,6 +29,23 @@ const routes = [
   },
 
   {
+    path: "/recovery",
+    component: () => import("@/components/recovery/SmsCode"),
+    meta: { onlyForUnauthorized: true },
+  },
+
+  {
+    path: "/recovery/password",
+    name: "PasswordReset",
+    meta: { onlyForUnauthorized: true },
+    component: () => import("@/components/recovery/Password"),
+    beforeEnter: (to, from, next) => {
+      if (!_.has(to.params, "uuid")) next({ path: "/recovery" });
+      else next();
+    },
+  },
+
+  {
     path: "/registration",
     component: () => import("@/components/shared/RegistrationForm"),
     meta: { onlyForUnauthorized: true },

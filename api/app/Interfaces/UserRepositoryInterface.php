@@ -77,4 +77,12 @@ interface UserRepositoryInterface
      */
     public function getPassedPollsId(int $userId);
 
+    /**
+     * @param User $user
+     * @param mixed $password
+     *
+     * @return void
+     */
+    public function resetPassword(User $user, string $password): void;
+
 }

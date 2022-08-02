@@ -12,7 +12,7 @@
                 :key="prop"
               >
                 <div class="contact_item d-flex">
-                  <div class="icon"><i class="value.icon"></i></div>
+                  <div class="icon"><i :class="value.icon"></i></div>
                   <div>
                     <div class="label">{{ value.heading }}</div>
                     <div class="text">{{ value.title }}</div>
@@ -52,39 +52,13 @@
 </template>
 
 <script>
+import { FOOTER_CONTACTS, FOOTER_LINKS } from "@/values";
+
 export default {
   data() {
     return {
-      contacts: {
-        address: {
-          heading: "Адрес",
-          icon: "el-icon-location-outline",
-          title: "350018 г. Краснодар, ул. Магистральная, 68",
-        },
-
-        phone: {
-          heading: "Телефон",
-          icon: "el-icon-phone-outline",
-          title: "(861)260-62-31",
-        },
-      },
-
-      usefullLinks: [
-        {
-          label: "Музеи Ставропольского края",
-          link: "https://www.culture.ru/museums/institutes/location-stavropolskiy-kray",
-        },
-        {
-          label:
-            "Министерство туризма и оздоровительных курортов Ставропольского края",
-          link: "http://mintourism26.ru/",
-        },
-
-        {
-          label: "Министерство культуры Ставропольского края",
-          link: "http://mincultsk.ru/",
-        },
-      ],
+      contacts: FOOTER_CONTACTS,
+      usefullLinks: FOOTER_LINKS,
     };
   },
 
@@ -124,7 +98,7 @@ footer,
   font-size: 20px;
 }
 .contact_item i {
-  font-size: 45px;
+  font-size: 35px;
   margin-right: 0.5rem;
 }
 .links_wrapper {

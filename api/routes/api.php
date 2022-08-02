@@ -23,18 +23,21 @@ Route::group([
 | USERS
 |--------------------------------------------------------------------------
  */
+
 Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
-Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'getUser']);
+Route::post('/users/password-reset', [\App\Http\Controllers\UserController::class, 'resetPassword']);
+Route::get('/users/districts', [\App\Http\Controllers\UserController::class, 'districts']);
+Route::get('/users/recovery', [\App\Http\Controllers\UserController::class, 'recovery']);
+Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
 | REGISTRATION
 |--------------------------------------------------------------------------
  */
-Route::prefix('registration')->group(function () {
-    Route::get('/districts', [\App\Http\Controllers\RegistrationController::class, 'districts']);
-    Route::get('/reset-code', [\App\Http\Controllers\RegistrationController::class, 'resetCode']);
-    Route::get('/verify-code', [\App\Http\Controllers\RegistrationController::class, 'verifyCode']);
+Route::prefix('sms')->group(function () {
+    Route::get('/verify-code', [\App\Http\Controllers\SmsController::class, 'verifyCode']);
+    Route::get('/reset-code', [\App\Http\Controllers\SmsController::class, 'resetCode']);
 });
 
 /*
@@ -43,7 +46,7 @@ Route::prefix('registration')->group(function () {
 |--------------------------------------------------------------------------
  */
 Route::post('/polls/vote', [\App\Http\Controllers\PollController::class, 'vote'])->middleware('auth:api');
-Route::get('/polls/{id}/result', [\App\Http\Controllers\PollController::class, 'results'])->middleware('auth:api');
+Route::get('/polls/{id}/result', [\App\Http\Controllers\PollController::class, 'results']);
 
 Route::apiResources([
     'polls' => \App\Http\Controllers\PollController::class,

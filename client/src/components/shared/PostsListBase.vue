@@ -38,7 +38,7 @@
             <router-link
               v-else
               :to="
-                post.isCompleted
+                hasResults || post.isCompleted
                   ? `/poll/${post.id}/result`
                   : `/poll/${post.id}`
               "
@@ -59,6 +59,10 @@
               </div>
             </router-link>
           </div>
+        </div>
+
+        <div class="footer" v-if="$slots.footer">
+          <slot name="footer"></slot>
         </div>
       </template>
     </div>
@@ -98,6 +102,11 @@ export default {
     emptyText: {
       type: String,
       default: "Ничего не найдено",
+    },
+
+    hasResults: {
+      type: Boolean,
+      default: false,
     },
   },
 };

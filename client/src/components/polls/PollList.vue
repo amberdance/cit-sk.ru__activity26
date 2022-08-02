@@ -3,7 +3,7 @@
     <div class="container">
       <div class="polls">
         <div class="filter_wrapper">
-          <el-radio-group v-model="filter" @change="getPolls">
+          <el-radio-group v-model="filter" @change="paginate">
             <el-radio-button class="shadowed" label="all"
               >Все опросы</el-radio-button
             >
@@ -20,9 +20,17 @@
           <PostsListBase
             heading="Опросы"
             :posts="polls"
-            :skeleton-count="countPerPage"
+            :skeleton-count="skeletonCount"
             :visible="isLoading"
-          />
+          >
+            <template #footer v-if="pagination.total !== polls.length">
+              <div class="w-100 a-center mt-3">
+                <el-button type="primary" @click="paginate(true)"
+                  >Показать еще</el-button
+                >
+              </div></template
+            >
+          </PostsListBase>
         </div>
       </div>
     </div>
@@ -30,59 +38,9 @@
 </template>
 
 <script>
-import MainLayout from "../layouts/MainLayout.vue";
-import PostsListBase from "../shared/PostsListBase";
+import pagination from "@/mixins/pollsPagination.js";
 
 export default {
-  components: {
-    MainLayout,
-    PostsListBase,
-  },
-
-  data() {
-    return {
-      isLoading: false,
-      polls: [],
-      filter: "all",
-      pageNumber: 1,
-      countPerPage: 10,
-    };
-  },
-
-  async created() {
-    await this.getPolls();
-  },
-
-  methods: {
-    async getPolls() {
-      try {
-        this.isLoading = true;
-
-        this.polls = await this.$http.get("/polls", {
-          limit: this.countPerPage,
-          pageNumber: this.pageNumber,
-          filter: this.filter,
-        });
-      } catch (e) {
-        this.$onError();
-        console.error(e);
-      } finally {
-        this.isLoading = false;
-      }
-    },
-  },
+  mixins: [pagination],
 };
 </script>
-
-<style scoped>
-.polls {
-  background-color: #ffffff;
-}
-.polls_wrapper {
-  padding-bottom: 2rem;
-}
-.filter_wrapper {
-  padding: 1rem;
-  text-align: right;
-}
-</style>

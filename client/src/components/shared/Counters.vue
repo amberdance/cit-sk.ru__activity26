@@ -36,11 +36,13 @@ export default {
           "Активных граждан",
           "Активных граждан",
         ],
+
         passedPollsCount: [
-          "Принято мнение",
+          "Мнение принято",
           "Принято мнения",
           "Принято мнений",
         ],
+
         pollsCount: ["Опрос", "Опроса", "Всего опросов"],
       },
     };
@@ -112,9 +114,14 @@ export default {
   }
 
   .counters_wrapper .counter {
-    margin-bottom: 1rem;
     border: none;
     width: 100%;
+  }
+
+  .counters_wrapper .meta {
+    border-bottom: 1px #ffffff solid;
+    padding-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 }
 </style>

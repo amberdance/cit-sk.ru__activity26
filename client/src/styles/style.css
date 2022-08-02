@@ -183,6 +183,16 @@ section {
   width: 100% !important;
 }
 
+.heading {
+  font-size: 26px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
 /************************** APP ***************************/
 
 .el-dialog__body {
@@ -248,7 +258,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -331,6 +341,15 @@ section {
   font-weight: bold;
 }
 
+.el-progress {
+  display: flex;
+  justify-content: space-between;
+}
+
+.el-progress__text {
+  font-weight: bold;
+}
+
 .el-progress-bar__outer {
   height: 8px !important;
   border-radius: 0 !important;
@@ -341,12 +360,36 @@ section {
   transform: translateZ(2000);
 }
 
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
+.el-form-item__error {
+  position: relative;
+}
+
+.polls {
+  background-color: #ffffff;
+}
+
+.polls .polls_wrapper {
+  padding-bottom: 2rem;
+}
+
+.polls .filter_wrapper {
+  padding: 1rem;
+  text-align: right;
+}
+
+
 /************************** MEDIA QUERIES ***************************/
+
+@media (max-width: 390px) {
+  .w-100 button {
+    width: 100%;
+  }
+}
 
 @media (max-width: 410px) {
   .el-radio-group {
