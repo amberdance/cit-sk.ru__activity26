@@ -158,8 +158,8 @@
               />
             </el-form-item>
             <div class="hint">
-              Поле обязательно для заполнения. Только буквы латинского алфавита.
-              1 Цифра, 3 символа в нижнем регистре, 2 буквы в верхнем регистре.
+              Допускаются буквы латинского алфавита, состоящие из 1 цифры, 3
+              букв в нижнем регистре, 2 букв в верхнем регистре.
             </div>
           </div>
 
@@ -314,7 +314,7 @@ export default {
   async created() {
     try {
       this.isLoading = true;
-      const { districts } = await this.$http.get("/registration/districts");
+      const { districts } = await this.$http.get("/users/districts");
       this.districts = districts;
     } catch (e) {
       this.$onError("Не удалось загрузить список регионов");
@@ -401,11 +401,6 @@ export default {
   background-color: #ffffff;
   padding: 2rem 2rem;
   margin-bottom: 25px;
-}
-.registrate_wrapper .heading {
-  font-size: 26px;
-  margin-bottom: 10px;
-  font-weight: bold;
 }
 .registrate_wrapper label {
   font-size: 18px;

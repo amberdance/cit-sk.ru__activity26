@@ -69,8 +69,8 @@
 </template>
 
 <script>
-import { incomeCallCodeValidator } from "@/utils/validator";
 import { mask } from "vue-the-mask";
+import { incomeCallCodeValidator } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR } from "@/values";
 
 export default {
@@ -129,7 +129,7 @@ export default {
       try {
         this.isLoading = true;
 
-        await this.$http.get("/registration/verify-code", {
+        await this.$http.get("/sms/verify-code", {
           uuid: this.formData.uuid,
           code: this.formData.code,
         });
@@ -156,10 +156,7 @@ export default {
     async resetCode() {
       try {
         this.isLoading = true;
-
-        await this.$http.get("/registration/reset-code", {
-          uuid: this.formData.uuid,
-        });
+        await this.$http.get("/sms/reset-code", { uuid: this.formData.uuid });
 
         this.resetCountdown();
       } catch (e) {

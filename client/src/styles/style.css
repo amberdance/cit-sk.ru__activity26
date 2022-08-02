@@ -183,6 +183,16 @@ section {
   width: 100% !important;
 }
 
+.heading {
+  font-size: 26px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
 /************************** APP ***************************/
 
 .el-dialog__body {
@@ -355,6 +365,10 @@ section {
   border-color: var(--color-primary);
 }
 
+.el-form-item__error {
+  position: relative;
+}
+
 .polls {
   background-color: #ffffff;
 }
@@ -369,11 +383,10 @@ section {
 }
 
 
-
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 390px) {
-  .polls .footer button {
+  .w-100 button {
     width: 100%;
   }
 }

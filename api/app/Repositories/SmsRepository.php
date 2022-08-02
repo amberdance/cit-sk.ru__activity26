@@ -1,21 +1,21 @@
 <?php
 namespace App\Repositories;
 
-use App\Interfaces\RegistrationRepositoryInterface;
-use App\Models\SmsApi;
+use App\Interfaces\SmsRepositoryInterface;
+use App\Models\Sms;
 use DateTime;
 
-class RegistrationRepository implements RegistrationRepositoryInterface
+class SmsRepository implements SmsRepositoryInterface
 {
 
     /**
      * @param array $params
      *
-     * @return SmsApi
+     * @return Sms
      */
-    public function store(array $params): SmsApi
+    public function store(array $params): Sms
     {
-        return SmsApi::create([
+        return Sms::create([
             'type'        => $params['type'] ?? 'call',
             'user_id'     => $params['user_id'],
             'verify_code' => $params['verify_code'],
@@ -32,12 +32,12 @@ class RegistrationRepository implements RegistrationRepositoryInterface
     public function isVerifyCodeExpired(int $userId): bool
     {
 
-        $createdAt = SmsApi::select('created_at')
+        $sms = Sms::select('created_at')
             ->where('user_id', $userId)
             ->orderByDesc('id')
-            ->firstOrFail()['created_at'];
+            ->firstOrFail();
 
-        $difference = (new DateTime($createdAt))->diff(new DateTime());
+        $difference = (new DateTime($sms->created_at))->diff(new DateTime());
         $days       = $difference->d;
         $hours      = $difference->h;
         $minutes    = $difference->i;
@@ -47,30 +47,30 @@ class RegistrationRepository implements RegistrationRepositoryInterface
 
     /**
      * @param int $userId
+     * @param int $code
+     *
+     * @return bool
+     */
+    public function isVerifyCodeMatched(int $userId, int $code): bool
+    {
+        $sms = Sms::select('verify_code')
+            ->where('user_id', $userId)
+            ->orderByDesc('id')
+            ->firstOrFail();
+
+        return boolval($code == $sms->verify_code);
+    }
+
+    /**
+     * @param int $userId
      *
      * @return void
      */
     public function increaseAttempts(int $userId): void
     {
-        SmsApi::where('user_id', $userId)
+        Sms::where('user_id', $userId)
             ->orderByDesc('id')
             ->firstOrFail()
             ->increment('attempts');
-    }
-
-    /**
-     * @param int $userId
-     * @param int $codeToCompare
-     *
-     * @return bool
-     */
-    public function isVerifyCodeMatched(int $userId, int $codeToCompare): bool
-    {
-        $code = SmsApi::select('verify_code')
-            ->where('user_id', $userId)
-            ->orderByDesc('id')
-            ->firstOrFail()['verify_code'];
-
-        return boolval($code == $codeToCompare);
     }
 }

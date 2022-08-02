@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class PhoneVerifyException extends Exception
+class SmsException extends Exception
 {
     //
 }

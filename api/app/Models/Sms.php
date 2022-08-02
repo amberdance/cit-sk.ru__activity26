@@ -3,23 +3,22 @@
 namespace App\Models;
 
 use App\Constants;
-use App\Exceptions\PhoneVerifyException;
-use Error;
+use App\Exceptions\SmsException;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  *  @property int $id
- *  @property int $userId
- *  @property int $verifyCode
+ *  @property int $user_id
+ *  @property int $verify_code
  *  @property int $errorCode
- *  @property int $messageId
+ *  @property int $message_id
  *  @property int $attempts
  *  @property string $type
  *  @property string $created_at
  *  @property string $updated_at
  */
 
-class SmsApi extends Model
+class Sms extends Model
 {
     protected $table   = 'sms_codes';
     protected $guarded = [];
@@ -51,7 +50,7 @@ class SmsApi extends Model
         $result = json_decode(curl_exec($curl), true);
 
         if ($result['response']['msg']['err_code'] != 0) {
-            throw new PhoneVerifyException(Constants::FAILED_SEND_SMS_MESSAGE . " " . $phoneNumber, Constants::FAILED_SEND_SMS_CODE);
+            throw new SmsException(Constants::FAILED_SEND_SMS_MESSAGE . " " . $phoneNumber, Constants::FAILED_SEND_SMS_CODE);
         }
 
         curl_close($curl);

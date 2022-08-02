@@ -55,11 +55,16 @@
         >
       </el-form>
 
-      <div class="a-center mt-3">
-        <span style="font-weight: bold"> Нет аккаунта? </span>
-        <router-link to="/registration" target="_blank"
-          >Зарегистрироваться</router-link
-        >
+      <div class="footer rounded">
+        <div class="d-flex flex-column align-center">
+          <span style="font-weight: bold"> Забыли пароль? </span>
+          <router-link to="/recovery">Восстановить доступ</router-link>
+        </div>
+
+        <div class="d-flex flex-column align-center mt-3">
+          <span style="font-weight: bold"> Нет аккаунта? </span>
+          <router-link to="/registration">Зарегистрироваться</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -180,5 +185,9 @@ export default {
   font-size: 18px;
   font-weight: bold;
   color: var(--color-font--primary);
+}
+.auth_wrapper .footer {
+  margin: 1.5rem 0;
+  padding: 1rem;
 }
 </style>

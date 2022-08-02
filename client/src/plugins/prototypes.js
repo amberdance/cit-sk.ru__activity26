@@ -3,6 +3,7 @@ import axios from "axios";
 import store from "@/store";
 import { camelize } from "@/utils/common";
 import { onError, onSuccess, notificationBase } from "../utils/alerts";
+import _ from "lodash";
 
 const plugins = () => {
   /*
@@ -36,7 +37,7 @@ const plugins = () => {
     try {
       await axios.post("/auth/logout");
     } catch (e) {
-      onError("Случилась неведомая ошибка, уверен ее скоро исправят");
+      onError("Случилась непредвиденная ошибка, уверен ее скоро исправят");
 
       console.error(e);
     } finally {
@@ -89,7 +90,7 @@ const responseData = (data, responseType = null) => {
   if (Array.isArray(data) && !data.length) return data;
   if (responseType == "blob") return data;
   if (!data) return [];
-  if ("data" in data) return camelize(data.data);
+  if ("data" in data && _.isObject(data.data)) return camelize(data.data);
 
-  return camelize(data);
+  return data;
 };
