@@ -111,7 +111,7 @@ class UserController extends Controller
                 }
             }
 
-            return Response::jsonError($e->getCode() ?? 0, $e->getMessage());
+            return Response::jsonError(0, $e->getMessage());
         }
     }
 
@@ -201,7 +201,7 @@ class UserController extends Controller
 
             return Response::jsonSuccess();
         } catch (Throwable $e) {
-
+            return Response::jsonError(0, $e->getMessage() ?? "Some error here");
         }
     }
 }
