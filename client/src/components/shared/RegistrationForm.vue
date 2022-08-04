@@ -200,6 +200,7 @@ import {
   matchPasswordsValidator,
   phoneNumberValidator,
   birthdatValidator,
+  сyrillicValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
@@ -237,14 +238,14 @@ export default {
         firstName: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: сyrillicValidator,
           },
         ],
 
         lastName: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: сyrillicValidator,
           },
         ],
 
