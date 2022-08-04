@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ValidationHelper;
 use App\Http\Response;
 use App\Interfaces\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -75,7 +76,6 @@ class AuthController extends Controller
      */
     public function me()
     {
-
         return response()->json($this->getUserPayload());
 
     }
@@ -112,7 +112,7 @@ class AuthController extends Controller
 
         $user                 = auth()->user();
         $user['passed_polls'] = $this->userRepository->getPassedPollsId($user['id']);
-        $user['is_verified']     = $user->is_active;
+        $user['is_verified']  = $user->is_active;
 
         return $user;
 

@@ -50,8 +50,6 @@ class SmsController extends Controller
             $isVerifyCodeExpired = $this->smsRepository->isVerifyCodeExpired($user->id);
 
             if ($isVerifyCodeExpired) {
-                $user->delete();
-
                 return Response::jsonError(Constants::EXPIRED_SMS_CODE, Constants::EXPIRED_SMS_MESSAGE);
             }
 
@@ -59,7 +57,7 @@ class SmsController extends Controller
                 $this->userRepository->setUserActiveByModel($user);
 
                 $associateResponse = EdrosAPI::associate($user);
-       
+
                 if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
                     $this->userRepository->associate($user, $associateResponse['data']['id']);
                 }

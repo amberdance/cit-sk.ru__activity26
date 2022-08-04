@@ -6,8 +6,10 @@ use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Throwable;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -176,5 +178,58 @@ class UserRepository implements UserRepositoryInterface
         $user->is_associated = true;
         $user->associate_id  = $associateId;
         $user->save();
+    }
+
+    /**
+     * @return void
+     */
+    public static function moveUsersToInactiveTable(): void
+    {
+
+        $users = User::where([
+            'is_active'     => false,
+            'is_associated' => false,
+        ])->get();
+
+        foreach ($users as $key => $user) {
+            try {
+                DB::table('users_inactive')->insert([
+                    'uuid'              => $user->uuid,
+                    'created_at'        => $user->created_at,
+                    'updated_at'        => $user->updated_at,
+                    'email_verified_at' => $user->email_verified_at,
+                    'first_name'        => $user->first_name,
+                    'last_name'         => $user->last_name,
+                    'patronymic'        => $user->patronymic,
+                    'district_id'       => $user->district_id,
+                    'address'           => $user->address,
+                    'birthday'          => $user->birthday,
+                    'email'             => $user->email,
+                    'password'          => $user->password,
+                    'phone'             => $user->phone,
+                    'ip_address'        => $user->ip_address,
+                    'is_active'         => false,
+                    'is_admin'          => $user->is_admin,
+                    'points'            => $user->points,
+                    'is_associated'     => false,
+                    'associate_id'      => $user->associate_id,
+                ]);
+
+                $user->delete();
+
+            } catch (Throwable $e) {
+
+                if (property_exists($e, 'errorInfo')) {
+                    $error = $e->errorInfo;
+
+                    // Dublicate entry error
+                    if ($error[1] == 1062) {
+                        $user->delete();
+
+                        continue;
+                    }
+                }
+            }
+        }
     }
 }

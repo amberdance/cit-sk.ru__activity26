@@ -99,4 +99,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(PollAnswer::class, 'user_id');
     }
+
+    public function toArray()
+    {
+        return $this->hidden;
+    }
 }
