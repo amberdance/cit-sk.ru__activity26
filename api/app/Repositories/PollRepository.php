@@ -159,16 +159,17 @@ class PollRepository implements PollRepositoryInterface
         $result['poll']['total_answers_count'] = $totalAnswersCount;
 
         foreach ($result['questions'] as $i => $question) {
+            $answersCount = PollAnswer::select('id')
+                ->where('question_id', $question['id'])
+                ->count();
+
             foreach ($question['variants'] as $k => $variant) {
-                $answersCount = PollAnswer::select('id')
-                    ->where([
-                        'question_id' => $question['id'],
-                        'variant_id'  => $variant['id'],
-                    ])
+                $variantAnswersCount = PollAnswer::select('id')
+                    ->where('variant_id', $variant['id'])
                     ->count();
 
-                $result['questions'][$i]['variants'][$k]['answers_count'] = $answersCount;
-                $result['questions'][$i]['variants'][$k]['percent']       = $answersCount == 0 ? 0 : round($answersCount / $totalAnswersCount, 2);
+                $result['questions'][$i]['variants'][$k]['answers_count'] = $variantAnswersCount;
+                $result['questions'][$i]['variants'][$k]['percent']       = $variantAnswersCount == 0 ? 0 : round(($variantAnswersCount / $answersCount) * 100, 1);
             }
         }
 

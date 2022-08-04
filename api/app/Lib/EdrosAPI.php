@@ -3,7 +3,7 @@
 namespace App\Lib;
 
 use App\Helpers\CurlHelper;
-use App\Helpers\ValidationHelper;
+use App\Models\User;
 
 class EdrosAPI
 {
@@ -21,25 +21,25 @@ class EdrosAPI
     }
 
     /**
-     * @param array $user
+     * @param User $user
      *
      * @return array
      */
-    public static function associate(array $params): array
+    public static function associate(User $user): array
     {
 
-        $user = [
-            'first_name'  => $params['firstName'],
-            'last_name'   => $params['lastName'],
-            'patronymic'  => $params['patronymic'] ?? null,
-            'email'       => $params['email'],
-            'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
-            'district_id' => $params['districtId'],
-            'address'     => $params['address'],
-            'birthday'    => date('Y-m-d', strtotime($params['birthday'])),
+        $params = [
+            'first_name'  => $user->first_name,
+            'last_name'   => $user->last_name,
+            'patronymic'  => $user->patronymic ?? null,
+            'email'       => $user->email,
+            'phone'       => $user->phone,
+            'district_id' => $user->district_id,
+            'address'     => $user->address,
+            'birthday'    => date('Y-m-d', strtotime($user->birthday)),
         ];
 
-        return CurlHelper::post('https://mob-api.er.ru/pub-api/26/associate', $user, self::getHeaders());
+        return CurlHelper::post('https://mob-api.er.ru/pub-api/26/associate', $params, self::getHeaders());
     }
 
     /**

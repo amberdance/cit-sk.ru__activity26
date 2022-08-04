@@ -83,7 +83,7 @@ export default {
       isSmsExpired: false,
       attempsCount: 1,
       allowedAttemptsCount: 4,
-      time: 60000,
+      time: 180000,
 
       formData: {
         code: "",
@@ -182,7 +182,7 @@ export default {
       this.attempsCount = 1;
 
       setTimeout(() => {
-        this.time = 60000;
+        this.time = 180000;
         this.isSmsExpired = false;
 
         setTimeout(() => {

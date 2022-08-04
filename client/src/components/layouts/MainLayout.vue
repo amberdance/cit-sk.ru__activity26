@@ -77,7 +77,6 @@ export default {
 
 <style scoped>
 .root {
-  min-height: 100vh;
   background: url(../../assets/bg_primary.webp);
   background-attachment: fixed;
   background-position: 50% 100%;
@@ -88,6 +87,7 @@ export default {
 
 .content {
   padding-top: 100px !important;
+  min-height: 100vh;
   position: relative;
 }
 </style>

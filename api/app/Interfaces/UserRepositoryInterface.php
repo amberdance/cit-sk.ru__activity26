@@ -2,6 +2,7 @@
 namespace App\Interfaces;
 
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 interface UserRepositoryInterface
@@ -71,6 +72,14 @@ interface UserRepositoryInterface
     public function setUserActiveByModel(User $user, bool $state = true): void;
 
     /**
+     * @param User $user
+     * @param int $associateId
+     *
+     * @return void
+     */
+    public function associate(User $user, int $associateId): void;
+
+    /**
      * @param int $userId
      *
      * @return Collection
@@ -81,8 +90,8 @@ interface UserRepositoryInterface
      * @param User $user
      * @param mixed $password
      *
-     * @return void
+     * @return UserRepository
      */
-    public function resetPassword(User $user, string $password): void;
+    public function resetPassword(User $user, string $password): UserRepository;
 
 }

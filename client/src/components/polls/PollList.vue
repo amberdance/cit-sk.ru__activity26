@@ -3,7 +3,7 @@
     <div class="container">
       <div class="polls">
         <div class="filter_wrapper">
-          <el-radio-group v-model="filter" @change="paginate">
+          <el-radio-group v-model="filter" @change="paginate(false)">
             <el-radio-button class="shadowed" label="all"
               >Все опросы</el-radio-button
             >
