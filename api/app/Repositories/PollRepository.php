@@ -159,7 +159,7 @@ class PollRepository implements PollRepositoryInterface
         $result['poll']['total_answers_count'] = $totalAnswersCount;
 
         foreach ($result['questions'] as $i => $question) {
-            $answerCount = PollAnswer::select('id')
+            $answersCount = PollAnswer::select('id')
                 ->where('question_id', $question['id'])
                 ->count();
 
@@ -169,7 +169,7 @@ class PollRepository implements PollRepositoryInterface
                     ->count();
 
                 $result['questions'][$i]['variants'][$k]['answers_count'] = $variantAnswersCount;
-                $result['questions'][$i]['variants'][$k]['percent']       = $variantAnswersCount == 0 ? 0 : round($variantAnswersCount / $answerCount, 1) * 100;
+                $result['questions'][$i]['variants'][$k]['percent']       = $variantAnswersCount == 0 ? 0 : round(($variantAnswersCount / $answersCount) * 100, 1);
             }
         }
 

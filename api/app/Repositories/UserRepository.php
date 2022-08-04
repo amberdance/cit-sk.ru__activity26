@@ -155,11 +155,26 @@ class UserRepository implements UserRepositoryInterface
      * @param User $user
      * @param string $password
      *
-     * @return void
+     * @return UserRepository
      */
-    public function resetPassword(User $user, string $password): void
+    public function resetPassword(User $user, string $password): UserRepository
     {
         $user->password = Hash::make($password);
+        $user->save();
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @param int $associateId
+     *
+     * @return void
+     */
+    public function associate(User $user, int $associateId): void
+    {
+        $user->is_associated = true;
+        $user->associate_id  = $associateId;
         $user->save();
     }
 }

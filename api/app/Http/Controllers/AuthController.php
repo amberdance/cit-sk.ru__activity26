@@ -112,6 +112,7 @@ class AuthController extends Controller
 
         $user                 = auth()->user();
         $user['passed_polls'] = $this->userRepository->getPassedPollsId($user['id']);
+        $user['is_verified']     = $user->is_active;
 
         return $user;
 

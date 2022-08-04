@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Constants;
-use App\Exceptions\SmsException;
 use App\Helpers\ValidationHelper;
 use App\Http\Response;
 use App\Interfaces\SmsRepositoryInterface;
@@ -65,8 +64,7 @@ class UserController extends Controller
                 return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            $user = $this->userRepository->store($request->all());
-
+            $user       = $this->userRepository->store($request->all());
             $verifyCode = rand(1000, 9999);
             $params     = [
                 'user_id'     => $user->id,
@@ -75,15 +73,6 @@ class UserController extends Controller
             ];
 
             $this->smsRepository->store($params);
-
-            $associateResponse = EdrosAPI::associate($request->all());
-
-            if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
-                $this->userRepository->update($user->id, [
-                    'is_associated' => true,
-                    'associate_id'  => $associateResponse['data']['id'],
-                ]);
-            }
 
             return Response::jsonSuccess([
                 'uuid'  => $user->uuid,
@@ -94,12 +83,6 @@ class UserController extends Controller
         } catch (ValidationException $e) {
             return Response::jsonError(422, $e->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
 
-        } catch (SmsException $e) {
-            if ($user->id) {
-                $user->delete();
-            }
-
-            return Response::jsonError($e->getCode(), $e->getMessage());
         } catch (Throwable $e) {
 
             if (property_exists($e, 'errorInfo')) {
@@ -197,7 +180,9 @@ class UserController extends Controller
                 return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            $this->userRepository->resetPassword($this->userRepository->getUserByUUID($request->uuid), $request->password);
+            $user = $this->userRepository->getUserByUUID($request->uuid);
+
+            $this->userRepository->resetPassword($user, $request->password)->setUserActiveByModel($user);
 
             return Response::jsonSuccess();
         } catch (Throwable $e) {
