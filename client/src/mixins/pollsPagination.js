@@ -41,7 +41,9 @@ export default {
         const response = await this.$http.get("/polls", params);
 
         this.pagination.total = response.total;
-        this.skeletonCount += response.data.length;
+
+        if (showMore) this.skeletonCount += response.data.length;
+
         this.pagination.currentPage = response.nextPageUrl
           ? response.nextPageUrl.match(/page=(.*\d)/)[1]
           : null;
