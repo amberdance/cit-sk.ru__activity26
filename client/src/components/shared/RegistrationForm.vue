@@ -201,6 +201,7 @@ import {
   phoneNumberValidator,
   birthdatValidator,
   сyrillicValidator,
+  addressValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
@@ -268,7 +269,10 @@ export default {
         address: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: (rule, address, callback) =>
+              address == "" || addressValidator(address)
+                ? callback()
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
 
