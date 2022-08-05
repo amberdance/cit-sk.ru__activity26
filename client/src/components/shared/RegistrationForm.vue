@@ -200,6 +200,7 @@ import {
   matchPasswordsValidator,
   phoneNumberValidator,
   birthdatValidator,
+  сyrillicValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
@@ -237,14 +238,30 @@ export default {
         firstName: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: (rule, firstName, callback) =>
+              сyrillicValidator(firstName)
+                ? callback()
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
 
         lastName: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: (rule, lastName, callback) =>
+              сyrillicValidator(lastName)
+                ? callback()
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
+          },
+        ],
+
+        patronymic: [
+          {
+            required: false,
+            validator: (rule, patronymic, callback) =>
+              patronymic == "" || сyrillicValidator(patronymic)
+                ? callback()
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
 
@@ -359,10 +376,12 @@ export default {
 
           case 422:
             if (e.message.includes("email"))
-              this.$onWarning("Некорректный формат электронной почты");
+              return this.$onWarning("Некорректный формат электронной почты");
 
             if (e.message.includes("phone"))
-              this.$onWarning("Некорректный формат номера телефона");
+              return this.$onWarning("Некорректный формат номера телефона");
+
+            this.$onWarning("Проверьте правильность заполнения всех полей");
 
             break;
 

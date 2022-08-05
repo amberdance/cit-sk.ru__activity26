@@ -43,12 +43,14 @@ class UserController extends Controller
 
         try {
             $request->validate([
-                'firstName'       => 'required',
-                'lastName'        => 'required',
+
                 'confirmPassword' => 'required',
                 'address'         => 'required',
                 'districtId'      => 'required',
                 'address'         => 'required',
+                'firstName'       => ['required', 'regex:' . ValidationHelper::CYRILIC_REGEXP],
+                'lastName'        => ['required', 'regex:' . ValidationHelper::CYRILIC_REGEXP],
+                'patronymic'      => ['regex:' . ValidationHelper::CYRILIC_REGEXP],
                 'birthday'        => ['required', 'regex:' . ValidationHelper::BIRTHDAY_REGEXP],
                 'password'        => ['required', 'regex:' . ValidationHelper::PASSWORD_REGEXP],
                 'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],

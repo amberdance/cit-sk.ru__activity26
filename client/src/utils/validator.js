@@ -28,11 +28,4 @@ export const birthdatValidator = (birthday) =>
     birthday
   );
 
-export const сyrillicValidator = (rule, value, callback) => {
-  const cyrillicValid = /^[а-яА-ЯёЁ]+$/.test(value);
-  if (value === "" || value == null) {
-    callback(new Error("Поле обязательно для заполнения"));
-  } else if (!cyrillicValid) {
-    callback(new Error("Только кириллица"));
-  } else callback();
-};
+export const сyrillicValidator = (value) => /^[а-яё]+$/giu.test(value);
