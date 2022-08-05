@@ -29,3 +29,6 @@ export const birthdatValidator = (birthday) =>
   );
 
 export const сyrillicValidator = (value) => /^[а-яё]+$/giu.test(value);
+
+export const addressValidator = (address) =>
+  /^[а-яё0-9.,:\\\-/ ]+$/giu.test(address);
