@@ -1,6 +1,6 @@
 <template>
   <CmsLayout>
-    <div class="users container">
+    <div class="users">
       <el-table :data="users" v-loading="isLoading">
         <el-table-column label="ID" prop="id"></el-table-column>
         <el-table-column

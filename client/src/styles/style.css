@@ -118,6 +118,7 @@ li {
 }
 
 section {
+  overflow: hidden;
   position: relative;
   background-color: var(--color-section);
 }
@@ -257,7 +258,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -359,7 +360,7 @@ section {
   transform: translateZ(2000);
 }
 
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
