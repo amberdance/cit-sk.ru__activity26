@@ -30,6 +30,14 @@ Route::get('/users/districts', [\App\Http\Controllers\UserController::class, 'di
 Route::get('/users/recovery', [\App\Http\Controllers\UserController::class, 'recovery']);
 Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
 
+Route::group([
+    'middleware' => ['auth:api'],
+    'prefix'     => 'admin',
+],
+    function () {
+        Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+    });
+
 /*
 |--------------------------------------------------------------------------
 | REGISTRATION

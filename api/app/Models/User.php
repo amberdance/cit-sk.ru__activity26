@@ -50,7 +50,6 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'password',
         'is_active',
-        'is_admin',
         'created_at',
         'updated_at',
         'email_verified_at',
@@ -59,11 +58,13 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $casts = [
-        'is_admin'   => 'boolean',
-        'is_active'  => 'boolean',
-        'birthday'   => 'datetime:d.m.Y',
-        'created_at' => 'datetime:d.m.Y H:i:s',
-        'updated_at' => 'datetime:d.m.Y H:i:s',
+        'associate_id'  => 'int',
+        'is_admin'      => 'boolean',
+        'is_active'     => 'boolean',
+        'is_associated' => 'boolean',
+        'birthday'      => 'datetime:d.m.Y',
+        'created_at'    => 'datetime:d.m.Y H:i:',
+        'updated_at'    => 'datetime:d.m.Y H:i:',
     ];
 
     protected $appends = ['full_name'];
@@ -98,10 +99,5 @@ class User extends Authenticatable implements JWTSubject
     public function votes(): HasMany
     {
         return $this->hasMany(PollAnswer::class, 'user_id');
-    }
-
-    public function toArray()
-    {
-        return $this->hidden;
     }
 }

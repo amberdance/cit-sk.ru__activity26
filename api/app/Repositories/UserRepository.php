@@ -2,10 +2,11 @@
 namespace App\Repositories;
 
 use App\Helpers\ValidationHelper;
+use App\Http\Resources\UserCollection;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -15,11 +16,11 @@ class UserRepository implements UserRepositoryInterface
 {
 
     /**
-     * @return Collection
+     * @return ResourceCollection
      */
-    public function getUsers(): Collection
+    public function getUsers(): UserCollection
     {
-        return User::all();
+        return new UserCollection(User::all()->take(100));
     }
 
     /**

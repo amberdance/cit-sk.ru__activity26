@@ -100,6 +100,11 @@ class UserController extends Controller
         }
     }
 
+    public function index()
+    {
+        return $this->userRepository->getUsers();
+    }
+
     /**
      * @param int $id
      *
