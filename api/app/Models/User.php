@@ -77,6 +77,11 @@ class User extends Authenticatable implements JWTSubject
         return "{$this->last_name} {$this->first_name}" . ($this->patronymic ? " {$this->patronymic}" : "");
     }
 
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->is_associated && $this->is_active;
+    }
+
     /**
      * @return mixed
      */

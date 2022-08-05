@@ -34,6 +34,25 @@ class UserController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        return Response::jsonSuccess($this->userRepository->getUsers($request->all()));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+
+        return Response::jsonSuccess($this->userRepository->getUserById($id));
+    }
+
+    /**
      * @param Request $request
      *
      * @return JsonResponse
@@ -98,21 +117,6 @@ class UserController extends Controller
 
             return Response::jsonError(0, $e->getMessage());
         }
-    }
-
-    public function index()
-    {
-        return $this->userRepository->getUsers();
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return JsonResponse
-     */
-    public function show(int $id): JsonResponse
-    {
-        return Response::jsonSuccess($this->userRepository->getUserById($id));
     }
 
     /**

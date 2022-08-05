@@ -40,6 +40,7 @@ import {
   Progress,
   Table,
   TableColumn,
+  Pagination,
 } from "element-ui";
 
 [
@@ -77,6 +78,7 @@ import {
   Progress,
   Table,
   TableColumn,
+  Pagination,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

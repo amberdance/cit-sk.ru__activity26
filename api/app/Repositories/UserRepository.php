@@ -6,7 +6,6 @@ use App\Http\Resources\UserCollection;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -16,11 +15,13 @@ class UserRepository implements UserRepositoryInterface
 {
 
     /**
-     * @return ResourceCollection
+     * @param array $params
+     *
+     * @return UserCollection
      */
-    public function getUsers(): UserCollection
-    {
-        return new UserCollection(User::all()->take(100));
+    public function getUsers(array $params): UserCollection
+    {   
+        return new UserCollection(User::paginate($params['perPage'] ?? 50));
     }
 
     /**

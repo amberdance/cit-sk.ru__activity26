@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface UserRepositoryInterface
 {
+
     /**
+     * @param array $params
+     *
      * @return UserCollection
      */
-    public function getUsers(): UserCollection;
+    public function getUsers(array $params): UserCollection;
 
     /**
      * @param int $id

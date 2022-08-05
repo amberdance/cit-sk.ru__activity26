@@ -41,10 +41,8 @@ const errorCollection = {
     },
 
     403: (e) => {
-      onError("Доступ запрещен");
-
       return Promise.reject({
-        code: 401,
+        code: 403,
         error: e.message,
       });
     },

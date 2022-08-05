@@ -1,5 +1,7 @@
 <template>
-  <CmsLayout> </CmsLayout>
+  <CmsLayout>
+    <div>Dashboard</div>
+  </CmsLayout>
 </template>
 
 <script>

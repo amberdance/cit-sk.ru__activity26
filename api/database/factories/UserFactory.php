@@ -20,7 +20,7 @@ class UserFactory extends Factory
         return [
             'first_name'        => 'Admin',
             'last_name'         => 'admin',
-            'birthday'          => '66.66.1966',
+            'birthday'          => '11-11-1990',
             'district_id'       => 1,
             'address'           => 'test Address',
             'uuid'              => Str::uuid(),

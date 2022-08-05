@@ -30,14 +30,6 @@ Route::get('/users/districts', [\App\Http\Controllers\UserController::class, 'di
 Route::get('/users/recovery', [\App\Http\Controllers\UserController::class, 'recovery']);
 Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
 
-Route::group([
-    'middleware' => ['auth:api'],
-    'prefix'     => 'admin',
-],
-    function () {
-        Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
-    });
-
 /*
 |--------------------------------------------------------------------------
 | REGISTRATION
@@ -69,3 +61,17 @@ Route::group(['prefix' => 'pages'], function () {
     Route::get('/main/counters', [\App\Http\Controllers\MainPageController::class, 'getCounters']);
     Route::get('/main/news', [\App\Http\Controllers\MainPageController::class, 'getNews']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+ */
+
+Route::group([
+    'middleware' => ['auth:api', 'admin'],
+    'prefix'     => 'admin',
+],
+    function () {
+        Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+    });
