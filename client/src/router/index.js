@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import admin from "./admin";
 
 const originalPush = VueRouter.prototype.push;
 
@@ -76,6 +77,8 @@ const routes = [
     path: "/privacy-policy",
     component: () => import("@/components/shared/PrivacyPolicy"),
   },
+
+  ...admin,
 ];
 
 const router = new VueRouter({

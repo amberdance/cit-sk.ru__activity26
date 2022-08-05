@@ -38,6 +38,8 @@ import {
   ButtonGroup,
   Switch,
   Progress,
+  Table,
+  TableColumn,
 } from "element-ui";
 
 [
@@ -73,6 +75,8 @@ import {
   ButtonGroup,
   Switch,
   Progress,
+  Table,
+  TableColumn,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);
