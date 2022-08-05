@@ -27,3 +27,5 @@ export const birthdatValidator = (birthday) =>
   /^(?:0[1-9]|[12]\d|3[01])([/.-])(?:0[1-9]|1[012])\1(?:19|20)\d\d$/g.test(
     birthday
   );
+
+export const сyrillicValidator = (value) => /^[а-яё]+$/giu.test(value);
