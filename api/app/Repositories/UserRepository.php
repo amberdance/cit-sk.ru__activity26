@@ -20,8 +20,12 @@ class UserRepository implements UserRepositoryInterface
      * @return UserCollection
      */
     public function getUsers(array $params): UserCollection
-    {   
-        return new UserCollection(User::paginate($params['perPage'] ?? 50));
+    {
+        $select = User::select('*')
+            ->orderByDesc('id')
+            ->paginate($params['perPage'] ?? 50);
+
+        return new UserCollection($select);
     }
 
     /**

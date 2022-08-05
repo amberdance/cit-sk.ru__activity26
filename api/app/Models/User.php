@@ -62,9 +62,8 @@ class User extends Authenticatable implements JWTSubject
         'is_admin'      => 'boolean',
         'is_active'     => 'boolean',
         'is_associated' => 'boolean',
-        'birthday'      => 'datetime:d.m.Y',
-        'created_at'    => 'datetime:d.m.Y H:i:',
-        'updated_at'    => 'datetime:d.m.Y H:i:',
+        'created_at'    => 'timestamp:d.m.Y H:i:s',
+        'updated_at'    => 'timestamp:d.m.Y H:i:s',
     ];
 
     protected $appends = ['full_name'];
@@ -77,6 +76,9 @@ class User extends Authenticatable implements JWTSubject
         return "{$this->last_name} {$this->first_name}" . ($this->patronymic ? " {$this->patronymic}" : "");
     }
 
+    /**
+     * @return bool
+     */
     public function getIsVerifiedAttribute(): bool
     {
         return $this->is_associated && $this->is_active;

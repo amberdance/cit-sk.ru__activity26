@@ -123,6 +123,12 @@ section {
   background-color: var(--color-section);
 }
 
+.pagination {
+  margin: 1rem 0;
+  padding: 0;
+  text-align: center;
+}
+
 /************************** COMMON ***************************/
 .container,
 .container-sm {
