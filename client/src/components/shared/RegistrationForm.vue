@@ -270,7 +270,7 @@ export default {
           {
             required: true,
             validator: (rule, address, callback) =>
-              address == "" || addressValidator(address)
+              addressValidator(address)
                 ? callback()
                 : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },

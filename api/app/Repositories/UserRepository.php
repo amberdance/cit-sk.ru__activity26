@@ -68,6 +68,11 @@ class UserRepository implements UserRepositoryInterface
         return User::where('phone', $phone)->firstOrFail();
     }
 
+    /**
+     * @param array $params
+     * 
+     * @return User
+     */
     public function store(array $params): User
     {
 
@@ -75,7 +80,7 @@ class UserRepository implements UserRepositoryInterface
             'first_name'  => $params['firstName'],
             'last_name'   => $params['lastName'],
             'patronymic'  => $params['patronymic'],
-            'email'       => $params['email'],
+            'email'       => strtolower($params['email']),
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
             'address'     => $params['address'],
             'district_id' => $params['districtId'],
