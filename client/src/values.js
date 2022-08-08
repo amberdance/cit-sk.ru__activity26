@@ -36,12 +36,17 @@ export const MOBILE_MENU = [
 
 export const ADMIN_MENU = [
   {
+    label: "Главная",
+    link: CMS_PREFFIX_ROUTE,
+  },
+
+  {
     label: "Пользователи",
     link: CMS_PREFFIX_ROUTE + "/users",
   },
 
   {
-    label: "Опросы",
+    label: "Активный гражданин",
     link: CMS_PREFFIX_ROUTE + "/polls",
   },
 ];
