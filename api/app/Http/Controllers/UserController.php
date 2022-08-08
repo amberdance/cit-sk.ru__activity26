@@ -9,6 +9,7 @@ use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
 use App\Models\Sms;
+use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -115,6 +116,22 @@ class UserController extends Controller
                 }
             }
 
+            return Response::jsonError(0, $e->getMessage());
+        }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function transferUsers(Request $request): JsonResponse
+    {
+        try {
+            UserRepository::moveUsersToInactiveTable();
+
+            return $this->index($request);
+        } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage());
         }
     }

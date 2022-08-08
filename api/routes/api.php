@@ -73,5 +73,6 @@ Route::group([
     'prefix'     => 'admin',
 ],
     function () {
+        Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUsers']);
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
     });

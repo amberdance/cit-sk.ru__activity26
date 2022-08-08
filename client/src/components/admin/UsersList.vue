@@ -1,8 +1,28 @@
 <template>
   <CmsLayout>
-    <div class="users">
+    <div class="users" v-loading="isLoading">
       <div class="filter">
         <div class="filter_wrapper">
+          <div class="filter_item">
+            <el-input
+              v-model="params.lastName"
+              placeholder="Фамилия"
+              clearable
+            ></el-input>
+
+            <el-input
+              v-model="params.firstName"
+              placeholder="Имя"
+              clearable
+            ></el-input>
+
+            <el-input
+              v-model="params.patronymic"
+              placeholder="Отчество"
+              clearable
+            ></el-input>
+          </div>
+
           <div class="filter_item">
             <el-switch
               v-model="params.isActive"
@@ -19,16 +39,27 @@
         </div>
       </div>
 
+      <div class="btn_group">
+        <el-button
+          type="primary"
+          style="max-width: 150px; white-space: break-spaces"
+          @click="transferUsers"
+          >Перенести всех неактивных пользователей</el-button
+        >
+      </div>
+
       <div class="users_table">
         <el-table
           height="800px"
           empty-text="Нет данных"
-          v-loading="isLoading"
           :default-sort="{ prop: 'id', order: 'descending' }"
-          :data="users"
+          :data="tableData"
           :stripe="true"
           :border="true"
+          @selection-change="selectionChange"
         >
+          <el-table-column align="center" type="selection" width="55" />
+
           <el-table-column
             label="ID"
             prop="id"
@@ -83,7 +114,7 @@
             label="Email"
             prop="email"
             align="center"
-            width="180"
+            width="200"
           ></el-table-column>
 
           <el-table-column label="Адрес" prop="address"></el-table-column>
@@ -133,9 +164,11 @@
 
 <script>
 import CmsLayout from "../layouts/CmsLayout.vue";
+import tableHandling from "@/mixins/tableHandling";
 
 export default {
   components: { CmsLayout },
+  mixins: [tableHandling],
 
   data() {
     return {
@@ -147,8 +180,39 @@ export default {
         pageSizes: [10, 50, 100, 200],
         isActive: true,
         isVerified: true,
+        firstName: "",
+        lastName: "",
+        patronymic: "",
       },
     };
+  },
+
+  computed: {
+    tableData() {
+      return this.users
+        .filter(({ isActive }) => isActive == this.params.isActive)
+        .filter(({ isVerified }) => isVerified == this.params.isVerified)
+        .filter(
+          ({ firstName }) =>
+            !this.params.firstName ||
+            firstName
+              .toLowerCase()
+              .includes(this.params.firstName.toLowerCase())
+        )
+        .filter(
+          ({ lastName }) =>
+            !this.params.lastName ||
+            lastName.toLowerCase().includes(this.params.lastName.toLowerCase())
+        )
+        .filter(
+          ({ patronymic }) =>
+            patronymic == "" ||
+            !this.params.patronymic ||
+            patronymic
+              .toLowerCase()
+              .includes(this.params.patronymic.toLowerCase())
+        );
+    },
   },
 
   async created() {
@@ -179,6 +243,32 @@ export default {
 
       await this.getUsers();
     },
+
+    async transferUsers() {
+      try {
+        await this.$confirm(
+          "Данное действие переносит пользователей, не подвердивших смс кодом свой номер телефона в другую таблицу в БД. Это может занять более длительное время ожидания.Продолжить ?",
+          {
+            confirmButtonText: "Да",
+            cancelButtonText: "Подумаю",
+            type: "warning",
+          }
+        );
+      } catch (e) {
+        return;
+      }
+
+      try {
+        this.isLoading = true;
+        await this.$http.get("/admin/users/transfer");
+        this.$onSuccess();
+      } catch (e) {
+        this.$onError();
+        console.error(e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
   },
 };
 </script>
@@ -187,17 +277,18 @@ export default {
 .users {
   padding: 1rem;
 }
-.filter {
+.filter,
+.btn_group {
   margin: 1rem 0;
   padding: 2rem 1rem;
   border: 1px dashed var(--color-divider);
 }
 .filter_wrapper {
   display: flex;
+  align-items: center;
 }
-.filter_item {
+.filter_item,
+::v-deep .filter_item .el-input {
   margin-right: 0.5rem;
-}
-.users_table {
 }
 </style>
