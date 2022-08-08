@@ -3,6 +3,7 @@ import store from "@/store";
 import router from "@/router";
 import { responseManage, errorManage } from "@/utils/http";
 import { camelize } from "./common";
+import { CMS_PREFFIX_ROUTE } from "../values";
 
 axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
@@ -43,6 +44,13 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if ("onlyForUnauthorized" in to.meta && isUserAuthorized) {
+    next({ path: from.path });
+  }
+
+  if (
+    to.path.includes(CMS_PREFFIX_ROUTE) &&
+    !store.getters.get("user").isAdmin
+  ) {
     next({ path: from.path });
   }
 

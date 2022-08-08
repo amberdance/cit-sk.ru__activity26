@@ -5,6 +5,7 @@ export const APP_DESCRIPTION = () =>
 export const VALIDATE_DEFAULT_ERROR = "Поле обязательно для заполнения";
 export const PASSWORD_STRENGTH_TEXT =
   "Допускаются буквы латинского алфавита, состоящие минимум из 1 цифры, 3 букв в нижнем регистре, 1 буквы в верхнем регистре.";
+export const CMS_PREFFIX_ROUTE = "/watchyourstep";
 
 export const DESKTOP_MENU = [
   {
@@ -30,6 +31,18 @@ export const MOBILE_MENU = [
   {
     label: "Результаты",
     link: "/poll/results",
+  },
+];
+
+export const ADMIN_MENU = [
+  {
+    label: "Пользователи",
+    link: CMS_PREFFIX_ROUTE + "/users",
+  },
+
+  {
+    label: "Опросы",
+    link: CMS_PREFFIX_ROUTE + "/polls",
   },
 ];
 

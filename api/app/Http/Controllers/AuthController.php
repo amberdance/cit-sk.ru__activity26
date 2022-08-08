@@ -115,6 +115,5 @@ class AuthController extends Controller
         $user['is_verified']  = $user->is_active;
 
         return $user;
-
     }
 }

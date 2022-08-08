@@ -118,8 +118,15 @@ li {
 }
 
 section {
+  overflow: hidden;
   position: relative;
   background-color: var(--color-section);
+}
+
+.pagination {
+  margin: 1rem 0;
+  padding: 0;
+  text-align: center;
 }
 
 /************************** COMMON ***************************/
@@ -203,15 +210,14 @@ section {
 }
 
 .el-button {
-  color: #ffffff;
   border-radius: 8px;
-  border: none;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
 }
 
 .el-button--primary {
+  border: none;
   background-color: var(--color-primary);
 }
 
@@ -381,6 +387,9 @@ section {
   text-align: right;
 }
 
+.el-table .cell {
+  word-break: break-word !important;
+}
 
 /************************** MEDIA QUERIES ***************************/
 

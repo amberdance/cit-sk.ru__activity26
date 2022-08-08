@@ -17,15 +17,7 @@
       </CookiePolicy>
     </transition>
 
-    <transition name="el-fade-in-linear">
-      <div
-        v-show="windowTop >= 500"
-        class="up_btn shadowed"
-        v-scroll-to="'#top'"
-      >
-        <i class="el-icon-top"></i>
-      </div>
-    </transition>
+    <ScrollTo />
   </div>
 </template>
 
@@ -33,12 +25,14 @@
 import HeaderLayout from "./HeaderLayout";
 import FooterLayout from "./FooterLayout";
 import CookiePolicy from "../shared/CookiePolicy";
+import ScrollTo from "../shared/ScrollTop";
 
 export default {
   components: {
     HeaderLayout,
     FooterLayout,
     CookiePolicy,
+    ScrollTo,
   },
 
   data() {
@@ -58,15 +52,7 @@ export default {
       this.isCookieBannerHidden = true;
   },
 
-  beforeDestroy() {
-    window.removeEventListener("scroll", this.onScroll);
-  },
-
   methods: {
-    onScroll() {
-      this.windowTop = window.top.scrollY;
-    },
-
     acceptCookie() {
       $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "1d");
       this.isCookieBannerHidden = true;

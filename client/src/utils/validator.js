@@ -14,7 +14,7 @@ export const phoneNumberValidator = (phone) =>
   /^(\+7|7|8)?(9){1}?[\d]{9}$/g.test(phone);
 
 export const emailValidator = (email) =>
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/u.test(
     email
   );
 
@@ -31,4 +31,4 @@ export const birthdatValidator = (birthday) =>
 export const сyrillicValidator = (value) => /^[а-яё]+$/giu.test(value);
 
 export const addressValidator = (address) =>
-  /^[а-яё0-9.,:\\\-/ ]+$/giu.test(address);
+  /^[а-яё\d.,: \-\\/\\]+$/giu.test(address);

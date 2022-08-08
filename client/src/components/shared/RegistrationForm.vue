@@ -121,7 +121,6 @@
                 v-model="formData.email"
                 clearable
                 :disabled="isFormSubmitted"
-                type="email"
                 autocomplete="off"
               />
             </el-form-item>
@@ -201,6 +200,7 @@ import {
   phoneNumberValidator,
   birthdatValidator,
   сyrillicValidator,
+  addressValidator,
 } from "@/utils/validator";
 import { VALIDATE_DEFAULT_ERROR, PASSWORD_STRENGTH_TEXT } from "@/values";
 
@@ -268,7 +268,10 @@ export default {
         address: [
           {
             required: true,
-            message: VALIDATE_DEFAULT_ERROR,
+            validator: (rule, address, callback) =>
+              addressValidator(address)
+                ? callback()
+                : callback(new Error(VALIDATE_DEFAULT_ERROR)),
           },
         ],
 
@@ -380,6 +383,9 @@ export default {
 
             if (e.message.includes("phone"))
               return this.$onWarning("Некорректный формат номера телефона");
+
+            if (e.message.includes("address"))
+              return this.$onWarning("Некорректный формат адреса проживания");
 
             this.$onWarning("Проверьте правильность заполнения всех полей");
 

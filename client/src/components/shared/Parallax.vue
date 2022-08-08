@@ -4,8 +4,7 @@
       class="img clouds"
       tag="img"
       :src="require('@/assets/parallax-bg/clouds.webp')"
-      :strength="0.5"
-      type="depth_inv"
+      :strength="2"
     />
     <kinesis-element
       class="img mountain left_mountain"
@@ -24,8 +23,9 @@
     <kinesis-element
       class="img field"
       tag="img"
+      type="scaleY"
       :src="require('@/assets/parallax-bg/field.webp')"
-      :strength="-5"
+      :strength="0.2"
     />
   </kinesis-container>
 </template>
@@ -43,7 +43,8 @@ export default {
 <style scoped>
 .parallax {
   position: absolute;
-  top: -210px;
+  overflow: hidden;
+  top: -255px;
   right: 0;
 }
 .parallax .img {
@@ -52,15 +53,14 @@ export default {
   width: 100%;
   height: 100%;
 }
-.parallax .clouds {
-  position: relative;
-  height: 1000px;
-}
 .parallax .mountain {
-  position: relative;
+  position: absolute;
   height: 250px;
   width: 50%;
-  top: -340px;
+  top: 660px;
+}
+.parallax .right_mountain {
+  left: 50%;
 }
 .parallax .field {
   position: absolute;

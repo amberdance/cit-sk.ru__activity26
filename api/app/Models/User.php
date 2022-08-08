@@ -38,7 +38,6 @@ class User extends Authenticatable implements JWTSubject
     protected $guarded = [];
 
     protected $hidden = [
-        'id',
         'first_name',
         'last_name',
         'patronymic',
@@ -50,7 +49,6 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'password',
         'is_active',
-        'is_admin',
         'created_at',
         'updated_at',
         'email_verified_at',
@@ -59,11 +57,12 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $casts = [
-        'is_admin'   => 'boolean',
-        'is_active'  => 'boolean',
-        'birthday'   => 'datetime:d.m.Y',
-        'created_at' => 'datetime:d.m.Y H:i:s',
-        'updated_at' => 'datetime:d.m.Y H:i:s',
+        'associate_id'  => 'int',
+        'is_admin'      => 'boolean',
+        'is_active'     => 'boolean',
+        'is_associated' => 'boolean',
+        'created_at'    => 'timestamp:d.m.Y H:i:s',
+        'updated_at'    => 'timestamp:d.m.Y H:i:s',
     ];
 
     protected $appends = ['full_name'];
@@ -74,6 +73,14 @@ class User extends Authenticatable implements JWTSubject
     public function getFullNameAttribute(): string
     {
         return "{$this->last_name} {$this->first_name}" . ($this->patronymic ? " {$this->patronymic}" : "");
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->is_associated && $this->is_active;
     }
 
     /**
@@ -98,10 +105,5 @@ class User extends Authenticatable implements JWTSubject
     public function votes(): HasMany
     {
         return $this->hasMany(PollAnswer::class, 'user_id');
-    }
-
-    public function toArray()
-    {
-        return $this->hidden;
     }
 }

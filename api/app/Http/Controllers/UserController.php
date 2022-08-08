@@ -9,6 +9,7 @@ use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
 use App\Models\Sms;
+use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -34,6 +35,25 @@ class UserController extends Controller
     }
 
     /**
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        return Response::jsonSuccess($this->userRepository->getUsers($request->all()));
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+
+        return Response::jsonSuccess($this->userRepository->getUserById($id));
+    }
+
+    /**
      * @param Request $request
      *
      * @return JsonResponse
@@ -43,11 +63,9 @@ class UserController extends Controller
 
         try {
             $request->validate([
-
                 'confirmPassword' => 'required',
-                'address'         => 'required',
                 'districtId'      => 'required',
-                'address'         => 'required',
+                'address'         => ['required', 'regex:' . ValidationHelper::ADDRESS_REGEXP],
                 'firstName'       => ['required', 'regex:' . ValidationHelper::CYRILIC_REGEXP],
                 'lastName'        => ['required', 'regex:' . ValidationHelper::CYRILIC_REGEXP],
                 'patronymic'      => ['regex:' . ValidationHelper::CYRILIC_REGEXP],
@@ -56,9 +74,9 @@ class UserController extends Controller
                 'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
             ]);
 
-            if ($request->email) {
+            if ($request->email != "") {
                 $request->validate([
-                    'email' => 'email',
+                    'email' => ['regex:' . ValidationHelper::EMAIL_REGEXP],
                 ]);
             }
 
@@ -101,13 +119,19 @@ class UserController extends Controller
     }
 
     /**
-     * @param int $id
+     * @param Request $request
      *
      * @return JsonResponse
      */
-    public function show(int $id): JsonResponse
+    public function transferUsers(Request $request): JsonResponse
     {
-        return Response::jsonSuccess($this->userRepository->getUserById($id));
+        try {
+            UserRepository::moveUsersToInactiveTable();
+
+            return $this->index($request);
+        } catch (Throwable $e) {
+            return Response::jsonError(0, $e->getMessage());
+        }
     }
 
     /**

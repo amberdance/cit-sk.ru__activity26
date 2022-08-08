@@ -183,7 +183,7 @@ export default {
 
         await this.$http.post("/polls/vote", {
           pollId: this.poll.id,
-          userId: this.$store.getters.get("user")["id"],
+          userId: this.$store.getters.get("user").id,
           values: this.getValues(),
         });
 

@@ -2,10 +2,10 @@
 namespace App\Repositories;
 
 use App\Helpers\ValidationHelper;
+use App\Http\Resources\UserCollection;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -15,11 +15,17 @@ class UserRepository implements UserRepositoryInterface
 {
 
     /**
-     * @return Collection
+     * @param array $params
+     *
+     * @return UserCollection
      */
-    public function getUsers(): Collection
+    public function getUsers(array $params): UserCollection
     {
-        return User::all();
+        $select = User::select('*')
+            ->orderByDesc('id')
+            ->paginate($params['perPage'] ?? 50);
+
+        return new UserCollection($select);
     }
 
     /**
@@ -62,14 +68,19 @@ class UserRepository implements UserRepositoryInterface
         return User::where('phone', $phone)->firstOrFail();
     }
 
+    /**
+     * @param array $params
+     *
+     * @return User
+     */
     public function store(array $params): User
     {
 
         return User::create([
-            'first_name'  => $params['firstName'],
-            'last_name'   => $params['lastName'],
-            'patronymic'  => $params['patronymic'],
-            'email'       => $params['email'],
+            'first_name'  => ValidationHelper::mbUcFirst(mb_strtolower($params['firstName'])),
+            'last_name'   => ValidationHelper::mbUcFirst(mb_strtolower($params['lastName'])),
+            'patronymic'  => $params['patronymic'] ? ValidationHelper::mbUcFirst(mb_strtolower($params['patronymic'])) : null,
+            'email'       => strtolower($params['email']),
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
             'address'     => $params['address'],
             'district_id' => $params['districtId'],

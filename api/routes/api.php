@@ -61,3 +61,18 @@ Route::group(['prefix' => 'pages'], function () {
     Route::get('/main/counters', [\App\Http\Controllers\MainPageController::class, 'getCounters']);
     Route::get('/main/news', [\App\Http\Controllers\MainPageController::class, 'getNews']);
 });
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN
+|--------------------------------------------------------------------------
+ */
+
+Route::group([
+    'middleware' => ['auth:api', 'admin'],
+    'prefix'     => 'admin',
+],
+    function () {
+        Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUsers']);
+        Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+    });

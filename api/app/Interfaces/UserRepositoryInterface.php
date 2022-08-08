@@ -1,16 +1,20 @@
 <?php
 namespace App\Interfaces;
 
+use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Database\Eloquent\Collection;
 
 interface UserRepositoryInterface
 {
+
     /**
-     * @return Collection
+     * @param array $params
+     *
+     * @return UserCollection
      */
-    public function getUsers(): Collection;
+    public function getUsers(array $params): UserCollection;
 
     /**
      * @param int $id
