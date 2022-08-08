@@ -40,3 +40,37 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.header {
+  font-size: 20px !important;
+  background-color: rgb(36, 44, 62);
+  padding: 20px 0;
+}
+.header a {
+  color: var(--color-font--secondary);
+  margin: 0 20px;
+  position: relative;
+  line-height: 1;
+}
+.header a:after {
+  display: block;
+  position: absolute;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background-color: var(--color-link);
+  content: "";
+  transition: width 0.3s ease-out;
+}
+
+.header a:hover:after,
+.header a:focus:after {
+  width: 80%;
+}
+
+.header_wrapper {
+  display: flex;
+  justify-content: center;
+}
+</style>
