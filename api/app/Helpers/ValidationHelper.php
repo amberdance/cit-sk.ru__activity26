@@ -8,7 +8,7 @@ class ValidationHelper
     public const PASSWORD_REGEXP = "/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){1,})(?=(.*[0-9]){1,}).{6,}$/";
     public const PHONE_REGEXP    = "/^(\+7|7|8)?(9){1}?[\d]{9}$/";
     public const CYRILIC_REGEXP  = "/^[а-яё]+$/iu";
-    public const ADDRESS_REGEXP  = "/^[а-яё0-9 .,:\-]+$/iu";
+    public const EMAIL_REGEXP    = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/";
 
     /**
      * Removes any non digit symbols from phone number

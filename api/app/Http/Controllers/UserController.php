@@ -63,7 +63,6 @@ class UserController extends Controller
 
         try {
             $request->validate([
-
                 'confirmPassword' => 'required',
                 'address'         => 'required',
                 'districtId'      => 'required',
@@ -78,7 +77,7 @@ class UserController extends Controller
 
             if ($request->email) {
                 $request->validate([
-                    'email' => 'email',
+                    'email' => ['regex:' . ValidationHelper::EMAIL_REGEXP],
                 ]);
             }
 
