@@ -74,7 +74,7 @@ class UserController extends Controller
                 'phone'           => ['required', 'regex:' . ValidationHelper::PHONE_REGEXP],
             ]);
 
-            if ($request->email) {
+            if ($request->email != "") {
                 $request->validate([
                     'email' => ['regex:' . ValidationHelper::EMAIL_REGEXP],
                 ]);
