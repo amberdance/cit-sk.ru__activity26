@@ -121,7 +121,6 @@
                 v-model="formData.email"
                 clearable
                 :disabled="isFormSubmitted"
-                type="email"
                 autocomplete="off"
               />
             </el-form-item>
@@ -384,6 +383,9 @@ export default {
 
             if (e.message.includes("phone"))
               return this.$onWarning("Некорректный формат номера телефона");
+
+            if (e.message.includes("address"))
+              return this.$onWarning("Некорректный формат адреса проживания");
 
             this.$onWarning("Проверьте правильность заполнения всех полей");
 

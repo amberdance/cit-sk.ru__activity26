@@ -70,16 +70,16 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * @param array $params
-     * 
+     *
      * @return User
      */
     public function store(array $params): User
     {
 
         return User::create([
-            'first_name'  => $params['firstName'],
-            'last_name'   => $params['lastName'],
-            'patronymic'  => $params['patronymic'],
+            'first_name'  => ValidationHelper::mbUcFirst(mb_strtolower($params['firstName'])),
+            'last_name'   => ValidationHelper::mbUcFirst(mb_strtolower($params['lastName'])),
+            'patronymic'  => $params['patronymic'] ? ValidationHelper::mbUcFirst(mb_strtolower($params['patronymic'])) : null,
             'email'       => strtolower($params['email']),
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
             'address'     => $params['address'],
