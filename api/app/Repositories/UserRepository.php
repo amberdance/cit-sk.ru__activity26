@@ -266,9 +266,9 @@ class UserRepository implements UserRepositoryInterface
     public static function getUserPopulationCounters(): array
     {
         return DB::table('districts as district')
-            ->select("district.label", DB::raw("COUNT(district.id) as counter"))
+            ->select("district.label", DB::raw("COUNT(district.id) as count"))
             ->leftJoin('users as user', 'district.id', '=', 'user.district_id')
-            ->orderByDesc('counter')
+            ->orderByDesc('count')
             ->groupBy('district.id')
             ->get()
             ->toArray();
