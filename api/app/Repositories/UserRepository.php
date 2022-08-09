@@ -250,10 +250,7 @@ class UserRepository implements UserRepositoryInterface
     public static function getUserStatistics(): array
     {
         $unverifiedUsers = User::select('id')->where('is_active', false)->where('is_active', false)->count();
-
-        if ($unverifiedUsers < 10) {
-            $unverifiedUsers += DB::table('users_inactive')->count('id');
-        }
+        $unverifiedUsers += DB::table('users_inactive')->count('id');
 
         return [
             'total_count'      => User::select('id')->count(),
