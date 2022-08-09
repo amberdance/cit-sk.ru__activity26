@@ -18,11 +18,9 @@ class MainPageController extends Controller
     public function getCounters(): JsonResponse
     {
 
-        $pollRepository = new PollRepository;
-
         return Response::jsonSuccess([
-            'passed_polls_count' => $pollRepository->getPassedPollsCount(),
-            'polls_count'        => $pollRepository->getPollsCount(),
+            'passed_polls_count' => PollRepository::getPassedPollsCount(),
+            'polls_count'        => PollRepository::getPollsCount(),
             'users_count'        => (new UserRepository)->getUsersCount(),
         ]);
     }

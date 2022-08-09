@@ -6,6 +6,7 @@ use App\Models\Polls\Poll;
 use App\Models\Polls\PollAnswer;
 use App\Models\Polls\PollQuestion;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class PollRepository implements PollRepositoryInterface
 {
@@ -125,24 +126,6 @@ class PollRepository implements PollRepositoryInterface
     }
 
     /**
-     * @param bool $onlyActive
-     *
-     * @return int
-     */
-    public function getPollsCount(bool $onlyActive = true): int
-    {
-        $result = 0;
-
-        if ($onlyActive) {
-            $result = Poll::select('id')->where('is_active', true)->count();
-        } else {
-            $result = Poll::all('id')->count();
-        }
-
-        return $result;
-    }
-
-    /**
      * @param int $pollId
      *
      * @return array
@@ -177,9 +160,27 @@ class PollRepository implements PollRepositoryInterface
     }
 
     /**
+     * @param bool $onlyActive
+     *
      * @return int
      */
-    public function getPassedPollsCount(bool $isCountDeletedUsers = false): int
+    public static function getPollsCount(bool $onlyActive = true): int
+    {
+        $result = 0;
+
+        if ($onlyActive) {
+            $result = Poll::select('id')->where('is_active', true)->count();
+        } else {
+            $result = Poll::all('id')->count();
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public static function getPassedPollsCount(bool $isCountDeletedUsers = false): int
     {
         $result = 0;
 
@@ -192,4 +193,16 @@ class PollRepository implements PollRepositoryInterface
         return $result;
     }
 
+    /**
+     * @return array
+     */
+    public static function getPollsByCategoryCount(): array
+    {
+        return Poll::select(DB::raw("COUNT(polls.id) as count"), 'category.label')
+            ->leftJoin('poll_categories as category', 'category.id', '=', 'polls.category_id')
+            ->orderByDesc('count')
+            ->groupBy('category.id')
+            ->get()
+            ->toArray();
+    }
 }
