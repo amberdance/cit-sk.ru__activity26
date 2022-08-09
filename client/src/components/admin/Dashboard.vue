@@ -3,5 +3,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  async created() {
+    const response = await this.$http.get("/admin/dashboard");
+
+    console.log(response);
+  },
+};
 </script>
