@@ -14,7 +14,8 @@ class CmsController extends Controller
     public function dashboard(): JsonResponse
     {
         return Response::jsonSuccess([
-            'users' => UserRepository::getUserStatistics(),
+            'users'      => UserRepository::getUserRegistrationCounters(),
+            'population' => UserRepository::getUserPopulationCounters(),
         ]);
     }
 

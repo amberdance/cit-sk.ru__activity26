@@ -73,8 +73,4 @@ export default {
   display: flex;
   justify-content: center;
 }
-
-.content {
-  min-height: 90vh;
-}
 </style>

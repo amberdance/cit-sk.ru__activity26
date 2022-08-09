@@ -6,6 +6,7 @@ use App\Http\Resources\UserCollection;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -247,18 +248,27 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @return array
      */
-    public static function getUserStatistics(): array
+    public static function getUserRegistrationCounters(): array
     {
         $unverifiedUsers = User::select('id')->where('is_active', false)->where('is_active', false)->count();
-
-        if ($unverifiedUsers < 10) {
-            $unverifiedUsers += DB::table('users_inactive')->count('id');
-        }
+        $unverifiedUsers += DB::table('users_inactive')->count('id');
 
         return [
             'total_count'      => User::select('id')->count(),
             'verified_count'   => User::select('id')->where('is_active', true)->where('is_active', true)->count(),
             'unverified_count' => $unverifiedUsers,
         ];
+    }
+
+    /**
+     * @return Collection
+     */
+    public static function getUserPopulationCounters(): Collection
+    {
+        return User::select("district.label", DB::raw("COUNT(district.id) as counter"))
+            ->leftJoin('districts as district', 'district.id', '=', 'users.district_id')
+            ->orderByDesc('counter')
+            ->groupBy('district.id')
+            ->get();
     }
 }
