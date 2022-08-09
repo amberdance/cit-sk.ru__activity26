@@ -37,7 +37,7 @@ export const MOBILE_MENU = [
 export const ADMIN_MENU = [
   {
     label: "Главная",
-    link: CMS_PREFFIX_ROUTE,
+    link: CMS_PREFFIX_ROUTE + "/dashboard",
   },
 
   {

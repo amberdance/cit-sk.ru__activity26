@@ -17,7 +17,7 @@
     </div>
 
     <div class="content">
-      <slot></slot>
+      <router-view></router-view>
     </div>
 
     <ScrollTop />
@@ -72,5 +72,9 @@ export default {
 .header_wrapper {
   display: flex;
   justify-content: center;
+}
+
+.content {
+  min-height: 90vh;
 }
 </style>

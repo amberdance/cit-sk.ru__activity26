@@ -1,14 +1,7 @@
 <template>
-  <CmsLayout>
-    <div>Nothing yet</div>
-  </CmsLayout>
+  <div>Nothing yet</div>
 </template>
 
 <script>
-import CmsLayout from "../layouts/CmsLayout.vue";
-export default {
-  components: {
-    CmsLayout,
-  },
-};
+export default {};
 </script>
