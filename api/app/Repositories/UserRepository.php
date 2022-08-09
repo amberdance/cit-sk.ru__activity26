@@ -243,4 +243,22 @@ class UserRepository implements UserRepositoryInterface
             }
         }
     }
+
+    /**
+     * @return array
+     */
+    public static function getUserStatistics(): array
+    {
+        $unverifiedUsers = User::select('id')->where('is_active', false)->where('is_active', false)->count();
+
+        if ($unverifiedUsers < 10) {
+            $unverifiedUsers += DB::table('users_inactive')->count('id');
+        }
+
+        return [
+            'total_count'      => User::select('id')->count(),
+            'verified_count'   => User::select('id')->where('is_active', true)->where('is_active', true)->count(),
+            'unverified_count' => $unverifiedUsers,
+        ];
+    }
 }

@@ -75,4 +75,5 @@ Route::group([
     function () {
         Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUsers']);
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
+        Route::get('/dashboard', [\App\Http\Controllers\CmsController::class, 'dashboard']);
     });
