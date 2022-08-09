@@ -46,7 +46,7 @@ export const ADMIN_MENU = [
   },
 
   {
-    label: "Активный гражданин",
+    label: "Опросы",
     link: CMS_PREFFIX_ROUTE + "/polls",
   },
 ];

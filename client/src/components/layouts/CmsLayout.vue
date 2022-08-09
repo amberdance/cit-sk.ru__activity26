@@ -6,9 +6,9 @@
           <div class="menu">
             <router-link
               class="menu-item"
-              :to="item.link"
               v-for="(item, i) in menu"
               :key="i"
+              :to="item.link"
               >{{ item.label }}</router-link
             >
           </div>
@@ -43,8 +43,8 @@ export default {
 
 <style scoped>
 .header {
-  font-size: 20px !important;
-  background-color: rgb(36, 44, 62);
+  font-size: 20px;
+  background-color: var(--color-secondary);
   padding: 20px 0;
 }
 .header a {
@@ -66,7 +66,7 @@ export default {
 
 .header a:hover:after,
 .header a:focus:after {
-  width: 80%;
+  width: 85%;
 }
 
 .header_wrapper {
