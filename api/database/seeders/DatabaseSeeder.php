@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Factories\DistrictsFactory;
 use Database\Factories\Polls\PollFactory;
 use Illuminate\Database\Seeder;
 
@@ -16,10 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create();
-        PollFactory::politics();
-        PollFactory::comfortableCity();
-        PollFactory::traveling();
-        PollFactory::transport();
+        // User::factory()->create();
+        // PollFactory::politics();
+        // PollFactory::comfortableCity();
+        // PollFactory::traveling();
+        // PollFactory::transport();
+        DistrictsFactory::fillDistricts();
     }
 }

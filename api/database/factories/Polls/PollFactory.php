@@ -33,7 +33,12 @@ class PollFactory extends Factory
         ];
     }
 
-    private static function push(array $data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    private static function push(array $data): void
     {
         $data['poll']['category_id'] = PollCategory::create([
             'label' => $data['category'],
