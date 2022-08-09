@@ -261,14 +261,16 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @return Collection
+     * @return array
      */
-    public static function getUserPopulationCounters(): Collection
+    public static function getUserPopulationCounters(): array
     {
-        return User::select("district.label", DB::raw("COUNT(district.id) as counter"))
-            ->leftJoin('districts as district', 'district.id', '=', 'users.district_id')
+        return DB::table('districts as district')
+            ->select("district.label", DB::raw("COUNT(district.id) as counter"))
+            ->leftJoin('users as user', 'district.id', '=', 'user.district_id')
             ->orderByDesc('counter')
             ->groupBy('district.id')
-            ->get();
+            ->get()
+            ->toArray();
     }
 }
