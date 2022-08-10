@@ -81,7 +81,7 @@ class UserRepository implements UserRepositoryInterface
             'first_name'  => ValidationHelper::mbUcFirst(mb_strtolower($params['firstName'])),
             'last_name'   => ValidationHelper::mbUcFirst(mb_strtolower($params['lastName'])),
             'patronymic'  => $params['patronymic'] ? ValidationHelper::mbUcFirst(mb_strtolower($params['patronymic'])) : null,
-            'email'       => strtolower($params['email']),
+            'email'       => $params['email'] ? strtolower($params['email']) : null,
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
             'address'     => $params['address'],
             'district_id' => $params['districtId'],
@@ -250,11 +250,12 @@ class UserRepository implements UserRepositoryInterface
      */
     public static function getUserRegistrationCounters(): array
     {
-        $unverifiedUsers = User::select('id')->where('is_active', false)->where('is_active', false)->count();
-        $unverifiedUsers += DB::table('users_inactive')->count('id');
+        $usersFromInactiveTable = DB::table('users_inactive')->count();
+        $unverifiedUsers        = User::select('id')->where('is_active', false)->where('is_active', false)->count();
+        $unverifiedUsers += $usersFromInactiveTable;
 
         return [
-            'total_count'      => User::select('id')->count(),
+            'total_count'      => User::select('id')->count() + $usersFromInactiveTable,
             'verified_count'   => User::select('id')->where('is_active', true)->where('is_active', true)->count(),
             'unverified_count' => $unverifiedUsers,
         ];
