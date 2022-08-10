@@ -124,9 +124,6 @@
                 autocomplete="off"
               />
             </el-form-item>
-            <div class="hint">
-              <span>Буквы только латинского алфавита.</span>
-            </div>
           </div>
 
           <div class="form_item">
@@ -431,6 +428,7 @@ export default {
   font-size: 18px;
   color: #333;
 }
+
 .form_item .hint,
 .registrate_wrapper .policy_text {
   color: #9ea4ac;
@@ -448,6 +446,7 @@ export default {
   margin-right: 20px;
 }
 .form_item .hint {
+  margin-top: 15px;
   font-weight: bold;
   font-size: 14px;
 }

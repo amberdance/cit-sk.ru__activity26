@@ -81,7 +81,7 @@ class UserRepository implements UserRepositoryInterface
             'first_name'  => ValidationHelper::mbUcFirst(mb_strtolower($params['firstName'])),
             'last_name'   => ValidationHelper::mbUcFirst(mb_strtolower($params['lastName'])),
             'patronymic'  => $params['patronymic'] ? ValidationHelper::mbUcFirst(mb_strtolower($params['patronymic'])) : null,
-            'email'       => strtolower($params['email']),
+            'email'       => $params['email'] ? strtolower($params['email']) : null,
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
             'address'     => $params['address'],
             'district_id' => $params['districtId'],
