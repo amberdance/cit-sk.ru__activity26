@@ -36,7 +36,9 @@ ChartJS.register(
 export default {
   async created() {
     const response = await this.$http.get("/admin/dashboard");
-    console.log(response.population);
+    response.population.forEach(item => {
+      console.log(item.label)
+    });
   },
 
   name: "BarChart",
