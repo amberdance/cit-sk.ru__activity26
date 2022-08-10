@@ -1,17 +1,20 @@
 <template>
   <div class="dashboard">
     <div class="visitors">
-      <ChartVisitors />
+      <BarChart />
+      <HoriszntalBarChart />
     </div>
   </div>
 </template>
 
 <script>
-import ChartVisitors from "./ChartVisitors.vue";
+import BarChart from "./BarChart.vue";
+import HoriszntalBarChart from "./HoriszntalBarChart.vue";
 
 export default {
   components: {
-    ChartVisitors,
+    BarChart,
+    HoriszntalBarChart,
   },
 
   async created() {
@@ -25,11 +28,14 @@ export default {
 <style scoped>
 .dashboard {
   background-color: #ebebeb;
-  /* display: flex;
-  justify-content: center; */
-  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
 }
 .visitors {
-  background-color: #ffffff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
