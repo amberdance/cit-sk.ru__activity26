@@ -1,13 +1,13 @@
 <template>
   <div class="dashboard">
     <div class="visitors">
-      <ChartVisitors/>
+      <ChartVisitors />
     </div>
   </div>
 </template>
 
 <script>
-import ChartVisitors from './ChartVisitors.vue';
+import ChartVisitors from "./ChartVisitors.vue";
 
 export default {
   components: {
@@ -25,12 +25,11 @@ export default {
 <style scoped>
 .dashboard {
   background-color: #ebebeb;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   padding: 1rem;
-}  
+}
 .visitors {
-  background-color: #FFFFFF;
-  padding: 1rem;
+  background-color: #ffffff;
 }
 </style>
