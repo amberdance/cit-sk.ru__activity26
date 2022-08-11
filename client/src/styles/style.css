@@ -377,6 +377,31 @@ section {
   word-break: break-word !important;
 }
 
+/************************** CHARTS ***************************/
+
+.bar_wrapper {
+  width: 49%;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.bar_data {
+  background-color: #ffffff;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bar_result {
+  font-size: 40px;
+}
+
+.canvas_wrapper {
+  position: relative;
+  background-color: #ffffff;
+  padding: 1rem;
+  min-height: 300px;
+}
+
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 390px) {

@@ -2,7 +2,7 @@
   <div class="bar_wrapper">
     <div class="bar_data">
       <div class="title">Всего пользователей</div>
-      <div class="result">{{ dashboard.users.totalCount }}</div>
+      <div class="bar_result">{{ dashboard.users.totalCount }}</div>
     </div>
     <Bar
       class="canvas_wrapper"
@@ -54,6 +54,10 @@ export default {
       chartOptions: {
         scales: {
           x: {
+            ticks: {
+              display: false,
+            },
+
             grid: {
               display: false,
             },
@@ -77,24 +81,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.bar_wrapper {
-  font-size: 16px;
-  font-weight: 500;
-  max-width: 950px;
-}
-.bar_data {
-  background-color: #ffffff;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.result {
-  font-size: 40px;
-}
-.canvas_wrapper {
-  background-color: #ffffff;
-  padding: 1rem;
-}
-</style>
