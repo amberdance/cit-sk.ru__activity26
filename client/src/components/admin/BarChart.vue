@@ -1,8 +1,8 @@
 <template>
   <div class="bar_wrapper">
     <div class="bar_data">
-      <div class="title">Посетители сайта</div>
-      <div class="result">125 000</div>
+      <div class="bar_title">Посетители сайта</div>
+      <div class="bar_result">125 000</div>
     </div>
     <Bar
       :chart-options="chartOptions"
@@ -56,26 +56,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.bar_wrapper {
-  width: 49%;
-  font-size: 16px;
-  font-weight: 500;
-}
-.bar_data {
-  background-color: #ffffff;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-}
-
-.result {
-  font-size: 40px;
-}
-.canvas_wrapper {
-  position: relative;
-  background-color: #ffffff;
-  padding: 1rem;
-  min-height: 300px;
-}
-</style>

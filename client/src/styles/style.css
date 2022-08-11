@@ -249,7 +249,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -351,7 +351,7 @@ section {
   transform: translateZ(2000);
 }
 
-.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
@@ -377,6 +377,27 @@ section {
   word-break: break-word !important;
 }
 
+/*-------------CHART BAR----------------- */
+.bar_wrapper {
+  width: 49%;
+  font-size: 16px;
+  font-weight: 500;
+}
+.bar_data {
+  background-color: #ffffff;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.bar_result {
+  font-size: 40px;
+}
+.canvas_wrapper {
+  position: relative;
+  background-color: #ffffff;
+  padding: 1rem;
+  min-height: 300px;
+}
 /************************** MEDIA QUERIES ***************************/
 
 @media (max-width: 390px) {
