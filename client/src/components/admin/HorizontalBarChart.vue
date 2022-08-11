@@ -1,8 +1,8 @@
 <template>
-  <div class="bar_wrapper" v-if="population">
+  <div class="bar_wrapper">
     <div class="bar_data">
-      <div class="title">Пользователи по регионам</div>
-      <div class="result">{{ population.length }}</div>
+      <div class="title">Всего пользователей</div>
+      <div class="result">{{ dashboard.users.totalCount }}</div>
     </div>
     <Bar
       class="canvas_wrapper"
@@ -46,26 +46,31 @@ export default {
             label: "Пользователи по регионам",
             backgroundColor: "#2488d4",
             data: [],
+            minBarLength: 2,
           },
         ],
       },
 
       chartOptions: {
-        responsive: true,
-        maintainAspectRatio: false,
-        indexAxis: "y",
+        scales: {
+          x: {
+            grid: {
+              display: false,
+            },
+          },
+        },
       },
     };
   },
 
   computed: {
-    population() {
-      return this.$store.getters.get("dashboard").population;
+    dashboard() {
+      return this.$store.getters.get("dashboard");
     },
   },
 
   created() {
-    this.population.forEach(({ label, count }) => {
+    this.dashboard.population.forEach(({ label, count }) => {
       this.chartData.labels.push(label);
       this.chartData.datasets[0].data.push(count);
     });
@@ -75,9 +80,9 @@ export default {
 
 <style scoped>
 .bar_wrapper {
-  width: 49%;
   font-size: 16px;
   font-weight: 500;
+  max-width: 950px;
 }
 .bar_data {
   background-color: #ffffff;
@@ -89,9 +94,7 @@ export default {
   font-size: 40px;
 }
 .canvas_wrapper {
-  position: relative;
   background-color: #ffffff;
   padding: 1rem;
-  min-height: 300px;
 }
 </style>

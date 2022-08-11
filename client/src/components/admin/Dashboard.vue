@@ -1,19 +1,14 @@
 <template>
   <div class="dashboard">
-    <div class="visitors">
-      <BarChart v-if="isLoaded" />
-      <HorizontalBarChart v-if="isLoaded" />
-    </div>
+    <HorizontalBarChart v-if="isLoaded" />
   </div>
 </template>
 
 <script>
-import BarChart from "./BarChart.vue";
 import HorizontalBarChart from "./HorizontalBarChart.vue";
 
 export default {
   components: {
-    BarChart,
     HorizontalBarChart,
   },
 
@@ -38,10 +33,10 @@ export default {
 <style scoped>
 .dashboard {
   background-color: #ebebeb;
-  width: 100%;
-  height: 100%;
+  min-height: 100vh;
   padding: 2rem;
 }
+
 .visitors {
   height: 100%;
   width: 100%;
