@@ -1,13 +1,13 @@
 <template>
-  <div class="bar_wrapper">
+  <div class="bar_wrapper" v-if="population">
     <div class="bar_data">
-      <div class="title">Населенные пункты</div>
-      <div class="result">33</div>
+      <div class="title">Пользователи по регионам</div>
+      <div class="result">{{ population.length }}</div>
     </div>
     <Bar
+      class="canvas_wrapper"
       :chart-options="chartOptions"
       :chart-data="chartData"
-      class="canvas_wrapper"
     />
   </div>
 </template>
@@ -34,41 +34,41 @@ ChartJS.register(
 );
 
 export default {
-  async created() {
-    const response = await this.$http.get("/admin/dashboard");
-    response.population.forEach(item => {
-      console.log(item.label)
-    });
-  },
-
-  name: "BarChart",
   components: { Bar },
+
   data() {
     return {
       chartData: {
-        labels: [
-          "Ставрополь",
-          "Туруновский",
-          "Районовский",
-          "Тестовый",
-          "Программистский",
-          "Неважны",
-          "Важный",
-        ],
+        labels: [],
+
         datasets: [
           {
-            label: "Количество голосов",
+            label: "Пользователи по регионам",
             backgroundColor: "#2488d4",
-            data: [200, 32, 12, 100, 130, 800, 1500],
+            data: [],
           },
         ],
       },
+
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: "y",
       },
     };
+  },
+
+  computed: {
+    population() {
+      return this.$store.getters.get("dashboard").population;
+    },
+  },
+
+  created() {
+    this.population.forEach(({ label, count }) => {
+      this.chartData.labels.push(label);
+      this.chartData.datasets[0].data.push(count);
+    });
   },
 };
 </script>

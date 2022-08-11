@@ -1,26 +1,36 @@
 <template>
   <div class="dashboard">
     <div class="visitors">
-      <BarChart />
-      <HoriszntalBarChart />
+      <BarChart v-if="isLoaded" />
+      <HorizontalBarChart v-if="isLoaded" />
     </div>
   </div>
 </template>
 
 <script>
 import BarChart from "./BarChart.vue";
-import HoriszntalBarChart from "./HoriszntalBarChart.vue";
+import HorizontalBarChart from "./HorizontalBarChart.vue";
 
 export default {
   components: {
     BarChart,
-    HoriszntalBarChart,
+    HorizontalBarChart,
+  },
+
+  data() {
+    return {
+      isLoaded: false,
+    };
   },
 
   async created() {
-    const response = await this.$http.get("/admin/dashboard");
-
-    console.log(response);
+    try {
+      await this.$store.dispatch("loadDashboard");
+      this.isLoaded = true;
+    } catch (e) {
+      this.$onError();
+      console.error(e);
+    }
   },
 };
 </script>

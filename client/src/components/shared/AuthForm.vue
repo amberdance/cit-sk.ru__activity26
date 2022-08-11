@@ -139,7 +139,7 @@ export default {
       try {
         const data = await this.$http.post("/auth/login", this.formData);
         $cookies.set("access_token", data.accessToken);
-        this.$store.commit("setUser", data.user);
+        this.$store.commit("setState", { key: "user", value: data.user });
         this.$emit("onSuccessfullAuth");
       } catch (e) {
         if (e.response.status == 401)

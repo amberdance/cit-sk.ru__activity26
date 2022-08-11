@@ -7,6 +7,7 @@ export default {
   state: {
     common: {},
     user: {},
+    dashboard: {},
     polls: [],
     news: [],
   },
@@ -22,12 +23,8 @@ export default {
   },
 
   mutations: {
-    set(state, { key, value }) {
-      state.common[key] = value;
-    },
-
-    setUser(state, payload) {
-      state.user = payload;
+    setState(state, { key, value }) {
+      state[key] = value;
     },
 
     ...mutations,
@@ -44,6 +41,12 @@ export default {
       commit("clear", "polls");
       const news = await dispatch.get("/pages/main/news", params);
       news.forEach((props) => commit("set", { key: "news", props }));
+    },
+
+    async loadDashboard({ commit }) {
+      commit("clear", "dashboard");
+      const dashboard = await dispatch.get("/admin/dashboard");
+      commit("setState", { key: "dashboard", value: dashboard });
     },
   },
 };

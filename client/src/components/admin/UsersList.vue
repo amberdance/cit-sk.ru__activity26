@@ -45,6 +45,13 @@
         @click="transferUsers"
         >Перенести всех неактивных пользователей</el-button
       >
+
+      <el-button
+        type="primary"
+        style="max-width: 150px; white-space: break-spaces"
+        @click="transferUsers($event, true)"
+        >Объеденить неактивных пользователей</el-button
+      >
     </div>
 
     <div class="users_table">
@@ -236,10 +243,12 @@ export default {
       await this.getUsers();
     },
 
-    async transferUsers() {
+    async transferUsers(event, isMerge = false) {
       try {
         await this.$confirm(
-          "Данное действие переносит пользователей, не подвердивших смс кодом свой номер телефона в другую таблицу в БД. Это может занять более длительное время ожидания.Продолжить ?",
+          isMerge
+            ? "Объеденить невалидных пользователей с остальными?"
+            : "Данное действие переносит пользователей, не подвердивших смс кодом свой номер телефона в другую таблицу в БД. Это может занять более длительное время ожидания.Продолжить ?",
           {
             confirmButtonText: "Да",
             cancelButtonText: "Подумаю",
@@ -252,7 +261,14 @@ export default {
 
       try {
         this.isLoading = true;
-        await this.$http.get("/admin/users/transfer");
+
+        const data = await this.$http.get(
+          "/admin/users/transfer",
+          isMerge ? { merge: true } : null
+        );
+
+        this.users = data.users;
+        this.pagination = data.pagination;
         this.$onSuccess();
       } catch (e) {
         this.$onError();

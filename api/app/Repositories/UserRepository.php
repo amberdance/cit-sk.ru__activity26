@@ -220,9 +220,9 @@ class UserRepository implements UserRepositoryInterface
                     'password'          => $user->password,
                     'phone'             => $user->phone,
                     'ip_address'        => $user->ip_address,
-                    'is_active'         => false,
                     'is_admin'          => $user->is_admin,
                     'points'            => $user->points,
+                    'is_active'         => false,
                     'is_associated'     => false,
                     'associate_id'      => $user->associate_id,
                 ]);
@@ -238,6 +238,55 @@ class UserRepository implements UserRepositoryInterface
                     if ($error[1] == 1062) {
                         $user->delete();
 
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public static function mergeUsersWithInactive(): void
+    {
+
+        $users = DB::table('users_inactive')->get();
+
+        foreach ($users as $key => $user) {
+            try {
+                User::create([
+                    'uuid'              => $user->uuid,
+                    'created_at'        => $user->created_at,
+                    'updated_at'        => $user->updated_at,
+                    'email_verified_at' => $user->email_verified_at,
+                    'first_name'        => $user->first_name,
+                    'last_name'         => $user->last_name,
+                    'patronymic'        => $user->patronymic,
+                    'district_id'       => $user->district_id,
+                    'address'           => $user->address,
+                    'birthday'          => $user->birthday,
+                    'email'             => $user->email,
+                    'password'          => $user->password,
+                    'phone'             => $user->phone,
+                    'ip_address'        => $user->ip_address,
+                    'is_admin'          => $user->is_admin,
+                    'points'            => $user->points,
+                    'associate_id'      => $user->associate_id,
+                    'is_associated'     => false,
+                    'is_active'         => false,
+                ]);
+
+                DB::table('users_inactive')->where('id', $user->id)->delete();
+
+            } catch (Throwable $e) {
+
+                if (property_exists($e, 'errorInfo')) {
+                    $error = $e->errorInfo;
+
+                    // Dublicate entry error
+                    if ($error[1] == 1062) {
+                        DB::table('users_inactive')->where('id', $user->id)->delete();
                         continue;
                     }
                 }

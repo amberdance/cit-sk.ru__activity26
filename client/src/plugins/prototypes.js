@@ -44,7 +44,7 @@ const plugins = () => {
       onSuccess("Возвращайтесь !");
 
       $cookies.remove("access_token");
-      store.commit("setUser", {});
+      store.commit("clear", "user");
     }
   };
 

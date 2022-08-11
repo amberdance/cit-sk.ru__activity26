@@ -201,7 +201,7 @@ export default {
         if (e.code == 66) return this.$onError("Ответьте на вопросы");
 
         if (e.code == 401) {
-          this.$store.commit("setUser", {});
+          store.commit("clear", "user");
           this.authComponent = () => import("@/components/shared/AuthForm.vue");
         } else if (e.code == 12) {
           this.isVoted = true;
