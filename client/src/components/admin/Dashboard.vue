@@ -1,15 +1,15 @@
 <template>
   <div class="dashboard">
-    <HorizontalBarChart v-if="isLoaded" />
+    <BarChart v-if="isLoaded" />
   </div>
 </template>
 
 <script>
-import HorizontalBarChart from "./HorizontalBarChart.vue";
+import BarChart from "./charts/BarChart.vue";
 
 export default {
   components: {
-    HorizontalBarChart,
+    BarChart,
   },
 
   data() {
@@ -35,12 +35,5 @@ export default {
   background-color: #ebebeb;
   min-height: 100vh;
   padding: 2rem;
-}
-
-.visitors {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 }
 </style>
