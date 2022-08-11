@@ -1,11 +1,11 @@
 <template>
-  <div class="bar_wrapper">
-    <div class="bar_data">
-      <div class="title">Всего пользователей</div>
-      <div class="bar_result">{{ dashboard.users.totalCount }}</div>
+  <div class="chart_wrapper w-100">
+    <div class="chart_data">
+      <div class="title">Населенных пунктов</div>
+      <div class="chart_result">{{ dashboard.population.length }}</div>
     </div>
     <Bar
-      class="canvas_wrapper"
+      class="canvas_wrapper h-90"
       :chart-options="chartOptions"
       :chart-data="chartData"
     />
@@ -52,6 +52,9 @@ export default {
       },
 
       chartOptions: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: "y",
         scales: {
           x: {
             ticks: {

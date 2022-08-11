@@ -189,6 +189,10 @@ section {
   width: 100% !important;
 }
 
+.h-90 {
+  height: 90% !important;
+}
+
 .heading {
   font-size: 26px;
   margin-bottom: 10px;
@@ -249,7 +253,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked+.el-radio__label {
+.el-radio__input.is-checked + .el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -351,7 +355,7 @@ section {
   transform: translateZ(2000);
 }
 
-.el-radio-button__orig-radio:checked+.el-radio-button__inner {
+.el-radio-button__orig-radio:checked + .el-radio-button__inner {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
@@ -379,19 +383,20 @@ section {
 
 /************************** CHARTS ***************************/
 
-.bar_wrapper {
+.chart_wrapper {
   width: 49%;
   font-size: 16px;
   font-weight: 500;
+  padding-bottom: 2rem;
 }
 
-.bar_data {
+.chart_data {
   background-color: #ffffff;
   padding: 1rem;
   margin-bottom: 0.5rem;
 }
 
-.bar_result {
+.chart_result {
   font-size: 40px;
 }
 
@@ -399,7 +404,7 @@ section {
   position: relative;
   background-color: #ffffff;
   padding: 1rem;
-  min-height: 300px;
+  height: 300px;
 }
 
 /************************** MEDIA QUERIES ***************************/
