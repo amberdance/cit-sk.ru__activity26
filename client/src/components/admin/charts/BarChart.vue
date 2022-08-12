@@ -6,7 +6,7 @@
     </div>
     <Bar
       class="canvas_wrapper"
-      style="min-height: 600px"
+      :styles="{ minHeight: '600px' }"
       :chart-options="chartOptions"
       :chart-data="chartData"
     />
@@ -47,8 +47,6 @@ export default {
             label: "Пользователи по регионам",
             backgroundColor: "#2488d4",
             data: [],
-            minBarLength: 20,
-            min: 10,
           },
         ],
       },
@@ -56,7 +54,6 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
-        indexAxis: "y",
       },
     };
   },
