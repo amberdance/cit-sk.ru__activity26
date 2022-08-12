@@ -1,8 +1,8 @@
 <template>
-  <div class="chart_wrapper">
-    <div class="chart_data">
+  <div class="chart_wrapper shadowed">
+    <div class="chart_heading shadowed">
       <div class="title">Всего пользователей</div>
-      <div class="chart_result">{{ dashboard.users.totalCount }}</div>
+      <div class="chart_result">{{ users.totalCount }}</div>
     </div>
     <Pie
       class="canvas_wrapper"
@@ -14,7 +14,6 @@
 
 <script>
 import { Pie } from "vue-chartjs";
-
 import {
   Chart as ChartJS,
   Title,
@@ -35,6 +34,7 @@ export default {
     return {
       chartData: {
         labels: ["Не подтвержденные", "Подтвержденные"],
+
         datasets: [
           {
             backgroundColor: ["#01409a", "#2488d4"],
@@ -42,6 +42,7 @@ export default {
           },
         ],
       },
+
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -49,14 +50,16 @@ export default {
     };
   },
   computed: {
-    dashboard() {
-      return this.$store.getters.get("dashboard");
+    users() {
+      return this.$store.getters.get("dashboard").users;
     },
   },
 
   created() {
-    this.chartData.datasets[0].data.push(this.dashboard.users.unverifiedCount);
-    this.chartData.datasets[0].data.push(this.dashboard.users.verifiedCount);
+    this.chartData.datasets[0].data.push(
+      this.users.unverifiedCount,
+      this.users.verifiedCount
+    );
   },
 };
 </script>

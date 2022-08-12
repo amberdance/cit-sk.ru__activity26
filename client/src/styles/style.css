@@ -387,10 +387,10 @@ section {
   width: 49%;
   font-size: 16px;
   font-weight: 500;
-  padding-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
-.chart_data {
+.chart_heading {
   background-color: #ffffff;
   padding: 1rem;
   margin-bottom: 0.5rem;

@@ -1,11 +1,12 @@
 <template>
-  <div class="chart_wrapper w-100">
-    <div class="chart_data">
+  <div class="chart_wrapper shadowed">
+    <div class="chart_heading shadowed">
       <div class="title">Населенных пунктов</div>
-      <div class="chart_result">{{ dashboard.population.length }}</div>
+      <div class="chart_result">33</div>
     </div>
     <Bar
-      class="canvas_wrapper h-90"
+      class="canvas_wrapper"
+      style="min-height: 600px"
       :chart-options="chartOptions"
       :chart-data="chartData"
     />
@@ -46,7 +47,8 @@ export default {
             label: "Пользователи по регионам",
             backgroundColor: "#2488d4",
             data: [],
-            minBarLength: 2,
+            minBarLength: 20,
+            min: 10,
           },
         ],
       },
@@ -55,29 +57,20 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: "y",
-        scales: {
-          x: {
-            ticks: {
-              display: false,
-            },
-
-            grid: {
-              display: false,
-            },
-          },
-        },
       },
     };
   },
 
   computed: {
-    dashboard() {
-      return this.$store.getters.get("dashboard");
+    population() {
+      return this.$store.getters
+        .get("dashboard")
+        .population.filter(({ count }) => count > 20);
     },
   },
 
   created() {
-    this.dashboard.population.forEach(({ label, count }) => {
+    this.population.forEach(({ label, count }) => {
       this.chartData.labels.push(label);
       this.chartData.datasets[0].data.push(count);
     });

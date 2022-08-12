@@ -1,8 +1,8 @@
 <template>
-  <div class="chart_wrapper">
-    <div class="chart_data">
+  <div class="chart_wrapper shadowed">
+    <div class="chart_heading shadowed">
       <div class="title">Принято мнений</div>
-      <div class="chart_result">{{ dashboard.polls.passedCount }}</div>
+      <div class="chart_result">{{ polls.passedCount }}</div>
     </div>
     <Doughnut
       class="canvas_wrapper"
@@ -15,22 +15,12 @@
 <script>
 import { Doughnut } from "vue-chartjs/legacy";
 
-import {
-  Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-  CategoryScale,
-} from "chart.js";
-
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale);
-
 export default {
   name: "DoughnutChart",
   components: {
     Doughnut,
   },
+
   data() {
     return {
       chartData: {
@@ -42,20 +32,22 @@ export default {
           },
         ],
       },
+
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
       },
     };
   },
+
   computed: {
-    dashboard() {
-      return this.$store.getters.get("dashboard");
+    polls() {
+      return this.$store.getters.get("dashboard").polls;
     },
   },
 
   created() {
-    this.dashboard.polls.categories.forEach(({ label, count }) => {
+    this.polls.categories.forEach(({ label, count }) => {
       this.chartData.labels.push(label);
       this.chartData.datasets[0].data.push(count);
     });
