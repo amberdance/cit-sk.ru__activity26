@@ -180,7 +180,7 @@ class PollRepository implements PollRepositoryInterface
     /**
      * @return int
      */
-    public static function getPassedPollsCount(bool $isCountDeletedUsers = false): int
+    public static function getPassedPollsCount(bool $isCountDeletedUsers = true): int
     {
         $result = 0;
 

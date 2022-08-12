@@ -22,11 +22,37 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUsers(array $params): UserCollection
     {
-        $select = User::select('*')
-            ->orderByDesc('id')
-            ->paginate($params['perPage'] ?? 50);
+        $collection = User::select('*')->orderByDesc('id');
 
-        return new UserCollection($select);
+        if (isset($params['isActive'])) {
+            $collection->where('is_active', filter_var($params['isActive'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        if (isset($params['isVerified'])) {
+            $collection->where('is_associated', filter_var($params['isVerified'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        if (isset($params['firstName'])) {
+            $collection->where('first_name', 'like', '%' . $params['firstName'] . '%');
+        }
+
+        if (isset($params['lastName'])) {
+            $collection->where('last_name', 'like', '%' . $params['lastName'] . '%');
+        }
+
+        if (isset($params['patronymic'])) {
+            $collection->where('patronymic', 'like', '%' . $params['patronymic'] . '%');
+        }
+
+        if (isset($params['phone'])) {
+            $collection->where('phone', 'like', '%' . $params['phone'] . '%');
+        }
+
+        if (isset($params['email'])) {
+            $collection->where('email', 'like', '%' . $params['email'] . '%');
+        }
+
+        return new UserCollection($collection->paginate($params['perPage'] ?? 50));
     }
 
     /**

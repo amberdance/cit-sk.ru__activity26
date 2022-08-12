@@ -1,37 +1,49 @@
 <template>
-  <div class="users" v-loading="isLoading">
+  <div class="users">
     <div class="filter">
       <div class="filter_wrapper">
         <div class="filter_item">
           <el-input
-            v-model="params.lastName"
+            v-model="filter.lastName"
             placeholder="Фамилия"
             clearable
           ></el-input>
 
           <el-input
-            v-model="params.firstName"
+            v-model="filter.firstName"
             placeholder="Имя"
             clearable
           ></el-input>
 
           <el-input
-            v-model="params.patronymic"
+            v-model="filter.patronymic"
             placeholder="Отчество"
+            clearable
+          ></el-input>
+
+          <el-input
+            v-model="filter.email"
+            placeholder="Email"
+            clearable
+          ></el-input>
+
+          <el-input
+            v-model="filter.phone"
+            placeholder="Номер телефона"
             clearable
           ></el-input>
         </div>
 
         <div class="filter_item">
           <el-switch
-            v-model="params.isActive"
+            v-model="filter.isActive"
             active-text="Активные"
           ></el-switch>
         </div>
 
         <div class="filter_item">
           <el-switch
-            v-model="params.isVerified"
+            v-model="filter.isVerified"
             active-text="Телефон подтвержден"
           ></el-switch>
         </div>
@@ -58,8 +70,9 @@
       <el-table
         height="800px"
         empty-text="Нет данных"
+        v-loading="isLoading"
         :default-sort="{ prop: 'id', order: 'descending' }"
-        :data="tableData"
+        :data="users"
         :stripe="true"
         :border="true"
         @selection-change="selectionChange"
@@ -165,6 +178,7 @@
 
 <script>
 import tableHandling from "@/mixins/tableHandling";
+import { removeEmptyProps } from "@/utils/common";
 
 export default {
   mixins: [tableHandling],
@@ -174,48 +188,41 @@ export default {
       isLoading: false,
       users: [],
       pagination: {},
-      params: {
-        perPage: 50,
-        pageSizes: [10, 50, 100, 200],
+
+      filter: {
         isActive: true,
         isVerified: true,
         firstName: "",
         lastName: "",
         patronymic: "",
+        email: "",
+        phone: "",
+      },
+
+      params: {
+        perPage: 50,
+        pageSizes: [10, 50, 100, 200],
       },
     };
   },
 
-  computed: {
-    tableData() {
-      return this.users
-        .filter(({ isActive }) => isActive == this.params.isActive)
-        .filter(({ isVerified }) => isVerified == this.params.isVerified)
-        .filter(
-          ({ firstName }) =>
-            !this.params.firstName ||
-            firstName
-              .toLowerCase()
-              .includes(this.params.firstName.toLowerCase())
-        )
-        .filter(
-          ({ lastName }) =>
-            !this.params.lastName ||
-            lastName.toLowerCase().includes(this.params.lastName.toLowerCase())
-        )
-        .filter(
-          ({ patronymic }) =>
-            patronymic == "" ||
-            !this.params.patronymic ||
-            patronymic
-              .toLowerCase()
-              .includes(this.params.patronymic.toLowerCase())
-        );
+  watch: {
+    filter: {
+      handler() {
+        this.debouncedWatch();
+      },
+
+      deep: true,
     },
   },
 
   async created() {
     await this.getUsers();
+    this.debouncedWatch = _.debounce(() => this.getUsers(), 250);
+  },
+
+  beforeUnmount() {
+    this.debouncedWatch.cancel();
   },
 
   methods: {
@@ -225,6 +232,7 @@ export default {
         const data = await this.$http.get("/admin/users", {
           page,
           perPage: this.params.perPage,
+          ...removeEmptyProps(this.filter),
         });
 
         this.users = data.users;
@@ -262,11 +270,12 @@ export default {
       try {
         this.isLoading = true;
 
-        const data = await this.$http.get(
+        await this.$http.get(
           "/admin/users/transfer",
           isMerge ? { merge: true } : null
         );
 
+        const data = await this.getUsers();
         this.users = data.users;
         this.pagination = data.pagination;
         this.$onSuccess();

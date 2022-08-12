@@ -127,7 +127,7 @@ class UserController extends Controller
     {
         try {
             isset($request['merge']) ? UserRepository::mergeUsersWithInactive() : UserRepository::moveUsersToInactiveTable();
-            return $this->index($request);
+            return Response::jsonSuccess();
         } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage());
         }
