@@ -2,35 +2,40 @@
   <div class="users">
     <div class="filter">
       <div class="filter_wrapper">
-        <div class="filter_item">
+        <div class="filter_item d-flex">
           <el-input
             v-model="filter.lastName"
             placeholder="Фамилия"
             clearable
+            size="small"
           ></el-input>
 
           <el-input
             v-model="filter.firstName"
             placeholder="Имя"
             clearable
+            size="small"
           ></el-input>
 
           <el-input
             v-model="filter.patronymic"
             placeholder="Отчество"
             clearable
+            size="small"
           ></el-input>
 
           <el-input
             v-model="filter.email"
             placeholder="Email"
             clearable
+            size="small"
           ></el-input>
 
           <el-input
             v-model="filter.phone"
             placeholder="Номер телефона"
             clearable
+            size="small"
           ></el-input>
         </div>
 
@@ -68,7 +73,7 @@
 
     <div class="users_table">
       <el-table
-        height="800px"
+        height="571px"
         empty-text="Нет данных"
         v-loading="isLoading"
         :default-sort="{ prop: 'id', order: 'descending' }"
@@ -156,23 +161,35 @@
           </template>
         </el-table-column>
       </el-table>
-
-      <el-pagination
-        class="pagination"
-        background
-        :total="pagination.total"
-        :page-size="pagination.perPage"
-        :page-count="pagination.totalPages"
-        :current-page="pagination.currentPage"
-        :page-sizes="params.pageSizes"
-        layout="sizes, prev, pager, next, jumper, total"
-        @prev-click="getUsers"
-        @next-click="getUsers"
-        @current-change="getUsers"
-        @size-change="handleSizeChange"
-      >
-      </el-pagination>
     </div>
+
+    <el-pagination
+      class="pagination"
+      background
+      :total="pagination.total"
+      :page-size="pagination.perPage"
+      :page-count="pagination.totalPages"
+      :current-page="pagination.currentPage"
+      :page-sizes="params.pageSizes"
+      layout="sizes, prev, pager, next, jumper, total"
+      @prev-click="getUsers"
+      @next-click="getUsers"
+      @current-change="getUsers"
+      @size-change="handleSizeChange"
+    >
+    </el-pagination>
+
+    <transition name="el-fade-in-linear">
+      <div class="control_panel" v-show="ids.length">
+        <div class="control_panel__wrapper">
+          <div class="item" @click="deleteUser">
+            <i class="el-icon-close"></i><span>Удалить</span>
+          </div>
+
+          <div class="item">Действия</div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -201,7 +218,7 @@ export default {
 
       params: {
         perPage: 50,
-        pageSizes: [10, 50, 100, 200],
+        pageSizes: [10, 20, 50, 100, 200, 500],
       },
     };
   },
@@ -229,13 +246,14 @@ export default {
     async getUsers(page = null) {
       try {
         this.isLoading = true;
-        const data = await this.$http.get("/admin/users", {
+        const data = await this.$http.get("/users", {
           page,
           perPage: this.params.perPage,
           ...removeEmptyProps(this.filter),
         });
 
-        this.users = data.users;
+        // this.users = data.users;
+        data.users.forEach((user) => this.$set(this.users, user.id, user));
         this.pagination = data.pagination;
       } catch (e) {
         this.$onError("Не удалось получить список пользователей");
@@ -271,7 +289,7 @@ export default {
         this.isLoading = true;
 
         await this.$http.get(
-          "/admin/users/transfer",
+          "/users/transfer",
           isMerge ? { merge: true } : null
         );
 
@@ -286,26 +304,70 @@ export default {
         this.isLoading = false;
       }
     },
+
+    async deleteUser() {
+      try {
+        await this.$confirm("Удалить выбранные элементы?", {
+          confirmButtonText: "Да",
+          cancelButtonText: "Подумаю",
+          type: "warning",
+        });
+      } catch (e) {
+        return;
+      }
+
+      try {
+        this.isLoading = true;
+        await this.$http.post("/users/delete", {
+          id: this.ids.length == 1 ? this.ids[0] : this.ids,
+        });
+
+        if (this.ids.length) {
+          this.ids.forEach((id) => this.$delete(this.users, id));
+        } else this.$delete(this.users, this.ids[0]);
+      } catch (e) {
+        this.$onError();
+        console.error(e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-.users {
-  padding: 1rem;
-}
 .filter,
 .btn_group {
-  margin: 1rem 0;
-  padding: 2rem 1rem;
-  border: 1px dashed var(--color-divider);
+  margin: 2rem 0;
+  padding: 0 1rem;
 }
 .filter_wrapper {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .filter_item,
-::v-deep .filter_item .el-input {
+.filter_item .el-input {
   margin-right: 0.5rem;
+}
+.control_panel {
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  min-height: 50px;
+  background-color: var(--color-secondary);
+  color: var(--color-font--secondary);
+}
+
+.control_panel__wrapper {
+  display: flex;
+}
+.control_panel__wrapper .item {
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+.control_panel__wrapper .item i {
+  margin-right: 0.3rem;
 }
 </style>

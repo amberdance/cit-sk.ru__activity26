@@ -123,7 +123,20 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function transferUsers(Request $request): JsonResponse
+    public function delete(Request $request): JsonResponse
+    {
+
+        $this->userRepository->delete($request->id);
+
+        return Response::jsonSuccess();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function transferUser(Request $request): JsonResponse
     {
         try {
             isset($request['merge']) ? UserRepository::mergeUsersWithInactive() : UserRepository::moveUsersToInactiveTable();

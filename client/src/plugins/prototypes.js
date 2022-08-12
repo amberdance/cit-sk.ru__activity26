@@ -26,6 +26,7 @@ const plugins = () => {
   };
 
   Vue.prototype.$isMobile = () => document.documentElement.clientWidth <= 960;
+  Vue.prototype.$isAdmin = () => store.getters.get("user").isAdmin || false;
 
   /*
    *--------------------------------------------------------------

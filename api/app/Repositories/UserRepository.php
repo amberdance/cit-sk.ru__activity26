@@ -6,7 +6,6 @@ use App\Http\Resources\UserCollection;
 use App\Interfaces\UserRepositoryInterface;
 use App\Models\Polls\PollAnswer;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -127,6 +126,16 @@ class UserRepository implements UserRepositoryInterface
     public function update(int $id, array $params): void
     {
         User::findOrFail($id)->update($params);
+    }
+
+    /**
+     * @param array|int $id
+     *
+     * @return void
+     */
+    public function delete($id): void
+    {
+        User::destroy($id);
     }
 
     /**

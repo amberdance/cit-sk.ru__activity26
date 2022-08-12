@@ -60,6 +60,13 @@ interface UserRepositoryInterface
     public function update(int $id, array $params): void;
 
     /**
+     * @param array|int $id
+     *
+     * @return void
+     */
+    public function delete($id): void;
+
+    /**
      * @param int $id
      * @param bool $state
      *

@@ -24,11 +24,13 @@ Route::group([
 |--------------------------------------------------------------------------
  */
 
-Route::post('/users', [\App\Http\Controllers\UserController::class, 'store']);
-Route::post('/users/password-reset', [\App\Http\Controllers\UserController::class, 'resetPassword']);
-Route::get('/users/districts', [\App\Http\Controllers\UserController::class, 'districts']);
-Route::get('/users/recovery', [\App\Http\Controllers\UserController::class, 'recovery']);
-Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
+Route::group(['prefix' => 'users'],
+    function () {
+        Route::post('/', [\App\Http\Controllers\UserController::class, 'store']);
+        Route::post('/password-reset', [\App\Http\Controllers\UserController::class, 'resetPassword']);
+        Route::get('/districts', [\App\Http\Controllers\UserController::class, 'districts']);
+        Route::get('/recovery', [\App\Http\Controllers\UserController::class, 'recovery']);
+    });
 
 /*
 |--------------------------------------------------------------------------
@@ -68,12 +70,12 @@ Route::group(['prefix' => 'pages'], function () {
 |--------------------------------------------------------------------------
  */
 
-Route::group([
-    'middleware' => ['auth:api', 'admin'],
-    'prefix'     => 'admin',
-],
+Route::group(['middleware' => ['auth:api', 'admin']],
     function () {
-        Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUsers']);
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
-        Route::get('/dashboard', [\App\Http\Controllers\CmsController::class, 'dashboard']);
+        Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
+        Route::post('/users/delete', [\App\Http\Controllers\UserController::class, 'delete']);
+        Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUser']);
+        Route::get('/admin/dashboard', [\App\Http\Controllers\CmsController::class, 'dashboard']);
+
     });

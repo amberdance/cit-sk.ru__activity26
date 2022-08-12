@@ -123,11 +123,6 @@ section {
   background-color: var(--color-section);
 }
 
-.pagination {
-  margin: 1rem 0;
-  padding: 0;
-  text-align: center;
-}
 
 /************************** COMMON ***************************/
 .container,
@@ -253,7 +248,7 @@ section {
   background-color: var(--color-primary) !important;
 }
 
-.el-radio__input.is-checked + .el-radio__label {
+.el-radio__input.is-checked+.el-radio__label {
   color: var(--color-primary) !important;
 }
 
@@ -355,7 +350,7 @@ section {
   transform: translateZ(2000);
 }
 
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
@@ -381,7 +376,14 @@ section {
   word-break: break-word !important;
 }
 
-/************************** CHARTS ***************************/
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  padding: 0;
+  text-align: center;
+}
 
 .chart_wrapper {
   width: 49%;
