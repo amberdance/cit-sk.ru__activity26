@@ -27,8 +27,8 @@ class UserRepository implements UserRepositoryInterface
             $collection->where('is_active', filter_var($params['isActive'], FILTER_VALIDATE_BOOLEAN));
         }
 
-        if (isset($params['isVerified'])) {
-            $collection->where('is_associated', filter_var($params['isVerified'], FILTER_VALIDATE_BOOLEAN));
+        if (isset($params['isAssociated'])) {
+            $collection->where('is_associated', filter_var($params['isAssociated'], FILTER_VALIDATE_BOOLEAN));
         }
 
         if (isset($params['firstName'])) {

@@ -48,8 +48,8 @@
 
         <div class="filter_item">
           <el-switch
-            v-model="filter.isVerified"
-            active-text="Телефон подтвержден"
+            v-model="filter.isAssociated"
+            active-text="Ассоциирован"
           ></el-switch>
         </div>
       </div>
@@ -148,7 +148,7 @@
           <template #default="{ row }">
             <span
               ><el-checkbox
-                v-model="row.isVerified"
+                v-model="row.isAssociated"
                 :disabled="true"
               ></el-checkbox>
             </span>
@@ -222,7 +222,7 @@ export default {
 
       filter: {
         isActive: true,
-        isVerified: true,
+        isAssociated: true,
         firstName: "",
         lastName: "",
         patronymic: "",
