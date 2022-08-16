@@ -223,6 +223,7 @@ class UserRepository implements UserRepositoryInterface
     public function associate(User $user, int $associateId): void
     {
         $user->is_associated = true;
+        $user->is_active     = true;
         $user->associate_id  = $associateId;
         $user->save();
     }

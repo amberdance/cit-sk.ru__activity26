@@ -59,13 +59,6 @@
       <el-button
         type="primary"
         style="max-width: 150px; white-space: break-spaces"
-        @click="transferUsers"
-        >Перенести всех неактивных пользователей</el-button
-      >
-
-      <el-button
-        type="primary"
-        style="max-width: 150px; white-space: break-spaces"
         @click="transferUsers($event, true)"
         >Объеденить неактивных пользователей</el-button
       >
@@ -75,6 +68,7 @@
       <el-table
         height="571px"
         empty-text="Нет данных"
+        ref="table"
         v-loading="isLoading"
         :default-sort="{ prop: 'id', order: 'descending' }"
         :data="users"
@@ -186,7 +180,27 @@
             <i class="el-icon-close"></i><span>Удалить</span>
           </div>
 
-          <div class="item">Действия</div>
+          <div class="item">
+            <el-dropdown
+              trigger="click"
+              placement="top-start"
+              @command="handleDropdownCommand"
+            >
+              <span class="el-dropdown-link">
+                Действия<i class="el-icon-arrow-up el-icon--right"></i>
+              </span>
+
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="associate"
+                  >Ассоциировать с ИС Мобилизация</el-dropdown-item
+                >
+
+                <el-dropdown-item command="transferUsers"
+                  >Перенести в таблицу неактивных юзеров</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
       </div>
     </transition>
@@ -252,7 +266,6 @@ export default {
           ...removeEmptyProps(this.filter),
         });
 
-        // this.users = data.users;
         data.users.forEach((user) => this.$set(this.users, user.id, user));
         this.pagination = data.pagination;
       } catch (e) {
@@ -270,6 +283,7 @@ export default {
     },
 
     async transferUsers(event, isMerge = false) {
+      console.log(event, isMerge);
       try {
         await this.$confirm(
           isMerge
@@ -305,6 +319,22 @@ export default {
       }
     },
 
+    async associate() {
+      try {
+        this.isLoading = true;
+        await this.$http.post("/users/associate", {
+          id: this.ids.length == 1 ? this.ids[0] : this.ids,
+        });
+
+        this.clearSelection();
+      } catch (e) {
+        this.$onError();
+        console.error(e);
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
     async deleteUser() {
       try {
         await this.$confirm("Удалить выбранные элементы?", {
@@ -322,15 +352,21 @@ export default {
           id: this.ids.length == 1 ? this.ids[0] : this.ids,
         });
 
-        if (this.ids.length) {
+        if (this.ids.length)
           this.ids.forEach((id) => this.$delete(this.users, id));
-        } else this.$delete(this.users, this.ids[0]);
+        else this.$delete(this.users, this.ids[0]);
+
+        this.clearSelection();
       } catch (e) {
         this.$onError();
         console.error(e);
       } finally {
         this.isLoading = false;
       }
+    },
+
+    handleDropdownCommand(method) {
+      this[method]();
     },
   },
 };
@@ -352,16 +388,17 @@ export default {
   margin-right: 0.5rem;
 }
 .control_panel {
-  display: flex;
-  align-items: center;
-  padding: 0 1rem;
-  min-height: 50px;
+  padding: 1rem;
   background-color: var(--color-secondary);
+}
+.control_panel,
+.control_panel span {
+  font-size: 16px;
   color: var(--color-font--secondary);
 }
-
 .control_panel__wrapper {
   display: flex;
+  align-items: center;
 }
 .control_panel__wrapper .item {
   padding: 0 0.5rem;

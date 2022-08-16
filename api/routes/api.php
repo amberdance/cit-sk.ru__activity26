@@ -72,10 +72,10 @@ Route::group(['prefix' => 'pages'], function () {
 
 Route::group(['middleware' => ['auth:api', 'admin']],
     function () {
+        Route::post('/users/delete', [\App\Http\Controllers\UserController::class, 'delete']);
+        Route::post('/users/associate', [\App\Http\Controllers\UserController::class, 'associate']);
         Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
         Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
-        Route::post('/users/delete', [\App\Http\Controllers\UserController::class, 'delete']);
         Route::get('/users/transfer', [\App\Http\Controllers\UserController::class, 'transferUser']);
         Route::get('/admin/dashboard', [\App\Http\Controllers\CmsController::class, 'dashboard']);
-
     });

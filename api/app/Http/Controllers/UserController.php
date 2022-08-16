@@ -123,6 +123,43 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
+    public function associate(Request $request): JsonResponse
+    {
+
+        $callback = function ($id) {
+            $user = $this->userRepository->getUserById($id);
+
+            if ($user->is_associated) {
+                return Response::jsonSuccess();
+            }
+
+            $response = EdrosAPI::associate($user);
+
+            if ($response['data']['ok']) {
+                $this->userRepository->associate($user, $response['data']['id']);
+            } else {
+                return Response::jsonError(0, 'User associate error');
+            }
+        };
+
+        if (is_array($request->id)) {
+            $ids = $request->id;
+
+            array_walk($ids, function ($id) use ($callback) {
+                $callback($id);
+            });
+
+            return Response::jsonSuccess();
+        } else {
+            return $callback($request->id);
+        }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
     public function delete(Request $request): JsonResponse
     {
 
