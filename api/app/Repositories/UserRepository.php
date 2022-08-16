@@ -284,7 +284,7 @@ class UserRepository implements UserRepositoryInterface
     /**
      * @return void
      */
-    public static function mergeUsersWithInactive(): void
+    public static function mergeUsersWithInactiveTable(): void
     {
 
         $users = DB::table('users_inactive')->get();

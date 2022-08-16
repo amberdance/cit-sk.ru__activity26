@@ -170,7 +170,7 @@ class UserController extends Controller
     public function transferUser(Request $request): JsonResponse
     {
         try {
-            isset($request['merge']) ? UserRepository::mergeUsersWithInactive() : UserRepository::moveUsersToInactiveTable();
+            isset($request['merge']) ? UserRepository::mergeUsersWithInactiveTable() : UserRepository::moveUsersToInactiveTable();
             return Response::jsonSuccess();
         } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage());

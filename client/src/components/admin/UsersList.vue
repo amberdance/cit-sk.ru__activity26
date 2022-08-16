@@ -307,9 +307,7 @@ export default {
           isMerge ? { merge: true } : null
         );
 
-        const data = await this.getUsers();
-        this.users = data.users;
-        this.pagination = data.pagination;
+        await this.getUsers();
         this.$onSuccess();
       } catch (e) {
         this.$onError();
