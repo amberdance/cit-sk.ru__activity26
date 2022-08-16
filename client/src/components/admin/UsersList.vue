@@ -266,6 +266,7 @@ export default {
           ...removeEmptyProps(this.filter),
         });
 
+        this.users = [];
         data.users.forEach((user) => this.$set(this.users, user.id, user));
         this.pagination = data.pagination;
       } catch (e) {
@@ -283,7 +284,6 @@ export default {
     },
 
     async transferUsers(event, isMerge = false) {
-      console.log(event, isMerge);
       try {
         await this.$confirm(
           isMerge

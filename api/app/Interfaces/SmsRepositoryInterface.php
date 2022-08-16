@@ -2,6 +2,7 @@
 namespace App\Interfaces;
 
 use App\Models\Sms;
+use App\Models\User;
 
 interface SmsRepositoryInterface
 {
@@ -11,6 +12,15 @@ interface SmsRepositoryInterface
      * @return Sms
      */
     public function store(array $params): Sms;
+
+
+    /**
+     * @param User $user
+     * @param string|null $type
+     * 
+     * @return array
+     */
+    public function incomeCall(User $user, ?string $type = null): array;
 
     /**
      * @param int $userId

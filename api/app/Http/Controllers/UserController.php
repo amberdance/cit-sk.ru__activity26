@@ -9,6 +9,7 @@ use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
 use App\Models\Sms;
+use App\Repositories\SmsRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -84,15 +85,8 @@ class UserController extends Controller
                 return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            $user       = $this->userRepository->store($request->all());
-            $verifyCode = rand(1000, 9999);
-            $params     = [
-                'user_id'     => $user->id,
-                'verify_code' => $verifyCode,
-                'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
-            ];
-
-            $this->smsRepository->store($params);
+            $user = $this->userRepository->store($request->all());
+            $this->smsRepository->incomeCall($user);
 
             return Response::jsonSuccess([
                 'uuid'  => $user->uuid,
@@ -224,15 +218,7 @@ class UserController extends Controller
             $user = $this->userRepository->getUserByEmail($request->login);
         }
 
-        $verifyCode = rand(1000, 9999);
-        $params     = [
-            'user_id'     => $user->id,
-            'verify_code' => $verifyCode,
-            'type'        => 'recovery',
-            'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
-        ];
-
-        $this->smsRepository->store($params);
+        $this->smsRepository->store($this->smsRepository->incomeCall($user, 'recovery'));
 
         return Response::jsonSuccess(['uuid' => $user->uuid]);
     }

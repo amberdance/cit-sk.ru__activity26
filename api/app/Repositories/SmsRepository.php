@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Interfaces\SmsRepositoryInterface;
 use App\Models\Sms;
+use App\Models\User;
 use DateTime;
 
 class SmsRepository implements SmsRepositoryInterface
@@ -22,6 +23,30 @@ class SmsRepository implements SmsRepositoryInterface
             'error_code'  => $params['response']['msg']['err_code'],
             'message_id'  => $params['response']['data']['id'],
         ]);
+    }
+
+
+    /**
+     * @param User $user
+     * @param string|null $type
+     * 
+     * @return array
+     */
+    public function incomeCall(User $user, ?string $type = null): array
+    {
+
+        $verifyCode = rand(1000, 9999);
+        $params     = [
+            'user_id'     => $user->id,
+            'verify_code' => $verifyCode,
+            'type'        => $type ?? null,
+            'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
+        ];
+
+        $this->store($params);
+
+        return $params;
+
     }
 
     /**

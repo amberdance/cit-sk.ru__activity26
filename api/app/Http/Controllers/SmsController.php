@@ -9,6 +9,7 @@ use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
 use App\Models\Sms;
+use DateTime;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
@@ -56,10 +57,12 @@ class SmsController extends Controller
             if ($this->smsRepository->isVerifyCodeMatched($user->id, (int) $request->code)) {
                 $this->userRepository->setUserActiveByModel($user);
 
-                $associateResponse = EdrosAPI::associate($user);
+                if ((new DateTime($request->birthday))->diff(new DateTime())->y >= 18) {
+                    $associateResponse = EdrosAPI::associate($user);
 
-                if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
-                    $this->userRepository->associate($user, $associateResponse['data']['id']);
+                    if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
+                        $this->userRepository->associate($user, $associateResponse['data']['id']);
+                    }
                 }
 
                 return Response::jsonSuccess();
@@ -97,14 +100,7 @@ class SmsController extends Controller
     public function resetCode(Request $request): JsonResponse
     {
 
-        $user       = $this->userRepository->getUserByUUID($request->uuid);
-        $verifyCode = rand(1000, 9999);
-
-        $this->smsRepository->store([
-            'user_id'     => $user->id,
-            'verify_code' => $verifyCode,
-            'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
-        ]);
+        $this->smsRepository->incomeCall($this->userRepository->getUserByUUID($request->uuid));
 
         return Response::jsonSuccess();
     }
