@@ -8,9 +8,9 @@ use App\Http\Response;
 use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
-use App\Models\Sms;
-use App\Repositories\SmsRepository;
 use App\Repositories\UserRepository;
+use DateTime;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -117,35 +117,29 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function associate(Request $request): JsonResponse
+    public function associate(Request $request)
     {
 
-        $callback = function ($id) {
-            $user = $this->userRepository->getUserById($id);
-
-            if ($user->is_associated) {
-                return Response::jsonSuccess();
-            }
-
-            $response = EdrosAPI::associate($user);
-
-            if ($response['data']['ok']) {
-                $this->userRepository->associate($user, $response['data']['id']);
-            } else {
-                return Response::jsonError(0, 'User associate error');
-            }
-        };
-
         if (is_array($request->id)) {
-            $ids = $request->id;
+            $err = [];
 
-            array_walk($ids, function ($id) use ($callback) {
-                $callback($id);
-            });
+            foreach ($request->id as $id) {
+                try {
+                    $this->associateCallback($id);
+                } catch (Exception $e) {
+                    $err[] = $e->getMessage();
 
-            return Response::jsonSuccess();
+                    continue;
+                }
+            }
+
+            return Response::jsonSuccess($err ? ['errors' => $err] : null);
         } else {
-            return $callback($request->id);
+            try {
+                $this->associateCallback($request->id);
+            } catch (Exception $e) {
+                return Response::jsonError($e->getCode(), $e->getMessage());
+            }
         }
     }
 
@@ -248,6 +242,31 @@ class UserController extends Controller
             return Response::jsonSuccess();
         } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage() ?? "Some error here");
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    private function associateCallback(int $id): void
+    {
+
+        $user = $this->userRepository->getUserById($id);
+
+        if ($user->is_associated || (new DateTime($user->birthday))->diff(new DateTime())->y <= 18) {
+            return;
+        }
+
+        $response = EdrosAPI::associate($user)['data'];
+
+        if (isset($response['ok']) && $response['ok'] == true) {
+            $this->userRepository->associate($user, $response['id']);
+        } else {
+            $message = $response['message'] ?? null;
+
+            throw new Exception("[Associate error][User id: $id] {$response['error']} $message");
         }
     }
 }

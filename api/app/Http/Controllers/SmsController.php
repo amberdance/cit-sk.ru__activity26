@@ -57,7 +57,7 @@ class SmsController extends Controller
             if ($this->smsRepository->isVerifyCodeMatched($user->id, (int) $request->code)) {
                 $this->userRepository->setUserActiveByModel($user);
 
-                if ((new DateTime($request->birthday))->diff(new DateTime())->y >= 18) {
+                if ((new DateTime($user->birthday))->diff(new DateTime())->y >= 18) {
                     $associateResponse = EdrosAPI::associate($user);
 
                     if ($associateResponse['data']['ok'] && $associateResponse['data']['id']) {
