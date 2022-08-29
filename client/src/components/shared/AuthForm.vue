@@ -145,6 +145,12 @@ export default {
         if (e.response.status == 401)
           return this.$onError("Введен некорректный логин или пароль");
 
+        if (e.response.status == 403)
+          return this.$onWarning(
+            "Номер телефона, который вы указывали при регистрации не подвержден. Для повторного подтверждения учетной записи восстановите доступ по номеру телефона или email",
+            5000
+          );
+
         console.error(e);
         this.$onError();
       } finally {
