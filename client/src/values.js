@@ -77,8 +77,8 @@ export const FOOTER_CONTACTS = {
   },
 
   phone: {
-    heading: "Телефон",
-    icon: "el-icon-phone-outline",
-    title: "(861)260-62-31",
+    heading: "Эл.почта",
+    icon: "el-icon-s-promotion",
+    title: "help@activity26.ru",
   },
 };
