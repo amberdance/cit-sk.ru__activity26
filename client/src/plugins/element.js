@@ -44,6 +44,8 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  Collapse,
+  CollapseItem,
 } from "element-ui";
 
 [
@@ -85,6 +87,8 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  Collapse,
+  CollapseItem,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

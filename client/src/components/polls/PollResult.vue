@@ -43,11 +43,39 @@
                       ></el-progress>
                     </template>
 
-                    <ul v-if="question.type == 'input'" class="input_wrapper">
-                      <li v-for="answer in variant.answers" :key="answer.id">
-                        {{ answer.userAnswer }}
-                      </li>
-                    </ul>
+                    <template v-if="question.type == 'input'">
+                      <ul class="input_wrapper">
+                        <li
+                          v-for="answer in variant.answers.slice(
+                            0,
+                            allowedInputVariantsPerRow
+                          )"
+                          :key="answer.id"
+                        >
+                          {{ answer.userAnswer }}
+                        </li>
+                      </ul>
+
+                      <el-collapse
+                        :v-model="['collapse']"
+                        v-if="
+                          variant.answers.length >= allowedInputVariantsPerRow
+                        "
+                      >
+                        <el-collapse-item title="Все ответы" name="collapse">
+                          <ul class="input_wrapper">
+                            <li
+                              v-for="answer in variant.answers.slice(
+                                allowedInputVariantsPerRow
+                              )"
+                              :key="answer.id"
+                            >
+                              {{ answer.userAnswer }}
+                            </li>
+                          </ul>
+                        </el-collapse-item>
+                      </el-collapse>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -73,6 +101,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      allowedInputVariantsPerRow: 10,
       poll: [],
       questions: [],
       customColors: [
@@ -179,12 +208,19 @@ export default {
 
 .input_wrapper {
   padding-left: 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
 }
 
 .input_wrapper li {
   list-style-type: disc;
+}
+
+.el-collapse {
+  margin-top: 1.5rem;
+}
+
+::v-deep .el-collapse-item__header {
+  font-size: 16px !important;
+  color: var(--color-link);
+  font-weight: bold;
 }
 </style>
