@@ -6,6 +6,7 @@ use App\Models\Polls\Poll;
 use App\Models\Polls\PollAnswer;
 use App\Models\Polls\PollQuestion;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class PollRepository implements PollRepositoryInterface
@@ -27,31 +28,33 @@ class PollRepository implements PollRepositoryInterface
     public function getAllPolls(?array $params = null): mixed
     {
 
-        $select = Poll::select("polls.*", "poll_categories.label as category")
-            ->join('poll_categories', 'polls.category_id', '=', 'poll_categories.id')
-            ->where('polls.is_active', true)
-            ->where('polls.active_to', '=', null)
-            ->orWhere('polls.active_to', '>=', date('Y-m-d H:i:s'))
-            ->orderBy('polls.sort')
-            ->orderByDesc('polls.created_at');
+        return Poll::handleSharedCache(function () use ($params) {
+            $select = Poll::select()
+                ->with("category")
+                ->where('is_active', true)
+                ->where('active_to', '=', null)
+                ->orWhere('active_to', '>=', date('Y-m-d H:i:s'))
+                ->orderBy('sort')
+                ->orderByDesc('created_at');
 
-        if ($params) {
-            if (isset($params['filter'])) {
-                if ($params['filter'] == 'completed') {
-                    $select->where('polls.is_completed', true);
+            if ($params) {
+                if (isset($params['filter'])) {
+                    if ($params['filter'] == 'completed') {
+                        $select->where('polls.is_completed', true);
+                    }
+
+                    if ($params['filter'] == 'available') {
+                        $select->where('polls.is_completed', false);
+                    }
                 }
 
-                if ($params['filter'] == 'available') {
-                    $select->where('polls.is_completed', false);
+                if (isset($params['limit'])) {
+                    $select->take($params['limit']);
                 }
             }
 
-            if (isset($params['limit'])) {
-                $select->take($params['limit']);
-            }
-        }
-
-        return isset($params['perPage']) ? $select->paginate($params['perPage']) : $select->get();
+            return isset($params['perPage']) ? $select->paginate($params['perPage']) : $select->get();
+        }, 86400, $params);
     }
 
     /**
@@ -127,6 +130,16 @@ class PollRepository implements PollRepositoryInterface
     public function getResultsByPollId(int $pollId): array
     {
 
+        $cachedResult = Cache::get("poll_result");
+
+        if (isset($cachedResult["poll"])) {
+            if ($cachedResult["poll"]["id"] == $pollId) {
+                return $cachedResult;
+            } else {
+                Cache::forget("poll_result");
+            }
+        }
+
         $result = [
             'poll'      => $this->getPollById($pollId),
             'questions' => PollQuestion::select()
@@ -158,7 +171,10 @@ class PollRepository implements PollRepositoryInterface
             }
         }
 
+        Cache::put("poll_result", $result, 300);
+
         return $result;
+
     }
 
     /**

@@ -52,7 +52,7 @@
               </div>
 
               <div class="meta">
-                <div class="category">{{ post.category }}</div>
+                <div class="category">{{ post.category.label }}</div>
                 <div class="title">
                   {{ post.label }}
                 </div>
