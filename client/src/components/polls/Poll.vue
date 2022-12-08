@@ -57,7 +57,7 @@
                   </el-radio-group>
 
                   <el-checkbox-group
-                    v-else
+                    v-if="question.type == 'checkbox'"
                     v-model="formData[i][question.id]"
                     :max="question.maxAllowed"
                     :disabled="!isAuthorized"
@@ -76,6 +76,12 @@
                       >{{ variant.label }}
                     </el-checkbox>
                   </el-checkbox-group>
+                  <el-input
+                    v-if="question.type == 'input'"
+                    v-model="formData[i][question.id].input"
+                    type="textarea"
+                    :rows="4"
+                  ></el-input>
                 </el-form-item>
               </el-form>
             </div>
@@ -218,19 +224,29 @@ export default {
     validate() {
       const missed = [];
 
+      const pushMissed = (elem, item) => {
+        elem.classList.add("is-error");
+        missed.push(item);
+      };
+
       this.formData.forEach((question, i) => {
-        const id = Object.keys(question);
-        const answer = question[id];
+        const answer = question[Object.keys(question)];
         const element = this.$refs[`question${i}`][0].$el;
 
         if (
           this.poll.questions[i].isRequired &&
+          _.has(answer, "input") &&
+          answer.input == undefined
+        )
+          pushMissed(element, this.poll.questions[i].label);
+        else if (
+          this.poll.questions[i].isRequired &&
+          !_.has(answer, "input") &&
           _.isArray(answer) &&
-          !answer.length
-        ) {
-          element.classList.add("is-error");
-          missed.push(this.poll.questions[i].label);
-        } else element.classList.remove("is-error");
+          answer.length == 0
+        )
+          pushMissed(element, this.poll.questions[i].label);
+        else element.classList.remove("is-error");
       });
 
       if (missed.length)
@@ -262,6 +278,10 @@ export default {
 
         // Radio type handle
         if (_.isNumber(variant)) values[index].answer.push({ id: variant });
+
+        // Input type handle
+        if (_.isObject(variant) && _.has(variant, "input"))
+          values[index].answer.push({ id: questionId, input: variant.input });
 
         // Checkbox type handle
         if (_.isArray(variant)) {
