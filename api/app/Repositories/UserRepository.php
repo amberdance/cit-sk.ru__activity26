@@ -163,24 +163,6 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param bool $onlyVerified
-     *
-     * @return int
-     */
-    public function getUsersCount(bool $onlyVerified = true): int
-    {
-        $result = 0;
-
-        if ($onlyVerified) {
-            return $result = User::select('id')->where('is_active', true)->count();
-        } else {
-            $result = User::all("id")->count();
-        }
-
-        return $result;
-    }
-
-    /**
      * @param int $userId
      *
      * @return array
@@ -367,5 +349,23 @@ class UserRepository implements UserRepositoryInterface
             ->groupBy('district.id')
             ->get()
             ->toArray();
+    }
+
+    /**
+     * @param bool $onlyVerified
+     *
+     * @return int
+     */
+    public static function getUsersCount(bool $onlyVerified = true): int
+    {
+        $result = 0;
+
+        if ($onlyVerified) {
+            return $result = User::select('id')->where('is_active', true)->count();
+        } else {
+            $result = User::select("id")->count();
+        }
+
+        return $result;
     }
 }

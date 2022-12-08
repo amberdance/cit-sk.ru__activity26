@@ -171,7 +171,7 @@ class PollRepository implements PollRepositoryInterface
         if ($onlyActive) {
             $result = Poll::select('id')->where('is_active', true)->count();
         } else {
-            $result = Poll::all('id')->count();
+            $result = Poll::select('id')->count();
         }
 
         return $result;
@@ -185,7 +185,7 @@ class PollRepository implements PollRepositoryInterface
         $result = 0;
 
         if ($isCountDeletedUsers) {
-            $result = PollAnswer::all('id')->count();
+            $result = PollAnswer::select('id')->count();
         } else {
             $result = PollAnswer::select('poll_answers.id')->join('users', 'users.id', '=', 'poll_answers.user_id')->count();
         }
