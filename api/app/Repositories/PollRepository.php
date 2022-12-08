@@ -78,14 +78,8 @@ class PollRepository implements PollRepositoryInterface
     public function getPollQuestionsByPollId(int $id): Collection
     {
 
-        $questions = PollQuestion::where('poll_id', $id)->get();
+        return PollQuestion::select(["id", "label", "type"])->with('variants')->where('poll_id', $id)->get();
 
-        foreach ($questions as $question) {
-            $question->variants;
-
-        }
-
-        return $questions;
     }
 
     /**
@@ -133,30 +127,48 @@ class PollRepository implements PollRepositoryInterface
     public function getResultsByPollId(int $pollId): array
     {
 
-        $totalAnswersCount = PollAnswer::select('id')->where('poll_id', $pollId)->count();
-        $result            = [
+        $result = [
             'poll'      => $this->getPollById($pollId),
-            'questions' => $this->getPollQuestionsByPollId($pollId),
+            'questions' => PollQuestion::select()
+                ->with(["variants"])
+                ->where("poll_id", $pollId)
+                ->get(),
         ];
 
-        $result['poll']['total_answers_count'] = $totalAnswersCount;
+        $result['poll']['total_answers_count'] = PollAnswer::select('id')->where('poll_id', $pollId)->count();
 
         foreach ($result['questions'] as $i => $question) {
+
             $answersCount = PollAnswer::select('id')
                 ->where('question_id', $question['id'])
                 ->count();
 
             foreach ($question['variants'] as $k => $variant) {
-                $variantAnswersCount = PollAnswer::select('id')
-                    ->where('variant_id', $variant['id'])
-                    ->count();
+                if ($variant['has_user_answer']) {
+                    $result['questions'][$i]['variants'][$k]['answers'] = $this->getInputAnswers($variant['question_id']);
+                } else {
+                    $variantAnswersCount = PollAnswer::select('id')
+                        ->where('variant_id', $variant['id'])
+                        ->count();
 
-                $result['questions'][$i]['variants'][$k]['answers_count'] = $variantAnswersCount;
-                $result['questions'][$i]['variants'][$k]['percent']       = $variantAnswersCount == 0 ? 0 : round(($variantAnswersCount / $answersCount) * 100, 1);
+                    $result['questions'][$i]['variants'][$k]['answers_count'] = $variantAnswersCount;
+                    $result['questions'][$i]['variants'][$k]['percent']       = $variantAnswersCount == 0 ? 0 : round(($variantAnswersCount / $answersCount) * 100, 1);
+                }
+
             }
         }
 
         return $result;
+    }
+
+    /**
+     * @param int $questionId
+     *
+     * @return Collection
+     */
+    public function getInputAnswers(int $questionId): Collection
+    {
+        return PollAnswer::select(["id", "user_answer"])->where("question_id", $questionId)->get();
     }
 
     /**
@@ -205,4 +217,5 @@ class PollRepository implements PollRepositoryInterface
             ->get()
             ->toArray();
     }
+
 }
