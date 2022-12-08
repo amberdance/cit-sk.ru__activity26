@@ -178,7 +178,12 @@ export default {
     async vote() {
       try {
         await this.validate();
+      } catch (e) {
+        console.error(e);
+        return this.$onError("Ответьте на все обязательные вопросы");
+      }
 
+      try {
         this.isVoting = true;
 
         await this.$http.post("/polls/vote", {
@@ -198,8 +203,6 @@ export default {
           "Благодарим Вас за участие в исследовании общественного мнения!"
         );
       } catch (e) {
-        if (e.code == 66) return this.$onError("Ответьте на вопросы");
-
         if (e.code == 401) {
           store.commit("clear", "user");
           this.authComponent = () => import("@/components/shared/AuthForm.vue");
@@ -212,7 +215,7 @@ export default {
       }
     },
 
-    async validate() {
+    validate() {
       const missed = [];
 
       this.formData.forEach((question, i) => {
@@ -220,7 +223,11 @@ export default {
         const answer = question[id];
         const element = this.$refs[`question${i}`][0].$el;
 
-        if (_.isArray(answer) && !answer.length) {
+        if (
+          this.poll.questions[i].isRequired &&
+          _.isArray(answer) &&
+          !answer.length
+        ) {
           element.classList.add("is-error");
           missed.push(this.poll.questions[i].label);
         } else element.classList.remove("is-error");
