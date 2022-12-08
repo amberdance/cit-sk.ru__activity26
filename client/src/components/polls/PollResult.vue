@@ -34,12 +34,48 @@
                     v-for="variant in question.variants"
                     :key="variant.id"
                   >
-                    <span class="label">{{ variant.label }}</span>
+                    <template v-if="question.type !== 'input'">
+                      <span class="label">{{ variant.label }}</span>
 
-                    <el-progress
-                      :percentage="variant.percent"
-                      :color="customColors"
-                    ></el-progress>
+                      <el-progress
+                        :percentage="variant.percent"
+                        :color="customColors"
+                      ></el-progress>
+                    </template>
+
+                    <template v-if="question.type == 'input'">
+                      <ul class="input_wrapper">
+                        <li
+                          v-for="answer in variant.answers.slice(
+                            0,
+                            allowedInputVariantsPerRow
+                          )"
+                          :key="answer.id"
+                        >
+                          {{ answer.userAnswer }}
+                        </li>
+                      </ul>
+
+                      <el-collapse
+                        :v-model="['collapse']"
+                        v-if="
+                          variant.answers.length >= allowedInputVariantsPerRow
+                        "
+                      >
+                        <el-collapse-item title="Все ответы" name="collapse">
+                          <ul class="input_wrapper">
+                            <li
+                              v-for="answer in variant.answers.slice(
+                                allowedInputVariantsPerRow
+                              )"
+                              :key="answer.id"
+                            >
+                              {{ answer.userAnswer }}
+                            </li>
+                          </ul>
+                        </el-collapse-item>
+                      </el-collapse>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -65,6 +101,7 @@ export default {
   data() {
     return {
       isLoading: false,
+      allowedInputVariantsPerRow: 10,
       poll: [],
       questions: [],
       customColors: [
@@ -89,17 +126,12 @@ export default {
     } catch (e) {
       if (e.code == 401)
         return this.$router.push(`/polls/${this.$route.params.id}`);
+      this.$onError();
       console.error(e);
     } finally {
       this.isLoading = false;
     }
   },
-
-  // methods: {
-  // progressbarText(percentage, count) {
-  //   return `Голоса:${count} / ${percentage}%`;
-  // },
-  // },
 };
 </script>
 
@@ -132,20 +164,24 @@ export default {
   color: var(--color-font--secondary);
   background-color: var(--color-primary);
 }
+
 .results_wrapper .image_wrapper {
   margin: 1rem 0;
 }
+
 .results_wrapper img {
   width: 100%;
   height: auto;
   max-height: 450px;
   object-fit: cover;
 }
+
 .results_wrapper .meta_wrapper {
   color: #606266;
   padding: 1rem 1.5rem;
   margin: 1rem 0;
 }
+
 .results_wrapper .poll_label {
   font-size: 30px;
 }
@@ -168,5 +204,23 @@ export default {
 
 .variant .label {
   margin-bottom: 0.5rem;
+}
+
+.input_wrapper {
+  padding-left: 1.5rem;
+}
+
+.input_wrapper li {
+  list-style-type: disc;
+}
+
+.el-collapse {
+  margin-top: 1.5rem;
+}
+
+::v-deep .el-collapse-item__header {
+  font-size: 16px !important;
+  color: var(--color-link);
+  font-weight: bold;
 }
 </style>

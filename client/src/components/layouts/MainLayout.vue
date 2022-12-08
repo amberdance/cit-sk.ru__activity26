@@ -54,7 +54,7 @@ export default {
 
   methods: {
     acceptCookie() {
-      $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "1d");
+      $cookies.set("cookie_policy_slidebar", +new Date() + "Y", "7d");
       this.isCookieBannerHidden = true;
     },
   },

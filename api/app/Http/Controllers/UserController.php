@@ -8,8 +8,9 @@ use App\Http\Response;
 use App\Interfaces\SmsRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Lib\EdrosAPI;
-use App\Models\Sms;
 use App\Repositories\UserRepository;
+use DateTime;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -84,15 +85,8 @@ class UserController extends Controller
                 return response()->json(['message' => Constants::MISMATCH_PASSWORDS], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
 
-            $user       = $this->userRepository->store($request->all());
-            $verifyCode = rand(1000, 9999);
-            $params     = [
-                'user_id'     => $user->id,
-                'verify_code' => $verifyCode,
-                'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
-            ];
-
-            $this->smsRepository->store($params);
+            $user = $this->userRepository->store($request->all());
+            $this->smsRepository->incomeCall($user);
 
             return Response::jsonSuccess([
                 'uuid'  => $user->uuid,
@@ -123,12 +117,55 @@ class UserController extends Controller
      *
      * @return JsonResponse
      */
-    public function transferUsers(Request $request): JsonResponse
+    public function associate(Request $request)
+    {
+
+        if (is_array($request->id)) {
+            $err = [];
+
+            foreach ($request->id as $id) {
+                try {
+                    $this->associateCallback($id);
+                } catch (Exception $e) {
+                    $err[] = $e->getMessage();
+
+                    continue;
+                }
+            }
+
+            return Response::jsonSuccess($err ? ['errors' => $err] : null);
+        } else {
+            try {
+                $this->associateCallback($request->id);
+            } catch (Exception $e) {
+                return Response::jsonError($e->getCode(), $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function delete(Request $request): JsonResponse
+    {
+
+        $this->userRepository->delete($request->id);
+
+        return Response::jsonSuccess();
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function transferUser(Request $request): JsonResponse
     {
         try {
-            UserRepository::moveUsersToInactiveTable();
-
-            return $this->index($request);
+            isset($request['merge']) ? UserRepository::mergeUsersWithInactiveTable() : UserRepository::moveUsersToInactiveTable();
+            return Response::jsonSuccess();
         } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage());
         }
@@ -175,15 +212,7 @@ class UserController extends Controller
             $user = $this->userRepository->getUserByEmail($request->login);
         }
 
-        $verifyCode = rand(1000, 9999);
-        $params     = [
-            'user_id'     => $user->id,
-            'verify_code' => $verifyCode,
-            'type'        => 'recovery',
-            'response'    => Sms::makeIncomeCall($user->phone, $verifyCode),
-        ];
-
-        $this->smsRepository->store($params);
+        $this->smsRepository->store($this->smsRepository->incomeCall($user, 'recovery'));
 
         return Response::jsonSuccess(['uuid' => $user->uuid]);
     }
@@ -213,6 +242,31 @@ class UserController extends Controller
             return Response::jsonSuccess();
         } catch (Throwable $e) {
             return Response::jsonError(0, $e->getMessage() ?? "Some error here");
+        }
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return void
+     */
+    private function associateCallback(int $id): void
+    {
+
+        $user = $this->userRepository->getUserById($id);
+
+        if ($user->is_associated || (new DateTime($user->birthday))->diff(new DateTime())->y <= 18) {
+            return;
+        }
+
+        $response = EdrosAPI::associate($user)['data'];
+
+        if (isset($response['ok']) && $response['ok'] == true) {
+            $this->userRepository->associate($user, $response['id']);
+        } else {
+            $message = $response['message'] ?? null;
+
+            throw new Exception("[Associate error][User id: $id] {$response['error']} $message");
         }
     }
 }

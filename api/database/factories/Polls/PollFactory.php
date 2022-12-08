@@ -2,6 +2,7 @@
 
 namespace Database\Factories\Polls;
 
+use App\Helpers\ValidationHelper;
 use App\Lib\Thumbnail;
 use App\Models\Polls\Poll;
 use App\Models\Polls\PollCategory;
@@ -33,7 +34,12 @@ class PollFactory extends Factory
         ];
     }
 
-    private static function push(array $data)
+    /**
+     * @param array $data
+     *
+     * @return void
+     */
+    private static function push(array $data): void
     {
         $data['poll']['category_id'] = PollCategory::create([
             'label' => $data['category'],
@@ -43,8 +49,8 @@ class PollFactory extends Factory
 
         foreach ($data['questions'] as $params) {
             $questionId = PollQuestion::create([
-                'label'       => trim($params['label']),
-                'sort'        => $params['sort'],
+                'label'       => ValidationHelper::mbUcFirst(trim($params['label'])),
+                'sort'        => $params['sort'] ?? 500,
                 'description' => $params['description'] ?? null,
                 'max_allowed' => $params['max_allowed'] ?? 20,
                 'min_allowed' => $params['min_allowed'] ?? 1,
@@ -55,7 +61,7 @@ class PollFactory extends Factory
 
             foreach ($params['variants'] as $i => $variant) {
                 PollVariant::create([
-                    'label'           => is_array($variant) ? $variant['label'] : trim($variant),
+                    'label'           => is_array($variant) ? ValidationHelper::mbUcFirst(trim($variant['label'])) : ValidationHelper::mbUcFirst(trim($variant)),
                     'has_user_answer' => is_array($variant) ? $variant['has_user_answer'] : false,
                     'question_id'     => $questionId,
                     'sort'            => $i + 1,
@@ -472,6 +478,87 @@ class PollFactory extends Factory
             ],
 
             'category'  => 'Инфраструктура',
+        ];
+
+        self::push($data);
+    }
+
+    public static function education()
+    {
+
+        $data = [
+            'poll'      => [
+                'label'       => '"Мы учимся для школы, а не для жизни."',
+                'description' => 'Прочитайте, пожалуйста, внимательно вопросы и отметьте тот вариант ответа, который считаете верным.',
+                'image'       => '/images/polls/education.jpg',
+                'thumbnail'   => Thumbnail::createSmall(public_path() . '/assets/images/polls/education.jpg'),
+            ],
+
+            'questions' => [
+                [
+                    'label'    => 'Какое у вас образование?',
+                    'variants' => [
+                        'нет образования',
+                        'основное общее (9 классов школы)',
+                        'среднее общее (11 классов школы)',
+                        'среднее профессиональное',
+                        'высшее профессиональное (бакалавриат)',
+                        'высшее профессиональное (специалитет, магистратура)',
+                        'высшее профессиональное (подготовка кадров высшей квалификации)',
+                    ],
+                ],
+                [
+                    'label'    => 'Как вы считаете, необходимо ли высшее образование в современном мире?',
+                    'variants' => [
+                        'Нет, я против высшего образования',
+                        'Достаточно отучиться в колледже/техникуме',
+                        'Не обязательно, но желательно',
+                        'Да, высшее образование обязательно',
+                    ],
+                ],
+                [
+                    'label'    => 'Хотели бы вы продолжить обучение?',
+                    'variants' => [
+                        'Нет, я достаточно квалифицирован(а)',
+                        'Думаю над этим',
+                        'Да, в скором времени планирую получить дополнительное образование',
+                        'Уже учусь',
+                    ],
+                ],
+                [
+                    'label'    => 'Как вы оцените знания, полученные при обучении в школе?',
+                    'variants' => [
+                        'Большинство знаний не пригодились мне в жизни',
+                        'Для общего развития и расширения мировозрения в самый развития',
+                        'Довольно часто использую знания, полученные в школе',
+                    ],
+                ],
+                [
+                    'label'    => 'Куда бы вы предпочли отдать своего ребенка?',
+                    'variants' => [
+                        'В обычную школу',
+                        'В частную школу',
+                        'В гимназию',
+                        'Обучал(а) бы сам(а)',
+                    ],
+                ],
+                [
+                    'label'       => 'Что бы вы хотели изменить в современном школьном образовании?',
+                    'type'        => 'checkbox',
+                    'max_allowed' => 1,
+                    'variants'    => [
+                        'Качество преподавателей',
+                        'Условия обучения (ремонт, компьютерные классы, общественные туалеты)',
+                        'Меня все устраивает',
+                        [
+                            'label'           => 'Свой вариант',
+                            'has_user_answer' => true,
+                        ],
+                    ],
+                ],
+            ],
+
+            'category'  => 'Образование',
         ];
 
         self::push($data);

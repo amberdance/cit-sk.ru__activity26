@@ -26,6 +26,7 @@ const plugins = () => {
   };
 
   Vue.prototype.$isMobile = () => document.documentElement.clientWidth <= 960;
+  Vue.prototype.$isAdmin = () => store.getters.get("user").isAdmin || false;
 
   /*
    *--------------------------------------------------------------
@@ -44,7 +45,7 @@ const plugins = () => {
       onSuccess("Возвращайтесь !");
 
       $cookies.remove("access_token");
-      store.commit("setUser", {});
+      store.commit("clear", "user");
     }
   };
 

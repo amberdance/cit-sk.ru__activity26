@@ -41,6 +41,11 @@ import {
   Table,
   TableColumn,
   Pagination,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Collapse,
+  CollapseItem,
 } from "element-ui";
 
 [
@@ -79,6 +84,11 @@ import {
   Table,
   TableColumn,
   Pagination,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  Collapse,
+  CollapseItem,
 ].forEach((component) => Vue.use(component));
 
 locale.use(lang);

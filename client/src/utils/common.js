@@ -1,4 +1,4 @@
-import { transform, isArray, isObject, camelCase } from "lodash";
+import _, { transform, isArray, isObject, camelCase } from "lodash";
 
 export const camelize = (obj) =>
   transform(obj, (acc, value, key, target) => {
@@ -6,3 +6,7 @@ export const camelize = (obj) =>
 
     acc[camelKey] = isObject(value) ? camelize(value) : value;
   });
+
+// Does not provide a nested objects
+export const removeEmptyProps = (obj) =>
+  _.omitBy(obj, (val) => _.isUndefined(val) || _.isNull(val) || val === "");

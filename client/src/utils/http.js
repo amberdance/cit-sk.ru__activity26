@@ -3,14 +3,14 @@ import { has } from "lodash";
 
 const errorCollection = {
   HTTP: {
-    500: (e) => {
-      onError("Внутренняя ошибка сервера");
+    // 500: (e) => {
+    //   onError("Внутренняя ошибка сервера");
 
-      return Promise.reject({
-        code: 500,
-        error: e.message,
-      });
-    },
+    //   return Promise.reject({
+    //     code: 500,
+    //     error: e.message,
+    //   });
+    // },
 
     422: (e) => {
       return Promise.reject({
@@ -40,13 +40,7 @@ const errorCollection = {
       });
     },
 
-    403: (e) => {
-      return Promise.reject({
-        code: 403,
-        error: e.message,
-      });
-    },
-
+    403: (e) => Promise.reject(e),
     401: (e) => Promise.reject(e),
 
     400: (error) => {

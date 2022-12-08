@@ -35,7 +35,7 @@ router.beforeEach(async (to, from, next) => {
   if (!isUserAuthorized || !$cookies.get("access_token")) {
     try {
       const { data } = await axios.get("/auth/me");
-      store.commit("setUser", camelize(data));
+      store.commit("setState", { key: "user", value: camelize(data) });
       isUserAuthorized = true;
     } catch (e) {
       if ("code" in e && e.code == 401) logout();
@@ -59,5 +59,5 @@ router.beforeEach(async (to, from, next) => {
 
 const logout = () => {
   $cookies.remove("access_token");
-  store.commit("setUser", {});
+  store.commit("clear", "user");
 };

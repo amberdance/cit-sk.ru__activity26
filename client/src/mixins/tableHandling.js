@@ -14,5 +14,10 @@ export default {
       this.ids = [];
       rows.forEach(({ id }) => this.ids.push(id));
     },
+
+    clearSelection() {
+      this.ids = [];
+      this.$refs.table.clearSelection();
+    },
   },
 };

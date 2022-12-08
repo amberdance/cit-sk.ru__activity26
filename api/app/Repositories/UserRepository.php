@@ -21,11 +21,37 @@ class UserRepository implements UserRepositoryInterface
      */
     public function getUsers(array $params): UserCollection
     {
-        $select = User::select('*')
-            ->orderByDesc('id')
-            ->paginate($params['perPage'] ?? 50);
+        $collection = User::select('*')->orderByDesc('id');
 
-        return new UserCollection($select);
+        if (isset($params['isActive'])) {
+            $collection->where('is_active', filter_var($params['isActive'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        if (isset($params['isAssociated'])) {
+            $collection->where('is_associated', filter_var($params['isAssociated'], FILTER_VALIDATE_BOOLEAN));
+        }
+
+        if (isset($params['firstName'])) {
+            $collection->where('first_name', 'like', '%' . $params['firstName'] . '%');
+        }
+
+        if (isset($params['lastName'])) {
+            $collection->where('last_name', 'like', '%' . $params['lastName'] . '%');
+        }
+
+        if (isset($params['patronymic'])) {
+            $collection->where('patronymic', 'like', '%' . $params['patronymic'] . '%');
+        }
+
+        if (isset($params['phone'])) {
+            $collection->where('phone', 'like', '%' . $params['phone'] . '%');
+        }
+
+        if (isset($params['email'])) {
+            $collection->where('email', 'like', '%' . $params['email'] . '%');
+        }
+
+        return new UserCollection($collection->paginate($params['perPage'] ?? 50));
     }
 
     /**
@@ -80,9 +106,9 @@ class UserRepository implements UserRepositoryInterface
             'first_name'  => ValidationHelper::mbUcFirst(mb_strtolower($params['firstName'])),
             'last_name'   => ValidationHelper::mbUcFirst(mb_strtolower($params['lastName'])),
             'patronymic'  => $params['patronymic'] ? ValidationHelper::mbUcFirst(mb_strtolower($params['patronymic'])) : null,
-            'email'       => strtolower($params['email']),
+            'email'       => $params['email'] ? strtolower($params['email']) : null,
             'phone'       => ValidationHelper::replacePhoneNumber($params['phone']),
-            'address'     => $params['address'],
+            'address'     => ValidationHelper::mbUcFirst(mb_strtolower($params['address'])),
             'district_id' => $params['districtId'],
             'birthday'    => date('Y-m-d', strtotime($params['birthday'])),
             'password'    => Hash::make($params['password']),
@@ -100,6 +126,16 @@ class UserRepository implements UserRepositoryInterface
     public function update(int $id, array $params): void
     {
         User::findOrFail($id)->update($params);
+    }
+
+    /**
+     * @param array|int $id
+     *
+     * @return void
+     */
+    public function delete($id): void
+    {
+        User::destroy($id);
     }
 
     /**
@@ -124,24 +160,6 @@ class UserRepository implements UserRepositoryInterface
     {
         $user->is_active = $state;
         $user->save();
-    }
-
-    /**
-     * @param bool $onlyVerified
-     *
-     * @return int
-     */
-    public function getUsersCount(bool $onlyVerified = true): int
-    {
-        $result = 0;
-
-        if ($onlyVerified) {
-            return $result = User::select('id')->where('is_active', true)->count();
-        } else {
-            $result = User::all("id")->count();
-        }
-
-        return $result;
     }
 
     /**
@@ -187,6 +205,7 @@ class UserRepository implements UserRepositoryInterface
     public function associate(User $user, int $associateId): void
     {
         $user->is_associated = true;
+        $user->is_active     = true;
         $user->associate_id  = $associateId;
         $user->save();
     }
@@ -219,9 +238,9 @@ class UserRepository implements UserRepositoryInterface
                     'password'          => $user->password,
                     'phone'             => $user->phone,
                     'ip_address'        => $user->ip_address,
-                    'is_active'         => false,
                     'is_admin'          => $user->is_admin,
                     'points'            => $user->points,
+                    'is_active'         => false,
                     'is_associated'     => false,
                     'associate_id'      => $user->associate_id,
                 ]);
@@ -242,5 +261,111 @@ class UserRepository implements UserRepositoryInterface
                 }
             }
         }
+    }
+
+    /**
+     * @return void
+     */
+    public static function mergeUsersWithInactiveTable(): void
+    {
+
+        $users = DB::table('users_inactive')->get();
+
+        foreach ($users as $key => $user) {
+            try {
+                User::create([
+                    'uuid'              => $user->uuid,
+                    'created_at'        => $user->created_at,
+                    'updated_at'        => $user->updated_at,
+                    'email_verified_at' => $user->email_verified_at,
+                    'first_name'        => $user->first_name,
+                    'last_name'         => $user->last_name,
+                    'patronymic'        => $user->patronymic,
+                    'district_id'       => $user->district_id,
+                    'address'           => $user->address,
+                    'birthday'          => $user->birthday,
+                    'email'             => $user->email,
+                    'password'          => $user->password,
+                    'phone'             => $user->phone,
+                    'ip_address'        => $user->ip_address,
+                    'is_admin'          => $user->is_admin,
+                    'points'            => $user->points,
+                    'associate_id'      => $user->associate_id,
+                    'is_associated'     => false,
+                    'is_active'         => false,
+                ]);
+
+                DB::table('users_inactive')->where('id', $user->id)->delete();
+
+            } catch (Throwable $e) {
+
+                if (property_exists($e, 'errorInfo')) {
+                    $error = $e->errorInfo;
+
+                    // Dublicate entry error
+                    if ($error[1] == 1062) {
+                        DB::table('users_inactive')->where('id', $user->id)->delete();
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public static function getUserRegistrationCounters(): array
+    {
+        $usersFromInactiveTable = DB::table('users_inactive')->count();
+        $unverifiedUsers        = User::select('id')->where([
+            'is_active'     => false,
+            'is_associated' => false,
+        ])->count();
+
+        $unverifiedUsers += $usersFromInactiveTable;
+
+        return [
+            'total_count'      => User::select('id')->count() + $usersFromInactiveTable,
+            'unverified_count' => $unverifiedUsers,
+            'verified_count'   => User::select('id')
+                ->where([
+                    'is_active'     => true,
+                    'is_associated' => true,
+                ])
+                ->count(),
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public static function getUserPopulationCounters(): array
+    {
+        return DB::table('districts as district')
+            ->select("district.label", DB::raw("COUNT(district.id) as count"))
+            ->leftJoin('users as user', 'district.id', '=', 'user.district_id')
+            ->orderByDesc('count')
+            ->groupBy('district.id')
+            ->get()
+            ->toArray();
+    }
+
+    /**
+     * @param bool $onlyVerified
+     *
+     * @return int
+     */
+    public static function getUsersCount(bool $onlyVerified = true): int
+    {
+        $result = 0;
+
+        if ($onlyVerified) {
+            return $result = User::select('id')->where('is_active', true)->count();
+        } else {
+            $result = User::select("id")->count();
+        }
+
+        return $result;
     }
 }

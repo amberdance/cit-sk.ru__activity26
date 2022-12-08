@@ -12,11 +12,11 @@ export default {
       isLoading: false,
       polls: [],
       filter: "all",
-      skeletonCount: 4,
+      skeletonCount: 8,
 
       pagination: {
         currentPage: 1,
-        perPage: 4,
+        perPage: 8,
         total: 0,
       },
     };

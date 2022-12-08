@@ -60,7 +60,7 @@
 
 :root {
   --color-primary: #0469ff;
-  --color-secondary: #122050;
+  --color-secondary: #242c3e;
   --color-info: #767676;
   --color-danger: #ff6767;
   --color-success: #25b38b;
@@ -123,11 +123,6 @@ section {
   background-color: var(--color-section);
 }
 
-.pagination {
-  margin: 1rem 0;
-  padding: 0;
-  text-align: center;
-}
 
 /************************** COMMON ***************************/
 .container,
@@ -189,6 +184,10 @@ section {
   width: 100% !important;
 }
 
+.h-90 {
+  height: 90% !important;
+}
+
 .heading {
   font-size: 26px;
   margin-bottom: 10px;
@@ -213,16 +212,10 @@ section {
   border-radius: 8px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.146);
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
 }
 
 .el-button--primary {
   border: none;
-  background-color: var(--color-primary);
-}
-
-.el-button--danger {
-  background-color: var(--color-danger);
 }
 
 .el-button--primary:hover,
@@ -234,14 +227,6 @@ section {
 .el-button--danger:hover,
 .el-button--danger:active {
   background-color: #fe2a2a;
-}
-
-.el-button--primary:focus {
-  background-color: var(--color-primary);
-}
-
-.el-button--danger:focus {
-  background-color: var(--color-danger);
 }
 
 .poll .el-radio__inner,
@@ -389,6 +374,39 @@ section {
 
 .el-table .cell {
   word-break: break-word !important;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.chart_wrapper {
+  width: 49%;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.chart_heading {
+  background-color: #ffffff;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.chart_result {
+  font-size: 40px;
+}
+
+.canvas_wrapper {
+  position: relative;
+  background-color: #ffffff;
+  padding: 1rem;
+  height: 300px;
 }
 
 /************************** MEDIA QUERIES ***************************/

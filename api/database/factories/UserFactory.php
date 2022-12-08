@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'phone'             => '9999999999',
             'email'             => 'testless@test.ru',
             'email_verified_at' => now(),
-            'password'          => password_hash('testless', PASSWORD_DEFAULT),
+            'password'          => password_hash('NotFoundException404', PASSWORD_DEFAULT),
             'is_admin'          => true,
             'is_active'         => true,
             'ip_address'        => '127.0.0.1',

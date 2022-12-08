@@ -139,11 +139,17 @@ export default {
       try {
         const data = await this.$http.post("/auth/login", this.formData);
         $cookies.set("access_token", data.accessToken);
-        this.$store.commit("setUser", data.user);
+        this.$store.commit("setState", { key: "user", value: data.user });
         this.$emit("onSuccessfullAuth");
       } catch (e) {
         if (e.response.status == 401)
           return this.$onError("Введен некорректный логин или пароль");
+
+        if (e.response.status == 403)
+          return this.$onWarning(
+            "Номер телефона, который вы указывали при регистрации не подвержден. Для повторного подтверждения учетной записи восстановите доступ по номеру телефона или email",
+            5000
+          );
 
         console.error(e);
         this.$onError();

@@ -1,5 +1,16 @@
 <template>
-  <PostsListBase heading="Опросы" :posts="polls" :visible="isLoading" />
+  <PostsListBase heading="Опросы" :posts="polls" :visible="isLoading">
+    <template #footer>
+      <div class="d-flex justify-center mt-3">
+        <el-button
+          type="primary"
+          style="font-size: 16px"
+          @click="$router.push('/polls')"
+          >Все опросы
+        </el-button>
+      </div>
+    </template>
+  </PostsListBase>
 </template>
 
 <script>
@@ -18,7 +29,7 @@ export default {
 
   computed: {
     polls() {
-      return this.$store.getters.list("polls");
+      return this.$store.getters.list("polls").sort((a, b) => a.sort - b.sort);
     },
   },
 
